@@ -1,0 +1,25 @@
+<div class="container">
+    <h5 style="color: rgb(33, 115, 147); text-align: center;" >User created successfully... </h5>
+    <h5  style="color: rgb(33, 115, 147); text-align: center;">Please find below Credentials... </h5>
+    <hr><br>
+    <div mat-dialog-content>
+      <div class="row">
+        <div  class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <span><b>User Name :</b></span>&nbsp;&nbsp;
+            <span>{{userName}}</span>
+          </div>
+      </div><br>
+      <div class="row">
+        <div  class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <span><b>Password :</b></span>&nbsp;&nbsp;
+            <span>{{password}}</span>
+          </div>
+      </div>
+    </div><br>
+    <mat-dialog-actions align="center" class="mb-1">
+      <!-- <button mat-flat-button color="warn" [mat-dialog-close]="1" (click)="confirmDelete()">
+        Delete
+      </button> -->
+      <button mat-flat-button color="warn" (click)="onNoClick()" >Okay</button>
+    </mat-dialog-actions>
+  </div>

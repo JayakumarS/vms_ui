@@ -1,0 +1,16 @@
+table {
+    width: 100%;
+  }
+  .table-wrap {
+    overflow: auto;
+    width: 200%;
+    max-height:350px;
+  }
+  .wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas: '. .';
+    max-height: 350px;
+  }

@@ -1,0 +1,214 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- <breadcrumb></breadcrumb> -->
+            <app-breadcrumb [title]="''" [items]="['Home']" [active_item]="'Dashboard'"></app-breadcrumb>
+        </div>
+
+        <div *ngFor=" let obj of dashboardForm">
+            <div class="row " *ngIf="obj.formCode =='F9030'">
+                <div class="col-xl-8 ">
+                    <div class="card" style="padding-bottom: 35px;padding-top: 35px;">
+                        <div class="header">
+                            <h2>Voyage Fixtures</h2>
+                        </div>
+                        <div class="body p-5">
+                            <apx-chart [series]="projectOptions?.series" [chart]="projectOptions?.chart"
+                                [yaxis]="projectOptions?.yaxis" [xaxis]="projectOptions?.xaxis"
+                                [labels]="projectOptions?.labels" [stroke]="projectOptions?.stroke"
+                                [plotOptions]="projectOptions?.plotOptions" [markers]="projectOptions?.markers"
+                                [fill]="projectOptions?.fill" [tooltip]="projectOptions?.tooltip"
+                                [colors]="projectOptions?.colors"></apx-chart>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xl-4">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card card-statistic-2">
+                                <div class="clearfix">
+                                    <div class="card-right">
+                                        <div>
+                                            <h5 class="float-end">Key Performance Indicator</h5>
+                                        </div>
+                                        <div class="m-r-10 m-l-10">
+                                            <h3 class="font-weight-bold float-end mb-0"
+                                                *ngFor="let earnCount of earningsCount;">40</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-chart">
+                                    <canvas baseChart [chartType]="'line'" [datasets]="cardChart4Data"
+                                        [labels]="cardChart4Label" [options]="cardChart4" [legend]="true">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card card-statistic-2">
+                                <div class="clearfix">
+                                    <div class="card-right">
+                                        <div>
+                                            <h5 class="float-end">Upcoming Events</h5>
+                                        </div>
+                                        <div class="m-r-10 m-l-10">
+                                            <h3 class="font-weight-bold float-end mb-0"
+                                                *ngFor="let invoice of invoiceCount;">10</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-chart">
+                                    <canvas baseChart [chartType]="'line'" [datasets]="cardChart3Data"
+                                        [labels]="cardChart3Label" [options]="cardChart3" [legend]="true">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card card-statistic-2">
+                                <div class="clearfix">
+                                    <div class="card-right">
+                                        <div>
+                                            <h5 class="float-end"> Alerts</h5>
+                                        </div>
+                                        <div class="m-r-10 m-l-10">
+                                            <h3 class="font-weight-bold float-end mb-0"
+                                                *ngFor="let purchaseOrderCount of purchaseOrderCount;">
+                                                21
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-chart">
+                                    <canvas baseChart [chartType]="'line'" [datasets]="cardChart2Data"
+                                        [labels]="cardChart2Label" [options]="cardChart2" [legend]="true">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card card-statistic-2">
+                                <div class="clearfix">
+                                    <div class="card-right">
+                                        <div>
+                                            <h5 class="float-end">Vessels</h5>
+                                        </div>
+                                        <div class="m-r-10 m-l-10">
+                                            <h3 class="font-weight-bold float-end mb-0"
+                                                *ngFor="let customersCount of countvalue;">320</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-chart">
+                                    <canvas baseChart [chartType]="'line'" [datasets]="cardChart1Data"
+                                        [labels]="cardChart1Label" [options]="cardChart1" [legend]="true">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  -->
+                        <div class="col-lg-6">
+                            <div class="card card-statistic-2">
+                                <div class="clearfix">
+                                    <div class="card-right">
+                                        <div>
+                                            <h5 class="float-end">Spot Order</h5>
+                                        </div>
+                                        <div class="m-r-10 m-l-10">
+                                            <h3 class="font-weight-bold float-end mb-0"
+                                                *ngFor="let salesOrderCount of salesOrderCount;">60</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-chart">
+                                    <canvas baseChart [chartType]="'line'" [datasets]="cardChart4Data"
+                                        [labels]="cardChart2Label" [options]="cardChart2" [legend]="true">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card card-statistic-2">
+                                <div class="clearfix">
+                                    <div class="card-right">
+                                        <div>
+                                            <h5 class="float-end">Requisition</h5>
+                                        </div>
+                                        <div class="m-r-10 m-l-10">
+                                            <h3 class="font-weight-bold float-end mb-0"
+                                                *ngFor="let customersCount of countvalue;">180</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-chart">
+                                    <canvas baseChart [chartType]="'line'" [datasets]="cardChart3Data"
+                                        [labels]="cardChart1Label" [options]="cardChart1" [legend]="true">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card card-statistic-2">
+                                <div class="clearfix">
+                                    <div class="card-right">
+                                        <div>
+                                            <h5 class="float-end">Helpdesk Tickets</h5>
+                                        </div>
+                                        <div class="m-r-10 m-l-10">
+                                            <h3 class="font-weight-bold float-end mb-0"
+                                                *ngFor="let salesOrderCount of salesOrderCount;">{{borCountValue}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-chart">
+                                    <canvas baseChart [chartType]="'line'" [datasets]="cardChart2Data"
+                                        [labels]="cardChart2Label" [options]="cardChart2" [legend]="true">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card card-statistic-2">
+                                <div class="clearfix">
+                                    <div class="card-right">
+                                        <div>
+                                            <h5 class="float-end">Users Log Count</h5>
+                                        </div>
+                                        <div class="m-r-10 m-l-10">
+                                            <h3 class="font-weight-bold float-end mb-0"
+                                                *ngFor="let customersCount of countvalue;">{{usersCountValue}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-chart">
+                                    <canvas baseChart [chartType]="'line'" [datasets]="cardChart1Data"
+                                        [labels]="cardChart1Label" [options]="cardChart1" [legend]="true">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <div class="card-bnner">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <img src="assets/images/pages/home-1.png" alt="">
+                        </div>
+                        <div class="col-lg-6">
+                            <h4>Download Reports</h4>
+                            <p>Download employee salary reports.</p>
+                            <a [routerLink]="['/admin/dashboard/main']">Download <i class="fas fa-arrow-down"></i> </a>
+                        </div>
+                    </div>
+                </div> -->
+                </div>
+            </div>
+            
+
+
+          
+
+
+    </div>

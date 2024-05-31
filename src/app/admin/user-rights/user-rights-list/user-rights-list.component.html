@@ -1,0 +1,162 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'User-Rights'" [items]="['Operations']" [active_item]="'User-Rightsr'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="card ">
+                    <div class="body">
+                        <form class="m-4" [formGroup]="docForm">
+
+                            <div class="row">
+
+                                <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12 ">
+                                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                        <mat-label>User</mat-label>
+                                        <!-- <input matInput formControlName="customerOrderNo" required> -->
+                                        <mat-select formControlName="userName">
+                                            <mat-option *ngFor="let title of userList" [value]="title.id">
+                                                {{title.text}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12 ">
+                                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                        <mat-label>Company</mat-label>
+                                        <!-- <input matInput formControlName="customerOrderNo" required> -->
+                                        <mat-select formControlName="companyName" [ngModel]="companyName">
+                                            <mat-option *ngFor="let title of companyList" [value]="title.id">
+                                                {{title.text}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12 ">
+                                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                        <mat-label>Module</mat-label>
+                                        <!-- <input matInput formControlName="customerOrderNo" required> -->
+                                        <mat-select formControlName="moduleName" [ngModel]="moduleName" (ngModelChange)="formlist($event)">
+                                            <mat-option *ngFor="let title of moduleList" [value]="title.id">
+                                                {{title.text}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12 ">
+                                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                        <mat-label>FormName</mat-label>
+                                        <!-- <input matInput formControlName="customerOrderNo" required> -->
+                                        <mat-select formControlName="formName">
+                                            <mat-option *ngFor="let title of userformList" [value]="title.id">
+                                                {{title.text}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+
+
+
+                            </div>
+
+
+                            <div style="width: 100%;" *ngIf="formuserList.length > 0 ">
+                                <table class="table table-striped  b table-bordered table-hover dataTable no-footer">
+                                    <thead class="dataTables-Main-Head">
+                                        <tr>
+                                            <th class="text-center width_15">Form Name
+                                            </th>
+                                            <th class="text-center">#</th>
+
+                                            <th class="text-center" *ngFor="let objProperty of propertyList">
+                                                <small class="property-head-name">{{objProperty.propertyName}}</small>
+                                                <small class="property-head-code">{{objProperty.propertyCode}}</small>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center"></th>
+
+
+                                            <th class="text-center">
+
+
+                                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                                    <mat-checkbox formControlName="propertyAll" ngInit="checked=true"></mat-checkbox>
+                                                </div>
+
+
+                                                <!-- <label class="switch">
+                                                    <input type="checkbox" (click)="changePropertyAll()" [(ngModel)]="propertyAll" >
+                                                    <span></span>   
+                                                </label> -->
+                                            </th>
+                                            <th class="text-center" *ngFor="let objProperty of propertyList">
+
+                                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                                    <mat-checkbox formControlName="propertyAll" ngInit="checked=true"></mat-checkbox>
+                                                </div>
+
+                                                <!-- <label class="switch">
+                                                    <input type="checkbox" (click)="changePropertyMod(objProperty.enabled,$index)" [(ngModel)]="
+                                                    "  [ngModelOptions]="{standalone: true}">
+                                                    <span></span>
+                                                </label> -->
+
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="dataTables-Main-Body">
+                                        <tr *ngFor="let objFormMasterBean of formuserList">
+                                            <td class="width_15">{{objFormMasterBean.formName}}</td>
+                                            <td class="text-center" ng-hide="objFormMasterBean.parentForm">
+
+
+                                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                                    <mat-checkbox (selectionChange)="changePropertyRow(objFormMasterBean,objFormMasterBean.propertyRow)" formControlName="propertyAll" ngInit="checked=true"></mat-checkbox>
+                                                </div>
+
+                                                <!-- <label class="switch">
+                                                    <input type="checkbox" (click)="changePropertyRow(objFormMasterBean,objFormMasterBean.propertyRow)" [(ngModel)]="objFormMasterBean.propertyRow"  [ngModelOptions]="{standalone: true}">
+                                                    <span></span>
+                                                </label> -->
+
+                                            </td>
+                                            <td class="text-center" *ngFor=" let objFormProperty of objFormMasterBean.lFormPropertyBean">
+
+                                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                                    <mat-checkbox (selectionChange)="changePropertyRow(objFormMasterBean,objFormMasterBean.propertyRow)" formControlName="propertyAll" ngInit="checked=true"></mat-checkbox>
+                                                </div>
+
+                                                <!-- <label class="switch">
+                                                    <input type="checkbox"[(ngModel)]="objFormProperty.enabled"
+                                                    ng-disabled="objFormProperty.available!=1"   [ngModelOptions]="{standalone: true}">
+                                                    <span></span>
+                                                </label> -->
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+
+
+                            <div class="row">
+                                <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                                    <button *ngIf="!edit" (click)="onSubmit()" class="btn-space" mat-raised-button style="margin-left: 38%; color: aliceblue; background-color: green;">Save</button>
+                                    <button *ngIf="edit" (click)="update()" class="btn-space" mat-raised-button style="margin-left: 38%; color: aliceblue; background-color: green;">Update</button>
+                                    <button color="warn" (click)="onCancel()" type="button" mat-raised-button>Cancel</button>
+                                </div> -->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

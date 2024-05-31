@@ -1,0 +1,396 @@
+.text-muted {
+    font-size: 10px;
+    width: 58%;
+    font-weight: 600;
+}
+
+mat-tab-label {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 8px;
+}
+
+.mat-tab-labels {
+    display: flex;
+}
+
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+    color: white;
+    border-radius: 5px;
+}
+
+::ng-deep.mat-tab-label {
+    height: 48px;
+    padding: 0 24px;
+    cursor: pointer;
+    box-sizing: border-box;
+    opacity: .6;
+    min-width: 248px !important;
+    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    position: relative;
+    color: #fff;
+}
+
+.toggleButton {
+    background-color: #fefeff !important;
+    border-color: #065C7A;
+    border-radius: 24px !important;
+    height: 45px;
+    margin-bottom: 18px;
+    width: 90%;
+}
+
+:host::ng-deep.mat-tab-body-content {
+    height: 100%;
+    overflow: hidden;
+}
+
+:host::ng-deep.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background-color: #3f51b500;
+}
+
+:host::ng-deep.mat-tab-label {
+    color: white !important;
+    background-color: #065C7A !important;
+    border-radius: 4px !important;
+    margin: 2px;
+}
+
+:host::ng-deep.mat-tab-labels {
+    justify-content: center !important;
+}
+
+.pie-chart {
+    background:
+        radial-gradient(circle closest-side,
+            transparent 70%,
+            white 0),
+        conic-gradient(#38f044 0,
+            #38f044 17.6%,
+            #fbff14 0,
+            #fbff14 52.9%,
+            #ffa21f 0,
+            #ffa21f 82.3%,
+            #ff1f1f 0,
+            #ff1f1f 69.9%,
+            #1b0000 0,
+            #080505 59.9%);
+    position: relative;
+    width: 400px;
+    min-height: 350px;
+    margin: 0;
+
+}
+
+.pie-chart h2 {
+    position: absolute;
+    margin: 1rem;
+}
+
+.pie-chart cite {
+    position: absolute;
+    bottom: 0;
+    font-size: 80%;
+    padding: 1rem;
+    color: gray;
+}
+
+.pie-chart figcaption {
+    position: absolute;
+    bottom: -2em;
+    right: -2em;
+    font-size: smaller;
+    text-align: right;
+}
+
+.pie-chart span:after {
+    display: inline-block;
+    content: "";
+    width: 0.8em;
+    height: 0.8em;
+    margin-left: 0.4em;
+    height: 0.8em;
+    border-radius: 0.2em;
+    background: currentColor;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+$dark-blue: #101417;
+$ocean-green: #00bcc5;
+$soil-yellow: #de63e9;
+$ocean-bule: #ed8332;
+$soil-red: #c73035;
+$white: #ffffff;
+$grey: #999999;
+
+
+
+*::before,
+*::after {
+    box-sizing: border-box;
+    transition: opacity 0.3s ease-in-out;
+}
+
+barchart {
+    position: relative;
+    width: 500px;
+    height: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 5%;
+    border-radius: 5px;
+    font-size: 0.8em;
+}
+
+barchart::before {
+    //   chart title
+    content: attr(data-title);
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 3% 10% 0 10%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1em;
+}
+
+legend {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16%;
+    height: auto;
+    padding: 5px;
+    border: 1px solid $grey;
+    border-radius: 5px;
+    margin: 2%;
+}
+
+item[data-group] {
+    //   legend item text
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+    font-size: 11px;
+    white-space: pre;
+    position: relative;
+    display: block;
+
+    &[data-group="1"] {
+        color: $ocean-green;
+    }
+
+    &[data-group="2"] {
+        color: $soil-yellow;
+    }
+
+
+
+    &::before {
+        font-family: 'Font Awesome 5 Free';
+        content: '\f04d  '
+    }
+}
+
+bar[data-value] {
+    //   draw bar 
+    position: relative;
+    flex: 1;
+    padding: 0 0.25em;
+    margin: 0 0.25em;
+    text-align: center;
+    border-radius: 5px;
+    background: $grey;
+    color: #ffffff;
+
+    &:hover {
+        opacity: 0.6;
+    }
+
+    //   height = value * scale
+    &[data-value="1"] {
+        height: calc(100% / 5 * 1);
+    }
+
+    &[data-value="2"] {
+        height: calc(100% / 5 * 2);
+    }
+
+    &[data-value="3"] {
+        height: calc(100% / 5 * 3);
+    }
+
+    &[data-value="4"] {
+        height: calc(100% / 5 * 4);
+    }
+
+    &[data-value="5"] {
+        height: calc(100% / 5 * 5);
+    }
+}
+
+bar {
+
+    //   fill bar by group
+    &[data-group="1"] {
+        background: $ocean-green;
+    }
+
+    &[data-group="2"] {
+        background: $soil-yellow;
+    }
+
+    &[data-group="3"] {
+        background: #ed8332;
+    }
+
+    &[data-group="4"] {
+        background: #76ce56;
+    }
+
+    &[data-group="5"] {
+        background: $soil-red;
+    }
+}
+
+bar[data-label]::after {
+    //   bar label
+    content: attr(data-label);
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    color: $grey;
+    width: 100%;
+}
+
+bar[data-tip]::before {
+    //   tooltip
+    content: attr(data-tip);
+    position: absolute;
+    left: 50%;
+    bottom: 105%;
+    opacity: 0;
+    transform: translateX(-50%);
+    background: $grey;
+    padding: 0.2em;
+    border-radius: 3px;
+    width: 100%;
+}
+
+bar[data-tip]:hover::before {
+    //   tooltip hover
+    opacity: 1;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.manzoku {
+    background:
+        radial-gradient(circle closest-side,
+            transparent 66%,
+            white 0),
+        conic-gradient(#4e79a7 0,
+            #4e79a7 80%,
+            #f28e2c 0,
+            #f28e2c 100%);
+    position: relative;
+    width: 500px;
+    min-height: 350px;
+    margin: 0;
+
+    p.right {
+
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        -webkit-transform: translate(-50%, 0);
+        -ms-transform: translate(-50%, 0);
+
+        span {
+            font-size: 10px;
+        }
+    }
+
+    p.left {
+        position: absolute;
+        top: 30%;
+        left: 40%;
+
+    }
+
+}
+
+#chart-container {
+    text-align: center;
+    /* Center the text within the container */
+}
+
+#chart {
+    max-width: 650px;
+    //margin: 1px auto;
+}
+
+#chart-container .apexcharts-title-text {
+    display: inline-block;
+}
+
+button {
+    background: #fff;
+    color: #222;
+    border: 1px solid #e7e7e7;
+    border-bottom: 2px solid #ddd;
+    border-radius: 2px;
+    padding: 4px 17px;
+}
+
+button.active {
+    color: #fff;
+    background: #008ffb;
+    border: 1px solid blue;
+    border-bottom: 2px solid blue;
+}
+
+button:focus {
+    outline: 0;
+}
+
+.chart-container .apexcharts-xaxis-label {
+    background-color: #775DD0;
+    /* Set the desired background color */
+    color: #fff;
+    /* Set the desired text color */
+    padding: 5px 10px;
+    /* Adjust padding as needed */
+    border-radius: 5px;
+    /* Add rounded corners if desired */
+}
+
+#chart1 {
+
+    margin: 20px auto;
+    padding: 0;
+}
+
+#chart3 {
+    max-width: 650px;
+    // margin: 20px auto;
+
+}

@@ -1,0 +1,53 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'View Country'" [items]="['Master']" [active_item]="'View Currency'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="card ">
+                    <div class="body">
+                        <div class="container border" id="salesOrderdview"
+                            style=" border: 1px solid #b8a6dd!important; border-radius: 10px; background-color: #ecebf7;">
+                            <form class="m-4" autocomplete="off" [formGroup]="docForm">
+                                <div style="text-align: -webkit-right;">
+                                <div class="row" style="padding: 5px;">
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 ">
+                                        <label><b>COUNTRY CODE:</b>&nbsp;{{countryMaster?.countryCode}}</label>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 ">
+                                        <label><b> COUNTRY NAME:</b>&nbsp;{{countryMaster?.countryName}}</label>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding: 5px;">
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 ">
+                                        <label><b>CLIENT TYPE:</b>&nbsp;{{countryMaster?.clientType}}</label>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 ">
+                                        <label><b>CURRENCY :</b>&nbsp;{{countryMaster?.currency}}</label>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding: 5px;">
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 ">
+                                        <label><b> ACTIVE :</b>&nbsp;{{countryMaster?.isActive}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                                <br>
+                                <br>
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                                        <button color="warn" (click)="onCancel()" type="button" mat-raised-button
+                                            style="margin-left:480px;">CANCEL</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
