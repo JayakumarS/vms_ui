@@ -7,6 +7,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./applications/applications.module").then((m) => m.ApplicationsModule),
   },
+  {
+    path: "maintain",
+    loadChildren: () =>
+      import("./maintain/maintain.module").then((m) => m.MaintainModule),
+  },
 ];
 
 @NgModule({
