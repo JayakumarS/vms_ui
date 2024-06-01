@@ -57,6 +57,16 @@ const routes: Routes = [
           import("./master/master-routing.module").then((m) => m.MasterRoutingModule),
       },
 
+      {
+        path: "crew",
+        canActivate: [AuthGuard],
+        data: {
+          role: Role.Admin,
+        },
+        loadChildren: () =>
+          import("./crew/crew-routing.module").then((m) => m.CrewRoutingModule),
+      },
+
      
       
      
