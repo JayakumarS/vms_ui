@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MaintainRoutingModule } from './maintain-routing.module';
+import { InterviewSetupRoutingModule } from './interview-setup-routing.module';
+import { AddInterviewSetupComponent } from './add-interview-setup/add-interview-setup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,15 +26,42 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CKEditorModule } from 'ckeditor4-angular';
 
 
 @NgModule({
   declarations: [
-    
+    AddInterviewSetupComponent
   ],
   imports: [
     CommonModule,
-    MaintainRoutingModule,
+    InterviewSetupRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSortModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatTabsModule,
+    MatCheckboxModule,
+    MatTableExporterModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    ComponentsModule,
+    SharedModule,
+    TranslateModule,
+    MatAutocompleteModule,
+    CKEditorModule,
+
   ]
 })
-export class MaintainModule { }
+export class InterviewSetupModule { }
