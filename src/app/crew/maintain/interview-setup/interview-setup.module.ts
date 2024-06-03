@@ -27,11 +27,13 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CKEditorModule } from 'ckeditor4-angular';
+import { ListInterviewSetupComponent } from './list-interview-setup/list-interview-setup.component';
 
 
 @NgModule({
   declarations: [
-    AddInterviewSetupComponent
+    AddInterviewSetupComponent,
+    ListInterviewSetupComponent
   ],
   imports: [
     CommonModule,

@@ -40,14 +40,17 @@
                             <div >
                                 <table>
                                     <tr>
+                                        <th>Checkbox</th>
                                         <th>Description</th>
                                         <th>Order</th>
                                     </tr>
                                     <tr *ngFor="let row of editorList;let i=index">
                                         <td>
-
+                                            <input type="checkbox" [(ngModel)]="row.isChecked" (change)="onCheckboxChange($event, row)">
+                                        </td>
+                                        <td>
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
-                                                <ckeditor [config]='config1' data="<p>Hello, world!</p>"> </ckeditor>
+                                            <ckeditor [config]='config1' data="<p>Hello, world!</p>"> </ckeditor>
                                         </div>
                                         </td>
                                         <td>

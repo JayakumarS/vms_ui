@@ -27,4 +27,9 @@ export class AddInterviewSetupComponent implements OnInit {
        this.editorList.push([]);
     
   }
+
+  onCheckboxChange(event: any, row: any) {
+    console.log('Checkbox changed for', row, 'to', event.target.checked);
+    // Update your logic here if needed
+  }
 }
