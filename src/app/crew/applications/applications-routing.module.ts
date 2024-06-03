@@ -7,6 +7,11 @@ const routes: Routes = [
     path: "list-applications",
     component: ListApplicationsComponent,
   },
+  {
+    path: "person-maintenance",
+    loadChildren: () =>
+      import("./person-maintenance/person-maintenance.module").then((m) => m.PersonMaintenanceModule),
+  }
 ];
 
 @NgModule({

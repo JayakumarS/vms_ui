@@ -32,21 +32,22 @@ export class FileUploadComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: Function) {}
 
+
   getFileDetails(e) {
     this.myFiles = [];
     var fileSize = e.target.files[0].size;
     console.log(fileSize);
-    if(fileSize > 204800){
+    if (fileSize > 50480000) {
       this.notificationService.showNotification(
         "snackbar-danger",
         "File Size More Than 200kb!!!",
         "right",
         "center"
       );
-    }else{
-    for (var i = 0; i < e.target.files.length; i++) {
-      this.myFiles.push(e.target.files[i]);
+    } else {
+      for (var i = 0; i < e.target.files.length; i++) {
+        this.myFiles.push(e.target.files[i]);
+      }
     }
-  }
   }
 }

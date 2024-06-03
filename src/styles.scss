@@ -49,7 +49,7 @@ background-color: #fff;
     height: 35px !important;
 }
 .mat-icon {
-    height: 33px !important;
+    height: 27px !important;
 }
 .mat-header-row {
     min-height: 35px !important;
@@ -101,7 +101,24 @@ mat-row, mat-footer-row {
     background-image: none;
     border-radius: 4px;
 }
-// .card{
-//   //  background: linear-gradient(135deg, white 17% #3b3939 18%, #e49799 3%, #9095d4;
-//   background-color:#f1f8ff !important;
-// }
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.saveBtn {
+    background-color: #147c14;
+    color: white;
+}
+
+.cancelBtn {
+    background-color: #a61f1f;
+    color: white;
+}
+
+.checkListBtn{
+    background-color: #57c8de;
+    color: white;
+}
