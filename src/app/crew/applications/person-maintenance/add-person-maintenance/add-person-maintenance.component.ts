@@ -36,6 +36,12 @@ export class AddPersonMaintenanceComponent implements OnInit {
   remarksList:any=[];
   religionList:any=[];
   healthList:any=[];
+  licenceList:any=[];
+  cList:any=[];
+  statusList:any=[];
+  agentList:any=[];
+  proposeTypeList:any=[];
+
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
