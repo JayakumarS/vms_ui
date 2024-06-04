@@ -11,7 +11,12 @@ const routes: Routes = [
     path: "contracts",
     loadChildren: () =>
       import("./contracts/contracts.module").then((m) => m.ContractsModule),
-  }
+  },
+  {
+    path: "libraryfile",
+    loadChildren: () =>
+      import("./library-file/library-file.module").then((m) => m.LibraryFileModule),
+  },
 ];
 
 @NgModule({

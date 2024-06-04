@@ -1,22 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListApplicationsComponent } from './list-applications/list-applications.component';
+import { AddApplicationsComponent } from './add-applications/add-applications.component';
 
 const routes: Routes = [
+
   {
     path: "list-applications",
     component: ListApplicationsComponent,
   },
   {
-    path: "person-maintenance",
-    loadChildren: () =>
-      import("./person-maintenance/person-maintenance.module").then((m) => m.PersonMaintenanceModule),
+    path: "add-applications/:id",
+    component: AddApplicationsComponent,
   },
-  {
-    path: "applications",
-    loadChildren: () =>
-      import("./applications/applications.module").then((m) => m.ApplicationsModule),
-  }
 ];
 
 @NgModule({
