@@ -20,12 +20,8 @@
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label>SEAMAN</mat-label>
                       <input matInput formControlName="seaman" (blur)="validateCountry($event.target.value)"  maxlength="3" required>
-                      <mat-error *ngIf="docForm.get('seaman').hasError('required')">
-                        Country code is required
-                      </mat-error>
-                      <mat-error *ngIf="docForm.controls['seaman'].hasError('seaman') ">
-                        Country Code Already Exists !!!
-                      </mat-error>
+                     
+                     
                     </mat-form-field>
                   </div>
                   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
@@ -52,9 +48,7 @@
                   <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                     <mat-label>RANK</mat-label>
                     <input matInput formControlName="rank"  maxlength="15" required>
-                    <mat-error *ngIf="docForm.get('rank').hasError('required')">
-                      Country Name  is required
-                    </mat-error>
+                   
                   </mat-form-field>
                 </div> 
 
@@ -65,9 +59,7 @@
                     (dateChange)="onDateChange($event, 'servicestate',0)" (input)="onDateInput($event.target.value,'servicestate',0)" maxlength="15" required>
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
-                    <mat-error *ngIf="docForm.get('servicestate').hasError('required')">
-                      Country Name  is required
-                    </mat-error>
+                    
                   </mat-form-field>
                 </div> 
                 </div>
@@ -159,10 +151,12 @@
                                 8:00-12:00
                               </th>
                               
-                              <th class="text-center table-heading padding-both-side-2 width_7" style="width: 4%; border-radius: 0.07rem;"><button mat-icon-button color="white">
+                              <th class="text-center table-heading padding-both-side-2 width_7" style="width: 4%; border-radius: 0.07rem;">
+                                <button mat-icon-button color="white"  (click)="incrementTimeSlot1()">
                                 <mat-icon>schedule</mat-icon> 
                               </button>12.00-16.00</th>
-                              <th class="text-center table-heading padding-both-side-2 width_7" style="width: 4%; border-radius: 0.07rem;"><button mat-icon-button color="white">
+                              <th class="text-center table-heading padding-both-side-2 width_7" style="width: 4%; border-radius: 0.07rem;">
+                                <button mat-icon-button color="white" (click)="incrementTimeSlot2()">
                                 <mat-icon>schedule</mat-icon> 
                               </button>16.00-20.00</th>
                               <th class="text-center table-heading padding-both-side-2 width_7" style="width: 4%; border-radius: 0.07rem;"></th>
@@ -171,39 +165,60 @@
                           
                         </table>
                       </div>
-                      <ng-container *ngFor="let seamansdtltable1 of docForm.get('seamansdtltable1')['controls']; let i = index">
-                        <tbody [formGroup]="seamansdtltable1">
+                      <thead>
+                        <tr>
+                          <th class="text-center table-heading padding-both-side-2 width_7" style="width: 4%; border-radius: 0.07rem;">SHIFT START</th>
+                         
+                          <th class="text-center table-heading padding-both-side-2 width_7" style="width: 4%; border-radius: 0.07rem;">SHIFT END</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7" style="width: 4%; border-radius: 0.07rem;">PLACE</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7" style="width: 4%; border-radius: 0.07rem;">WATCHKEEPING</th>
+                        </tr>
+                    </thead>
+                    <!-- <thead>
+                      <tr>
+                          <th>SHIFT START</th>
+                          <th>SHIFT END</th>
+                          <th>PLACE</th>
+                          <th>WATCHKEEPING</th>
+                      </tr>
+                  </thead> -->
+                  <ng-container *ngFor="let seamansdtltable1 of docForm.get('seamansdtltable1')['controls']; let i = index">
+                      <tbody [formGroup]="seamansdtltable1">
                           <tr>
-                            
-                            <td class="padding-both-side-2">
-                              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                <mat-label>SHIFT START</mat-label>
-                                <input matInput formControlName="shiftstart" (blur)="validateCountry($event.target.value)" maxlength="3" required>
-                              </mat-form-field>
-                            </td>
-                            <td class="padding-both-side-2">
-                              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                <mat-label>SHIFT END</mat-label>
-                                <input matInput formControlName="shiftend" (blur)="validateCountry($event.target.value)" maxlength="3" required>
-                              </mat-form-field>
-                            </td>
-                            <td class="padding-both-side-2">
-                              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                <mat-label>PLACE</mat-label>
-                                <input matInput formControlName="place" (blur)="validateCountry($event.target.value)" maxlength="3" required>
-                              </mat-form-field>
-                            </td>
-                            <td class="padding-both-side-2">
-                              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                <mat-label>WATCHKEEPING</mat-label>
-                                <input matInput formControlName="watchkeeping" (blur)="validateCountry($event.target.value)" maxlength="3" required>
-                              </mat-form-field>
-                            </td>
-                            
-                            
+                              <td class="padding-both-side-2">
+                                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                      <mat-label>SHIFT START</mat-label>
+                                      <input matInput formControlName="shiftstart" (blur)="validateCountry($event.target.value)" maxlength="3" required>
+                                  </mat-form-field>
+                              </td>
+                              <td class="padding-both-side-2">
+                                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                      <mat-label>SHIFT END</mat-label>
+                                      <input matInput formControlName="shiftend" (blur)="validateCountry($event.target.value)" maxlength="3" required>
+                                  </mat-form-field>
+                              </td>
+                              <td class="padding-both-side-2">
+                                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                      <mat-label>PLACE</mat-label>
+                                      <mat-select formControlName="place">
+                                          <mat-option [value]="'IN PORT'">
+                                              IN PORT
+                                          </mat-option>
+                                          <mat-option [value]="'AT SEA'">
+                                              AT SEA
+                                          </mat-option>
+                                      </mat-select>
+                                  </mat-form-field>
+                              </td>
+                              <td class="padding-both-side-2">
+                                  <mat-checkbox class="example-full-width form-control-sm" style="margin-left: 100px;"[(ngModel)]="isChecked" (change)="onCheckboxChange()">
+                                  </mat-checkbox>
+                              </td>
                           </tr>
-                        </tbody>
-                      </ng-container>
+                      </tbody>
+                  </ng-container>
+                  
+                    
               </form>
               
             </div>

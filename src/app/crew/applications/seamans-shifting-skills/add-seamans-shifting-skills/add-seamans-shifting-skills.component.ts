@@ -158,28 +158,93 @@ export class AddSeamansShiftingSkillsComponent implements OnInit {
     let seamansdtltableArray = this.docForm.controls.seamansdtltable1 as FormArray;
     const numberOfSlots = 4; // Number of rows to insert
     const currentLength = seamansdtltableArray.length;
+    seamansdtltableArray.clear();
+
+    // Initialize start time
+    let startTime = 8;
+    let endTime = 9;
 
     for (let i = 0; i < numberOfSlots; i++) {
+        // Create form group with start and end time
         let newUsergroup: FormGroup = this.fb.group({
-            shiftstart: [""],
-            shiftend: [""],
+            shiftstart: [`${startTime}.00`],
+            shiftend: [`${endTime}.00`],
             place: [""],
             watchkeeping: [""],
         });
+
+        // Insert form group into FormArray
         seamansdtltableArray.insert(currentLength + i, newUsergroup);
+
+        // Increment start and end time by 1 hour
+        startTime++;
+        endTime++;
     }
 
-    const timeSlotParts = this.currentTimeSlot.split('-');
-    const startTime = timeSlotParts[0];
-    const endTime = timeSlotParts[1];
-  
-    // Increment the start and end time by 1 hour
-    const newStartTime = this.incrementHour(startTime);
-    const newEndTime = this.incrementHour(endTime);
-  
-    this.currentTimeSlot = `${newStartTime}-${newEndTime}`;
+    // Update current time slot
+    this.currentTimeSlot = `8.00-9.00`;
 }
 
+incrementTimeSlot1(){
+  let seamansdtltableArray = this.docForm.controls.seamansdtltable1 as FormArray;
+    const numberOfSlots = 4; // Number of rows to insert
+    const currentLength = seamansdtltableArray.length;
+    seamansdtltableArray.clear();
+
+    // Initialize start time
+    let startTime = 12;
+    let endTime = 13;
+
+    for (let i = 0; i < numberOfSlots; i++) {
+        // Create form group with start and end time
+        let newUsergroup: FormGroup = this.fb.group({
+            shiftstart: [`${startTime}.00`],
+            shiftend: [`${endTime}.00`],
+            place: [""],
+            watchkeeping: [""],
+        });
+
+        // Insert form group into FormArray
+        seamansdtltableArray.insert(currentLength + i, newUsergroup);
+
+        // Increment start and end time by 1 hour
+        startTime++;
+        endTime++;
+    }
+
+    // Update current time slot
+    this.currentTimeSlot = `12.00-13.00`;
+}
+incrementTimeSlot2(){
+  let seamansdtltableArray = this.docForm.controls.seamansdtltable1 as FormArray;
+    const numberOfSlots = 4; // Number of rows to insert
+    const currentLength = seamansdtltableArray.length;
+    seamansdtltableArray.clear();
+
+    // Initialize start time
+    let startTime = 16;
+    let endTime = 17;
+
+    for (let i = 0; i < numberOfSlots; i++) {
+        // Create form group with start and end time
+        let newUsergroup: FormGroup = this.fb.group({
+            shiftstart: [`${startTime}.00`],
+            shiftend: [`${endTime}.00`],
+            place: [""],
+            watchkeeping: [""],
+        });
+
+        // Insert form group into FormArray
+        seamansdtltableArray.insert(currentLength + i, newUsergroup);
+
+        // Increment start and end time by 1 hour
+        startTime++;
+        endTime++;
+    }
+
+    // Update current time slot
+    this.currentTimeSlot = `16.00-17.00`;
+}
 incrementHour(time) {
     const [hours, minutes] = time.split(':');
     let newHours = parseInt(hours, 10) + 1;
