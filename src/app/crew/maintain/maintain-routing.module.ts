@@ -7,6 +7,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./interview-setup/interview-setup.module").then((m) => m.InterviewSetupModule),
   },
+  {
+    path: "contracts",
+    loadChildren: () =>
+      import("./contracts/contracts.module").then((m) => m.ContractsModule),
+  }
 ];
 
 @NgModule({

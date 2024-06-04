@@ -34,8 +34,7 @@ import { CommonService } from 'src/app/common-service/common.service';
     AddPersonMaintenanceComponent
   ],
   providers:[
-    CommonService,
-    Element
+    CommonService
   ],
   imports: [
     CommonModule,
