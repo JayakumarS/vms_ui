@@ -18,9 +18,9 @@ const routes: Routes = [
       import("./library-file/library-file.module").then((m) => m.LibraryFileModule),
   },
   {
-    path: "off-sign",
+    path: "maintain-rank",
     loadChildren: () =>
-      import("./off-sign/off-sign.module").then((m) => m.OffSignModule),
+      import("./maintain-rank/maintain-rank.module").then((m) => m.MaintainRankModule),
   },
 ];
 

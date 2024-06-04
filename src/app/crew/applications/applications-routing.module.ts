@@ -16,7 +16,12 @@ const routes: Routes = [
     path: "applications",
     loadChildren: () =>
       import("./applications/applications.module").then((m) => m.ApplicationsModule),
-  }
+  },
+  {
+    path: "seamans-shifting-skills",
+    loadChildren: () =>
+      import("./seamans-shifting-skills/seamans-shifting-skills.module").then((m) => m.SeamansShiftingSkillsModule),
+  },
 ];
 
 @NgModule({
