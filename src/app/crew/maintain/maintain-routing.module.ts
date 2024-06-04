@@ -17,6 +17,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./library-file/library-file.module").then((m) => m.LibraryFileModule),
   },
+  {
+    path: "off-sign",
+    loadChildren: () =>
+      import("./off-sign/off-sign.module").then((m) => m.OffSignModule),
+  },
 ];
 
 @NgModule({

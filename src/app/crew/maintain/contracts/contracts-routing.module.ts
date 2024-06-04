@@ -6,7 +6,16 @@ const routes: Routes = [
     path: "collective-contracts",
     loadChildren: () =>
       import("./collective-contract/collective-contract.module").then((m) => m.CollectiveContractModule),
-  }
+  },
+
+    {
+      path: "contract-setup",
+      loadChildren: () =>
+        import("./contract-setup/contract-setup.module").then((m) => m.ContractSetupModule),
+    }
+  
+  
+  
 ];
 
 @NgModule({
