@@ -12,6 +12,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./maintain/maintain.module").then((m) => m.MaintainModule),
   },
+  {
+    path: "application-properties",
+    loadChildren: () =>
+      import("./application-properties/application-properties.module").then((m) => m.ApplicationPropertiesModule),
+  },
   
 ];
 
