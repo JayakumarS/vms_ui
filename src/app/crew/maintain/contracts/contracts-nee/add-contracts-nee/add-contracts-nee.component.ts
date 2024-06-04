@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { CommonService } from 'src/app/common-service/common.service';
 
 @Component({
@@ -14,6 +16,15 @@ export class AddContractsNEEComponent implements OnInit {
   wageList:any=[];
   currencyList:any=[];
 
+  public wageScaleFilterCtrl: FormControl = new FormControl();
+  wageScaleFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('contractsWageScale', { static: true }) contractsWageScale: MatSelect;
+  protected onDestroy = new Subject<void>();
+
+  public currencyFilterCtrl: FormControl = new FormControl();
+  currencyFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('contractscurrency', { static: true }) contractscurrency: MatSelect;
+
   constructor(private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private commonService: CommonService,
@@ -21,6 +32,7 @@ export class AddContractsNEEComponent implements OnInit {
       this.docForm = this.fb.group({
         firstDetailRow: this.fb.array([
           this.fb.group({
+            select: [""],
             wageScale: [""],
             currency: [""],
             validFrom: [""],
@@ -32,8 +44,9 @@ export class AddContractsNEEComponent implements OnInit {
   
         secondDetailRow: this.fb.array([
           this.fb.group({
-            fromGst: [""],
-            ToGst: [""],
+            select: [""],
+            fromGrt: [""],
+            ToGrt: [""],
             fixedAmount: [""],
             amount: [""],
           })
@@ -43,14 +56,62 @@ export class AddContractsNEEComponent implements OnInit {
 
   ngOnInit(): void {
     this.wageList = [{id:1,text:"Test Wage Scale"},{id:2,text:"Simatech Agreement"},{id:3,text:"Interworld Agreement"},{id:4,text:"Sima Marine India Agreement"}];
-    this.currencyList = [{id:1,text:"INR"},{id:2,text:"USD"},{id:3,text:"AED"}];
+    this.wageScaleFilteredOptions.next(this.wageList.slice());
 
+    this.wageScaleFilterCtrl.valueChanges
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe(() => {
+        this.filterwageScale();
+      });
+
+
+    this.currencyList = [{id:1,text:"INR"},{id:2,text:"USD"},{id:3,text:"AED"}];
+    this.currencyFilteredOptions.next(this.currencyList.slice());
+    
+    this.currencyFilterCtrl.valueChanges
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe(() => {
+        this.filterCurrency();
+      });
   }
+
+  filterwageScale(){
+    if (!this.wageList) {
+      return;
+    }
+    let search = this.wageScaleFilterCtrl.value;
+    if (!search) {
+      this.wageScaleFilteredOptions.next(this.wageList.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.wageScaleFilteredOptions.next(
+      this.wageList.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
+
+   filterCurrency(){
+    if (!this.currencyList) {
+      return;
+    }
+    let search = this.currencyFilterCtrl.value;
+    if (!search) {
+      this.currencyFilteredOptions.next(this.currencyList.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.currencyFilteredOptions.next(
+      this.currencyList.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
 
   addRow() {
     let firstDetailRow = this.docForm.controls.firstDetailRow as FormArray;
     let arraylen = firstDetailRow.length;
     let newUsergroup: FormGroup = this.fb.group({
+      select: [""],
       wageScale: [""],
       currency: [""],
       validFrom: [""],
@@ -63,13 +124,56 @@ export class AddContractsNEEComponent implements OnInit {
 
   removeRow(){
     let count = 0;
-    this.docForm.controls.firstDetailRow.value.forEach((element,i) => {
-      if(element.select){
-        let deleteRow = this.docForm.controls.firstDetailRow as FormArray;
+    const deleteRow = this.docForm.controls.firstDetailRow as FormArray;
+    let i=0;
+
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
         deleteRow.removeAt(i);
         count++;
+      } else {
+        i++;
       }
-    });
+    }
+    
+
+    if(count == 0){
+      this.showNotification(
+        "snackbar-danger",
+        "Please select atleast one row",
+        "top",
+        "right"
+      );
+    }
+  }
+
+
+  addRow1() {
+    let secondDetailRow = this.docForm.controls.secondDetailRow as FormArray;
+    let arraylen = secondDetailRow.length;
+    let newUsergroup: FormGroup = this.fb.group({
+      select: [""],
+      fromGrt: [""],
+      ToGrt: [""],
+      fixedAmount: [""],
+      amount: [""],
+    })
+    secondDetailRow.insert(arraylen, newUsergroup);
+  }
+
+  removeRow1(){
+    let count = 0;
+    const deleteRow = this.docForm.controls.secondDetailRow as FormArray;
+    let i=0;
+
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
+        deleteRow.removeAt(i);
+        count++;
+      } else {
+        i++;
+      }
+    }
 
     if(count == 0){
       this.showNotification(

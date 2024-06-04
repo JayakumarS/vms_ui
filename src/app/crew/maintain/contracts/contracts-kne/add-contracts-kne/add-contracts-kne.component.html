@@ -33,9 +33,16 @@
                               <td class="padding-both-side-2">
                                 <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                   <mat-label>Wage Scale</mat-label>
-                                  <mat-select name="wageScale{{i}}" formControlName="wageScale">
-                                    <mat-option *ngFor="let title of wageList" [value]="title.id">
-                                      {{title.text}}
+                                  <mat-select name="wageScale{{i}}" formControlName="wageScale" #contractsWageScale>
+                                    <mat-option>
+                                        <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                        [noEntriesFoundLabel]="'no results found'"
+                                        [formControl]="wageScaleFilterCtrl"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option
+                                        *ngFor="let title of wageScaleFilteredOptions | async"
+                                        [value]="title.id">
+                                        {{title.text}}
                                     </mat-option>
                                   </mat-select>
                                 </mat-form-field>
@@ -45,8 +52,15 @@
                                 <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                   <mat-label>Currency</mat-label>
                                   <mat-select name="currency{{i}}" formControlName="currency">
-                                    <mat-option *ngFor="let title of currencyList" [value]="title.id">
-                                      {{title.text}}
+                                    <mat-option>
+                                        <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                        [noEntriesFoundLabel]="'no results found'"
+                                        [formControl]="currencyFilterCtrl"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option
+                                        *ngFor="let title of currencyFilteredOptions | async"
+                                        [value]="title.id">
+                                        {{title.text}}
                                     </mat-option>
                                   </mat-select>
                                 </mat-form-field>
@@ -98,13 +112,13 @@
       <thead class="">
         <tr>
           <th style="width: 1%;"></th>
-          <th class="text-center table-heading padding-both-side-2 width_7">From GST</th>
-          <th class="text-center table-heading padding-both-side-2 width_7">To GST</th>
+          <th class="text-center table-heading padding-both-side-2 width_7">From GRT</th>
+          <th class="text-center table-heading padding-both-side-2 width_7">To GRT</th>
           <th class="text-center table-heading padding-both-side-2 width_7">Amount</th>
         </tr>
       </thead>
-      <ng-container *ngFor="let firstDetailBean of docForm.get('firstDetailRow')['controls']; let i = index">
-         <tbody [formGroup]="firstDetailBean">
+      <ng-container *ngFor="let secoundDetailBean of docForm.get('secondDetailRow')['controls']; let i = index">
+         <tbody [formGroup]="secoundDetailBean">
           <tr>
               <td class="padding-both-side-2">
                 <mat-checkbox class="example-margin mb-13" name="select{{i}}" formControlName="select"></mat-checkbox>
@@ -112,15 +126,15 @@
 
               <td class="padding-both-side-2">
                 <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                    <mat-label>From GST</mat-label>
-                    <input matInput formControlName="fromGst" (keypress)="keyPressNumberDouble($event)">
+                    <mat-label>From GRT</mat-label>
+                    <input matInput formControlName="fromGrt" (keypress)="keyPressNumberDouble($event)">
                 </mat-form-field>
               </td>
 
               <td class="padding-both-side-2">
                 <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                    <mat-label>To GST</mat-label>
-                    <input matInput formControlName="toGst" (keypress)="keyPressNumberDouble($event)">
+                    <mat-label>To GRT</mat-label>
+                    <input matInput formControlName="toGrt" (keypress)="keyPressNumberDouble($event)">
                 </mat-form-field>
               </td>
 
@@ -140,11 +154,11 @@
 <br>
 <div class="row">
     <div>
-      <button mat-mini-fab color="primary" (click)="addRow()">
+      <button mat-mini-fab color="primary" (click)="addRow1()">
         <mat-icon class="col-white">add</mat-icon>
       </button>
 
-      <button mat-mini-fab color="warn" class="ml-5" (click)="removeRow()">
+      <button mat-mini-fab color="warn" class="ml-5" (click)="removeRow1()">
         <mat-icon class="col-white">delete</mat-icon>
       </button>
     </div>
