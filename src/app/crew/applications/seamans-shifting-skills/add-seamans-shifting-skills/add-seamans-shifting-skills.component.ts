@@ -30,6 +30,9 @@ export class AddSeamansShiftingSkillsComponent implements OnInit {
   requestId: any;
   decryptRequestId: any;
   currtmpList: any[];
+  isChecked: boolean = false;
+  currentTimeSlot: any;
+
 
   constructor(private fb: FormBuilder,
     public router:Router,
@@ -51,10 +54,21 @@ export class AddSeamansShiftingSkillsComponent implements OnInit {
       isActive:["true"],
       seamansdtltable: this.fb.array([
         this.fb.group({
-          nationality: ["",[Validators.required]],
-          months:["",[Validators.required]],
+          startingdate: ["",[Validators.required]],
+          remarks:[""],
+          endingDate:[""],
           // rank:["",[Validators.required]],
           
+        })
+       
+      ]),
+      seamansdtltable1: this.fb.array([
+        this.fb.group({
+          shiftstart: [""],
+          shiftend: [""],
+          place: [""],
+          watchkeeping: [""],
+
         })
       ]),
     });
@@ -89,6 +103,10 @@ export class AddSeamansShiftingSkillsComponent implements OnInit {
   }
   removeRow(){
     
+  }
+  onCheckboxChange() {
+    // Add your logic here based on checkbox state change
+    console.log('Checkbox state changed:', this.isChecked);
   }
   onDateChange(event: any, inputFlag: any, index: number) {
     // if (event.target.value != null) {
@@ -127,12 +145,63 @@ export class AddSeamansShiftingSkillsComponent implements OnInit {
     let seamansdtltableArray = this.docForm.controls.seamansdtltable as FormArray;
     let arraylen = seamansdtltableArray.length;
     let newUsergroup: FormGroup = this.fb.group({
-      nationality: [""],
-      months: [""],
+      startingdate: [""],
+      remarks: [""],
+      endingDate:[""]
       
 
     })
+    seamansdtltableArray.insert(arraylen, newUsergroup);
 
+  }
+  incrementTimeSlot() {
+    let seamansdtltableArray = this.docForm.controls.seamansdtltable1 as FormArray;
+    const numberOfSlots = 4; // Number of rows to insert
+    const currentLength = seamansdtltableArray.length;
+
+    for (let i = 0; i < numberOfSlots; i++) {
+        let newUsergroup: FormGroup = this.fb.group({
+            shiftstart: [""],
+            shiftend: [""],
+            place: [""],
+            watchkeeping: [""],
+        });
+        seamansdtltableArray.insert(currentLength + i, newUsergroup);
+    }
+
+    const timeSlotParts = this.currentTimeSlot.split('-');
+    const startTime = timeSlotParts[0];
+    const endTime = timeSlotParts[1];
+  
+    // Increment the start and end time by 1 hour
+    const newStartTime = this.incrementHour(startTime);
+    const newEndTime = this.incrementHour(endTime);
+  
+    this.currentTimeSlot = `${newStartTime}-${newEndTime}`;
+}
+
+incrementHour(time) {
+    const [hours, minutes] = time.split(':');
+    let newHours = parseInt(hours, 10) + 1;
+    if (newHours === 24) newHours = 0; // Reset to 0 if it's 24 hours
+    return `${newHours.toString().padStart(2, '0')}:${minutes}`;
+}
+
+// incrementHour(time) {
+//     const [hours, minutes] = time.split(':');
+//     let newHours = parseInt(hours, 10) + 1;
+//     if (newHours === 24) newHours = 0; // Reset to 0 if it's 24 hours
+//     return `${newHours.toString().padStart(2, '0')}:${minutes}`;
+// }
+
+  
+  incrementHour1(startTime: any) {
+    throw new Error('Method not implemented.');
+  }
+  
+
+  padZero(num: number): string {
+    return num < 10 ? `0${num}` : `${num}`;
   }
   fetchDetails(countryCode: any): void {
     this.httpService.get(this.countryMasterService.editCountryMaster + "?countryMaster="+encodeURIComponent(this.encryptionService.encryptAesToString(countryCode, this.serverUrl.secretKey).toString())).subscribe((res: any) => {

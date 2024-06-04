@@ -3,8 +3,14 @@ export class SeamansShiftingSkills {
     vessel: string;
     months:any;
     rank:any;
-    nationality:any;
+    startingdate:any;
+    remarks:any;
+    endingDate:any;
     servicestate:any;
+    watchkeeping:any;
+    place:any;
+    shiftend:any;
+    shiftstart:any;
     
     clientType:string;
     Success:boolean;
