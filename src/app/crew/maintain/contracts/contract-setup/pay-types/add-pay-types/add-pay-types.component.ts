@@ -25,6 +25,8 @@ export class AddPayTypesComponent implements OnInit {
   // oldPwd: boolean=false;
 
   // For Encryption
+  isChecked: boolean = false;
+
   requestId: any;
   decryptRequestId: any;
   currtmpList: any[];
@@ -42,16 +44,19 @@ export class AddPayTypesComponent implements OnInit {
 
 
     this.docForm = this.fb.group({
-      vessaltype: [""],
+  
 
 
       offSigndetail: this.fb.array([
         this.fb.group({
           siNo : 1,
-          nationality:[""],
-          rank:[""],
-          months: [""],
-
+          payType:[""],
+          contents:[""],
+          col: [""],
+          description: [""],
+          pay: [""],
+          office: [""],
+          mga: [""],
    
         })
       ]),
@@ -77,11 +82,17 @@ export class AddPayTypesComponent implements OnInit {
    addRow(){
     let offSigndetailDtlArray=this.docForm.controls.offSigndetail as FormArray;
     let arraylen=offSigndetailDtlArray.length;
+    var len = this.docForm.controls["offSigndetail"].value.length;
+
     let newUsergroup:FormGroup = this.fb.group({
-      siNo : 1,
-      nationality:[""],
-      rank:[""],
-      months: [""],
+      siNo :len + 1,
+      payType:[""],
+      contents:[""],
+      col: [""],
+      description: [""],
+      pay: [""],
+      office: [""],
+      mga: [""],
     })
     offSigndetailDtlArray.insert(arraylen,newUsergroup);
   }
@@ -106,7 +117,7 @@ export class AddPayTypesComponent implements OnInit {
   }
 
   onCancel(){
-    this.router.navigate(['/crew/maintain/off-sign/list-off-sign']);
+    this.router.navigate(['/crew/maintain/contracts/contract-setup/pay-types/list-pay-types']);
 
   }
 
