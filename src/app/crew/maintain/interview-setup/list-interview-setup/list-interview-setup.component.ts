@@ -22,7 +22,6 @@ import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 export class ListInterviewSetupComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   displayedColumns = [
-    "checkbox",
     "code",
     "rank",
     "actions"

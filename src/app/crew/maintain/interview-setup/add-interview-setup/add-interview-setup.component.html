@@ -35,30 +35,37 @@
                                                 <mat-icon class="col-white"
                                                     style="height: 27px !important;" (click)="addEditor()">add</mat-icon>
                                             </button>
-                                        </div>
+                                           
+                                            <button class="btn-space" mat-raised-button color="warn" mat-button 
+                                                (click)="delete()">Delete
+                                            </button>
+                                </div>
                                  </div>
                             <div >
                                 <table>
-                                    <tr>
-                                        <th>Checkbox</th>
-                                        <th>Description</th>
-                                        <th>Order</th>
+                                    <tr style="background-color: #e6e5e5;">
+                                        <th></th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <th>Description</th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <th>Order</th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     </tr>
                                     <tr *ngFor="let row of editorList;let i=index">
                                         <td>
                                             <input type="checkbox" [(ngModel)]="row.isChecked" (change)="onCheckboxChange($event, row)">
-                                        </td>
+                                        </td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <td>
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
                                             <ckeditor [config]='config1' data="<p>Hello, world!</p>"> </ckeditor>
                                         </div>
-                                        </td>
+                                        </td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <td>
                                             {{i+1}}
                                         </td>
                                     </tr>
                                 </table>
                                 </div>
+
+                                <button (click)="onSubmit()" class="btn-space" mat-raised-button color="accent"
+                                    style="margin-left: 36%;background-color: #34d034;">Submit</button>
                                 </form>
                             </div>
 

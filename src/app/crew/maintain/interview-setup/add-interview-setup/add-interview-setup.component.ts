@@ -25,7 +25,22 @@ export class AddInterviewSetupComponent implements OnInit {
 
   addEditor(){
        this.editorList.push([]);
-    
+  }
+  
+  delete(){
+    this.editorList.forEach((element,index) => {
+      if(element.isChecked == true){  
+        // if(invoiceNo == ""){
+        //   invoiceNo = element.invoiceNo;
+        // }else{
+        //   invoiceNo += ","+element.invoiceNo;
+        // }
+      }
+    });
+  }
+
+  onSubmit(){
+
   }
 
   onCheckboxChange(event: any, row: any) {
