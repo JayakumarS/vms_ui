@@ -12,6 +12,17 @@ const routes: Routes = [
       path: "contract-setup",
       loadChildren: () =>
         import("./contract-setup/contract-setup.module").then((m) => m.ContractSetupModule),
+    },
+
+    {
+      path: "contract-kne",
+      loadChildren: () =>
+        import("./contracts-kne/contracts-kne.module").then((m) => m.ContractsKNEModule),
+    },
+    {
+      path: "contract-nee",
+      loadChildren: () =>
+        import("./contracts-nee/contracts-nee.module").then((m) => m.ContractsNEEModule),
     }
   
   

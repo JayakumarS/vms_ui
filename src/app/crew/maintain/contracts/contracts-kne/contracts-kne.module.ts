@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ContractsRoutingModule } from './contracts-routing.module';
+
+import { ContractsKNERoutingModule } from './contracts-kne-routing.module';
+import { AddContractsKNEComponent } from './add-contracts-kne/add-contracts-kne.component';
+import { ListContractsKNEComponent } from './list-contracts-kne/list-contracts-kne.component';
 import { A11yModule } from '@angular/cdk/a11y';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
@@ -48,10 +51,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    AddContractsKNEComponent,
+    ListContractsKNEComponent
+  ],
   imports: [
     CommonModule,
-    ContractsRoutingModule,
+    ContractsKNERoutingModule,
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
@@ -123,4 +129,4 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
   ]
 })
-export class ContractsModule { }
+export class ContractsKNEModule { }
