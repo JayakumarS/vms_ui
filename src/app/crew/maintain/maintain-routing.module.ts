@@ -22,6 +22,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./maintain-rank/maintain-rank.module").then((m) => m.MaintainRankModule),
   },
+  {
+    path: "off-sign",
+    loadChildren: () =>
+      import("./off-sign/off-sign.module").then((m) => m.OffSignModule),
+  },
 ];
 
 @NgModule({
