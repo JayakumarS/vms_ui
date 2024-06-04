@@ -1,1 +1,180 @@
-<p>add-contracts-nee works!</p>
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Add Contracts NEE'" [items]="['Maintain','Contracts','Contracts NEE']" [active_item]="'Add Contracts NEE'">
+        </app-breadcrumb>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="box-shadow">
+            <div class="card">
+              <div class="body">
+               <form class="m-4" autocomplete="off" [formGroup]="docForm">
+                <div>
+                <div style="overflow-x: auto;">
+                    <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
+                      <thead class="">
+                        <tr>
+                          <th style="width: 1%;"></th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">Wage Scale</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">Currency</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">Valdi From</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">Valid To</th>  
+                        </tr>
+                      </thead>
+                      <ng-container *ngFor="let firstDetailBean of docForm.get('firstDetailRow')['controls']; let i = index">
+                         <tbody [formGroup]="firstDetailBean">
+                          <tr>
+                              <td class="padding-both-side-2">
+                                <mat-checkbox class="example-margin mb-13" name="select{{i}}" formControlName="select"></mat-checkbox>
+                              </td>
+
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                  <mat-label>Wage Scale</mat-label>
+                                  <mat-select name="wageScale{{i}}" formControlName="wageScale">
+                                    <mat-option *ngFor="let title of wageList" [value]="title.id">
+                                      {{title.text}}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </td>
+
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                  <mat-label>Currency</mat-label>
+                                  <mat-select name="currency{{i}}" formControlName="currency">
+                                    <mat-option *ngFor="let title of currencyList" [value]="title.id">
+                                      {{title.text}}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </td>
+
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Valid From</mat-label>
+                                    <input matInput [matDatepicker]="fromPicker" formControlName="validFrom" (dateInput)="$event.value.format('YYYY/MM/DD')" id="validFromObj" (dateChange)="getDateString($event, 'validFromObj')" autocomplete="off">
+                                    <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #fromPicker></mat-datepicker>
+                                </mat-form-field>
+                              </td>
+
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Valid To</mat-label>
+                                    <input matInput [matDatepicker]="toPicker" formControlName="validTo" (dateInput)="$event.value.format('YYYY/MM/DD')" id="validToObj" (dateChange)="getDateString($event, 'validToObj')" autocomplete="off">
+                                    <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #toPicker></mat-datepicker>
+                                </mat-form-field>
+                              </td>
+                          </tr>
+                        </tbody>
+                      </ng-container>
+                    </table>
+                </div>
+
+                <br>
+                <div class="row">
+                    <div>
+                      <button mat-mini-fab color="primary" (click)="addRow()">
+                        <mat-icon class="col-white">add</mat-icon>
+                      </button>
+
+                      <button mat-mini-fab color="warn" class="ml-5" (click)="removeRow()">
+                        <mat-icon class="col-white">delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <br><br>
+<!-- ///////////////////////////////////////////////// Second Table  /////////////////////////////////////////////// -->
+
+<div>
+<div style="overflow-x: auto;">
+    <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
+      <thead class="">
+        <tr>
+          <th style="width: 1%;"></th>
+          <th class="text-center table-heading padding-both-side-2 width_7">From GST</th>
+          <th class="text-center table-heading padding-both-side-2 width_7">To GST</th>
+          <th class="text-center table-heading padding-both-side-2 width_7">Fixed Amount</th>
+          <th class="text-center table-heading padding-both-side-2 width_7">Amount</th>
+        </tr>
+      </thead>
+      <ng-container *ngFor="let firstDetailBean of docForm.get('firstDetailRow')['controls']; let i = index">
+         <tbody [formGroup]="firstDetailBean">
+          <tr>
+              <td class="padding-both-side-2">
+                <mat-checkbox class="example-margin mb-13" name="select{{i}}" formControlName="select"></mat-checkbox>
+              </td>
+
+              <td class="padding-both-side-2">
+                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                  <mat-label>From GST</mat-label>
+                  <mat-select name="wageScale{{i}}" formControlName="wageScale">
+                    <mat-option *ngFor="let title of wageList" [value]="title.id">
+                      {{title.text}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+
+              <td class="padding-both-side-2">
+                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                  <mat-label>TO GST</mat-label>
+                  <mat-select name="currency{{i}}" formControlName="currency">
+                    <mat-option *ngFor="let title of currencyList" [value]="title.id">
+                      {{title.text}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td class="padding-both-side-2">
+                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                    <mat-label>Fixed Amount</mat-label>
+                    <input matInput formControlName="fixedAmount">
+                </mat-form-field>
+             </td>
+              <td class="padding-both-side-2">
+                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                        <mat-label>Amount</mat-label>
+                        <input matInput formControlName="amount">
+                    </mat-form-field>
+              </td>
+
+          </tr>
+        </tbody>
+      </ng-container>
+    </table>
+</div>
+
+<br>
+<div class="row">
+    <div>
+      <button mat-mini-fab color="primary" (click)="addRow()">
+        <mat-icon class="col-white">add</mat-icon>
+      </button>
+
+      <button mat-mini-fab color="warn" class="ml-5" (click)="removeRow()">
+        <mat-icon class="col-white">delete</mat-icon>
+      </button>
+    </div>
+  </div>
+
+
+  <div class="center">
+    <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon>save</mat-icon>Save</button>
+    <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon>cancel</mat-icon>Cancel</button>
+  </div>
+</div>
+               </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

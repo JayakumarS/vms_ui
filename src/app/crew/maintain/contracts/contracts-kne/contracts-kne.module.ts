@@ -48,12 +48,16 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CommonService } from 'src/app/common-service/common.service';
 
 
 @NgModule({
   declarations: [
     AddContractsKNEComponent,
     ListContractsKNEComponent
+  ],
+  providers: [
+    CommonService
   ],
   imports: [
     CommonModule,

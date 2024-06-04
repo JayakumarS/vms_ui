@@ -5,7 +5,7 @@ import { ListContractsNEEComponent } from './list-contracts-nee/list-contracts-n
 
 const routes: Routes = [
   {
-    path:'add-contracts-nee',
+    path:'add-contracts-nee/:0',
     component:AddContractsNEEComponent
   },
   {

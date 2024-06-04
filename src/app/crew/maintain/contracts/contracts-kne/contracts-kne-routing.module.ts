@@ -5,7 +5,7 @@ import { ListContractsKNEComponent } from './list-contracts-kne/list-contracts-k
 
 const routes: Routes = [
   {
-    path:'add-contracts-kne',
+    path:'add-contracts-kne/:0',
     component:AddContractsKNEComponent
   },
   {
