@@ -24,10 +24,27 @@ export class AddPayItemsComponent implements OnInit {
   itemRevenueExpFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
   @ViewChild('supplieritemRevenueExp', { static: true }) supplieritemRevenueExp: MatSelect;
  
-  
+  public onboardFilterCtrl: FormControl = new FormControl();
+  onboardFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('onboard', { static: true }) onboard: MatSelect;
+ 
   public itemTypeFilterCtrl: FormControl = new FormControl();
   itemTypeFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
   @ViewChild('itemType', { static: true }) itemType: MatSelect;
+ 
+
+  public contentsFilterslistFilterCtrl: FormControl = new FormControl();
+  contentsFilterslistFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('contentsFilters', { static: true }) contentsFilters: MatSelect;
+ 
+  public quantityCalculationFilterCtrl: FormControl = new FormControl();
+  quantityCalculationFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('quantityCalculation', { static: true }) quantityCalculation: MatSelect;
+ 
+
+  public groupingFilterCtrl: FormControl = new FormControl();
+  groupingFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('grouping', { static: true }) grouping: MatSelect;
  
   protected onDestroy = new Subject<void>();
 
@@ -46,6 +63,10 @@ export class AddPayItemsComponent implements OnInit {
   currtmpList: any[];
   itemRevenueExplist:any;
   itemTypelist:any;
+  onboardlist:any;
+  quantityCalculationlist:any;
+  contentsFilterslist:any;
+  groupinglist:any;
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
@@ -127,8 +148,146 @@ this.itemTypeFilterCtrl.valueChanges
   this.filteritemTypelist();
 });
 
-   }
 
+this.onboardlist = [
+  { id: "Advances", text: "Advances" },
+  { id: " Extra Items", text: "Extra Items" },
+  {  id: " Fixed O/T", text: "Fixed O/T"},
+  {  id: "Overtime", text: "Overtime"}
+];
+
+this.onboardFilteredOptions.next(this.onboardlist.slice());
+
+// listen for origin List  search field value changes
+this.onboardFilterCtrl.valueChanges
+.pipe(takeUntil(this.onDestroy))
+.subscribe(() => {
+this.filteronboardlist();
+});
+
+this.contentsFilterslist = [
+  { id: "Yes", text: "Yes" },
+  { id: " No", text: "No" },
+
+];
+
+this.contentsFilterslistFilteredOptions.next(this.contentsFilterslist.slice());
+
+// listen for origin List  search field value changes
+this.contentsFilterslistFilterCtrl.valueChanges
+.pipe(takeUntil(this.onDestroy))
+.subscribe(() => {
+this.filtercontentsFilterslist();
+
+
+
+});
+
+
+this.quantityCalculationlist = [
+  { id: "Yes", text: "Yes" },
+  { id: " No", text: "No" },
+
+];
+
+this.quantityCalculationFilteredOptions.next(this.quantityCalculationlist.slice());
+
+// listen for origin List  search field value changes
+this.quantityCalculationFilterCtrl.valueChanges
+.pipe(takeUntil(this.onDestroy))
+.subscribe(() => {
+this.filterquantityCalculationlist();
+
+});
+
+
+this.groupinglist = [
+  { id: "Bonded Analysis", text: "Bonded Analysis" },
+  { id: " Cash Analysis", text: "Cash Analysis" },
+  { id: " Internet Analysis", text: "Internet Analysis" },
+  { id: "Previous Balance", text: "Previous Balance" },
+];
+
+this.groupingFilteredOptions.next(this.groupinglist.slice());
+
+// listen for origin List  search field value changes
+this.groupingFilterCtrl.valueChanges
+.pipe(takeUntil(this.onDestroy))
+.subscribe(() => {
+this.filtergroupinglist();
+
+});
+
+}
+filtergroupinglist(){
+  if (!this.groupinglist) {
+    return;
+  }
+  // get the search keyword
+  let search = this.groupingFilterCtrl.value;
+  if (!search) {
+    this.groupingFilteredOptions.next(this.groupinglist.slice());
+    return;
+  } else {
+    search = search.toLowerCase();
+  }
+  // filter the banks
+  this.groupingFilteredOptions.next(
+    this.groupinglist.filter(title => title.text.toLowerCase().includes(search))
+  );
+}
+filterquantityCalculationlist(){
+  if (!this.quantityCalculationlist) {
+    return;
+  }
+  // get the search keyword
+  let search = this.quantityCalculationFilterCtrl.value;
+  if (!search) {
+    this.quantityCalculationFilteredOptions.next(this.quantityCalculationlist.slice());
+    return;
+  } else {
+    search = search.toLowerCase();
+  }
+  // filter the banks
+  this.quantityCalculationFilteredOptions.next(
+    this.quantityCalculationlist.filter(title => title.text.toLowerCase().includes(search))
+  );
+}
+
+   filtercontentsFilterslist(){
+    if (!this.contentsFilterslist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.contentsFilterslistFilterCtrl.value;
+    if (!search) {
+      this.contentsFilterslistFilteredOptions.next(this.contentsFilterslist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.contentsFilterslistFilteredOptions.next(
+      this.contentsFilterslist.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
+   filteronboardlist(){
+    if (!this.onboardlist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.onboardFilterCtrl.value;
+    if (!search) {
+      this.onboardFilteredOptions.next(this.onboardlist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.onboardFilteredOptions.next(
+      this.onboardlist.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
    filteritemTypelist(){
     if (!this.itemTypelist) {
       return;

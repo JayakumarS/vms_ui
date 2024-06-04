@@ -147,20 +147,6 @@
                                                             </mat-select>
 
 
-                                                            <!-- <mat-select name="itemType{{i}}" formControlName="itemType">
-                                                                <mat-option [value]="'Close MGA Items'">
-                                                                    Close MGA Items
-                                                                </mat-option>
-                                                                <mat-option [value]="'MGA Items'">
-                                                                    MGA Items
-                                                                </mat-option>
-                                                                <mat-option [value]="'  Pay Items'">
-                                                                    Pay Items
-                                                                </mat-option>
-                                                                <mat-option [value]="'  Victualling'">
-                                                                   Victualling
-                                                                </mat-option>
-                                                            </mat-select> -->
 
 
 
@@ -173,18 +159,18 @@
                                                             appearance="outline">
                                                             <mat-label>Onboard (Extra)</mat-label>
 
-                                                            <mat-select name="onboard{{i}}" formControlName="onboard">
-                                                                <mat-option [value]="'Advances'">
-                                                                    Advances
+
+                                                                
+                                                            <mat-select  name="onboard{{i}}" formControlName="onboard" #onboard>
+                                                                <mat-option>
+                                                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                                                        [noEntriesFoundLabel]="'no results found'"
+                                                                        [formControl]="onboardFilterCtrl"></ngx-mat-select-search>
                                                                 </mat-option>
-                                                                <mat-option [value]="' Extra Items'">
-                                                                   Extra Items
-                                                                </mat-option>
-                                                                <mat-option [value]="' Fixed O/T'">
-                                                                    Fixed O/T
-                                                                </mat-option>
-                                                                <mat-option [value]="'Overtime'">
-                                                                  Overtime
+                                                                <mat-option
+                                                                    *ngFor="let title of onboardFilteredOptions | async"
+                                                                    [value]="title.id">
+                                                                    {{title.text}}
                                                                 </mat-option>
                                                             </mat-select>
 
@@ -207,17 +193,25 @@
                                                     <td class="padding-both-side-2">
                                                         <mat-form-field class="example-full-width form-control-sm"
                                                             appearance="outline">
-                                                            <mat-label>Contract Filters</mat-label>
-                                                            <mat-select formControlName="contentsFilters"
-                                                                name="contentsFilters{{i}}">
-                                                                <mat-option [value]="'Yes'">
-                                                                    Yes
-                                                                </mat-option>
-                                                                <mat-option [value]="'NO'">
-                                                                    No
-                                                                </mat-option>
-                                                              
-                                                            </mat-select>
+                                                           <mat-label>Contract Filters</mat-label>
+
+                                                                                                    
+                                                           <mat-select  name="contentsFilters{{i}}" formControlName="contentsFilters" #contentsFilters>
+                                                            <mat-option>
+                                                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                                                    [noEntriesFoundLabel]="'no results found'"
+                                                                    [formControl]="contentsFilterslistFilterCtrl"></ngx-mat-select-search>
+                                                            </mat-option>
+                                                            <mat-option
+                                                                *ngFor="let title of contentsFilterslistFilteredOptions | async"
+                                                                [value]="title.id">
+                                                                {{title.text}}
+                                                            </mat-option>
+                                                        </mat-select>
+
+
+
+                                    
 
                                                         </mat-form-field>
 
@@ -229,20 +223,23 @@
                                                         <mat-form-field class="example-full-width form-control-sm"
                                                             appearance="outline">
                                                             <mat-label>Grouping</mat-label>
-                                                            <mat-select formControlName="grouping" name="grouping{{i}}">
-                                                                <mat-option [value]="' Bonded Analysis'">
-                                                                  Bonded Analysis
-                                                                </mat-option>
-                                                                <mat-option [value]="' Cash Analysis'">
-                                                                    Cash Analysis
-                                                                </mat-option>
-                                                                <mat-option [value]="'Internet Analysis'">
-                                                                    Internet Analysis
-                                                                </mat-option>
-                                                                <mat-option [value]="'Previous Balance'">
-                                                                    Previous Balance
-                                                                </mat-option>
-                                                            </mat-select>
+
+                                                            
+                                                                                                    
+                                                           <mat-select  name="grouping{{i}}" formControlName="grouping" #grouping>
+                                                            <mat-option>
+                                                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                                                    [noEntriesFoundLabel]="'no results found'"
+                                                                    [formControl]="groupingFilterCtrl"></ngx-mat-select-search>
+                                                            </mat-option>
+                                                            <mat-option
+                                                                *ngFor="let title of groupingFilteredOptions | async"
+                                                                [value]="title.id">
+                                                                {{title.text}}
+                                                            </mat-option>
+                                                        </mat-select>
+
+
 
                                                         </mat-form-field>
 
@@ -251,17 +248,20 @@
                                                         <mat-form-field class="example-full-width form-control-sm"
                                                             appearance="outline">
                                                             <mat-label>Quantity Calculation</mat-label>
-                                                            <mat-select formControlName="quantityCalculation"
-                                                                name="quantityCalculation{{i}}">
-                                                                <mat-option [value]="' Yes'">
-                                                                  Yes
-                                                                </mat-option>
-                                                                <mat-option [value]="'No'">
-                                                                  No
-                                                                </mat-option>
-                                                               
-                                                            </mat-select>
 
+                                                            <mat-select  name="quantityCalculation{{i}}" formControlName="quantityCalculation" #quantityCalculation>
+                                                                <mat-option>
+                                                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                                                        [noEntriesFoundLabel]="'no results found'"
+                                                                        [formControl]="quantityCalculationFilterCtrl"></ngx-mat-select-search>
+                                                                </mat-option>
+                                                                <mat-option
+                                                                    *ngFor="let title of quantityCalculationFilteredOptions | async"
+                                                                    [value]="title.id">
+                                                                    {{title.text}}
+                                                                </mat-option>
+                                                            </mat-select>
+    
                                                         </mat-form-field>
 
                                                     </td>
