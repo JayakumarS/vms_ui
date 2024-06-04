@@ -111,4 +111,11 @@ export class AddContractsNEEComponent implements OnInit {
     this.router.navigate(['crew/maintain/contracts/contract-nee/list-contracts-nee']);
   }
 
+  keyPressNumberDouble(event: any) {
+    const pattern = /[0-9.]/;
+    const inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
 }
