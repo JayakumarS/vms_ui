@@ -47,7 +47,7 @@ export class AddPayTypesComponent implements OnInit {
   
 
 
-      offSigndetail: this.fb.array([
+      payTypesdetail: this.fb.array([
         this.fb.group({
           siNo : 1,
           payType:[""],
@@ -80,9 +80,9 @@ export class AddPayTypesComponent implements OnInit {
    }
 
    addRow(){
-    let offSigndetailDtlArray=this.docForm.controls.offSigndetail as FormArray;
-    let arraylen=offSigndetailDtlArray.length;
-    var len = this.docForm.controls["offSigndetail"].value.length;
+    let payTypesdetailDtlArray=this.docForm.controls.payTypesdetail as FormArray;
+    let arraylen=payTypesdetailDtlArray.length;
+    var len = this.docForm.controls["payTypesdetail"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
       siNo :len + 1,
@@ -94,13 +94,13 @@ export class AddPayTypesComponent implements OnInit {
       office: [""],
       mga: [""],
     })
-    offSigndetailDtlArray.insert(arraylen,newUsergroup);
+    payTypesdetailDtlArray.insert(arraylen,newUsergroup);
   }
 
    removeRow(index){
 
     var value;
-    let dataarray1 = this.docForm.controls.offSigndetail as FormArray;
+    let dataarray1 = this.docForm.controls.payTypesdetail as FormArray;
     dataarray1.removeAt(index);
 
   }
@@ -157,11 +157,19 @@ export class AddPayTypesComponent implements OnInit {
   reset(){
     if(!this.edit){
       this.docForm = this.fb.group({
-        countryCode: [""],
-        countryName: [""],
-        currency: [""],
-        clientType:[""],
-        isActive:["true"],
+        payTypesdetail: this.fb.array([
+          this.fb.group({
+            siNo : 1,
+            payType:[""],
+            contents:[""],
+            col: [""],
+            description: [""],
+            pay: [""],
+            office: [""],
+            mga: [""],
+     
+          })
+        ]),
       });
     }else{
       this.fetchDetails(this.docForm.value.countryCode);

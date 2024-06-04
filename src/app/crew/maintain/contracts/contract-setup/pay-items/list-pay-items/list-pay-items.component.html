@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Pay Types'" [items]="['Crew']" [active_item]="'Pay Types List'">
+        <app-breadcrumb [title]="'Pay Items'" [items]="['Crew']" [active_item]="'Pay Items List'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -18,7 +18,7 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ms-0">
                         <li class="dropdown">
-                          <h2>Pay Types</h2>
+                          <h2>Pay Items</h2>
                         </li>
                         <li class="dropdown m-l-20">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -28,7 +28,7 @@
                         <li >
                           <div class="m-l-10" matTooltip="ADD">
                             <!-- <button mat-mini-fab color="primary" (click)="addNew()"> -->
-                            <button mat-mini-fab color="primary"  [routerLink]="'/crew/maintain/contracts/contract-setup/pay-types/add-pay-types/0'">
+                            <button mat-mini-fab color="primary"  [routerLink]="'/crew/maintain/contracts/contract-setup/pay-items/add-pay-items/0'">
                               <mat-icon class="col-white">add</mat-icon>
                             </button>
                           </div>
@@ -65,40 +65,47 @@
                 <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
                   #exporter="matTableExporter">
                   
-                  <ng-container matColumnDef="payType">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Pay Types </mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.payType}} </a></mat-cell>
+                  <ng-container matColumnDef="debitecode">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Debit Code</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.debitecode}} </a></mat-cell>
                   </ng-container>
                 
-                  <ng-container matColumnDef="siNo">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Sorting </mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.siNo}} </a></mat-cell>
+                  <ng-container matColumnDef="itemRevenueExp">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Item Revenue Exp </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.itemRevenueExp}} </a></mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="contents">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Contents </mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.contents}} </a></mat-cell>
+                  <ng-container matColumnDef="itemType">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Item Type </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.itemType}} </a></mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="onboard">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Onboard (Extra) </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.onboard}} </a></mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="creditcode">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Sort Credit Code </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.creditcode}} </a></mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="code">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Code </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.code}} </a></mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="description">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Description </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Description</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.description}} </a></mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="pay">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Pay </mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.pay}} </a></mat-cell>
+                  <ng-container matColumnDef="contentsFilters">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Contract Filter</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.contentsFilters}} </a></mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="mga">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Mga </mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.mga}} </a></mat-cell>
+                  <ng-container matColumnDef="grouping">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Item Grouping</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.grouping}} </a></mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="office">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Office</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.office}} </a></mat-cell>
+                  <ng-container matColumnDef="quantityCalculation">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Item Quantity Flag</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.quantityCalculation}} </a></mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="col">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Col</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.col}} </a></mat-cell>
-                  </ng-container>
-                 
                  
                   <ng-container matColumnDef="actions">
                     <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>

@@ -145,11 +145,19 @@ export class AddOffSignComponent implements OnInit {
   reset(){
     if(!this.edit){
       this.docForm = this.fb.group({
-        countryCode: [""],
-        countryName: [""],
-        currency: [""],
-        clientType:[""],
-        isActive:["true"],
+        vessaltype: [""],
+
+
+        offSigndetail: this.fb.array([
+          this.fb.group({
+            siNo : 1,
+            nationality:[""],
+            rank:[""],
+            months: [""],
+  
+     
+          })
+        ]),
       });
     }else{
       this.fetchDetails(this.docForm.value.countryCode);
