@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AddSeamansShiftingSkillsComponent } from './add-seamans-shifting-skills/add-seamans-shifting-skills.component';
-import { SeamensShiftingSkillsRoutingModule } from './seamans-shifting-skills-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,16 +22,18 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { SeamansWorkingShiftRoutingModule } from './seamans-working-shift-routing.module';
+import { AddSeamansWorkingShiftComponent } from './add-seamans-working-shift/add-seamans-working-shift.component';
 
 
 
 @NgModule({
   declarations: [
-    AddSeamansShiftingSkillsComponent
+    AddSeamansWorkingShiftComponent
   ],
   imports: [
     CommonModule,
-    SeamensShiftingSkillsRoutingModule,
+    SeamansWorkingShiftRoutingModule,
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,

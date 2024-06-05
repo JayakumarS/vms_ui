@@ -9,19 +9,19 @@ import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SeamansShiftingSkills } from '../seamans-shifting-skills.model';
-import { SeamansShiftingSkillsResultBean } from '../seamans-shifting-skills-result-bean';
+import { SeamansWorkingShift } from '../seamans-working-shift.model';
+import { SeamansWorkingShiftResultBean } from '../seamans-working-shift-result-bean';
 
 
 @Component({
-  selector: 'app-add-seamans-shifting-skills',
-  templateUrl: './add-seamans-shifting-skills.component.html',
-  styleUrls: ['./add-seamans-shifting-skills.component.sass']
+  selector: 'app-add-seamans-working-shift',
+  templateUrl: './add-seamans-working-shift.component.html',
+  styleUrls: ['./add-seamans-working-shift.component.sass']
 })
-export class AddSeamansShiftingSkillsComponent implements OnInit {
+export class AddSeamansWorkingShiftComponent implements OnInit {
 
   docForm: FormGroup;
-  countryMaster: SeamansShiftingSkills;
+  countryMaster: SeamansWorkingShift;
   currencyList=[];
   edit:boolean=false;
   // oldPwd: boolean=false;
@@ -78,7 +78,7 @@ export class AddSeamansShiftingSkillsComponent implements OnInit {
    ngOnInit() {
     
      // Currency list dropdown
-    this.httpService.get<SeamansShiftingSkillsResultBean>(this.countryMasterService.currencyListUrl).subscribe(
+    this.httpService.get<SeamansWorkingShiftResultBean>(this.countryMasterService.currencyListUrl).subscribe(
       // //  (data) => {
       // //    this.currencyList = data.currencyList;
       // //    this.currtmpList=data.currencyList;
