@@ -1,4 +1,5 @@
 
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,26 +10,28 @@ import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { payTypes } from '../pay-typer.model';
-import { PayTypesService } from '../pay-types.service';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { RTFField } from '../rtf-fields.model';
+import { RtfFieldsService } from '../rtf-fields.service';
 @Component({
-  selector: 'app-add-pay-types',
-  templateUrl: './add-pay-types.component.html',
-  styleUrls: ['./add-pay-types.component.sass']
+  selector: 'app-add-rtf-field',
+  templateUrl: './add-rtf-field.component.html',
+  styleUrls: ['./add-rtf-field.component.sass']
 })
-export class AddPayTypesComponent implements OnInit {
+export class AddRTFFieldComponent implements OnInit {
 
-
+  
   public contentsFilterCtrl: FormControl = new FormControl();
   contentsFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
   @ViewChild('contents', { static: true }) contents: MatSelect;
+ 
+ 
   protected onDestroy = new Subject<void>();
 
-  
+
   docForm: FormGroup;
-  payTypes: payTypes;
+  RTFField: RTFField;
   currencyList=[];
   edit:boolean=false;
   // oldPwd: boolean=false;
@@ -39,12 +42,12 @@ export class AddPayTypesComponent implements OnInit {
   requestId: any;
   decryptRequestId: any;
   currtmpList: any[];
-  contentslist:any;
 
+  contentslist:any;
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public PayTypesService: PayTypesService,
+    public RtfFieldsService: RtfFieldsService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
@@ -57,21 +60,22 @@ export class AddPayTypesComponent implements OnInit {
   
 
 
-      payTypesdetail: this.fb.array([
+      rtfDetails: this.fb.array([
         this.fb.group({
-          siNo : 1,
-          payType:[""],
+          rtfField:[""],
+          description:[""],
+
+        })
+      ]),
+
+
+      rtfDetailsrow: this.fb.array([
+        this.fb.group({
           contents:[""],
-          col: [""],
-          description: [""],
-          pay: [""],
-          office: [""],
-          mga: [""],
-   
+
         })
       ]),
     });
-
 
 
   }
@@ -87,10 +91,12 @@ export class AddPayTypesComponent implements OnInit {
 
       }
      });
+
      this.contentslist = [
-      { id: "Balance Payable", text: "Balance Payable" },
-      { id: "Privious Balance", text: "Privious Balance" },
-      {  id: "Basic Wages", text: "Basic Wages"},
+      { id: "Cash For Crew Handling", text: "Cash For Crew Handling" },
+      { id: "Cash For Deck Repair", text: "Cash For Deck Repair" },
+      {  id: "Cash For Deck Spare", text: "Cash For Deck Spare"},
+      { id: "Cash For Deck Stores", text: "OCash For Deck Stores" },
     
     ];
     
@@ -103,8 +109,10 @@ this.contentsFilterCtrl.valueChanges
     this.filteritemcontentslist();
   });
 
-   }
-   filteritemcontentslist(){
+
+}
+
+filteritemcontentslist(){
     if (!this.contentslist) {
       return;
     }
@@ -122,27 +130,40 @@ this.contentsFilterCtrl.valueChanges
     );
    }
    addRow(){
-    let payTypesdetailDtlArray=this.docForm.controls.payTypesdetail as FormArray;
-    let arraylen=payTypesdetailDtlArray.length;
-    var len = this.docForm.controls["payTypesdetail"].value.length;
+    let rtfDetailsDtlArray=this.docForm.controls.rtfDetails as FormArray;
+    let arraylen=rtfDetailsDtlArray.length;
 
     let newUsergroup:FormGroup = this.fb.group({
-      siNo :len + 1,
-      payType:[""],
-      contents:[""],
-      col: [""],
-      description: [""],
-      pay: [""],
-      office: [""],
-      mga: [""],
+
+      rtfField:[""],
+      description:[""],
+
     })
-    payTypesdetailDtlArray.insert(arraylen,newUsergroup);
+    rtfDetailsDtlArray.insert(arraylen,newUsergroup);
+  }  
+  addRow1(){
+    let rtfDetailsrowArray=this.docForm.controls.rtfDetailsrow as FormArray;
+    let arraylen=rtfDetailsrowArray.length;
+
+    let newUsergroup:FormGroup = this.fb.group({
+
+      contents:[""],
+
+    })
+    rtfDetailsrowArray.insert(arraylen,newUsergroup);
   }
 
    removeRow(index){
 
     var value;
-    let dataarray1 = this.docForm.controls.payTypesdetail as FormArray;
+    let dataarray1 = this.docForm.controls.rtfDetails as FormArray;
+    dataarray1.removeAt(index);
+
+  }
+  removeRow1(index){
+
+    var value;
+    let dataarray1 = this.docForm.controls.rtfDetailsrow as FormArray;
     dataarray1.removeAt(index);
 
   }
@@ -159,7 +180,7 @@ this.contentsFilterCtrl.valueChanges
   }
 
   onCancel(){
-    this.router.navigate(['/crew/maintain/contracts/contract-setup/pay-types/list-pay-types']);
+    this.router.navigate(['/crew/maintain/contracts/contract-setup/RFT-Fields/list-rft-field']);
 
   }
 
@@ -199,17 +220,19 @@ this.contentsFilterCtrl.valueChanges
   reset(){
     if(!this.edit){
       this.docForm = this.fb.group({
-        payTypesdetail: this.fb.array([
+        rtfDetails: this.fb.array([
           this.fb.group({
-            siNo : 1,
-            payType:[""],
+            rtfField:[""],
+            description:[""],
+  
+          })
+        ]),
+  
+  
+        rtfDetailsrow: this.fb.array([
+          this.fb.group({
             contents:[""],
-            col: [""],
-            description: [""],
-            pay: [""],
-            office: [""],
-            mga: [""],
-     
+  
           })
         ]),
       });
