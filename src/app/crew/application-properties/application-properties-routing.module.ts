@@ -22,6 +22,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./define-preferences-for-qualif-of-officers/define-preferences-for-qualif-of-officers.module").then((m) => m.DefinePreferencesForQualifOfOfficersModule),
   },
+  {
+    path: "company-department",
+    loadChildren: () =>
+      import("./company-department/company-department.module").then((m) => m.CompanyDepartmentModule),
+  },
 ];
 
 @NgModule({
