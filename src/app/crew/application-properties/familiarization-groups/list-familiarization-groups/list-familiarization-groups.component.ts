@@ -50,7 +50,7 @@ export class ListFamiliarizationGroupsComponent extends UnsubscribeOnDestroyAdap
 
      }
   ngOnInit(): void {
-    
+    this.loadData();
   }
 
      @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

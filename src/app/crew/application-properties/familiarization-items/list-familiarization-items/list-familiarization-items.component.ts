@@ -48,7 +48,7 @@ export class ListFamiliarizationItemsComponent extends UnsubscribeOnDestroyAdapt
 
      }
   ngOnInit(): void {
-    
+    this.loadData();
   }
 
      @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
