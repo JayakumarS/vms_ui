@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header" style="padding: 0.5% !important;" style="padding: 0.5% !important;">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Person Maintenance'" [items]="['Crew','Application']" [active_item]="'Person Maintenance'">
+        <app-breadcrumb [title]="'Familiarization Type'" [items]="['Crew','Application Properties']" [active_item]="'List Familiarization Types'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -15,7 +15,7 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ms-0">
                         <li class="dropdown m-l-20 ">
-                          <h2>Person Maintenance</h2>
+                          <h2>List Familiarization Types</h2>
                         </li>
                         <li class="dropdown m-l-20">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -24,7 +24,7 @@
                         </li>
                         <li>
                           <div class="m-l-10" matTooltip="ADD">
-                            <button color="primary" type="button" class="btn-space" [routerLink]="'/crew/applications/person-maintenance/add-person-maintenance/0'" mat-raised-button>
+                            <button color="primary" type="button" class="btn-space" [routerLink]="'/crew/application-properties/familiarization-types/add-familiarization-type/0'" mat-raised-button>
                               <i class="fas fa-plus-circle" style="font-size: 20px;color: bisque;"></i> Create New
                             </button>
                           </div>
@@ -81,10 +81,10 @@
                 </mat-row>
               </mat-table>
                 <!-- Loading spinner -->
-                <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
+                <!-- <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
                   <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
                   </mat-progress-spinner>
-                </div>
+                </div> -->
                 <!-- context menu start -->
                 <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
                   [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
@@ -132,13 +132,13 @@
                   </button>
                 </mat-menu>
                 <!-- context menu end -->
-                <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
+                <!-- <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
                   [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
                   No results
                 </div>
                 <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
                   [pageSizeOptions]="[5, 10, 25, 100]">
-                </mat-paginator>
+                </mat-paginator> -->
               </div>
           </div>
         </div>

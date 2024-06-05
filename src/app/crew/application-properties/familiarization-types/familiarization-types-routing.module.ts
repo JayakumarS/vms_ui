@@ -5,7 +5,7 @@ import { ListFamiliarizationTypesComponent } from './list-familiarization-types/
 
 const routes: Routes = [
   {
-    path :'add-familiarization-type',
+    path :'add-familiarization-type/:0',
     component: AddFamiliarizationTypesComponent
   },
   {

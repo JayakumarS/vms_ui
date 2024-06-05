@@ -28,7 +28,7 @@ export class FamiliarizationTypesService extends UnsubscribeOnDestroyAdapter{
 
   getList(){
     let value,url;
-    let list = [{code:"YTS",description:"Balaji",sorting:"Balaji"}];
+    let list = [{code:"YTS",description:"Balaji",sorting:1}];
     this.isTblLoading = false;
     this.dataChange.next(list);
     // this.subs.sink = this.httpService.post<any>(url,value).subscribe(

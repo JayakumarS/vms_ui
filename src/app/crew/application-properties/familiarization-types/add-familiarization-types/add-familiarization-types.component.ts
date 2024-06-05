@@ -49,5 +49,10 @@ export class AddFamiliarizationTypesComponent implements OnInit {
     
   }
 
+  
+  cancel(){
+    this.router.navigate(['/crew/application-properties/familiarization-types/list-familiarization-type']);
+  }
+
 }
 
