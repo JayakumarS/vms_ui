@@ -23,10 +23,17 @@ const routes: Routes = [
       path: "contract-nee",
       loadChildren: () =>
         import("./contracts-nee/contracts-nee.module").then((m) => m.ContractsNEEModule),
+    },
+  
+  
+  
+
+  {
+    path: "solidarity-tax-contracts",
+    loadChildren: () =>
+      import("./solidarity-tax-contracts/solidarity-tax-contracts.module").then((m) => m.SolidarityTaxContractsModule),
+ 
     }
-  
-  
-  
 ];
 
 @NgModule({
