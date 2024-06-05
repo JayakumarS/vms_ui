@@ -1,29 +1,27 @@
-import { SelectionModel, DataSource } from '@angular/cdk/collections';
-import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSort } from '@angular/material/sort';
-import { Router } from '@angular/router';
-import { fromEvent, BehaviorSubject, Observable, merge, map } from 'rxjs';
-import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { serverLocations } from 'src/app/auth/serverLocations';
+import { CompanyDepartment } from '../company-department.model';
+import { CompanyDepartmentService } from '../company-department.service';
+import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { CommonService } from 'src/app/common-service/common.service';
+import { DataSource, SelectionModel } from '@angular/cdk/collections';
+import { FormBuilder } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { serverLocations } from 'src/app/auth/serverLocations';
+import { HttpServiceService } from 'src/app/auth/http-service.service';
+import { Router } from '@angular/router';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { Familiarization } from '../../familiarization-types/familiarization-type.model';
-import { FamiliarizationTypesService } from '../../familiarization-types/familiarization-types.service';
-import { FamiliarizationGroups } from '../familiarization-groups.model';
-import { FamiliarizationGroupsService } from '../familiarization-groups.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
-  selector: 'app-list-familiarization-groups',
-  templateUrl: './list-familiarization-groups.component.html',
-  styleUrls: ['./list-familiarization-groups.component.sass']
+  selector: 'app-list-company-department',
+  templateUrl: './list-company-department.component.html',
+  styleUrls: ['./list-company-department.component.sass']
 })
-export class ListFamiliarizationGroupsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class ListCompanyDepartmentComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   displayedColumns = [
     "code",
@@ -33,13 +31,13 @@ export class ListFamiliarizationGroupsComponent extends UnsubscribeOnDestroyAdap
   ];
 
  dataSource: ExampleDataSource | null;
- exampleDatabase: FamiliarizationGroupsService | null;
- selection = new SelectionModel<FamiliarizationGroups>(true, []);
- familiarizationGroups: FamiliarizationGroups | null;
+ exampleDatabase: CompanyDepartmentService | null;
+ selection = new SelectionModel<CompanyDepartment>(true, []);
+ companyDepartment: CompanyDepartment | null;
 
   constructor( private fb: FormBuilder,
     private commonService: CommonService,
-    public familiarizationGroupsService: FamiliarizationGroupsService,
+    public companyDepartmentService: CompanyDepartmentService,
     public httpClient: HttpClient,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -61,7 +59,7 @@ export class ListFamiliarizationGroupsComponent extends UnsubscribeOnDestroyAdap
      contextMenuPosition = { x: "0px", y: "0px" };
 
      public loadData() {
-      this.exampleDatabase = new FamiliarizationGroupsService(this.httpClient,this.serverUrl,this.httpService);
+      this.exampleDatabase = new CompanyDepartmentService(this.httpClient,this.serverUrl,this.httpService);
       this.dataSource = new ExampleDataSource(
         this.exampleDatabase,
         this.paginator,
@@ -80,7 +78,7 @@ export class ListFamiliarizationGroupsComponent extends UnsubscribeOnDestroyAdap
   
   }
   
-  export class ExampleDataSource extends DataSource<FamiliarizationGroups> {
+  export class ExampleDataSource extends DataSource<CompanyDepartment> {
     filterChange = new BehaviorSubject("");
     get filter(): string {
       return this.filterChange.value;
@@ -88,10 +86,10 @@ export class ListFamiliarizationGroupsComponent extends UnsubscribeOnDestroyAdap
     set filter(filter: string) {
       this.filterChange.next(filter);
     }
-    filteredData: FamiliarizationGroups[] = [];
-    renderedData: FamiliarizationGroups[] = [];
+    filteredData: CompanyDepartment[] = [];
+    renderedData: CompanyDepartment[] = [];
     constructor(
-      public exampleDatabase: FamiliarizationGroupsService,
+      public exampleDatabase: CompanyDepartmentService,
       public paginator: MatPaginator,
       public _sort: MatSort
     ) {
@@ -99,7 +97,7 @@ export class ListFamiliarizationGroupsComponent extends UnsubscribeOnDestroyAdap
       this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
     }
   
-    connect(): Observable<FamiliarizationGroups[]> {
+    connect(): Observable<CompanyDepartment[]> {
       const displayDataChanges = [
         this.exampleDatabase.dataChange,
         this._sort.sortChange,
@@ -109,11 +107,11 @@ export class ListFamiliarizationGroupsComponent extends UnsubscribeOnDestroyAdap
   
       this.exampleDatabase.getList();
       return merge(...displayDataChanges).pipe(map(() => {
-          this.filteredData = this.exampleDatabase.data.slice().filter((familiarizationGroups: FamiliarizationGroups) => {
+          this.filteredData = this.exampleDatabase.data.slice().filter((companyDepartment: CompanyDepartment) => {
               const searchStr = (
-                familiarizationGroups.code +
-                familiarizationGroups.description +
-                familiarizationGroups.sorting
+                companyDepartment.code +
+                companyDepartment.description +
+                companyDepartment.sorting
               ).toLowerCase();
               return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
             });
@@ -130,7 +128,7 @@ export class ListFamiliarizationGroupsComponent extends UnsubscribeOnDestroyAdap
     }
     disconnect() {}
   
-    sortData(data: FamiliarizationGroups[]): FamiliarizationGroups[] {
+    sortData(data: CompanyDepartment[]): CompanyDepartment[] {
       if (!this._sort.active || this._sort.direction === "") {
         return data;
       }
