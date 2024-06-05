@@ -53,20 +53,18 @@
                                                             appearance="outline">
                                                             <mat-label>Pay Type</mat-label>
 
-                                                            <mat-select name="payType{{i}}"
-                                                                formControlName="payType" >
-                                                                <mat-option [value]="'PaySlips'">
-                                                                    PaySlips
+                                                            <mat-select  name="payType{{i}}" formControlName="payType" #payType>
+                                                                <mat-option>
+                                                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                                                        [noEntriesFoundLabel]="'no results found'"
+                                                                        [formControl]="payTypeFilterCtrl"></ngx-mat-select-search>
                                                                 </mat-option>
-                                                                <mat-option [value]="'Income and Expense'">
-                                                                    Income and Expense
-                                                                </mat-option>
-                                                                <mat-option [value]="'  Pay for repor'">
-                                                                    Pay for repor
+                                                                <mat-option
+                                                                    *ngFor="let title of payTypeFilteredOptions | async"
+                                                                    [value]="title.id">
+                                                                    {{title.text}}
                                                                 </mat-option>
                                                             </mat-select>
-
-
 
                                                         </mat-form-field>
 
@@ -84,18 +82,21 @@
                                                         <mat-form-field class="example-full-width form-control-sm"
                                                             appearance="outline">
                                                             <mat-label>Contents</mat-label>
-                                                            <mat-select formControlName="contents" 
-                                                                name="contents{{i}}">
-                                                                <mat-option [value]="' Balance Payable'">
-                                                                    Balance Payable
+
+                                                            <mat-select  name="contents{{i}}" formControlName="contents" #contents>
+                                                                <mat-option>
+                                                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                                                        [noEntriesFoundLabel]="'no results found'"
+                                                                        [formControl]="contentsFilterCtrl"></ngx-mat-select-search>
                                                                 </mat-option>
-                                                                <mat-option [value]="'Privious Balance'">
-                                                                    Privious Balance
-                                                                </mat-option>
-                                                                <mat-option [value]="'Basic Wages'">
-                                                                    Basic Wages
+                                                                <mat-option
+                                                                    *ngFor="let title of contentsFilteredOptions | async"
+                                                                    [value]="title.id">
+                                                                    {{title.text}}
                                                                 </mat-option>
                                                             </mat-select>
+
+
 
                                                         </mat-form-field>
 

@@ -8,8 +8,8 @@ import { MatSort } from "@angular/material/sort";
 import { DataSource } from "@angular/cdk/collections";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatMenuTrigger } from "@angular/material/menu";
-import { BehaviorSubject, fromEvent, merge, Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { BehaviorSubject, fromEvent, merge, Observable, ReplaySubject, Subject } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
@@ -21,7 +21,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { offSign } from '../off-sign.model';
 import { OffSignService } from '../off-sign.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
 @Component({
   selector: 'app-list-off-sign',
   templateUrl: './list-off-sign.component.html',
@@ -43,6 +44,8 @@ export class ListOffSignComponent extends UnsubscribeOnDestroyAdapter implements
   id: number;
   customerMaster: offSign | null;
   permissionList: any=[];
+  vessaltypelist: any;
+
   constructor(
     public httpClient: HttpClient,private fb: FormBuilder,
     public dialog: MatDialog,
@@ -61,6 +64,10 @@ export class ListOffSignComponent extends UnsubscribeOnDestroyAdapter implements
    
     });
   }
+  public vessaltypeFilterCtrl: FormControl = new FormControl();
+  vessaltypeFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('vessaltype', { static: true }) vessaltype: MatSelect;
+  protected onDestroy = new Subject<void>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -88,7 +95,41 @@ export class ListOffSignComponent extends UnsubscribeOnDestroyAdapter implements
     // });
 
     this.loadData();
-  }
+ 
+    this.vessaltypelist = [
+      { id: "RO RO VESSAL", text: "RO RO VESSAL" },
+      { id: "TANKER", text: "TANKER" },
+    
+    ];
+    
+    this.vessaltypeFilteredOptions.next(this.vessaltypelist.slice());
+
+// listen for origin List  search field value changes
+this.vessaltypeFilterCtrl.valueChanges
+  .pipe(takeUntil(this.onDestroy))
+  .subscribe(() => {
+    this.filteritemvessaltypelist();
+  });
+
+
+   }
+   filteritemvessaltypelist(){
+    if (!this.vessaltypelist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.vessaltypeFilterCtrl.value;
+    if (!search) {
+      this.vessaltypeFilteredOptions.next(this.vessaltypelist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.vessaltypeFilteredOptions.next(
+      this.vessaltypelist.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
 
   refresh(){
     this.loadData();

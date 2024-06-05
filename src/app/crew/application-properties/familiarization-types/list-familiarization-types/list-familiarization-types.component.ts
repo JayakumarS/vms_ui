@@ -55,6 +55,7 @@ export class ListFamiliarizationTypesComponent extends UnsubscribeOnDestroyAdapt
      contextMenuPosition = { x: "0px", y: "0px" };
 
   ngOnInit(): void {
+    this.loadData();
   }
 
   public loadData() {

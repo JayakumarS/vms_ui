@@ -25,4 +25,8 @@ export class ApplicationsService extends UnsubscribeOnDestroyAdapter{
   get data(): application[] {
     return this.dataChange.value;
   }
+
+  getList(){
+    
+  }
 }

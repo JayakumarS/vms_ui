@@ -123,7 +123,7 @@ export class ExampleDataSource extends DataSource<application> {
      this.paginator.page,
    ];
 
-  //  this.exampleDatabase.getList();
+   this.exampleDatabase.getList();
    return merge(...displayDataChanges).pipe(map(() => {
        this.filteredData = this.exampleDatabase.data.slice().filter((application: application) => {
            const searchStr = (

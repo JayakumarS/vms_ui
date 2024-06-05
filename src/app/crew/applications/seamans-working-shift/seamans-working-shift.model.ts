@@ -1,4 +1,4 @@
-export class SeamansShiftingSkills {
+export class SeamansWorkingShift {
     seaman: string;
     vessel: string;
     months:any;

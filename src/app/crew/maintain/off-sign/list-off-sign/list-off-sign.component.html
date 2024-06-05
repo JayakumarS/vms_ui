@@ -18,16 +18,18 @@
                           <mat-form-field class="example-full-width form-control-sm"
                           appearance="outline">
                           <mat-label>VESSAL TYPE</mat-label>
-                            <mat-select  formControlName="vessaltype"  >
-                                <mat-option [value]="'RORO'">
-                                     RO RO VESSAL
-                                  </mat-option>
-                                  <mat-option [value]="'TANKER'">
-                                    TANKER
-                                  </mat-option>
-                              
-                               
-                          </mat-select>
+                          <mat-select  formControlName="vessaltype" #vessaltype>
+                            <mat-option>
+                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                    [noEntriesFoundLabel]="'no results found'"
+                                    [formControl]="vessaltypeFilterCtrl"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option
+                                *ngFor="let title of vessaltypeFilteredOptions | async"
+                                [value]="title.id">
+                                {{title.text}}
+                            </mat-option>
+                        </mat-select>
                        
                       </mat-form-field>
                   

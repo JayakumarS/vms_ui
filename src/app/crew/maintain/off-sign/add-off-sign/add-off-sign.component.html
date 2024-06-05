@@ -23,16 +23,22 @@
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                         <mat-label>Vessal  Type</mat-label>
 
-                        <mat-select  formControlName="vessaltype"  >
-                          <mat-option [value]="'RORO'">
-                               RO RO VESSAL
-                            </mat-option>
-                            <mat-option [value]="'TANKER'">
-                              TANKER
-                            </mat-option>
-                        
-                         
-                      </mat-select>
+
+
+                      <mat-select  formControlName="vessaltype" #vessaltype>
+                        <mat-option>
+                            <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                [noEntriesFoundLabel]="'no results found'"
+                                [formControl]="vessaltypeFilterCtrl"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option
+                            *ngFor="let title of vessaltypeFilteredOptions | async"
+                            [value]="title.id">
+                            {{title.text}}
+                        </mat-option>
+                    </mat-select>
+
+
                
                     </mat-form-field>
                   </div>
@@ -69,18 +75,21 @@
                                           <td class="padding-both-side-2">
                                             <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                               <mat-label>Nationality</mat-label>
-                                                       
-                                              <mat-select name="companyCode{{i}}" formControlName="nationality" #singleSelectcompanyCode >
-                                                <mat-option [value]="'RORO'">
-                                                    BANGLADESH
-                                                 </mat-option>
-                                                 <mat-option [value]="'ANDRA'">
-                                                    ANDRA PRADESH
-                                                 </mat-option>
-                                                 <mat-option [value]="'ASSAM'">
-                                                    ASSAM
-                                                 </mat-option>
-                                          </mat-select>
+                                     
+
+                                          
+                      <mat-select  name="nationality{{i}}" formControlName="nationality" #nationality>
+                        <mat-option>
+                            <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                [noEntriesFoundLabel]="'no results found'"
+                                [formControl]="nationalityFilterCtrl"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option
+                            *ngFor="let title of nationalityFilteredOptions | async"
+                            [value]="title.id">
+                            {{title.text}}
+                        </mat-option>
+                    </mat-select>
                     
                     
                                     
@@ -92,19 +101,23 @@
                                               <mat-form-field class="example-full-width form-control-sm"
                                               appearance="outline">
                                               <mat-label>Rank</mat-label>
-                                              <mat-select formControlName="rank" #singleSelectAcc
-                                                  name="rank{{i}}">
-                                                  <mat-option [value]="'ENGINEER'">
-                                                    ENGINEER
-                                                 </mat-option>
-                                                 <mat-option [value]="'OFFICER'">
-                                                   OFFICER
-                                                 </mat-option>
-                                                 <mat-option [value]="'COOK'">
-                                                    COOK
-                                                  </mat-option>
-                                              </mat-select>
-                                             
+                                     
+
+
+                                              <mat-select  name="rank{{i}}" formControlName="rank" #rank>
+                                                <mat-option>
+                                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                                        [noEntriesFoundLabel]="'no results found'"
+                                                        [formControl]="rankFilterCtrl"></ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option
+                                                    *ngFor="let title of rankFilteredOptions | async"
+                                                    [value]="title.id">
+                                                    {{title.text}}
+                                                </mat-option>
+                                            </mat-select>
+
+
                                           </mat-form-field>
                                         
                                             </td>

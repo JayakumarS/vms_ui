@@ -7,6 +7,16 @@ const routes: Routes = [
     loadChildren: () =>
       import("./familiarization-types/familiarization-types.module").then((m) => m.FamiliarizationTypesModule),
   },
+  {
+    path: "familiarization-groups",
+    loadChildren: () =>
+      import("./familiarization-groups/familiarization-groups.module").then((m) => m.FamiliarizationGroupsModule),
+  },
+  {
+    path: "familiarization-items",
+    loadChildren: () =>
+      import("./familiarization-items/familiarization-items.module").then((m) => m.FamiliarizationItemsModule),
+  },
 ];
 
 @NgModule({

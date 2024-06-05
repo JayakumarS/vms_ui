@@ -1,6 +1,6 @@
 
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
@@ -11,6 +11,8 @@ import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { payTypes } from '../pay-typer.model';
 import { PayTypesService } from '../pay-types.service';
+import { MatSelect } from '@angular/material/select';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-add-pay-types',
   templateUrl: './add-pay-types.component.html',
@@ -18,6 +20,20 @@ import { PayTypesService } from '../pay-types.service';
 })
 export class AddPayTypesComponent implements OnInit {
 
+
+  public contentsFilterCtrl: FormControl = new FormControl();
+  contentsFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('contents', { static: true }) contents: MatSelect;
+
+  
+  public payTypeFilterCtrl: FormControl = new FormControl();
+  payTypeFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('payType', { static: true }) payType: MatSelect;
+
+
+  protected onDestroy = new Subject<void>();
+
+  
   docForm: FormGroup;
   payTypes: payTypes;
   currencyList=[];
@@ -30,6 +46,8 @@ export class AddPayTypesComponent implements OnInit {
   requestId: any;
   decryptRequestId: any;
   currtmpList: any[];
+  contentslist:any;
+  paytypelist:any;
 
   constructor(private fb: FormBuilder,
     public router:Router,
@@ -77,8 +95,78 @@ export class AddPayTypesComponent implements OnInit {
 
       }
      });
+     this.contentslist = [
+      { id: "Balance Payable", text: "Balance Payable" },
+      { id: "Privious Balance", text: "Privious Balance" },
+      {  id: "Basic Wages", text: "Basic Wages"},
+    
+    ];
+    
+    this.contentsFilteredOptions.next(this.contentslist.slice());
+
+// listen for origin List  search field value changes
+this.contentsFilterCtrl.valueChanges
+  .pipe(takeUntil(this.onDestroy))
+  .subscribe(() => {
+    this.filteritemcontentslist();
+  });
+
+
+
+     this.paytypelist = [
+      { id: "PaySlips", text: "PaySlips" },
+      { id: "Income and Expense", text: "Income and Expense" },
+      {  id: "Pay for repor", text: "Pay for repor"},
+    
+    ];
+    
+    this.payTypeFilteredOptions.next(this.paytypelist.slice());
+
+// listen for origin List  search field value changes
+this.payTypeFilterCtrl.valueChanges
+  .pipe(takeUntil(this.onDestroy))
+  .subscribe(() => {
+    this.filteritempaytypelist();
+  });
+
+
+
    }
 
+   filteritempaytypelist(){
+    if (!this.paytypelist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.payTypeFilterCtrl.value;
+    if (!search) {
+      this.payTypeFilteredOptions.next(this.paytypelist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.payTypeFilteredOptions.next(
+      this.paytypelist.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
+   filteritemcontentslist(){
+    if (!this.contentslist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.contentsFilterCtrl.value;
+    if (!search) {
+      this.contentsFilteredOptions.next(this.contentslist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.contentsFilteredOptions.next(
+      this.contentslist.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
    addRow(){
     let payTypesdetailDtlArray=this.docForm.controls.payTypesdetail as FormArray;
     let arraylen=payTypesdetailDtlArray.length;

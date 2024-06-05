@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,19 +10,19 @@ import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SeamansShiftingSkills } from '../seamans-shifting-skills.model';
-import { SeamansShiftingSkillsResultBean } from '../seamans-shifting-skills-result-bean';
+import { SeamansContract } from '../seamans-contract.model';
+import { SeamansContractResultBean } from '../seamans-contract-result-bean';
 
 
 @Component({
-  selector: 'app-add-seamans-shifting-skills',
-  templateUrl: './add-seamans-shifting-skills.component.html',
-  styleUrls: ['./add-seamans-shifting-skills.component.sass']
+  selector: 'app-seamans-contract',
+  templateUrl: './seamans-contract.component.html',
+  styleUrls: ['./seamans-contract.component.sass']
 })
-export class AddSeamansShiftingSkillsComponent implements OnInit {
+export class SeamansContractComponent implements OnInit {
 
   docForm: FormGroup;
-  countryMaster: SeamansShiftingSkills;
+  countryMaster: SeamansContract;
   currencyList=[];
   edit:boolean=false;
   // oldPwd: boolean=false;
@@ -30,9 +31,11 @@ export class AddSeamansShiftingSkillsComponent implements OnInit {
   requestId: any;
   decryptRequestId: any;
   currtmpList: any[];
+  contractForm: FormGroup;
+
   isChecked: boolean = false;
   currentTimeSlot: any;
-
+  public exportTime = { hour: 7, minute: 15, meriden: 'PM', format: 24 };
 
   constructor(private fb: FormBuilder,
     public router:Router,
@@ -47,30 +50,24 @@ export class AddSeamansShiftingSkillsComponent implements OnInit {
 
     this.docForm = this.fb.group({
       // first: ["", [Validators.required, Validators.pattern("[a-zA-Z]+")]],
-      seaman: ["", [Validators.required]],
-      vessel: ["", [Validators.required]],
-      rank:[""],
+      
        servicestate:[""],
       isActive:["true"],
-      seamansdtltable: this.fb.array([
-        this.fb.group({
-          startingdate: ["",[Validators.required]],
-          remarks:[""],
-          endingDate:[""],
-          // rank:["",[Validators.required]],
-          
-        })
-       
-      ]),
-      seamansdtltable1: this.fb.array([
-        this.fb.group({
-          shiftstart: [""],
-          shiftend: [""],
-          place: [""],
-          watchkeeping: [""],
+      paytype:[""],
+      typeofcontract:[""],
+      startingdate:[""],
+      joiningdate:[""],
+      port:[""],
+      vessel:[""],
+      rank:[""],
+      seaman:[""],
+      currency:[""],
+      dateofcontract:[""],
+      timeofcontract: [" "],
+      dateTimeOfContract: [''],
+      time: ['']
 
-        })
-      ]),
+      
     });
     
     }
@@ -78,7 +75,7 @@ export class AddSeamansShiftingSkillsComponent implements OnInit {
    ngOnInit() {
     
      // Currency list dropdown
-    this.httpService.get<SeamansShiftingSkillsResultBean>(this.countryMasterService.currencyListUrl).subscribe(
+    this.httpService.get<SeamansContractResultBean>(this.countryMasterService.currencyListUrl).subscribe(
       // //  (data) => {
       // //    this.currencyList = data.currencyList;
       // //    this.currtmpList=data.currencyList;
@@ -104,10 +101,27 @@ export class AddSeamansShiftingSkillsComponent implements OnInit {
   removeRow(){
     
   }
+ 
   onCheckboxChange() {
     // Add your logic here based on checkbox state change
     console.log('Checkbox state changed:', this.isChecked);
   }
+  
+ 
+ 
+  onDateChange1(event: any, inputFlag: any, index: number) {
+    // if (event.target.value != null) {
+    //   if (inputFlag == "servicestate") {
+    //     this.docForm.patchValue({ servicestate: cdate });
+    //   }
+
+    // }
+
+    // if(this.docForm.value.creditNoteDate!=null){
+    //   this.createForm(this.docForm.value.creditNoteDate);
+    // }
+  }
+  
   onDateChange(event: any, inputFlag: any, index: number) {
     // if (event.target.value != null) {
     //   if (inputFlag == "servicestate") {
@@ -120,7 +134,32 @@ export class AddSeamansShiftingSkillsComponent implements OnInit {
     //   this.createForm(this.docForm.value.creditNoteDate);
     // }
   }
+  openTimePicker(): void {
+    const timeInput = document.getElementById('hiddenTimeInput') as HTMLInputElement;
+    timeInput.click();
+  }
   onDateInput(inputValue: any, inputFlag: any, index: number) {
+    // Check if the input value matches the expected date format
+    // const dateFormat = /^\d{1,2}\/\d{1,2}\/\d{4}$/; // Example: dd/mm/yyyy or d/m/yyyy
+    // if (inputValue != "") {
+    //   if (dateFormat.test(inputValue)) {
+    //     let fdate = this.cmnService.getDateObj(inputValue);
+    //     if (inputFlag == "creditNoteDate") {
+    //       this.docForm.patchValue({
+    //         'creditNoteDate': inputValue,
+    //         'creditNoteDateObj': fdate
+    //       });
+    //     }
+    //   }
+    // } else {
+    //   this.docForm.patchValue({
+    //     'creditNoteDate': "",
+    //     'cabotageInvoiceDateObj': ""
+    //   });
+    // }
+
+  }
+  onDateInput1(inputValue: any, inputFlag: any, index: number) {
     // Check if the input value matches the expected date format
     // const dateFormat = /^\d{1,2}\/\d{1,2}\/\d{4}$/; // Example: dd/mm/yyyy or d/m/yyyy
     // if (inputValue != "") {

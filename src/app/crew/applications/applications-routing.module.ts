@@ -18,9 +18,9 @@ const routes: Routes = [
       import("./applications/applications.module").then((m) => m.ApplicationsModule),
   },
   {
-    path: "seamans-shifting-skills",
+    path: "seamans-working-shift",
     loadChildren: () =>
-      import("./seamans-shifting-skills/seamans-shifting-skills.module").then((m) => m.SeamansShiftingSkillsModule),
+      import("./seamans-working-shift/seamans-working-shift.module").then((m) => m.SeamansShiftingSkillsModule),
   },
 ];
 
