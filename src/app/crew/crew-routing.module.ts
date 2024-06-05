@@ -17,7 +17,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./application-properties/application-properties.module").then((m) => m.ApplicationPropertiesModule),
   },
-  
+  {
+    path: "seamans-contract",
+    loadChildren: () =>
+      import("./seamans-contract/seamans-contract.module").then((m) => m.SeamansContractModule),
+  },
 ];
 
 @NgModule({

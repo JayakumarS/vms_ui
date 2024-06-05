@@ -101,8 +101,10 @@ export class AddSeamansShiftingSkillsComponent implements OnInit {
   onSubmit(){
     
   }
-  removeRow(){
-    
+  removeRow(index){
+    var value;
+    let dataarray1 = this.docForm.controls.seamansdtltable as FormArray;
+    dataarray1.removeAt(index);
   }
   onCheckboxChange() {
     // Add your logic here based on checkbox state change
