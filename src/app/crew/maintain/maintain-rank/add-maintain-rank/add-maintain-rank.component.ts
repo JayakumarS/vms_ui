@@ -1,6 +1,6 @@
 
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { CountryMasterService } from 'src/app/master/country-master/country-master.service';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
@@ -12,6 +12,8 @@ import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MaintainRank } from '../maintain-rank.model';
 import { MaintainRankResultBean } from '../maintain-rank-result-bean';
+import { MatSelect } from '@angular/material/select';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-maintain-rank',
@@ -19,13 +21,26 @@ import { MaintainRankResultBean } from '../maintain-rank-result-bean';
   styleUrls: ['./add-maintain-rank.component.sass']
 })
 export class AddMaintainRankComponent implements OnInit {
+  public groupageFilterCtrl: FormControl = new FormControl();
+  groupageFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('suppliergroupage', { static: true }) suppliergroupage: MatSelect;
+
+  public departmentFilterCtrl: FormControl = new FormControl();
+  departmentFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('suppliergroupage', { static: true }) supplierdepartment: MatSelect;
+
+  protected onDestroy = new Subject<void>();
+
+
+
 
   docForm: FormGroup;
   countryMaster: MaintainRank;
   currencyList=[];
   edit:boolean=false;
   // oldPwd: boolean=false;
-
+  groupagelist:any;
+  departmentlist:any;
   // For Encryption
   requestId: any;
   decryptRequestId: any;
@@ -74,11 +89,85 @@ export class AddMaintainRankComponent implements OnInit {
 
       }
      });
+
+     this.groupageFilterCtrl.valueChanges
+     .pipe(takeUntil(this.onDestroy))
+     .subscribe(() => {
+       this.filtergroupage();
+     });
+   
+     this.groupagelist = [
+       { id: "junior officer", text: "junior officer" },
+       { id: " officer", text: "  officer" },
+       {  id: "petty officer", text: "petty officer"},
+       {  id: "senior officer", text: "senior officer"},
+       {  id: "SuperNumerary", text: "SuperNumerary"},
+       {  id: "Trainee", text: "Trainee"},
+       {  id: "Visitor", text: "Visitor"}
+     ];
+     
+
+     this.groupageFilteredOptions.next(this.groupagelist.slice());
+
+
+     this.departmentFilterCtrl.valueChanges
+     .pipe(takeUntil(this.onDestroy))
+     .subscribe(() => {
+       this.filterdepartment();
+     });
+   
+     this.departmentlist = [
+       { id: "deck", text: "deck" },
+       { id: " engine", text: " engine" },
+       {  id: "catering", text: "catering"},
+       {  id: "others", text: "others"},
+     
+     ];
+     
+
+     this.departmentFilteredOptions.next(this.departmentlist.slice());
+
+
    }
 
   onSubmit(){
     
   }
+  filtergroupage(){
+    if (!this.groupagelist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.groupageFilterCtrl.value;
+    if (!search) {
+      this.groupageFilteredOptions.next(this.groupagelist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.groupageFilteredOptions.next(
+      this.groupagelist.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
+
+   filterdepartment(){
+    if (!this.departmentlist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.departmentFilterCtrl.value;
+    if (!search) {
+      this.departmentFilteredOptions.next(this.departmentlist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.departmentFilteredOptions.next(
+      this.departmentlist.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
   fetchDetails(countryCode: any): void {
     this.httpService.get(this.countryMasterService.editCountryMaster + "?countryMaster="+encodeURIComponent(this.encryptionService.encryptAesToString(countryCode, this.serverUrl.secretKey).toString())).subscribe((res: any) => {
       // console.log(countryCode);

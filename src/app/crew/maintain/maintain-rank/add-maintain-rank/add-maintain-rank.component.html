@@ -47,31 +47,17 @@
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>GROUPAGE</mat-label>
     
-                            <mat-select  formControlName="groupage"  >
-                              
-                                <mat-option [value]="'junior officer'">
-                                  JUNIOR OFFICER
-                                </mat-option>
-                                <mat-option [value]="'officer'">
-                                     OFFICER
-                                  </mat-option>
-                                  <mat-option [value]="'petty officer'">
-                                    PETTY OFFICER
-                                  </mat-option>
-                                  <mat-option [value]="'senior officer'">
-                                    SENIOR OFFICER
-                                  </mat-option>
-                                  <mat-option [value]="'SuperNumerary'">
-                                    SUPERNUMERARY
-                                  </mat-option>
-                                  <mat-option [value]="'Trainee'">
-                                     TRAINEE
-                                  </mat-option>
-                                  <mat-option [value]="'Visitor'">
-                                    VISITOR
-                                  </mat-option>
-                            
-                             
+                            <mat-select  formControlName="groupage" #suppliergroupage>
+                              <mat-option>
+                                  <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                      [noEntriesFoundLabel]="'no results found'"
+                                      [formControl]="groupageFilterCtrl"></ngx-mat-select-search>
+                              </mat-option>
+                              <mat-option
+                                  *ngFor="let title of groupageFilteredOptions | async"
+                                  [value]="title.id">
+                                  {{title.text}}
+                              </mat-option>
                           </mat-select>
                    
                         </mat-form-field>
@@ -103,21 +89,17 @@
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>DEPARTMENT</mat-label>
     
-                            <mat-select  formControlName="department" >
-                              <mat-option [value]="'deck'">
-                                  DECK
-                                </mat-option>
-                                <mat-option [value]="'engine'">
-                                    ENGINE
-                                </mat-option>
-                                <mat-option [value]="'catering'">
-                                    CATERING
-                                </mat-option>
-                                <mat-option [value]="'others'">
-                                    OTHERS
-                                </mat-option>
-                            
-                             
+                            <mat-select  formControlName="department" #supplierdepartment>
+                              <mat-option>
+                                  <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                      [noEntriesFoundLabel]="'no results found'"
+                                      [formControl]="departmentFilterCtrl"></ngx-mat-select-search>
+                              </mat-option>
+                              <mat-option
+                                  *ngFor="let title of departmentFilteredOptions | async"
+                                  [value]="title.id">
+                                  {{title.text}}
+                              </mat-option>
                           </mat-select>
                    
                         </mat-form-field>

@@ -13,10 +13,10 @@
 
 
 <form class="m-4" [formGroup]="docForm">
+  <mat-tab-group backgroundColor="light" animationDuration="1000ms">
 
-    <div style="background:#808080; color: white; padding: 8px 12px; margin-bottom: 10px;">
-        <b>Main Details:</b>
-      </div>
+    <mat-tab label="Main Details">
+      <br>
 <div class="row">
     <div class="col-md-10">
 
@@ -272,11 +272,62 @@
             </div>
         </div>
     
-        <br><br>
 
+      </div>
+
+
+      <div class="col-md-2">
+
+
+        
+       
         <div style="background:#808080; color: white; padding: 8px 12px; margin-bottom: 10px;">
-          <b>Documents:</b>
-        </div>
+            <b>Applicant:</b>
+          </div>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div>
+                    <img *ngFor="let preview of previews" style="height: 245px;width: 215px;" [src]="preview" class="preview" />
+                  </div><br>
+                <div class="row">
+                    <div class="col-12">
+                      <label class="btn btn-default p-0">
+                        <input type="file"accept="image/*" multiple (change)="selectFiles($event)"/>
+                      </label>
+                    </div>
+<!--                   
+                    <div class="col-4">
+                      <button
+                        class="btn btn-success btn-sm"
+                        [disabled]="!selectedFiles"
+                        (click)="uploadFiles()" >
+                        Upload
+                      </button>
+                    </div> -->
+
+                    
+                  </div>
+                   
+                </div>
+
+                <br>
+                <div style="background:#808080; color: white; padding: 6px 12px; margin-bottom: 10px;">
+                    <b>C.V.Operations:</b>
+                  </div>
+            <div class=" col-md-12 ">
+                
+                   <app-file-upload (change)="uploadFile($event)">
+                   </app-file-upload>
+                   
+                </div>
+
+    
+    </div>
+    </div>
+    </mat-tab>
+        
+
+        <mat-tab label="Documents">
+          <br>
         <div class="row"> 
 
             <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
@@ -427,12 +478,14 @@
               </div>
     
               </div>
-    
+
+
+        </mat-tab>
               <br><br>
 
-        <div style="background:#808080; color: white; padding: 8px 12px; margin-bottom: 10px;">
-          <b>Address:</b>
-        </div>
+              <mat-tab label="Address">
+                <br>
+       
     
               <div class="row" >   
                 <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
@@ -492,56 +545,10 @@
               </div> 
     
               </div>
-    </div>
+   
+   </mat-tab>
 
-    <div class="col-md-2">
-
-
-        
-       
-        <div style="background:#808080; color: white; padding: 8px 12px; margin-bottom: 10px;">
-            <b>Applicant:</b>
-          </div>
-            <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
-                <div>
-                    <img *ngFor="let preview of previews" [src]="preview" class="preview" />
-                  </div>
-                <div class="row">
-                    <div class="col-8">
-                      <label class="btn btn-default p-0">
-                        <input type="file"accept="image/*" multiple (change)="selectFiles($event)"/>
-                      </label>
-                    </div>
-<!--                   
-                    <div class="col-4">
-                      <button
-                        class="btn btn-success btn-sm"
-                        [disabled]="!selectedFiles"
-                        (click)="uploadFiles()" >
-                        Upload
-                      </button>
-                    </div> -->
-
-                    
-                  </div>
-                   
-                </div>
-
-                <br><br> <br><br> <br><br> <br><br><br><br>
-                <div style="background:#808080; color: white; padding: 6px 12px; margin-bottom: 10px;">
-                    <b>C.V.Operations:</b>
-                  </div>
-            <div class=" col-md-12 ">
-                
-                   <app-file-upload (change)="uploadFile($event)">
-                   </app-file-upload>
-                   
-                </div>
-
-    
-    </div>
-</div>
-    
+  </mat-tab-group>
 
               <div class="row" style="display: flex; justify-content: center;"> 
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
