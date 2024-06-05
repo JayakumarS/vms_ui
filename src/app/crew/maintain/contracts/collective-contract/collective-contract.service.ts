@@ -25,9 +25,50 @@ export class CollectiveContractService extends UnsubscribeOnDestroyAdapter{
     return this.dataChange.value;
   }
 
-  getList(){
-    let value,url;
-    let list = [{code:"YTS",surName:"Balaji",name:"Balaji",active:"yes",rank:"1",nationality:"Indian",gender:"Male",agent:"Sea",status:"Test"}];
+  getList(object){
+    let list = [];
+    let tempList = [];
+    
+    list = [
+      {code:"YTS",surName:"Balaji",name:"Balaji",active:"yes",rank:"1",nationality:"Indian",gender:"Male",agent:"Sea",status:"Test"},
+      {code:"YTS",surName:"Balaji",name:"Balaji",active:"yes",rank:"2",nationality:"Others",gender:"Female",agent:"Sea",status:"Test"},
+      {code:"YTS",surName:"Balaji",name:"Balaji",active:"yes",rank:"2",nationality:"South",gender:"Female",agent:"Sea",status:"Test"},
+      {code:"YTS",surName:"Balaji",name:"Balaji",active:"yes",rank:"1",nationality:"Indian",gender:"Male",agent:"Sea",status:"Test"}
+    ];
+    if(object.type == "search"){
+      object.searchDtl.forEach((element,i) => {
+        tempList = [];
+        let value = element.criteria;
+        let operator = element.operator;
+        list.forEach((val,j)=>{
+          switch (operator) {
+            case '==':
+                if (val.nationality == value) {
+                    tempList.push(val);
+                    list = tempList;
+                }
+                break;
+            case '!=':
+                if (val.nationality != value) {
+                    tempList.push(val);
+                    list = tempList;
+                }
+                break;
+            default:
+        }
+        })
+      });
+
+      list = tempList;
+    }else{
+      list = [
+        {code:"YTS",surName:"Balaji",name:"Balaji",active:"yes",rank:"1",nationality:"Indian",gender:"Male",agent:"Sea",status:"Test"},
+        {code:"YTS",surName:"Balaji",name:"Balaji",active:"yes",rank:"2",nationality:"Others",gender:"Female",agent:"Sea",status:"Test"},
+        {code:"YTS",surName:"Balaji",name:"Balaji",active:"yes",rank:"2",nationality:"South",gender:"Female",agent:"Sea",status:"Test"},
+        {code:"YTS",surName:"Balaji",name:"Balaji",active:"yes",rank:"1",nationality:"Indian",gender:"Male",agent:"Sea",status:"Test"}
+      ];
+    }
+
     this.isTblLoading = false;
     this.dataChange.next(list);
     // this.subs.sink = this.httpService.post<any>(url,value).subscribe(

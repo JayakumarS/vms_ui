@@ -1,30 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/common-service/common.service';
 
 @Component({
-  selector: 'app-add-collective-contract',
-  templateUrl: './add-collective-contract.component.html',
-  styleUrls: ['./add-collective-contract.component.sass'],
-  providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: {
-      display: {
-          dateInput: 'DD/MM/YYYY',
-          monthYearLabel: 'MMMM YYYY'
-      },
-  } },CommonService
-  ]
+  selector: 'app-add-personal-contracts',
+  templateUrl: './add-personal-contracts.component.html',
+  styleUrls: ['./add-personal-contracts.component.sass']
 })
-export class AddCollectiveContractComponent implements OnInit {
+export class AddPersonalContractsComponent implements OnInit {
+
   docForm: FormGroup;
   nationalityList:any=[];
   rankList:any=[];
-  wageList:any=[];
   currencyList:any=[];
   itemList:any=[];
   coEfficientList:any=[];
@@ -43,7 +32,6 @@ export class AddCollectiveContractComponent implements OnInit {
           select: [""],
           nationality: [""],
           rank: [""],
-          wageScale: [""],
           currency: [""],
           validFrom: [""],
           validFromObj: [""],
@@ -59,17 +47,14 @@ export class AddCollectiveContractComponent implements OnInit {
           amount: [""],
           coEfficient: [""],
           parameter: [""],
-          fixedOT: [""],
           retro: [""],
-          remarks: [""],
-          additionalRemarks: [""]
+          remarks: [""]
         })
       ])
     });
   }
 
   ngOnInit(): void {
-    this.nationalityList = [{id:1,text:"Indian"},{id:2,text:"Others"}];
   }
 
   addRow() {
@@ -79,7 +64,6 @@ export class AddCollectiveContractComponent implements OnInit {
       select: [""],
       nationality: [""],
       rank: [""],
-      wageScale: [""],
       currency: [""],
       validFrom: [""],
       validFromObj: [""],
@@ -122,10 +106,8 @@ export class AddCollectiveContractComponent implements OnInit {
       amount: [""],
       coEfficient: [""],
       parameter: [""],
-      fixedOT: [""],
       retro: [""],
-      remarks: [""],
-      additionalRemarks: [""]
+      remarks: [""]
     })
     secondDetailRow.insert(arraylen, newUsergroup);
   }
@@ -157,7 +139,7 @@ export class AddCollectiveContractComponent implements OnInit {
   save(){}
 
   cancel(){
-    this.router.navigate(['/crew/maintain/contracts/collective-contracts/list-collective-contract']);
+    this.router.navigate(['/crew/maintain/contracts/personal-contracts/list-personal-contracts']);
   }
 
   getDateString(event,id){

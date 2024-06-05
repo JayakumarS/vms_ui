@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { Router } from '@angular/router';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-list-collective-contract',
@@ -30,21 +31,38 @@ displayedColumns = [
   "actions"
 ];
 
+docForm: FormGroup;
 dataSource: ExampleDataSource | null;
 exampleDatabase: CollectiveContractService | null;
 selection = new SelectionModel<CollectiveContract>(true, []);
 collectiveContract: CollectiveContract | null;
+fieldList:any=[];
+operatorList:any=[];
+crietriaList:any=[];
 
 constructor(
- public httpClient: HttpClient,
- public dialog: MatDialog,
- public collectiveContractService: CollectiveContractService,
- private snackBar: MatSnackBar,
- private serverUrl:serverLocations,
- private httpService:HttpServiceService,
- public router: Router
+  public httpClient: HttpClient,
+  public dialog: MatDialog,
+  public collectiveContractService: CollectiveContractService,
+  private snackBar: MatSnackBar,
+  private serverUrl:serverLocations,
+  private httpService:HttpServiceService,
+  public router: Router,
+  private fb: FormBuilder
 ) {
  super();
+
+ this.docForm = this.fb.group({
+  type: ["list"],
+  searchDtl: this.fb.array([
+    this.fb.group({
+      fieldName: [""],
+      operator: [""],
+      criteria: [""],
+      
+    })
+  ]),
+});
 }
 
 @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -55,7 +73,36 @@ contextMenu: MatMenuTrigger;
 contextMenuPosition = { x: "0px", y: "0px" };
 
 ngOnInit(): void {
- this.loadData();
+  this.fieldList = [{id:1,text:"Natinality"},{id:2,text:"Rank"},{id:3,text:"Wage Scale"}]; 
+  this.loadData();
+}
+
+add(){
+  let searchDtl = this.docForm.controls.searchDtl as FormArray;
+  let arraylen = searchDtl.length;
+  let newUsergroup: FormGroup = this.fb.group({
+    fieldName: [""],
+    operator: [""],
+    criteria: [""]
+  })
+  searchDtl.insert(arraylen, newUsergroup);
+}
+
+deleteRow(i){
+  let deleteRow = this.docForm.controls.searchDtl as FormArray;
+  deleteRow.removeAt(i);
+}
+
+fetchOperator(i){
+  this.operatorList[i] = [{id:"==",text:"Equal To"},{id:"!=",text:"Not Eqaul To"},{id:"''",text:"Is empty"},{id:"!= ''",text:"Is Not empty"}]; 
+  this.crietriaList[i] = [{id:"Indian",text:"Indian"},{id:"Others",text:"Others"}];
+}
+
+search(){
+  this.docForm.patchValue({
+    type : 'search'
+  })
+  this.loadData();  
 }
 
 editCall(id){
@@ -71,7 +118,8 @@ public loadData() {
  this.dataSource = new ExampleDataSource(
    this.exampleDatabase,
    this.paginator,
-   this.sort
+   this.sort,
+   this.docForm
  );
  this.subs.sink = fromEvent(this.filter.nativeElement, "keyup").subscribe(
    () => {
@@ -97,7 +145,8 @@ export class ExampleDataSource extends DataSource<CollectiveContract> {
   constructor(
     public exampleDatabase: CollectiveContractService,
     public paginator: MatPaginator,
-    public _sort: MatSort
+    public _sort: MatSort,
+    public docForm: FormGroup
   ) {
     super();
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -111,7 +160,7 @@ export class ExampleDataSource extends DataSource<CollectiveContract> {
       this.paginator.page,
     ];
 
-    this.exampleDatabase.getList();
+    this.exampleDatabase.getList(this.docForm.value);
     return merge(...displayDataChanges).pipe(map(() => {
         this.filteredData = this.exampleDatabase.data.slice().filter((collectiveContract: CollectiveContract) => {
             const searchStr = (

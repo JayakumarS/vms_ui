@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Add Collective Contracts'" [items]="['Crew','Maintain','Contracts','Collective Contract']" [active_item]="'Add Collective Contracts'">
+        <app-breadcrumb [title]="'Add Personal Contracts'" [items]="['Crew','Maintain','Contracts','Personal Contracts']" [active_item]="'Add Personal Contracts'">
         </app-breadcrumb>
       </div>
       <div class="row clearfix">
@@ -17,9 +17,8 @@
                         <thead class="">
                             <tr>
                             <th style="width: 1%;"></th>
-                            <th class="text-center table-heading padding-both-side-2 width_7">Nationality</th>
+                            <th class="text-center table-heading padding-both-side-2 width_7">Seaman</th>
                             <th class="text-center table-heading padding-both-side-2 width_7">Rank</th>
-                            <th class="text-center table-heading padding-both-side-2 width_7">Wage Scale</th>
                             <th class="text-center table-heading padding-both-side-2 width_7">Currency</th>
                             <th class="text-center table-heading padding-both-side-2 width_7">Valdi From</th>
                             <th class="text-center table-heading padding-both-side-2 width_7">Valid To</th>  
@@ -34,8 +33,8 @@
                                 <td class="padding-both-side-2">
                                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                     <mat-label>Nationality</mat-label>
-                                    <mat-select name="nationality{{i}}" formControlName="nationality">
-                                        <mat-option *ngFor="let title of nationalityList" [value]="title.id">
+                                    <mat-select name="nationality{{i}}" formControlName="seaMan">
+                                        <mat-option *ngFor="let title of seamanList" [value]="title.id">
                                         {{title.text}}
                                         </mat-option>
                                     </mat-select>
@@ -47,17 +46,6 @@
                                     <mat-label>Rank</mat-label>
                                     <mat-select name="rank{{i}}" formControlName="rank">
                                         <mat-option *ngFor="let title of rankList" [value]="title.id">
-                                        {{title.text}}
-                                        </mat-option>
-                                    </mat-select>
-                                    </mat-form-field>
-                                </td>
-
-                                <td class="padding-both-side-2">
-                                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                    <mat-label>Wage Scale</mat-label>
-                                    <mat-select name="wageScale{{i}}" formControlName="wageScale">
-                                        <mat-option *ngFor="let title of wageList" [value]="title.id">
                                         {{title.text}}
                                         </mat-option>
                                     </mat-select>
@@ -122,10 +110,8 @@
                             <th class="text-center table-heading padding-both-side-2 width_7">Amount</th>
                             <th class="text-center table-heading padding-both-side-2 width_7">Coefficient</th>
                             <th class="text-center table-heading padding-both-side-2 width_7">Parameter</th>
-                            <th class="text-center table-heading padding-both-side-2 width_7">Fixed O/T</th>
                             <th class="text-center table-heading padding-both-side-2 width_7">Retro</th>  
                             <th class="text-center table-heading padding-both-side-2 width_7">Remarks</th>
-                            <th class="text-center table-heading padding-both-side-2 width_7">Additional Remarks</th>
                           </tr>
                         </thead>
                         <ng-container *ngFor="let secondDetailBean of docForm.get('secondDetailRow')['controls']; let i = index">
@@ -175,13 +161,6 @@
                                 </td>
 
                                 <td class="padding-both-side-2">
-                                    <mat-form-field class="example-full-width" appearance="outline">
-                                        <mat-label>Fixed O/T</mat-label>
-                                        <input matInput name="fixedOT{{i}}" formControlName="fixedOT">
-                                    </mat-form-field>
-                                </td>
-
-                                <td class="padding-both-side-2">
                                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                     <mat-label>Retro</mat-label>
                                     <mat-select name="retro{{i}}" formControlName="retro">
@@ -196,13 +175,6 @@
                                     <mat-form-field class="example-full-width" appearance="outline">
                                         <mat-label>Remarks</mat-label>
                                         <input matInput name="remarks{{i}}" formControlName="remarks">
-                                    </mat-form-field>
-                                </td>
-
-                                <td class="padding-both-side-2">
-                                    <mat-form-field class="example-full-width" appearance="outline">
-                                        <mat-label>Additional Remarks</mat-label>
-                                        <input matInput name="additionalRemarks{{i}}" formControlName="additionalRemarks">
                                     </mat-form-field>
                                 </td>
                             </tr>
@@ -222,45 +194,6 @@
                         </button>
                         </div>
                     </div>
-                    <br>
-                  
-                    <div>
-                            <div class="w-20 flex-sb">
-                                <b>
-                                    Monthly Earnings:
-                                </b>
-                                <p>
-                                    0.00
-                                </p>
-                            </div>
-                            <br>
-                            <div class="w-20 flex-sb">
-                                <b>
-                                    Yearly Earnings:
-                                </b>
-                                <p>
-                                    0.00
-                                </p>
-                            </div>
-
-                            <div class="w-20 flex-sb">
-                                <b>
-                                    Monthly Seaman's Contr:
-                                </b>
-                                <p>
-                                    0.00
-                                </p>
-                            </div>
-                            <br>
-                            <div class="w-20 flex-sb">
-                                <b>
-                                    Yearly Seaman's Contr:
-                                </b>
-                                <p>
-                                    0.00
-                                </p>
-                            </div>
-                    </div>   
 
                     <div class="center">
                         <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>

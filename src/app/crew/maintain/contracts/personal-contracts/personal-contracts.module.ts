@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { CollectiveContractRoutingModule } from './collective-contract-routing.module';
-import { ListCollectiveContractComponent } from './list-collective-contract/list-collective-contract.component';
-import { AddCollectiveContractComponent } from './add-collective-contract/add-collective-contract.component';
+import { PersonalContractsRoutingModule } from './personal-contracts-routing.module';
+import { AddPersonalContractsComponent } from './add-personal-contracts/add-personal-contracts.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -26,19 +24,20 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonService } from 'src/app/common-service/common.service';
+import { ListPersonalContractsComponent } from './list-personal-contracts/list-personal-contracts.component';
 
 
 @NgModule({
   declarations: [
-    ListCollectiveContractComponent,
-    AddCollectiveContractComponent
+    AddPersonalContractsComponent,
+    ListPersonalContractsComponent
   ],
   providers: [
     CommonService
   ],
   imports: [
     CommonModule,
-    CollectiveContractRoutingModule,
+    PersonalContractsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     MatTableModule,
@@ -63,4 +62,4 @@ import { CommonService } from 'src/app/common-service/common.service';
     SharedModule
   ]
 })
-export class CollectiveContractModule { }
+export class PersonalContractsModule { }
