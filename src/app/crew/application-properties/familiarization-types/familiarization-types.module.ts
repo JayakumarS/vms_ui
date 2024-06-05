@@ -25,11 +25,13 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonService } from 'src/app/common-service/common.service';
+import { ListFamiliarizationTypesComponent } from './list-familiarization-types/list-familiarization-types.component';
 
 
 @NgModule({
   declarations: [
-    AddFamiliarizationTypesComponent
+    AddFamiliarizationTypesComponent,
+    ListFamiliarizationTypesComponent
   ],
   providers: [
     CommonService
