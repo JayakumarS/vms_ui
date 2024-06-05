@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
@@ -10,6 +10,8 @@ import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { offSign } from '../off-sign.model';
 import { OffSignService } from '../off-sign.service';
+import { MatSelect } from '@angular/material/select';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-add-off-sign',
   templateUrl: './add-off-sign.component.html',
@@ -17,12 +19,31 @@ import { OffSignService } from '../off-sign.service';
 })
 export class AddOffSignComponent implements OnInit {
 
+
+  public vessaltypeFilterCtrl: FormControl = new FormControl();
+  vessaltypeFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('vessaltype', { static: true }) vessaltype: MatSelect;
+
+  public nationalityFilterCtrl: FormControl = new FormControl();
+  nationalityFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('nationality', { static: true }) nationality: MatSelect;
+
+  public rankFilterCtrl: FormControl = new FormControl();
+  rankFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('rank', { static: true }) rank: MatSelect;
+
+
+  protected onDestroy = new Subject<void>();
+
+
   docForm: FormGroup;
   offSign: offSign;
   currencyList=[];
   edit:boolean=false;
   // oldPwd: boolean=false;
-
+  vessaltypelist: any;
+  nationalitylist: any;
+  ranklist: any;
   // For Encryption
   requestId: any;
   decryptRequestId: any;
@@ -71,8 +92,115 @@ export class AddOffSignComponent implements OnInit {
 
       }
      });
+
+     this.vessaltypelist = [
+      { id: "RO RO VESSAL", text: "RO RO VESSAL" },
+      { id: "TANKER", text: "TANKER" },
+    
+    ];
+    
+    this.vessaltypeFilteredOptions.next(this.vessaltypelist.slice());
+
+// listen for origin List  search field value changes
+this.vessaltypeFilterCtrl.valueChanges
+  .pipe(takeUntil(this.onDestroy))
+  .subscribe(() => {
+    this.filteritemvessaltypelist();
+  });
+
+
+  this.nationalitylist = [
+    { id: "BANGLADESH", text: "BANGLADESH" },
+    { id: "INDIA", text: "INDIA" },
+    { id: "CHINA", text: "CHINA" },
+
+  
+  ];
+  
+  this.nationalityFilteredOptions.next(this.nationalitylist.slice());
+
+// listen for origin List  search field value changes
+this.nationalityFilterCtrl.valueChanges
+.pipe(takeUntil(this.onDestroy))
+.subscribe(() => {
+  this.filteritemnationalitylist();
+});
+
+
+
+
+this.ranklist = [
+  { id: "ENGINEER", text: "ENGINEER" },
+  { id: "OFFICER", text: "OFFICER" },
+  { id: "COOK", text: "COOK" },
+
+
+];
+
+this.rankFilteredOptions.next(this.ranklist.slice());
+
+// listen for origin List  search field value changes
+this.rankFilterCtrl.valueChanges
+.pipe(takeUntil(this.onDestroy))
+.subscribe(() => {
+this.filteritemranklist();
+});
+
+
+
    }
 
+   filteritemranklist(){
+    if (!this.ranklist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.rankFilterCtrl.value;
+    if (!search) {
+      this.rankFilteredOptions.next(this.ranklist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.rankFilteredOptions.next(
+      this.ranklist.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
+   filteritemnationalitylist(){
+    if (!this.nationalitylist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.nationalityFilterCtrl.value;
+    if (!search) {
+      this.nationalityFilteredOptions.next(this.nationalitylist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.nationalityFilteredOptions.next(
+      this.nationalitylist.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
+   filteritemvessaltypelist(){
+    if (!this.vessaltypelist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.vessaltypeFilterCtrl.value;
+    if (!search) {
+      this.vessaltypeFilteredOptions.next(this.vessaltypelist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.vessaltypeFilteredOptions.next(
+      this.vessaltypelist.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
    addRow(){
     let offSigndetailDtlArray=this.docForm.controls.offSigndetail as FormArray;
     let arraylen=offSigndetailDtlArray.length;

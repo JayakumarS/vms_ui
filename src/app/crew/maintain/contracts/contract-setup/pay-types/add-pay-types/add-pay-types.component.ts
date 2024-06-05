@@ -24,6 +24,13 @@ export class AddPayTypesComponent implements OnInit {
   public contentsFilterCtrl: FormControl = new FormControl();
   contentsFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
   @ViewChild('contents', { static: true }) contents: MatSelect;
+
+  
+  public payTypeFilterCtrl: FormControl = new FormControl();
+  payTypeFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('payType', { static: true }) payType: MatSelect;
+
+
   protected onDestroy = new Subject<void>();
 
   
@@ -40,6 +47,7 @@ export class AddPayTypesComponent implements OnInit {
   decryptRequestId: any;
   currtmpList: any[];
   contentslist:any;
+  paytypelist:any;
 
   constructor(private fb: FormBuilder,
     public router:Router,
@@ -103,6 +111,44 @@ this.contentsFilterCtrl.valueChanges
     this.filteritemcontentslist();
   });
 
+
+
+     this.paytypelist = [
+      { id: "PaySlips", text: "PaySlips" },
+      { id: "Income and Expense", text: "Income and Expense" },
+      {  id: "Pay for repor", text: "Pay for repor"},
+    
+    ];
+    
+    this.payTypeFilteredOptions.next(this.paytypelist.slice());
+
+// listen for origin List  search field value changes
+this.payTypeFilterCtrl.valueChanges
+  .pipe(takeUntil(this.onDestroy))
+  .subscribe(() => {
+    this.filteritempaytypelist();
+  });
+
+
+
+   }
+
+   filteritempaytypelist(){
+    if (!this.paytypelist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.payTypeFilterCtrl.value;
+    if (!search) {
+      this.payTypeFilteredOptions.next(this.paytypelist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.payTypeFilteredOptions.next(
+      this.paytypelist.filter(title => title.text.toLowerCase().includes(search))
+    );
    }
    filteritemcontentslist(){
     if (!this.contentslist) {
