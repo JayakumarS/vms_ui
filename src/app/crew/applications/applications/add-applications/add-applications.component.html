@@ -94,8 +94,8 @@
     
     
                   <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                    <mat-label> Date </mat-label>
-                    <input matInput [matDatepicker]="datepicker1" formControlName="DOBObj" 
+                    <mat-label> Birth Date </mat-label>
+                    <input matInput [matDatepicker]="datepicker1" [max]="toDay" formControlName="DOBObj" 
                     id="DOB" (dateInput)="$event.value.format('DD/MM/YYYY')"
                     (dateChange)="getDateString($event, 'DOB',0)" placeholder="dd/mm/yyyy">
                     <mat-datepicker-toggle matSuffix [for]="datepicker1"></mat-datepicker-toggle>

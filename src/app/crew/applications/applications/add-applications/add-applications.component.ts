@@ -78,9 +78,11 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
   excel:any = [];
   files:any = [];
   excelfile:[];
+  toDay:any;
   tempForm:any = [];
   tempfiles:any = [];
   nationalityList:any;
+  agentList:any;
   selectedFiles?: FileList;
   progressInfos: any[] = [];
   message: string[] = [];
@@ -153,7 +155,7 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
    }
 
   ngOnInit(): void {
-
+    this.toDay = new Date();
     this.nationalityList = [{id:1,text:"Indian"},{id:2,text:"Others"}];
     this.nationalityListFilteredOptions.next(this.nationalityList.slice());
 
@@ -164,17 +166,38 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
       }
      });
 
+
+     this.agentList = [{id:1,text:"INTERNATIONAL AGENCIES CO LTD"},{id:2,text:"UNICON LOGISTICS"}];
+     this.agentListNoFilteredOptions.next(this.agentList.slice());
+ 
+     this.route.params.subscribe(params => {
+       if(params.id!=undefined && params.id!=0){
+        this.requestId = params.id;
+        this.edit=true;
+       }
+      });
+
+
      this.nationalityListFilterCtrl.valueChanges
     .pipe(takeUntil(this.onDestroy))
     .subscribe(() => {
       this.filternationality();
     });
+
+    this.agentFilterCtrl.valueChanges
+    .pipe(takeUntil(this.onDestroy))
+    .subscribe(() => {
+      this.filteragent();
+    });
   }
 
 
+ 
+
   uploadFile(event) {
-    var excelfile = event.target.files[0];
-    
+    // Check if the 'S.Book' field has a value
+    if (this.docForm.get('book')?.value) {
+      var excelfile = event.target.files[0];
     var blob = excelfile.slice(0, excelfile.size, ''); 
     excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
     console.log(excelfile);
@@ -187,6 +210,14 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
       frmData.append("fileName", fileExtension);
       console.log(frmData);
       this.tempForm.push(frmData);
+    } else {
+      this.showNotification(
+        "snackbar-danger",
+        "Please enter a value in the S.Book field before uploading a file",
+        "bottom",
+        "center"
+      );
+    }
   
       
   }
@@ -208,6 +239,28 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
     // filter the banks
     this.nationalityListFilteredOptions.next(
       this.nationalityList.filter(title => title.text && title.text.toLowerCase().includes(search))
+    );
+  }
+
+
+  filteragent(){
+
+    if (!this.agentList || !this.agentFilterCtrl) {
+      return;
+    }
+  
+    // get the search keyword
+    let search = this.agentFilterCtrl.value;
+    if (!search) {
+      this.agentListNoFilteredOptions.next(this.agentList.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+  
+    // filter the banks
+    this.agentListNoFilteredOptions.next(
+      this.agentList.filter(title => title.text && title.text.toLowerCase().includes(search))
     );
   }
 
