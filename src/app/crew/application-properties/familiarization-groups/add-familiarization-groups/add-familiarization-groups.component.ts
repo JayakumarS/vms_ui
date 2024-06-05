@@ -33,5 +33,11 @@ export class AddFamiliarizationGroupsComponent implements OnInit {
       sorting: [""]  
     });
   }
-
+  save(){
+    
+  }
+  
+  cancel(){
+    this.router.navigate(['/crew/application-properties/familiarization-groups/list-familiarization-groups']);
+  }
 }
