@@ -1,0 +1,173 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Add Define Rank'" [items]="['Crew']" [active_item]="'Add Define Rank'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix ">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="box-shadow">
+                    <div class="card">
+                        <div class="body" style="padding-left: 110px;">
+                            <form class="m-4" [formGroup]="docForm">
+
+                                <div style="overflow-x: auto; max-width: 100%;">
+                                    <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
+                                        <thead class="">
+
+                                            <tr>
+                                                <th class="text-center table-heading padding-both-side-2 width_7" style="
+                            width: 2%; border-radius: 0.05rem; "></th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                            width: 4%; border-radius: 0.05rem;">Rank</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                            width: 4%; border-radius: 0.05rem;">Qualification Rank Description</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                            width: 4%;border-radius: 0.07rem;">Radio Qualification</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                            width: 4%;border-radius: 0.07rem;">OCIMF COC code Description</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                            width: 4%; border-radius: 0.05rem;">Bridge Team Management</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                            width: 4%; border-radius: 0.05rem;">Year Of Watch Rank</th>
+                                          
+                                                
+                                        </thead>
+
+                                        <ng-container
+                                            *ngFor="let defineRankDetails of docForm.get('defineRankDetails')['controls']; let i = index">
+                                            <tbody [formGroup]="defineRankDetails">
+
+                                                <tr>
+                                                    <td class="padding-both-side-2">
+                                                        <button mat-mini-fab color="warn" (click)="removeRow(i)">
+                                                            <mat-icon class="col-white">delete</mat-icon>
+                                                        </button>
+                                                    </td>
+
+                                                  
+
+
+                                                    <td class="padding-both-side-2">
+                                                        <mat-form-field class="example-full-width form-control-sm"
+                                                        appearance="outline">
+                                                        <mat-label>Rank</mat-label>
+                                               
+          
+          
+                                                        <mat-select  name="rank{{i}}" formControlName="rank" #rank>
+                                                          <mat-option>
+                                                              <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                                                  [noEntriesFoundLabel]="'no results found'"
+                                                                  [formControl]="rankFilterCtrl"></ngx-mat-select-search>
+                                                          </mat-option>
+                                                          <mat-option
+                                                              *ngFor="let title of rankFilteredOptions | async"
+                                                              [value]="title.id">
+                                                              {{title.text}}
+                                                          </mat-option>
+                                                      </mat-select>
+          
+          
+                                                    </mat-form-field>
+                                                  
+                                                      </td>
+
+                                                    
+                                                    <td class="padding-both-side-2">
+                                                        <mat-form-field class="example-full-width form-control-sm"
+                                                            appearance="outline">
+                                                            <mat-label>Qualification Rank Description</mat-label>
+                                                            <input matInput name="qualificationRankDescription{{i}}"
+                                                                formControlName="qualificationRankDescription">
+
+                                                        </mat-form-field>
+
+                                                    </td>
+
+                                                    <td class="padding-both-side-2">
+                                                        <mat-form-field class="example-full-width form-control-sm"
+                                                            appearance="outline">
+                                                            <mat-label>Radio Qualification</mat-label>
+                                                            <input matInput name="radioQualification{{i}}"
+                                                                formControlName="radioQualification">
+
+                                                        </mat-form-field>
+
+                                                    </td>
+
+
+                                                    
+                                                    <td class="padding-both-side-2">
+                                                        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                                                            <mat-checkbox formControlName="ocimfcoccode" name="ocimfcoccode{{i}}" ngInit="checked=true"></mat-checkbox>
+
+                                                          </div>
+                                                        
+
+                                                    </td>
+                                                    <td class="padding-both-side-2">
+                                                        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                                                            <mat-checkbox formControlName="bridgeTeam" name="bridgeTeam{{i}}" ngInit="checked=true"></mat-checkbox>
+
+                                                          </div>
+                                                        
+
+                                                    </td> 
+
+
+
+                                                    <td class="padding-both-side-2">
+                                                        <mat-form-field class="example-full-width form-control-sm"
+                                                            appearance="outline">
+                                                            <mat-label>Year Of Watch Rank</mat-label>
+                                                            <input matInput name="yearOfWatch{{i}}"
+                                                                formControlName="yearOfWatch">
+
+                                                        </mat-form-field>
+
+                                                    </td>
+                                                </tr>
+
+
+                                            </tbody>
+                                        </ng-container>
+                                    </table>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12 ">
+                                        <button mat-mini-fab color="primary" (click)="addRow()">
+                                            <mat-icon class="col-white">add</mat-icon>
+                                        </button>&nbsp;
+                                    </div>
+                                </div>
+
+
+                                <br>
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+
+                                        <button *ngIf="!edit" (click)="onSubmit()" class="btn-space" mat-raised-button
+                                            color="accent"
+                                            style="margin-left: 36%;background-color: #34d034;">Submit</button>
+                                        <button *ngIf="edit" (click)="update()" class="btn-space" mat-raised-button
+                                            color="accent"
+                                            style="margin-left: 36%;background-color: #34d034;">Update</button>
+                                        <button color="primary" type="button" class="btn-space" (click)="reset()"
+                                            mat-raised-button>Reset</button>
+                                        <button color="warn" type="button" class="btn-space" (click)="onCancel()"
+                                            mat-raised-button>Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

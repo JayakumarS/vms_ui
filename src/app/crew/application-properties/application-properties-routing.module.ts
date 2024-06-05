@@ -17,6 +17,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./familiarization-items/familiarization-items.module").then((m) => m.FamiliarizationItemsModule),
   },
+  {
+    path: "define-preferences-for-qualif-of-officers",
+    loadChildren: () =>
+      import("./define-preferences-for-qualif-of-officers/define-preferences-for-qualif-of-officers.module").then((m) => m.DefinePreferencesForQualifOfOfficersModule),
+  },
 ];
 
 @NgModule({
