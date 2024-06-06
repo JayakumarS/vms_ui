@@ -7,6 +7,12 @@ const routes: Routes = [
     loadChildren: () =>
       import("./define-ranks/define-ranks.module").then((m) => m.DefineRanksModule),
   },
+
+  {
+    path: "define-vessal-group",
+    loadChildren: () =>
+      import("./define-vessal-group/define-vessal-group.module").then((m) => m.DefineVessalGroupModule),
+  },
 ];
 
 @NgModule({
