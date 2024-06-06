@@ -1,0 +1,103 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Add Class'" [items]="['Maintain']" [active_item]="'Add Class'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix ">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="box-shadow">
+                    <div class="card">
+                        <div class="body" style="padding-left: 110px;">
+                            <form class="m-4" [formGroup]="docForm">
+
+                                <div style="overflow-x: auto; max-width: 100%;">
+                                    <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
+                                        <thead class="">
+
+                                            <tr>
+                                                <th class="text-center table-heading padding-both-side-2 width_7" style="
+                            width: 2%; border-radius: 0.05rem; "></th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                            width: 4%; border-radius: 0.05rem;">Code</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                            width: 4%; border-radius: 0.05rem;">Description</th>
+                                                
+                                        </thead>
+
+                                        <ng-container
+                                            *ngFor="let payitemsDetails of docForm.get('payitemsDetails')['controls']; let i = index">
+                                            <tbody [formGroup]="payitemsDetails">
+
+                                                <tr>
+                                                    <td class="padding-both-side-2">
+                                                        <button mat-mini-fab color="warn" (click)="removeRow(i)">
+                                                            <mat-icon class="col-white">delete</mat-icon>
+                                                        </button>
+                                                    </td>
+
+                                                    <td class="padding-both-side-2">
+                                                        <mat-form-field class="example-full-width form-control-sm"
+                                                            appearance="outline">
+                                                            <mat-label>Code</mat-label>
+                                                            <input matInput name="code{{i}}" formControlName="code">
+
+                                                        </mat-form-field>
+
+                                                    </td>
+
+                                                    <td class="padding-both-side-2">
+                                                        <mat-form-field class="example-full-width form-control-sm"
+                                                            appearance="outline">
+                                                            <mat-label>Description</mat-label>
+                                                            <input matInput name="description{{i}}"
+                                                                formControlName="description">
+
+                                                        </mat-form-field>
+
+                                                    </td>
+
+                                                </tr>
+
+
+                                            </tbody>
+                                        </ng-container>
+                                    </table>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12 ">
+                                        <button mat-mini-fab color="primary" (click)="addRow()">
+                                            <mat-icon class="col-white">add</mat-icon>
+                                        </button>&nbsp;
+                                    </div>
+                                </div>
+
+
+                                <br>
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+
+                                        <button *ngIf="!edit" (click)="onSubmit()" class="btn-space" mat-raised-button
+                                            color="accent"
+                                            style="margin-left: 36%;background-color: #34d034;">Submit</button>
+                                        <button *ngIf="edit" (click)="update()" class="btn-space" mat-raised-button
+                                            color="accent"
+                                            style="margin-left: 36%;background-color: #34d034;">Update</button>
+                                        <button color="primary" type="button" class="btn-space" (click)="reset()"
+                                            mat-raised-button>Reset</button>
+                                        <button color="warn" type="button" class="btn-space" (click)="onCancel()"
+                                            mat-raised-button>Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
