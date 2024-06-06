@@ -32,6 +32,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./office-evaluations/office-evaluations.module").then((m) => m.OfficeEvaluationsModule),
   },
+  {
+    path: "crew-promotion",
+    loadChildren: () =>
+      import("./crew-promotion/crew-promotion.module").then((m) => m.CrewPromotionModule),
+  },
 ];
 
 @NgModule({
