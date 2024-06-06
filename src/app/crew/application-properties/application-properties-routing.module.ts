@@ -27,6 +27,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./company-department/company-department.module").then((m) => m.CompanyDepartmentModule),
   },
+  {
+    path: "office-evaluation",
+    loadChildren: () =>
+      import("./office-evaluations/office-evaluations.module").then((m) => m.OfficeEvaluationsModule),
+  },
 ];
 
 @NgModule({

@@ -170,12 +170,6 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
      this.agentList = [{id:1,text:"INTERNATIONAL AGENCIES CO LTD"},{id:2,text:"UNICON LOGISTICS"}];
      this.agentListNoFilteredOptions.next(this.agentList.slice());
  
-     this.route.params.subscribe(params => {
-       if(params.id!=undefined && params.id!=0){
-        this.requestId = params.id;
-        this.edit=true;
-       }
-      });
 
 
      this.nationalityListFilterCtrl.valueChanges
