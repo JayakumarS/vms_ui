@@ -111,8 +111,8 @@ this.vessaltypeFilterCtrl.valueChanges
 
   this.nationalitylist = [
     { id: "BANGLADESH", text: "BANGLADESH" },
-    { id: "INDIA", text: "INDIA" },
-    { id: "CHINA", text: "CHINA" },
+    { id: "BRITISH", text: "BRITISH" },
+    { id: "BELGIAN", text: "BELGIAN" },
 
   
   ];

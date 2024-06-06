@@ -13,6 +13,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./define-vessal-group/define-vessal-group.module").then((m) => m.DefineVessalGroupModule),
   },
+  {
+    path: "define-administation",
+    loadChildren: () =>
+      import("./define-administation-acceptance/define-administation-acceptance.module").then((m) => m.DefineAdministationAcceptanceModule),
+  },
 ];
 
 @NgModule({

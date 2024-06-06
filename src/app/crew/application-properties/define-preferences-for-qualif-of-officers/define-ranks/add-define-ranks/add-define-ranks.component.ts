@@ -104,44 +104,11 @@ export class AddDefineRanksComponent implements OnInit {
 
 
   
-this.ranklist = [
-  { id: "ENGINEER", text: "ENGINEER" },
-  { id: "OFFICER", text: "OFFICER" },
-  { id: "COOK", text: "COOK" },
-
-
-];
-
-this.rankFilteredOptions.next(this.ranklist.slice());
-
-// listen for origin List  search field value changes
-this.rankFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemranklist();
-});
 
 
 
    }
 
-   filteritemranklist(){
-    if (!this.ranklist) {
-      return;
-    }
-    // get the search keyword
-    let search = this.rankFilterCtrl.value;
-    if (!search) {
-      this.rankFilteredOptions.next(this.ranklist.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    // filter the banks
-    this.rankFilteredOptions.next(
-      this.ranklist.filter(title => title.text.toLowerCase().includes(search))
-    );
-   }
   
    ngOnInit() {
     
@@ -154,7 +121,23 @@ this.filteritemranklist();
 
       }
      });
-
+     this.ranklist = [
+      { id: "ENGINEER", text: "ENGINEER" },
+      { id: "OFFICER", text: "OFFICER" },
+      { id: "COOK", text: "COOK" },
+    
+    
+    ];
+    
+    this.rankFilteredOptions.next(this.ranklist.slice());
+    
+    // listen for origin List  search field value changes
+    this.rankFilterCtrl.valueChanges
+    .pipe(takeUntil(this.onDestroy))
+    .subscribe(() => {
+    this.filteritemranklist();
+    });
+    
      this.itemRevenueExplist = [
       { id: "Income", text: "Income" },
       { id: "Expense", text: "Expense" },
@@ -259,6 +242,25 @@ this.filtergroupinglist();
 });
 
 }
+
+
+filteritemranklist(){
+  if (!this.ranklist) {
+    return;
+  }
+  // get the search keyword
+  let search = this.rankFilterCtrl.value;
+  if (!search) {
+    this.rankFilteredOptions.next(this.ranklist.slice());
+    return;
+  } else {
+    search = search.toLowerCase();
+  }
+  // filter the banks
+  this.rankFilteredOptions.next(
+    this.ranklist.filter(title => title.text.toLowerCase().includes(search))
+  );
+ }
 filtergroupinglist(){
   if (!this.groupinglist) {
     return;
