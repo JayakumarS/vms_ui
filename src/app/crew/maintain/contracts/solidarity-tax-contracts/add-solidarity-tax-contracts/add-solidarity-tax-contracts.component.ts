@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { CommonService } from 'src/app/common-service/common.service';
 
 @Component({
@@ -10,107 +12,218 @@ import { CommonService } from 'src/app/common-service/common.service';
   styleUrls: ['./add-solidarity-tax-contracts.component.sass']
 })
 export class AddSolidarityTaxContractsComponent implements OnInit {
-
-
-
   docForm: FormGroup;
-
-  contractsFlag = true;
-  contractsDtlValue  = []; // Assuming this gets populated from a service or similar
-  flagForBorDtlRow = true;
-  edit = false;
-  currencys: string[] = ['USD', 'EUR', 'INR', 'EGP', 'AED','SAR','CAD','CNY'];
+  itemList:any=[];
+  currencyList:any=[];
   proportionalCalculations:string[]=['YES','NO'];
-  items=['ADDITIONAL(TDS)-CURRENT FINANCIAL YEAR','ADDITIONAL(TDS)-PREVIOUS FINANCIAL YEAR',' ADMIN CHARGES FOR PENSION &ANNUITY']
- 
-  constructor(
-    private fb: FormBuilder,
+  public itemFilterCtrl: FormControl = new FormControl();
+  itemFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('contractsitem', { static: true }) contractsitem: MatSelect;
+  protected onDestroy = new Subject<void>();
+
+  public currencyFilterCtrl: FormControl = new FormControl();
+  currencyFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('contractscurrency', { static: true }) contractscurrency: MatSelect;
+
+  constructor(private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private commonService: CommonService,
-    public router: Router
-  ) { 
-    
-  }
-
+    public router: Router) { 
+      this.docForm = this.fb.group({
+        firstDetailRow: this.fb.array([
+          this.fb.group({
+            select: [""],
+            item: [""],
+            currency: [""],
+            validFrom: [""],
+            validFromObj: [""],
+            validTo: [""],
+            validToObj: [""],
+            proportionalCalculation: [""]
+          })
+        ]),
+  
+        secondDetailRow: this.fb.array([
+          this.fb.group({
+            select: [""],
+            yearlyIncomeMins: [""],
+          yearlyIncomeMaxs: [""],
+          percentages: [""]
+          })
+        ])
+      });
+    }
 
   ngOnInit(): void {
-    this.docForm = this.fb.group({
-      contractsDetailBean: this.fb.array([this.createContractsDetail()]),
-      solidarityTaxContractsDetailBean: this.fb.array([this.createSolidarityTaxDetail()])
-    });
+    this.itemList = [{id:1,text:"ADDITIONAL(TDS)-CURRENT FINANCIAL YEAR"},{id:2,text:"ADDITIONAL(TDS)-PREVIOUS FINANCIAL YEAR"},{id:3,text:"ADMIN CHARGES FOR PENSION &ANNUITY"}];
+    this.itemFilteredOptions.next(this.itemList.slice());
+
+    this.itemFilterCtrl.valueChanges
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe(() => {
+        this.filteritem();
+      });
+
+
+    this.currencyList = [{id:1,text:"INR"},{id:2,text:"USD"},{id:3,text:"AED"}];
+    this.currencyFilteredOptions.next(this.currencyList.slice());
+    
+    this.currencyFilterCtrl.valueChanges
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe(() => {
+        this.filterCurrency();
+      });
   }
 
-  createContractsDetail(): FormGroup {
-    return this.fb.group({
-      currency: ['', Validators.required],
-      fromDateObj: ['', Validators.required],
-      toDateObj: ['', Validators.required],
-      item: ['', Validators.required],
-      proportionalCalculation: ['', Validators.required]
-    });
-  }
-
-  createSolidarityTaxDetail(): FormGroup {
-    return this.fb.group({
-      yearlyIncomeMins: ['', Validators.required],
-      yearlyIncomeMaxs: ['', Validators.required],
-      percentages: ['', Validators.required]
-    });
-  }
-
-  get contractsDetailBean(): FormArray {
-    return this.docForm.get('contractsDetailBean') as FormArray;
-  }
-
-  get solidarityTaxContractsDetailBean(): FormArray {
-    return this.docForm.get('solidarityTaxContractsDetailBean') as FormArray;
-  }
-
-  addRow4() {
-    this.contractsDetailBean.push(this.createContractsDetail());
-    this.solidarityTaxContractsDetailBean.push(this.createSolidarityTaxDetail());
-  }
-
-  removeRow4(index: number) {
-    if (this.contractsDetailBean.length > 1) {
-      this.contractsDetailBean.removeAt(index);
-      this.solidarityTaxContractsDetailBean.removeAt(index);
+  filteritem(){
+    if (!this.itemList) {
+      return;
     }
+    let search = this.itemFilterCtrl.value;
+    if (!search) {
+      this.itemFilteredOptions.next(this.itemList.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.itemFilteredOptions.next(
+      this.itemList.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
+
+   filterCurrency(){
+    if (!this.currencyList) {
+      return;
+    }
+    let search = this.currencyFilterCtrl.value;
+    if (!search) {
+      this.currencyFilteredOptions.next(this.currencyList.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.currencyFilteredOptions.next(
+      this.currencyList.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
+
+  addRow() {
+    
+    let firstDetailRow = this.docForm.controls.firstDetailRow as FormArray;
+    let arraylen = firstDetailRow.length;
+    let newUsergroup: FormGroup = this.fb.group({
+      select: [""],
+      item: [""],
+      currency: [""],
+      validFrom: [""],
+      validFromObj: [""],
+      validTo: [""],
+      validToObj: [""],
+      proportionalCalculation: [""]
+    })
+    firstDetailRow.insert(arraylen, newUsergroup);
+  
+  
+  let secondDetailRow = this.docForm.controls.secondDetailRow as FormArray;
+  let arraylen1 = secondDetailRow.length;
+  let newUsergroup1: FormGroup = this.fb.group({
+    select: [""],
+    yearlyIncomeMins: [""],
+    yearlyIncomeMaxs: [""],
+    percentages: [""]
+    
+  })
+  secondDetailRow.insert(arraylen1, newUsergroup1);
+  
   }
+
+  removeRow(){
+    
+    let count = 0;
+    const deleteRow = this.docForm.controls.firstDetailRow as FormArray;
+    let i=0;
+
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
+        deleteRow.removeAt(i);
+        count++;
+      } else {
+        i++;
+      }
+    }
+
+    if(count == 0){
+      this.showNotification(
+        "snackbar-danger",
+        "Please select atleast one row",
+        "top",
+        "right"
+      );
+    }
 
   
 
-  getDateString(event: any, type: string) {
-    console.log(event, type);
+  let count1 = 0;
+  const deleteRow1 = this.docForm.controls.secondDetailRow as FormArray;
+  let j=0;
+
+  while (j < deleteRow1.length) {
+    if (deleteRow1.at(j).value.select) {
+      deleteRow1.removeAt(j);
+      count1++;
+    } else {
+      j++;
+    }
   }
 
-  getAvailability(value: string, index: number) {
-    console.log(value, index);
+  if(count1 == 0){
+    this.showNotification(
+      "snackbar-danger",
+      "Please select atleast one row",
+      "top",
+      "right"
+    );
   }
 
-  keyPressNumbersOnly(event: KeyboardEvent) {
-    const charCode = event.which ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+   
+  }
+
+
+
+  
+  getDateString(event,id){
+    let cdate = this.commonService.getDate(event.target.value);
+
+    if(id == 'birthDate'){
+      this.docForm.patchValue({
+        birthDate : cdate
+      })
+    }
+  }
+
+  showNotification(colorName, text, placementFrom, placementAlign) {
+    this.snackBar.open(text, "", {
+      duration: 3000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: [colorName, 'snackbar-text'],
+      data: {
+        html: true
+      }
+    });
+  }
+
+  save(){}
+
+  cancel(){
+    this.router.navigate(['crew/maintain/contracts/solidarity-tax-contracts/list-solidarity-tax-contracts']);
+  }
+
+  keyPressNumberDouble(event: any) {
+    const pattern = /[0-9.]/;
+    const inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
       event.preventDefault();
     }
   }
-
-  save() {
-    console.log(this.docForm.value);
-  }
-
-  update() {
-    console.log(this.docForm.value);
-  }
-
-  reset() {
-    this.docForm.reset();
-  }
-
-  
-  cancel() {
-    this.router.navigate(['/crew/maintain/contracts/solidarity-tax-contracts/list-solidarity-tax-contracts']);
-  }
-
- 
 }

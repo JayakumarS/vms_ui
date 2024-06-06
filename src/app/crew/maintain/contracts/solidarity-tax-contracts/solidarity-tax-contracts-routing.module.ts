@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: "add-solidarity-tax-contracts/:id",
     component: AddSolidarityTaxContractsComponent,
-  },
+  }
 
 ];
 

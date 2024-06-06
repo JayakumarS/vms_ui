@@ -8,6 +8,7 @@ const routes: Routes = [
       import("./familiarization-types/familiarization-types.module").then((m) => m.FamiliarizationTypesModule),
   },
   {
+
     path: "familiarization-groups",
     loadChildren: () =>
       import("./familiarization-groups/familiarization-groups.module").then((m) => m.FamiliarizationGroupsModule),
@@ -33,14 +34,20 @@ const routes: Routes = [
       import("./office-evaluations/office-evaluations.module").then((m) => m.OfficeEvaluationsModule),
   },
   {
-    path: "crew-promotion",
+    path: "define-crew-evaluation-criteria",
     loadChildren: () =>
-      import("./crew-promotion/crew-promotion.module").then((m) => m.CrewPromotionModule),
+      import("./define-crew-evaluation-criteria/define-crew-evaluation-criteria.module").then((m) => m.DefineCrewEvaluationCriteriaModule),
   },
+
   { 
     path: "define-preferences-for-working-hours",
     loadChildren: () =>
       import("./define-preferences-for-working-hours/define-preferences-for-working-hours.module").then((m) => m.DefinePreferencesForWorkingHoursModule),
+  },
+  {
+    path: "define-crew-evaluation-scales",
+    loadChildren: () =>
+      import("./define-evaluation-scales/define-evaluation-scales.module").then((m) => m.DefineEvaluationScalesModule),
   }
 ];
 

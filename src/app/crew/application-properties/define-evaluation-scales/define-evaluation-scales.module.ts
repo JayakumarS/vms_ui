@@ -1,3 +1,7 @@
+
+import { DefineEvaluationScalesRoutingModule } from './define-evaluation-scales-routing.module';
+import { AddDefineEvaluationScalesComponent } from './add-define-evaluation-scales/add-define-evaluation-scales.component';
+import { ListDefineEvaluationScalesComponent } from './list-define-evaluation-scales/list-define-evaluation-scales.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
@@ -6,7 +10,7 @@ import { PortalModule } from '@angular/cdk/portal';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -45,28 +49,24 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonService } from 'src/app/common-service/common.service';
-import { AddSolidarityTaxContractsComponent } from './add-solidarity-tax-contracts/add-solidarity-tax-contracts.component';
-import { ListSolidarityTaxContractsComponent } from './list-solidarity-tax-contracts/list-solidarity-tax-contracts.component';
-import { SolidarityTaxContractsRoutingModule } from './solidarity-tax-contracts-routing.module';
-
 
 @NgModule({
   declarations: [
-    AddSolidarityTaxContractsComponent,
-    ListSolidarityTaxContractsComponent
+    AddDefineEvaluationScalesComponent,
+    ListDefineEvaluationScalesComponent
   ],
-  providers: [
+  providers:[
     CommonService
   ],
   imports: [
     CommonModule,
-    SolidarityTaxContractsRoutingModule,
+    DefineEvaluationScalesRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
-    ScrollingModule,
     MatSnackBarModule,
     MatButtonModule,
     MatIconModule,
@@ -131,4 +131,4 @@ import { SolidarityTaxContractsRoutingModule } from './solidarity-tax-contracts-
     ScrollingModule
   ]
 })
-export class SolidarityTaxContractsModule { }
+export class DefineEvaluationScalesModule { }
