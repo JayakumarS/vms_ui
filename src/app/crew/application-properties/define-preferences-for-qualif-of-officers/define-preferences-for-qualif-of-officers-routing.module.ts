@@ -18,6 +18,12 @@ const routes: Routes = [
     loadChildren: () =>
       import("./define-administation-acceptance/define-administation-acceptance.module").then((m) => m.DefineAdministationAcceptanceModule),
   },
+
+  {
+    path: "define-Officers-Qualification",
+    loadChildren: () =>
+      import("./define-officers-qualification-matching/define-officers-qualification-matching.module").then((m) => m.DefineOfficersQualificationMatchingModule),
+  },
 ];
 
 @NgModule({
