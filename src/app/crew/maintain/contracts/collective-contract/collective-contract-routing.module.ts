@@ -9,7 +9,7 @@ const routes: Routes = [
     component: ListCollectiveContractComponent,
   },
   {
-    path: "add-collective-contract/:0",
+    path: "add-collective-contract/:id",
     component: AddCollectiveContractComponent,
   },
 ];

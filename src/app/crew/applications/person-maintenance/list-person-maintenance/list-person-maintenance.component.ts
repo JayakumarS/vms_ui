@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 })
 export class ListPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
-  displayedColumns = [
+   displayedColumns = [
      "code",
      "name",
      "surName",

@@ -37,6 +37,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./crew-promotion/crew-promotion.module").then((m) => m.CrewPromotionModule),
   },
+  { 
+    path: "define-preferences-for-working-hours",
+    loadChildren: () =>
+      import("./define-preferences-for-working-hours/define-preferences-for-working-hours.module").then((m) => m.DefinePreferencesForWorkingHoursModule),
+  }
 ];
 
 @NgModule({

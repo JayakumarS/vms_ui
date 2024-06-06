@@ -9,7 +9,7 @@ const routes: Routes = [
     component: ListPersonalContractsComponent
   },
   {
-    path: "add-personal-contracts/:0",
+    path: "add-personal-contracts/:id",
     component: AddPersonalContractsComponent
   },
 ];
