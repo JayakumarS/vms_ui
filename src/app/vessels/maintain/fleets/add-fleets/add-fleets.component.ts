@@ -87,7 +87,8 @@ export class AddFleetsComponent implements OnInit {
 
       payitemsDetails: this.fb.array([
         this.fb.group({
-          sort : 1,
+       
+          select:[""],
           code:[""],
           description:[""],
           
@@ -118,19 +119,48 @@ export class AddFleetsComponent implements OnInit {
 
     let newUsergroup:FormGroup = this.fb.group({
       sort : 1 + len,
+      select: [""],
       code:[""],
       description:[""],
       
     })
     payitemsDetailsDtlArray.insert(arraylen,newUsergroup);
   }
+  save(){}
 
-   removeRow(index){
+  cancel(){
+    this.router.navigate(['/vessels/maintain/fleets/list-fleets/']);
+  }
 
-    var value;
-    let dataarray1 = this.docForm.controls.payitemsDetails as FormArray;
-    dataarray1.removeAt(index);
+  //  removeRow(index){
 
+  //   var value;
+  //   let dataarray1 = this.docForm.controls.payitemsDetails as FormArray;
+  //   dataarray1.removeAt(index);
+
+  // }
+  removeRow(){
+    let count = 0;
+    const deleteRow = this.docForm.controls.payitemsDetails as FormArray;
+    let i = 0;
+    
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
+        deleteRow.removeAt(i);
+        count++;
+      } else {
+        i++;
+      }
+    }
+
+    if(count == 0){
+      this.showNotification(
+        "snackbar-danger",
+        "Please select atleast one row",
+        "top",
+        "right"
+      );
+    }
   }
   onSubmit(){
 

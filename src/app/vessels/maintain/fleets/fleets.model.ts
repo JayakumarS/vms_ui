@@ -1,16 +1,8 @@
 export class Fleets{
-    id: number;
     code: string;
     description: string;
-    groupage: string;
-    isActive: string;
-    department:string;
-    sno:number;
-    remarks:any;
-    ot:any;
+
     
-    clientType:string;
-    Success:boolean;
       constructor(commodity) {
       
       }
