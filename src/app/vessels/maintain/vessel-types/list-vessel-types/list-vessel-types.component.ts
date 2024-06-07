@@ -193,7 +193,7 @@ export class ExampleDataSource extends DataSource<VesselTypes> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllList();
+    this.exampleDatabase.getList();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
@@ -231,30 +231,14 @@ export class ExampleDataSource extends DataSource<VesselTypes> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-        case "id":
-          [propertyA, propertyB] = [a.id, b.id];
-          break;
+        
         case "code":
           [propertyA, propertyB] = [a.code, b.code];
           break;
         case "description":
           [propertyA, propertyB] = [a.description, b.description];
           break;
-        case "groupage":
-          [propertyA, propertyB] = [a.groupage, b.groupage];
-          break;
-          case "ot":
-          [propertyA, propertyB] = [a.ot, b.ot];
-          break;
-          case "department":
-          [propertyA, propertyB] = [a.department, b.department];
-          break;
-          case "sno":
-          [propertyA, propertyB] = [a.sno, b.sno];
-          break;
-          case "remarks":
-          [propertyA, propertyB] = [a.remarks, b.remarks];
-          break;
+        
 
         
       }

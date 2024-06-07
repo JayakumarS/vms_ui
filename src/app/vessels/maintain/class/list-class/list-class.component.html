@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Class'" [items]="['Maintain']" [active_item]="'Class'">
+        <app-breadcrumb [title]="'Class'" [items]="['Vessel,Maintain']" [active_item]="'Class'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -15,18 +15,17 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ms-0">
                         <li class="dropdown">
-                          <h2>Vessel Types</h2>
+                          <h2>Class</h2>
                         </li>
                         <li class="dropdown m-l-20">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
                           <input placeholder="Search" type="text" #filter class="browser-default search-field"
                             aria-label="Search box">
                         </li>
-                        <li >
+                        <li>
                           <div class="m-l-10" matTooltip="ADD">
-                            <!-- <button mat-mini-fab color="primary" (click)="addNew()"> -->
-                            <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/class/add-class'">
-                              <mat-icon class="col-white">add</mat-icon>
+                            <button color="primary" type="button" class="btn-space" [routerLink]="'/vessels/maintain/class/add-class/'" mat-raised-button>
+                              <i class="fas fa-plus-circle" style="font-size: 20px;color: bisque;"></i> Create New
                             </button>
                           </div>
                         </li>
@@ -40,21 +39,7 @@
                               (click)="exporter.exportTable('xlsx', {fileName:'GRN-list', sheet: 'sheet1'})" />
                           </div>
                         </li>
-                        <li>
-                          <div class="export-button m-l-10" matTooltip="CSV">
-                            <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv',{fileName:'GRN-list'})" />
-                          </div>
-                        </li>
-                        <li>
-                          <div class="export-button m-l-10" matTooltip="JSON">
-                            <img src="assets/images/icons/json.png" alt="" (click)="exporter.exportTable('json',{fileName:'GRN-list'})" />
-                          </div>
-                        </li>
-                        <li>
-                          <div class="export-button m-l-10" matTooltip="TXT">
-                            <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt',{fileName:'GRN-list'})" />
-                          </div>
-                        </li>
+                        
                       </ul>
                     </div>
                   </div>
@@ -71,10 +56,7 @@
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.description}}</mat-cell>
                   </ng-container>
                   
-                 
-                 
-                 
-                  <!-- actions -->
+                 <!-- actions -->
                   <ng-container matColumnDef="actions">
                     <mat-header-cell class="pr-0" *matHeaderCellDef>ACTIONS</mat-header-cell>
                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">

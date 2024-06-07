@@ -50,7 +50,43 @@ export class VesselTypesService extends UnsubscribeOnDestroyAdapter{
   getAllList(): void {
         
   }
+  getList() {
+    // Define the type for the list
+    let list: VesselTypes[] = [
+      {
+        code: "MAS",
+        description: "GFS Ship Management FZE",
+        getRandomID: function (): string {
+          throw new Error('Function not implemented.');
+        }
+      }
+    ];
   
+    // Set loading to false initially
+    this.isTblLoading = false;
+  
+    // Update the dataChange subject with the list
+    this.dataChange.next(list);
+  
+    // Uncomment and define value and url for future API requests
+    // let value = {}; // Define the payload for the POST request
+    // let url = 'your-api-endpoint'; // Replace with the actual API endpoint
+  
+    // If you plan to fetch data from an API, uncomment the code below
+    /*
+    this.isTblLoading = true; // Set loading to true while fetching data
+    this.subs.sink = this.httpService.post<MaintainRank[]>(url, value).subscribe(
+      (data) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + " " + error.message);
+      }
+    );
+    */
+  }
 
 
   

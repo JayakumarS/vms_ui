@@ -1,5 +1,4 @@
 
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,14 +11,14 @@ import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { Class } from '../class.model';
-import { ClassService } from '../class.service';
+import { Classification } from '../classification.model';
+import { ClassificationService } from '../classification.service';
 @Component({
-  selector: 'app-add-class',
-  templateUrl: './add-class.component.html',
-  styleUrls: ['./add-class.component.sass']
+  selector: 'app-add-classification',
+  templateUrl: './add-classification.component.html',
+  styleUrls: ['./add-classification.component.sass']
 })
-export class AddClassComponent implements OnInit {
+export class AddClassificationComponent implements OnInit {
 
   
   public itemRevenueExpFilterCtrl: FormControl = new FormControl();
@@ -52,7 +51,7 @@ export class AddClassComponent implements OnInit {
 
 
   docForm: FormGroup;
-  payItems: Class;
+  payItems: Classification;
   currencyList=[];
   edit:boolean=false;
   // oldPwd: boolean=false;
@@ -72,7 +71,7 @@ export class AddClassComponent implements OnInit {
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public PayItemsService: ClassService,
+    public PayItemsService: ClassificationService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
@@ -87,8 +86,8 @@ export class AddClassComponent implements OnInit {
 
       payitemsDetails: this.fb.array([
         this.fb.group({
-          sort : 1,
-          select: [""],
+       
+          select:[""],
           code:[""],
           description:[""],
           
@@ -126,7 +125,19 @@ export class AddClassComponent implements OnInit {
     })
     payitemsDetailsDtlArray.insert(arraylen,newUsergroup);
   }
+  save(){}
 
+  cancel(){
+    this.router.navigate(['/vessels/maintain/classification/list-classification']);
+  }
+
+  //  removeRow(index){
+
+  //   var value;
+  //   let dataarray1 = this.docForm.controls.payitemsDetails as FormArray;
+  //   dataarray1.removeAt(index);
+
+  // }
   removeRow(){
     let count = 0;
     const deleteRow = this.docForm.controls.payitemsDetails as FormArray;
@@ -150,7 +161,9 @@ export class AddClassComponent implements OnInit {
       );
     }
   }
-  save(){}
+  onSubmit(){
+
+  }
   fetchDetails(countryCode: any): void {
    
   }
@@ -159,10 +172,11 @@ export class AddClassComponent implements OnInit {
 
 
   }
-  cancel(){
-    this.router.navigate(['/vessels/maintain/class/list-class']);
-  }
 
+  onCancel(){
+    this.router.navigate(['/vessels/maintain/classification/list-classification']);
+
+  }
 
   getmastrcurr(){
 

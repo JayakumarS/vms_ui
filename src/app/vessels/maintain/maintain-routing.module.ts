@@ -17,7 +17,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./class/class.module").then((m) => m.ClassModule),
   },
-
+  {
+    path: "classification",
+    loadChildren: () =>
+      import("./classification/classification.module").then((m) => m.ClassificationModule),
+  },
 ];
 
 @NgModule({

@@ -19,14 +19,14 @@ import { DeleteComponent } from 'src/app/master/country-master/list-country-mast
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { ClassService } from '../class.service';
-import { Class } from '../class.model';
+import { Classification } from '../classification.model';
+import { ClassificationService } from '../classification.service';
 @Component({
-  selector: 'app-list-class',
-  templateUrl: './list-class.component.html',
-  styleUrls: ['./list-class.component.sass']
+  selector: 'app-list-classification',
+  templateUrl: './list-classification.component.html',
+  styleUrls: ['./list-classification.component.sass']
 })
-export class ListClassComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class ListClassificationComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns = [
    // "select",
     "code",
@@ -35,16 +35,16 @@ export class ListClassComponent extends UnsubscribeOnDestroyAdapter implements O
   ];
 
   dataSource: ExampleDataSource | null;
-  exampleDatabase: ClassService | null;
-  selection = new SelectionModel<Class>(true, []);
+  exampleDatabase: ClassificationService | null;
+  selection = new SelectionModel<Classification>(true, []);
   index: number;
   id: number;
-  customerMaster: Class | null;
+  customerMaster: Classification | null;
   permissionList: any=[];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public countryMasterService: ClassService,
+    public countryMasterService: ClassificationService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
@@ -89,7 +89,7 @@ export class ListClassComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   public loadData() {
-    this.exampleDatabase = new ClassService(this.httpClient,this.serverUrl,this.httpService);
+    this.exampleDatabase = new ClassificationService(this.httpClient,this.serverUrl,this.httpService);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -144,7 +144,7 @@ export class ListClassComponent extends UnsubscribeOnDestroyAdapter implements O
     this.paginator._changePageSize(this.paginator.pageSize);
   }
 // context menu
-  onContextMenu(event: MouseEvent, item: Class) {
+  onContextMenu(event: MouseEvent, item: Classification) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + "px";
     this.contextMenuPosition.y = event.clientY + "px";
@@ -163,7 +163,7 @@ export class ListClassComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 }
 
-export class ExampleDataSource extends DataSource<Class> {
+export class ExampleDataSource extends DataSource<Classification> {
   filterChange = new BehaviorSubject("");
   get filter(): string {
     return this.filterChange.value;
@@ -171,10 +171,10 @@ export class ExampleDataSource extends DataSource<Class> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: Class[] = [];
-  renderedData: Class[] = [];
+  filteredData: Classification[] = [];
+  renderedData: Classification[] = [];
   constructor(
-    public exampleDatabase: ClassService,
+    public exampleDatabase: ClassificationService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -183,7 +183,7 @@ export class ExampleDataSource extends DataSource<Class> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Class[]> {
+  connect(): Observable<Classification[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -197,7 +197,7 @@ export class ExampleDataSource extends DataSource<Class> {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((maintain: Class) => {
+          .filter((maintain: Classification) => {
             const searchStr = (
               maintain.code +
               maintain.description 
@@ -221,7 +221,7 @@ export class ExampleDataSource extends DataSource<Class> {
   }
   disconnect() {}
   /** Returns a sorted copy of the database data. */
-  sortData(data: Class[]): Class[] {
+  sortData(data: Classification[]): Classification[] {
     if (!this._sort.active || this._sort.direction === "") {
       return data;
     }
@@ -229,14 +229,14 @@ export class ExampleDataSource extends DataSource<Class> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-       
+      
         case "code":
           [propertyA, propertyB] = [a.code, b.code];
           break;
         case "description":
           [propertyA, propertyB] = [a.description, b.description];
           break;
-        
+        ;
 
         
       }

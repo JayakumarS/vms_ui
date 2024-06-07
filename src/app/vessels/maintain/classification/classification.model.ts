@@ -1,9 +1,8 @@
-export class Class{
+export class Classification{
     code: string;
     description: string;
-   
+
     
-   
       constructor(commodity) {
       
       }

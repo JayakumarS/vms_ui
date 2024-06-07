@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Vessel Types'" [items]="['Maintain']" [active_item]="'Vessel Types List'">
+        <app-breadcrumb [title]="'Classification'" [items]="['Maintain']" [active_item]="'Classification List'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -15,8 +15,9 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ms-0">
                         <li class="dropdown">
-                          <h2>Vessel Types</h2>
+                          <h2>Fleets</h2>
                         </li>
+                        
                         <li class="dropdown m-l-20">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
                           <input placeholder="Search" type="text" #filter class="browser-default search-field"
@@ -24,7 +25,7 @@
                         </li>
                         <li>
                           <div class="m-l-10" matTooltip="ADD">
-                            <button color="primary" type="button" class="btn-space" [routerLink]="'/vessels/maintain/vessel-types/add-vessel-types/'" mat-raised-button>
+                            <button color="primary" type="button" class="btn-space" [routerLink]="'/vessels/maintain/classification/add-classification/'" mat-raised-button>
                               <i class="fas fa-plus-circle" style="font-size: 20px;color: bisque;"></i> Create New
                             </button>
                           </div>
@@ -39,8 +40,7 @@
                               (click)="exporter.exportTable('xlsx', {fileName:'GRN-list', sheet: 'sheet1'})" />
                           </div>
                         </li>
-                        
-                      </ul>
+                        </ul>
                     </div>
                   </div>
                 </div>
