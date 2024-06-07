@@ -12,7 +12,7 @@
           <div class="card">
             <div class="body">
              <form class="m-4" autocomplete="off" [formGroup]="docForm">
-              <h4>Solidarity Tax Contracts</h4>
+             
               <div>
               <div style="overflow-x: auto;">
                   <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
@@ -89,7 +89,7 @@
                               </mat-form-field>
                             </td>
                             <td class="padding-both-side-2">
-                              <mat-form-field appearance="outline"style="margin-left: 2%; width: 96%; ">
+                              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                 <mat-label>Proportional Calculation</mat-label>
                                 <mat-select formControlName="proportionalCalculation">
                                   <mat-option *ngFor="let proportionalCalculation of proportionalCalculations" [value]="proportionalCalculation">
