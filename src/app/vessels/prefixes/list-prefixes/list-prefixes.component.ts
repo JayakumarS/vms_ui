@@ -1,51 +1,45 @@
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { CrewPromotion } from '../crew-promotion.model';
-import { CrewPromotionService } from '../crew-promotion.service';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
-
+import { PrefixesService } from '../prefixes.service';
+import { PrefixesModel } from '../prefixes.model';
 
 @Component({
-  selector: 'app-list-crew-promotion',
-  templateUrl: './list-crew-promotion.component.html',
-  styleUrls: ['./list-crew-promotion.component.sass']
+  selector: 'app-list-prefixes',
+  templateUrl: './list-prefixes.component.html',
+  styleUrls: ['./list-prefixes.component.sass']
 })
-export class ListCrewPromotionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-  
-  displayedColumns = [
-    "currank",
-    "prorank",
-    "nationality",
-    "vesseltype",
-    "promoyears",
+export class ListPrefixesComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+  displayedColumns=[
+    "code",
+    "description",
     "actions"
-    
   ];
   dataSource: ExampleDataSource | null;
-  exampleDatabase: CrewPromotionService | null;
-  selection = new SelectionModel<CrewPromotion>(true, []);
-  crewPromotion: CrewPromotion | null;
-  
+  exampleDatabase: PrefixesService | null;
+  selection = new SelectionModel<PrefixesModel>(true, []);
+  prefixesmodel: PrefixesModel | null;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public crewpromotion: CrewPromotionService,
+    public prefixeservice: PrefixesService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
     public router: Router
-  ) {
+  ) { 
     super();
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -58,9 +52,8 @@ export class ListCrewPromotionComponent extends UnsubscribeOnDestroyAdapter impl
   ngOnInit(): void {
     this.loadData();
   }
-
   public loadData() {
-    this.exampleDatabase = new CrewPromotionService(this.httpClient,this.serverUrl,this.httpService);
+    this.exampleDatabase = new PrefixesService(this.httpClient,this.serverUrl,this.httpService);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -76,16 +69,8 @@ export class ListCrewPromotionComponent extends UnsubscribeOnDestroyAdapter impl
     );
   }
 
-  addNew(){
-
-  }
-
-  editCall(item){
-
-  }
-
 }
-export class ExampleDataSource extends DataSource<CrewPromotion> {
+export class ExampleDataSource extends DataSource<PrefixesModel>{
   filterChange = new BehaviorSubject("");
   get filter(): string {
     return this.filterChange.value;
@@ -93,10 +78,10 @@ export class ExampleDataSource extends DataSource<CrewPromotion> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: CrewPromotion[] = [];
-  renderedData: CrewPromotion[] = [];
+  filteredData: PrefixesModel[] = [];
+  renderedData: PrefixesModel[] = [];
   constructor(
-    public exampleDatabase: CrewPromotionService,
+    public exampleDatabase: PrefixesService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -104,7 +89,7 @@ export class ExampleDataSource extends DataSource<CrewPromotion> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
 
-  connect(): Observable<CrewPromotion[]> {
+  connect(): Observable<PrefixesModel[]> {
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
       this._sort.sortChange,
@@ -114,13 +99,10 @@ export class ExampleDataSource extends DataSource<CrewPromotion> {
 
     this.exampleDatabase.getList();
     return merge(...displayDataChanges).pipe(map(() => {
-        this.filteredData = this.exampleDatabase.data.slice().filter((crewpromotion: CrewPromotion) => {
+        this.filteredData = this.exampleDatabase.data.slice().filter((prefixesmodel: PrefixesModel) => {
             const searchStr = (
-              crewpromotion.currank +
-              crewpromotion.prorank +
-              crewpromotion.nationality +
-              crewpromotion.vesseltype +
-              crewpromotion.promoyears
+              prefixesmodel.code +
+              prefixesmodel.description
 
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -138,7 +120,7 @@ export class ExampleDataSource extends DataSource<CrewPromotion> {
   }
   disconnect() {}
 
-  sortData(data: CrewPromotion[]): CrewPromotion[] {
+  sortData(data: PrefixesModel[]): PrefixesModel[] {
     if (!this._sort.active || this._sort.direction === "") {
       return data;
     }
@@ -146,20 +128,11 @@ export class ExampleDataSource extends DataSource<CrewPromotion> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-        case "currank":
-          [propertyA, propertyB] = [a.currank, b.currank];
+        case "code":
+          [propertyA, propertyB] = [a.code, b.code];
           break;
-        case "prorank":
-          [propertyA, propertyB] = [a.prorank, b.prorank];
-          break;
-        case "nationality":
-          [propertyA, propertyB] = [a.nationality, b.nationality];
-          break;
-        case "vesseltype":
-          [propertyA, propertyB] = [a.vesseltype, b.vesseltype];
-          break;
-        case "promyears":
-          [propertyA, propertyB] = [a.promoyears, b.promoyears];
+        case "description":
+          [propertyA, propertyB] = [a.description, b.description];
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

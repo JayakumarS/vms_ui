@@ -12,6 +12,12 @@ const routes: Routes = [
     loadChildren: () =>
       import("./maintain/maintain.module").then((m) => m.MaintainModule),
   },
+  {
+    path: "prefixes",
+    loadChildren: () =>
+      import("./prefixes/prefixes.module").then((m) => m.PrefixesModule),
+  },
+
 
 
 ];
