@@ -55,7 +55,7 @@
                             
                             <td class="padding-both-side-2">
                               <mat-form-field class="example-full-width" appearance="outline">
-                                  <mat-label>Valid From</mat-label>
+                                  <mat-label>From Date</mat-label>
                                   <input matInput [matDatepicker]="fromPicker" formControlName="validFrom" (dateInput)="$event.value.format('YYYY/MM/DD')" id="validFromObj" (dateChange)="getDateString($event, 'validFromObj')" autocomplete="off">
                                   <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                                   <mat-datepicker #fromPicker></mat-datepicker>
@@ -64,7 +64,7 @@
 
                             <td class="padding-both-side-2">
                               <mat-form-field class="example-full-width" appearance="outline">
-                                  <mat-label>Valid To</mat-label>
+                                  <mat-label>To Date</mat-label>
                                   <input matInput [matDatepicker]="toPicker" formControlName="validTo" (dateInput)="$event.value.format('YYYY/MM/DD')" id="validToObj" (dateChange)="getDateString($event, 'validToObj')" autocomplete="off">
                                   <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
                                   <mat-datepicker #toPicker></mat-datepicker>

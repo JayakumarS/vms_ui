@@ -1,0 +1,110 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb 
+        [title]="'Add Define Crew Evaluation Legends'" 
+        [items]="['Crew','Application Properties']" [active_item]="'Add Define Crew Evaluation Legends'">
+    </app-breadcrumb>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="box-shadow">
+            <div class="card">
+              <div class="body">
+               <form class="m-4" autocomplete="off" [formGroup]="docForm">
+               
+                <div>
+                <div style="overflow-x: auto;">
+                    <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
+                      <thead class="">
+                        <tr>
+                          <th style="width: 1%;"></th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">Evaluation Criteria</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">Evaluation Scale</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">Evaluation Legends</th>
+                        </tr>
+                      </thead>
+                      <ng-container *ngFor="let firstDetailBean of docForm.get('firstDetailRow')['controls']; let i = index">
+                         <tbody [formGroup]="firstDetailBean" >
+                          <tr>
+                              <td class="padding-both-side-2">
+                                <mat-checkbox class="example-margin mb-13" name="select{{i}}" formControlName="select"></mat-checkbox>
+                              </td>
+                                  
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                  <mat-label>Evaluation Criteria</mat-label>
+                                  <mat-select name="evaluationCriteria{{i}}" formControlName="evaluationCriteria" #contractsevaluationCriteria>
+                                    <mat-option>
+                                        <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                        [noEntriesFoundLabel]="'no results found'"
+                                        [formControl]="evaluationCriteriaFilterCtrl"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option
+                                        *ngFor="let title of evaluationCriteriaFilteredOptions | async"
+                                        [value]="title.id">
+                                        {{title.text}}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </td>
+
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                  <mat-label>Evaluation Scale</mat-label>
+                                  <mat-select name="evaluationScale{{i}}" formControlName="evaluationScale" #contractsevaluationScale>
+                                    <mat-option>
+                                        <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                        [noEntriesFoundLabel]="'no results found'"
+                                        [formControl]="evaluationScaleFilterCtrl"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option
+                                        *ngFor="let title of evaluationScaleFilteredOptions | async"
+                                        [value]="title.id">
+                                        {{title.text}}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </td>
+
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline" style="width: 100%;">
+                                  <mat-label>Evaluation Legends</mat-label>
+                                  <textarea matInput formControlName="evaluationlegends"></textarea>
+                                </mat-form-field>
+                              </td>
+                             
+                          </tr>
+                        </tbody>
+                      </ng-container>
+                    </table>
+                  </div>
+                </div>
+                <br><br>
+  
+                <div class="row">
+                  <div>
+                    <button mat-mini-fab color="primary" (click)="addRow()">
+                      <mat-icon class="col-white">add</mat-icon>
+                    </button>
+  
+                    <button mat-mini-fab color="warn" class="ml-5" (click)="removeRow()">
+                      <mat-icon class="col-white">delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+  
+                   <br>
+                   <div class="center">
+                     <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon>save</mat-icon>Save</button>
+                     <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon>cancel</mat-icon>Cancel</button>
+                   </div>
+                   </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

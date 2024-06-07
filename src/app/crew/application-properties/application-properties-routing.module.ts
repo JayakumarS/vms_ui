@@ -48,6 +48,11 @@ const routes: Routes = [
     path: "define-crew-evaluation-scales",
     loadChildren: () =>
       import("./define-evaluation-scales/define-evaluation-scales.module").then((m) => m.DefineEvaluationScalesModule),
+  },
+  {
+    path: "define-crew-evaluation-legends",
+    loadChildren: () =>
+      import("./define-evaluation-legends/define-evaluation-legends.module").then((m) => m.DefineEvaluationLegendsModule),
   }
 ];
 
