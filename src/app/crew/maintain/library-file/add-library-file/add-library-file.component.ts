@@ -26,7 +26,7 @@ export class AddLibraryFileComponent extends UnsubscribeOnDestroyAdapter impleme
 
 
   displayedColumns = [
-    // "select",
+    "select",
     "code",
     "description",
    

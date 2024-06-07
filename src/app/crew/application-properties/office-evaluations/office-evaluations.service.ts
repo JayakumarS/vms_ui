@@ -25,7 +25,46 @@ export class OfficeEvaluationsService extends UnsubscribeOnDestroyAdapter{
     return this.dataChange.value;
   }
 
+   // Temporarily stores data from dialogs
+   dialogData: any;
+   
+  private save = `${this.serverUrl.apiServerAddress}api/`;
+  private getList = `${this.serverUrl.apiServerAddress}api/`;
+  private deleteURL = `${this.serverUrl.apiServerAddress}api/`;
+  public editURL = `${this.serverUrl.apiServerAddress}api/`;
+  public updateURL= `${this.serverUrl.apiServerAddress}api/`;
+
   getAllList(){
     
+  }
+  addevaluation(ofcevaluation:ofcevaluation, router, notificationService, spinner): void {
+    this.dialogData = ofcevaluation;
+    this.httpService.post<ofcevaluation>(this.save, ofcevaluation).subscribe(data => {
+      console.log(data);
+      if (data) {
+        spinner.hide();
+        notificationService.showNotification(
+          "snackbar-success",
+          "Record Added successfully...",
+          "bottom",
+          "center"
+        );
+        router.navigate(['/crew/application-properties/office-evaluation/list-officeevaluation']);
+      }
+      else {
+        spinner.hide();
+        notificationService.showNotification(
+          "snackbar-danger",
+          "Not Updated...!!!",
+          "bottom",
+          "center"
+        );
+      }
+    },
+      (err: HttpErrorResponse) => {
+  
+      });
+  
+
   }
 }

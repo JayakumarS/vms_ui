@@ -189,6 +189,24 @@ export class AddOfficeEvaluationsComponent extends UnsubscribeOnDestroyAdapter i
     });
   }
 
+  onSubmit(){
+
+    
+  
+  if (this.docForm.valid) {
+    this.ofcevaluation = this.docForm.value;
+    this.officeEvaluationsService.addevaluation(this.ofcevaluation, this.router,this.notificationService, this.spinner);
+} else {
+  this.showNotification(
+    "snackbar-danger",
+    "Please fill all details",
+    "bottom",
+    "center"
+  );
+}
+
+
+  }
   getDateString(event, inputFlag, index) {
     let cdate = this.cmnService.getDateObj(event.target.value);
     if (inputFlag == "PassportExpiryDate") {

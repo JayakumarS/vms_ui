@@ -76,7 +76,15 @@ const routes: Routes = [
         loadChildren: () =>
           import("./vessels/vessels-routing.module").then((m) => m.VesselsRoutingModule),
       },
-      
+      {
+        path: "supplies",
+        canActivate: [AuthGuard],
+        data: {
+          role: Role.Admin,
+        },
+        loadChildren: () =>
+          import("./supplies/supplies-routing.module").then((m) => m.SuppliesRoutingModule),
+      },
      
       
     ],

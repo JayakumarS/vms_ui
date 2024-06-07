@@ -275,7 +275,9 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
     return invalid;
   
   }
-  
+  onSubmit(){
+    
+  }
   addFile(){
   
     var obj = []

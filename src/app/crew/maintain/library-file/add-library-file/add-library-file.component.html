@@ -58,6 +58,11 @@
             </mat-checkbox>
           </mat-cell>
         </ng-container> -->
+        <ng-container matColumnDef="select">
+          <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+          <mat-cell *matCellDef="let row"  (contextmenu)="onContextMenu($event, row)"> 
+            {{row.select}}</mat-cell>
+        </ng-container>
         <ng-container matColumnDef="code">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Code</mat-header-cell>
           <mat-cell *matCellDef="let row"  (contextmenu)="onContextMenu($event, row)"> 
@@ -124,12 +129,9 @@
     </div>
     
 <br>
-    <div class="row" style="display: flex; justify-content: center;"> 
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
-          <button *ngIf="isIdentifierSelected" (click) = "onSubmit()" class="btn-space" mat-raised-button
-            color="accent" style="margin-left: 50%;background-color: #34d034;">Save</button>
+         <div class="center">
+              <button *ngIf="isIdentifierSelected" class="btn-space saveBtn" mat-raised-button (click)="onSubmit()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
         </div>
-      </div>
     </form>
   </div>
 </div>
