@@ -1,6 +1,3 @@
-
-
-
 import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 import { HttpClient } from "@angular/common/http";
@@ -21,32 +18,33 @@ import { DeleteComponent } from 'src/app/master/country-master/list-country-mast
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { Fleets } from '../fleets.model';
-import { FleetsService } from '../fleets.service';
+import { WageScalesService } from '../wage-scales.service';
+import { wagescale } from '../wage-scale.model';
+
 @Component({
-  selector: 'app-list-fleets',
-  templateUrl: './list-fleets.component.html',
-  styleUrls: ['./list-fleets.component.sass']
+  selector: 'app-list-wage-scales',
+  templateUrl: './list-wage-scales.component.html',
+  styleUrls: ['./list-wage-scales.component.sass']
 })
-export class ListFleetsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class ListWageScalesComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns = [
    // "select",
     "code",
     "description",
-    
+    "actions"
   ];
 
   dataSource: ExampleDataSource | null;
-  exampleDatabase: FleetsService | null;
-  selection = new SelectionModel<Fleets>(true, []);
+  exampleDatabase: WageScalesService | null;
+  selection = new SelectionModel<wagescale>(true, []);
   index: number;
   id: number;
-  customerMaster: Fleets | null;
+  customerMaster: wagescale | null;
   permissionList: any=[];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public countryMasterService: FleetsService,
+    public countryMasterService: WageScalesService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
@@ -91,7 +89,7 @@ export class ListFleetsComponent extends UnsubscribeOnDestroyAdapter implements 
   }
 
   public loadData() {
-    this.exampleDatabase = new FleetsService(this.httpClient,this.serverUrl,this.httpService);
+    this.exampleDatabase = new WageScalesService(this.httpClient,this.serverUrl,this.httpService);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -146,7 +144,7 @@ export class ListFleetsComponent extends UnsubscribeOnDestroyAdapter implements 
     this.paginator._changePageSize(this.paginator.pageSize);
   }
 // context menu
-  onContextMenu(event: MouseEvent, item: Fleets) {
+  onContextMenu(event: MouseEvent, item: wagescale) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + "px";
     this.contextMenuPosition.y = event.clientY + "px";
@@ -165,7 +163,7 @@ export class ListFleetsComponent extends UnsubscribeOnDestroyAdapter implements 
   }
 }
 
-export class ExampleDataSource extends DataSource<Fleets> {
+export class ExampleDataSource extends DataSource<wagescale> {
   filterChange = new BehaviorSubject("");
   get filter(): string {
     return this.filterChange.value;
@@ -173,10 +171,10 @@ export class ExampleDataSource extends DataSource<Fleets> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: Fleets[] = [];
-  renderedData: Fleets[] = [];
+  filteredData: wagescale[] = [];
+  renderedData: wagescale[] = [];
   constructor(
-    public exampleDatabase: FleetsService,
+    public exampleDatabase: WageScalesService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -185,7 +183,7 @@ export class ExampleDataSource extends DataSource<Fleets> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Fleets[]> {
+  connect(): Observable<wagescale[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -199,10 +197,10 @@ export class ExampleDataSource extends DataSource<Fleets> {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((maintain: Fleets) => {
+          .filter((wagescale: wagescale) => {
             const searchStr = (
-              maintain.code +
-              maintain.description 
+              wagescale.code +
+              wagescale.description 
              
 
              
@@ -223,7 +221,7 @@ export class ExampleDataSource extends DataSource<Fleets> {
   }
   disconnect() {}
   /** Returns a sorted copy of the database data. */
-  sortData(data: Fleets[]): Fleets[] {
+  sortData(data: wagescale[]): wagescale[] {
     if (!this._sort.active || this._sort.direction === "") {
       return data;
     }

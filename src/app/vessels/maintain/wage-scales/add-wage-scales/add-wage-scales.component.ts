@@ -1,5 +1,3 @@
-
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,14 +10,14 @@ import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { Fleets } from '../fleets.model';
-import { FleetsService } from '../fleets.service';
+import { WageScalesService } from '../wage-scales.service';
+import { wagescale } from '../wage-scale.model';
 @Component({
-  selector: 'app-add-fleets',
-  templateUrl: './add-fleets.component.html',
-  styleUrls: ['./add-fleets.component.sass']
+  selector: 'app-add-wage-scales',
+  templateUrl: './add-wage-scales.component.html',
+  styleUrls: ['./add-wage-scales.component.sass']
 })
-export class AddFleetsComponent implements OnInit {
+export class AddWageScalesComponent implements OnInit {
 
   
   public itemRevenueExpFilterCtrl: FormControl = new FormControl();
@@ -52,7 +50,7 @@ export class AddFleetsComponent implements OnInit {
 
 
   docForm: FormGroup;
-  payItems: Fleets;
+  wagescale: wagescale;
   currencyList=[];
   edit:boolean=false;
   // oldPwd: boolean=false;
@@ -72,7 +70,7 @@ export class AddFleetsComponent implements OnInit {
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public PayItemsService: FleetsService,
+    public WageScalesService: WageScalesService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
@@ -85,7 +83,7 @@ export class AddFleetsComponent implements OnInit {
   
 
 
-      payitemsDetails: this.fb.array([
+      wageScaleDetails: this.fb.array([
         this.fb.group({
        
           select:[""],
@@ -113,9 +111,9 @@ export class AddFleetsComponent implements OnInit {
 
     }
    addRow(){
-    let payitemsDetailsDtlArray=this.docForm.controls.payitemsDetails as FormArray;
-    let arraylen=payitemsDetailsDtlArray.length;
-    var len = this.docForm.controls["payitemsDetails"].value.length;
+    let wageScaleDetailsDtlArray=this.docForm.controls.wageScaleDetails as FormArray;
+    let arraylen=wageScaleDetailsDtlArray.length;
+    var len = this.docForm.controls["wageScaleDetails"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
       sort : 1 + len,
@@ -124,24 +122,18 @@ export class AddFleetsComponent implements OnInit {
       description:[""],
       
     })
-    payitemsDetailsDtlArray.insert(arraylen,newUsergroup);
+    wageScaleDetailsDtlArray.insert(arraylen,newUsergroup);
   }
   save(){}
 
   cancel(){
-    this.router.navigate(['/vessels/maintain/fleets/list-fleets/']);
+    this.router.navigate(['/vessels/maintain/wage-scale/list-wageScale/']);
   }
 
-  //  removeRow(index){
 
-  //   var value;
-  //   let dataarray1 = this.docForm.controls.payitemsDetails as FormArray;
-  //   dataarray1.removeAt(index);
-
-  // }
   removeRow(){
     let count = 0;
-    const deleteRow = this.docForm.controls.payitemsDetails as FormArray;
+    const deleteRow = this.docForm.controls.wageScaleDetails as FormArray;
     let i = 0;
     
     while (i < deleteRow.length) {
@@ -215,7 +207,7 @@ export class AddFleetsComponent implements OnInit {
   reset(){
     if(!this.edit){
       this.docForm = this.fb.group({
-        payitemsDetails: this.fb.array([
+        wageScaleDetails: this.fb.array([
           this.fb.group({
             sort : 1,
             code:[""],

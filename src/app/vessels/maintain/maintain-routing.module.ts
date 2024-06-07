@@ -22,6 +22,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./classification/classification.module").then((m) => m.ClassificationModule),
   },
+  {
+    path: "wage-scale",
+    loadChildren: () =>
+      import("./wage-scales/wage-scales.module").then((m) => m.WageScalesModule),
+  },
 ];
 
 @NgModule({
