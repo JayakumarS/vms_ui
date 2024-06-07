@@ -197,7 +197,7 @@ export class ExampleDataSource extends DataSource<MaintainRank> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllList();
+    this.exampleDatabase.getList();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data

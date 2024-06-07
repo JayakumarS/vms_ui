@@ -130,9 +130,11 @@ export class AddMaintainRankComponent implements OnInit {
 
    }
 
-  onSubmit(){
-    
-  }
+   save(){}
+
+   cancel(){
+     this.router.navigate(['/crew/maintain/maintain-rank/list-maintain-rank']);
+   }
   filtergroupage(){
     if (!this.groupagelist) {
       return;
@@ -199,9 +201,9 @@ export class AddMaintainRankComponent implements OnInit {
 
   }
 
-  onCancel(){
-    this.router.navigate(['/crew/maintain/maintain-rank/list-maintain-rank']);
-  }
+  // onCancel(){
+  //   this.router.navigate(['/crew/maintain/maintain-rank/list-maintain-rank']);
+  // }
 
   getmastrcurr(){
     
