@@ -32,6 +32,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./p-and-i/p-and-i.module").then((m) => m.PAndIModule),
   },
+  {
+    path: "fd-and-d",
+    loadChildren: () =>
+      import("./fd-and-d/fd-and-d.module").then((m) => m.FdAndDModule),
+  },
 ];
 
 @NgModule({
