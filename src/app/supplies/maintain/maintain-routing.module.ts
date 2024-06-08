@@ -7,11 +7,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./zones/zones.module").then((m) => m.ZonesModule),
   },
-  // {
-  //   path: "identifiers-library",
-  //   loadChildren: () =>
-  //     import("./identifiers-library/identifiers-library.module").then((m) => m.IdentifiersLibraryModule),
-  // },
+  {
+    path: "identifiers-library",
+    loadChildren: () =>
+      import("./identifiers-library/identifiers-library.module").then((m) => m.IdentifiersLibraryModule),
+  },
 ];
 
 @NgModule({
