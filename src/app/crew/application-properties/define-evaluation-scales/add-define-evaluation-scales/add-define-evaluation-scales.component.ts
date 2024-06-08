@@ -22,7 +22,7 @@ export class AddDefineEvaluationScalesComponent implements OnInit {
 
   public scaleDescriptionFilterCtrl: FormControl = new FormControl();
   scaleDescriptionFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('contractsscaleDescription', { static: true }) contractsscaleDescription: MatSelect;
+  @ViewChild('evaluationscaleDescription', { static: true }) evaluationscaleDescription: MatSelect;
 
   constructor(private fb: FormBuilder,
     private snackBar: MatSnackBar,
@@ -48,12 +48,12 @@ export class AddDefineEvaluationScalesComponent implements OnInit {
     this.scaleDescriptionFilterCtrl.valueChanges
       .pipe(takeUntil(this.onDestroy))
       .subscribe(() => {
-        this.filterCurrency();
+        this.filterscaleDescription();
       });
   }
 
 
-   filterCurrency(){
+   filterscaleDescription(){
     if (!this.scaleDescriptionList) {
       return;
     }

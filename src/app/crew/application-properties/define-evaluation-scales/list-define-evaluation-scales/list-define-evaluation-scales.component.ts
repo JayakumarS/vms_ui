@@ -139,10 +139,10 @@ export class ExampleDataSource extends DataSource<DefineEvaluationScales> {
      let propertyA: number | string = "";
      let propertyB: number | string = "";
      switch (this._sort.active) {
-       case "code":
+       case "scaleDescription":
          [propertyA, propertyB] = [a.scaleDescription, b.scaleDescription];
          break;
-       case "surName":
+       case "scale":
          [propertyA, propertyB] = [a.scale, b.scale];
          break;
        

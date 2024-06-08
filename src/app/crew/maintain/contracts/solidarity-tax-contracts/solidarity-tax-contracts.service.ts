@@ -28,7 +28,16 @@ export class SolidarityTaxContractsService extends UnsubscribeOnDestroyAdapter{
 
   getList(){
     let value,url;
-    let list = [{currency:"UST",fromDate:"14/03/2024",toDate:"4/06/2024",item:"TDS",proportionalCalculation:"yes"}];
+    let list = [
+      {currency:"UST",fromDate:"14/03/2024",toDate:"4/02/2024",item:"TDS",proportionalCalculation:"yes"},
+      {currency:"INR",fromDate:"14/01/2024",toDate:"4/03/2024",item:"TDS",proportionalCalculation:"no"},
+      {currency:"AED",fromDate:"14/02/2024",toDate:"12/01/2024",item:"TDS",proportionalCalculation:"yes"},
+      {currency:"UST",fromDate:"14/03/2024",toDate:"4/02/2024",item:"TDS",proportionalCalculation:"no"},
+      {currency:"AED",fromDate:"14/04/2024",toDate:"17/05/2024",item:"TDS",proportionalCalculation:"yes"},
+      {currency:"UST",fromDate:"14/05/2024",toDate:"4/06/2024",item:"TDS",proportionalCalculation:"no"}
+];
+    
+
     this.isTblLoading = false;
     this.dataChange.next(list);
     // this.subs.sink = this.httpService.post<any>(url,value).subscribe(

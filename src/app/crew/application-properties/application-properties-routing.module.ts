@@ -53,6 +53,11 @@ const routes: Routes = [
     path: "define-crew-evaluation-legends",
     loadChildren: () =>
       import("./define-evaluation-legends/define-evaluation-legends.module").then((m) => m.DefineEvaluationLegendsModule),
+  },
+  {
+    path: "evaluation-departments-per-user",
+    loadChildren: () =>
+      import("./evaluation-departments-per-user/evaluation-departments-per-user.module").then((m) => m.EvaluationDepartmentsPerUserModule),
   }
 ];
 

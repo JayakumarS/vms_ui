@@ -18,13 +18,13 @@ export class AddDefineEvaluationLegendsComponent implements OnInit {
   evaluationScaleList:any=[];
   public evaluationScaleFilterCtrl: FormControl = new FormControl();
   evaluationScaleFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('contractsevaluationScale', { static: true }) contractsevaluationScale: MatSelect;
+  @ViewChild('legendsevaluationScale', { static: true }) legendsevaluationScale: MatSelect;
 
   protected onDestroy = new Subject<void>();
 
   public evaluationCriteriaFilterCtrl: FormControl = new FormControl();
   evaluationCriteriaFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('contractsevaluationCriteria', { static: true }) contractsevaluationCriteria: MatSelect;
+  @ViewChild('legendsevaluationCriteria', { static: true }) legendsevaluationCriteria: MatSelect;
 
   constructor(private fb: FormBuilder,
     private snackBar: MatSnackBar,

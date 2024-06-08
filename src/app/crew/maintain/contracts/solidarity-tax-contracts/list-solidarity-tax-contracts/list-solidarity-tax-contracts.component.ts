@@ -10,13 +10,14 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject, fromEvent, map, merge, takeUntil } from 'rxjs';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { CommonService } from 'src/app/common-service/common.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SolidarityTaxContracts } from '../solidarity-tax-contracts.model';
+import { MatSelect } from '@angular/material/select';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -47,12 +48,19 @@ export const MY_DATE_FORMATS = {
   ]
 })
 export class ListSolidarityTaxContractsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+
+  docForm: FormGroup;
+  currencyList:any=[];
+
+
+  public currencyFilterCtrl: FormControl = new FormControl();
+  public currencyFilteredOptions: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
+  @ViewChild('contractscurrency', { static: true }) contractscurrency: MatSelect;
+
+  protected onDestroy = new Subject<void>();
+
  
- 
- 
-  currencys: string[] = ['USD', 'EUR', 'INR', 'EGP', 'AED','SAR','CAD','CNY'];
- 
- 
+
   displayedColumns = [
     "currency",
     "fromDate",
@@ -61,15 +69,12 @@ export class ListSolidarityTaxContractsComponent extends UnsubscribeOnDestroyAda
     "proportionalCalculation",
     "actions"
   ];
+
   dataSource: ExampleDataSource | null;
   exampleDatabase: SolidarityTaxContractsService | null;
-  selection = new SelectionModel<SolidarityTaxContractsService>(true, []);
-  personMaintenance: SolidarityTaxContractsService | null;
-  docForm: FormGroup;
-  requireMatch: any;
-  notificationService: any;
-  spinner: any;
-  innerTables: any;
+  selection = new SelectionModel<SolidarityTaxContracts>(true, []);
+  solidarityTaxContracts: SolidarityTaxContracts | null;
+  
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -81,12 +86,8 @@ export class ListSolidarityTaxContractsComponent extends UnsubscribeOnDestroyAda
     public router: Router,
     private fb: FormBuilder,
   ) {
-    super();{
-
-    }
-    
+    super();
     this.docForm = this.fb.group({
-
       item: [""],
       fromDateObj: ["", [Validators.required]],
       toDateObj: ["", [Validators.required]],
@@ -97,12 +98,53 @@ export class ListSolidarityTaxContractsComponent extends UnsubscribeOnDestroyAda
     });
   }
 
+
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("filter", { static: true }) filter: ElementRef;
   @ViewChild(MatMenuTrigger)
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
+
+  ngOnInit(): void {
+    
+    this.loadData();
+    this.currencyList = [
+      { id: 1, text: 'INR' },
+      { id: 2, text: 'USD' },
+      { id: 3, text: 'AED' }
+    ];
+    this.currencyFilteredOptions.next(this.currencyList.slice());
+
+
+this.currencyFilterCtrl.valueChanges
+  .pipe(takeUntil(this.onDestroy))
+  .subscribe(() => {
+    this.filteritemcurrency();
+  });
+
+
+   }
+   filteritemcurrency(){
+    if (!this.currencyList) {
+      return;
+    }
+    let search = this.currencyFilterCtrl.value;
+    if (!search) {
+      this.currencyFilteredOptions.next(this.currencyList.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.currencyFilteredOptions.next(
+      this.currencyList.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
+
+  refresh(){
+    this.loadData();
+  }
 
   reset() {
     this.docForm = this.fb.group({
@@ -112,7 +154,7 @@ export class ListSolidarityTaxContractsComponent extends UnsubscribeOnDestroyAda
       fromDate: [""],
       toDate: [""],
       itemCategory: [""],
-      currencys:[""]
+      currency:[""]
     });
     this.loadData();
   }
@@ -128,33 +170,16 @@ export class ListSolidarityTaxContractsComponent extends UnsubscribeOnDestroyAda
   };
 
 
-  viewReport() {
-
-    if (this.docForm.valid) {
-      this.loadData();
-    } else {
-      this.spinner.hide();
-      this.notificationService.showNotification(
-        "snackbar-danger",
-        "Please choose a From Date! and To date!",
-        "bottom",
-        "center"
-      );
-    }
-    //this.exampleDatabase.getAllList(this.docForm.value);
-  };
-
-  // applyFilter(filterValue: string) {
-  //   this.innerTables.forEach(
-  //     (table, index) =>
-  //       ((table.dataSource as MatTableDataSource<SubList>).filter = filterValue.trim().toLowerCase())
-  //   );
-  // }
-
-
-  ngOnInit(): void {
-    this.loadData();
+  search(){
+    this.docForm.patchValue({
+      type : 'search'
+    })
+    this.loadData();  
   }
+
+ 
+
+ 
 
   editCall(id){
 
