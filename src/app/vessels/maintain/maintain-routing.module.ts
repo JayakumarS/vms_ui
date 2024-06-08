@@ -27,6 +27,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./wage-scales/wage-scales.module").then((m) => m.WageScalesModule),
   },
+  {
+    path: "p-and-i",
+    loadChildren: () =>
+      import("./p-and-i/p-and-i.module").then((m) => m.PAndIModule),
+  },
 ];
 
 @NgModule({
