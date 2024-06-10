@@ -28,7 +28,9 @@ export class FamiliarizationTypesService extends UnsubscribeOnDestroyAdapter{
 
   getList(){
     let value,url;
-    let list = [{code:"YTS",description:"Balaji",sorting:1}];
+    let list = [{code:"ONBOARD",description:"Shipboard Familiarization",sorting:4},{code:"ECDIS",description:"ECDIS Familiarization Checklist",sorting:5},{code:"LIFTING APP",description:"Familiarization - Operate Ship's Lifting Appliance",sorting:6},
+      {code:"BRIEFING",description:"BRIEFING of Mater & Senior Officers",sorting:1},{code:"DEBRIEFING",description:"DE-BRIEFING of Master & Senior Officers",sorting:4}
+    ];
     this.isTblLoading = false;
     this.dataChange.next(list);
     // this.subs.sink = this.httpService.post<any>(url,value).subscribe(

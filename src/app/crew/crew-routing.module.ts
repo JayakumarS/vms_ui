@@ -22,6 +22,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./seamans-contract/seamans-contract.module").then((m) => m.SeamansContractModule),
   },
+  {
+    path: "crew-familiarization",
+    loadChildren: () =>
+      import("./crew-familiarization/crew-familiarization.module").then((m) => m.CrewFamiliarizationModule),
+  },
 ];
 
 @NgModule({
