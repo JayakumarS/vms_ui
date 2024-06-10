@@ -37,6 +37,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./fd-and-d/fd-and-d.module").then((m) => m.FdAndDModule),
   },
+  {
+    path: "vessel-group",
+    loadChildren: () =>
+      import("./vessel-group/vessel-group.module").then((m) => m.VesselGroupModule),
+  },
 ];
 
 @NgModule({
