@@ -39,27 +39,38 @@ export class AddIdentifiersLibraryComponent extends UnsubscribeOnDestroyAdapter 
 
   displayedColumns1 = [
    "description",
-   "code"
+   "code",
+   "Payment",
+   "scale"
   ];
   docForm: FormGroup;
   dataSource: ExampleDataSource | null;
  exampleDatabase: IdentifiersLibraryService | null;
  selection = new SelectionModel<identifier>(true, []);
  application:identifier | null;
+ selectedGroupHead: string = '';
+ filteredGroupHead: any[];
+ searchTerm: string = '';
+ searchTermtext: string = '';
+ filteredData: any[];
+ filteredResults: any[] = [];
+
+
  groupHead=[
-  {groupHeadName:'Countries',subGroupBean:[{subGroupCode:''}]},
-  {groupHeadName:'Functions',subGroupBean:[{subGroupCode:'Item Delivery Evaluation'}]},
-  {groupHeadName:'Location Numbers',subGroupBean:[{subGroupCode:''}]},
-  {groupHeadName:'Locations',subGroupBean:[{subGroupCode:''}]},
-  {groupHeadName:'Lub Oil Categories',subGroupBean:[{subGroupCode:''}]},
-  {groupHeadName:'Origin',subGroupBean:[{subGroupCode:''}]},
-  {groupHeadName:'Payment Terms',subGroupBean:[{subGroupCode:''}]},
-  {groupHeadName:'Ship Class',subGroupBean:[{subGroupCode:''}]},
-  {groupHeadName:'Storage Places',subGroupBean:[{subGroupCode:''}]},
-  {groupHeadName:'Supplier (office) Evaluation Subfactors',subGroupBean:[{subGroupCode:''}]},
-  {groupHeadName:'Supplier Evaluation Scores',subGroupBean:[{subGroupCode:''}]},
-  {groupHeadName:'Supplier Evaluation SubFactors',subGroupBean:[{subGroupCode:''}]},
-  {groupHeadName:'Type Of Freight',subGroupBean:[{subGroupCode:''}]},
+  {groupHeadName:'Countries'},
+  {groupHeadName:'Functions'},
+  {groupHeadName:'Item Delivery Evaluation'},
+  {groupHeadName:'Location Numbers'},
+  {groupHeadName:'Locations'},
+  {groupHeadName:'Lub Oil Categories'},
+  {groupHeadName:'Origin'},
+  {groupHeadName:'Payment Terms'},
+  {groupHeadName:'Ship Class'},
+  {groupHeadName:'Storage Places'},
+  {groupHeadName:'Supplier (office) Evaluation Subfactors'},
+  {groupHeadName:'Supplier Evaluation Scores'},
+  {groupHeadName:'Supplier Evaluation SubFactors'},
+  {groupHeadName:'Type Of Freight'},
 
 ]
  constructor(
@@ -81,31 +92,124 @@ export class AddIdentifiersLibraryComponent extends UnsubscribeOnDestroyAdapter 
  contextMenu: MatMenuTrigger;
  contextMenuPosition = { x: "0px", y: "0px" };
 
+// Default values for each category
+defaultValues = {
+  'Item Delivery Evaluation': [
+    { description: 'BAD QUALITY', code: 'BD', scale: 0 },
+    { description: 'GOOD QUALITY', code: 'GD', scale: 0 }
+  ],
+  'Supplier Evaluation Scores': [
+    { description: 'Excellent', code: 'E', scale: 100 },
+    { description: 'Poor', code: 'P', scale: 25 }
+  ],
+  'Payment Terms': [
+    { description: '30 days payment term', code: '2', scale: '', Payment: false },
+    { description: '45 days payment term', code: '3', scale: '', Payment: false }
+  ],
+  'Supplier Evaluation SubFactors': [
+    { description: 'Accuracy of Invoices', code: 'Q203' },
+    { description: 'Delivery Performance', code: 'Q303' }
+  ],
+  'Supplier (office) Evaluation Subfactors': [
+    { description: 'Accuracy of Invoices', code: 'Q203'},
+    { description: 'Consistency of Performance', code: 'Q402'}
+  ],
+  'Ship Class': [
+    { description: 'BUREA VERITAS', code: 'BV'},
+    { description: 'DNV -GL', code: 'GERLO' }
+  ],
+  'Lub Oil Categories': [
+    { description: 'AUXILIARY GRADES', code: '2'},
+    { description: 'MAIN GRADES', code: '1' }
+  ],
+  'Location Numbers': [
+    { description: 'AIS', code: 'NAVEQAS'},
+    { description: '1ST DECK', code: 'DECK1ST' }
+  ],
+  'Locations': [
+    { description: 'AIS', code: 'NAVEQAS'},
+    { description: '1ST DECK', code: 'DECK1ST' }
+  ],
+  'Functions': [
+    { description: 'PURIFIERS/SEPARATORS,FO SUPPLY UNITS', code: 'PUR'},
+    { description: 'SAFETY EQUIPMENT', code: 'SFTEQ' }
+  ],
+  'Countries': [
+    { description: 'REMOTE CONTROL VALVES/TANK GAUGING', code: 'FN006'},
+    { description: 'SHAFT SYSTEM', code: 'F00079' }
+  ],
+
+  'Origin': [
+    { description: 'REMOTE CONTROL VALVES/TANK GAUGING', code: 'FN006'},
+    { description: 'SHAFT SYSTEM', code: 'F00079' }
+  ],
+  'Storage Places': [
+    { description: 'AC COMPRESSOR AREA/PLATFORM/ROOM', code: 'VSL031'},
+    { description: 'AHU ROOM', code: 'VSL027' }
+  ],
+  'Type Of Freight': [
+    { description: 'Air Freight', code: '2'},
+    { description: 'DHL', code: '4' }
+  ],
+};
+
+
+
+
  ngOnInit(): void {
   this.docForm = this.fb.group({
     identifiertable: this.fb.array([
       this.fb.group({
         code :  [""],
         description :  [""],
+        Payment:[""],
+        scale:[""]
       })
     ]),
     
   })
+  this.updateFormArrayWithDefaults('Countries');
+  // Initialize the filteredGroupHead with the full list
+  this.filteredGroupHead = this.groupHead;
    this.loadData();
  }
 
+ tablechange(groupHeadName: string) {
+  this.selectedGroupHead = groupHeadName;
+  this.updateFormArrayWithDefaults(groupHeadName);
 
+}
+createIdentifierTableGroup(data): FormGroup {
+  return this.fb.group({
+    description: [data.description || ''],
+    code: [data.code || ''],
+    scale: [data.scale || ''],
+    Payment: [data.Payment || false]
+  });
+}
+updateFormArrayWithDefaults(groupHeadName: string) {
+  const control = <FormArray>this.docForm.controls['identifiertable'];
+  control.clear();
+  const defaultData = this.defaultValues[groupHeadName] || [];
+  defaultData.forEach(data => {
+    control.push(this.createIdentifierTableGroup(data));
+  });
+}
  addRow(){
+  const control = <FormArray>this.docForm.controls['identifiertable'];
+  control.push(this.createIdentifierTableGroup({}));
 
-  let identifiertableArray=this.docForm.controls.identifiertable as FormArray;
-  let arraylen=identifiertableArray.length;
-  let newUsergroup:FormGroup = this.fb.group({
+  // let identifiertableArray=this.docForm.controls.identifiertable as FormArray;
+  // let arraylen=identifiertableArray.length;
+  // let newUsergroup:FormGroup = this.fb.group({
     
-    code : '',
-    description : '',
+  //   code : '',
+  //   description : '',
+  //   Payment:'',
+  //  scale:''
    
-  })
-  identifiertableArray.insert(arraylen,newUsergroup);
+  // })
+  // identifiertableArray.insert(arraylen,newUsergroup);
 
  }
 
@@ -116,8 +220,93 @@ export class AddIdentifiersLibraryComponent extends UnsubscribeOnDestroyAdapter 
   deleteRow.removeAt(i);
 }
 
+onSearchClick() {
+  const searchValue = this.searchTerm.toLowerCase();
+  this.filteredGroupHead = this.groupHead.filter(group =>
+    group.groupHeadName.toLowerCase().includes(searchValue)
+  );
+}
+onSearch() {
+  const searchTerm = this.searchTermtext.toLowerCase();
+  const identifiertableArray = this.docForm.get('identifiertable')['controls'];
+  identifiertableArray.forEach(row => {
+    const description = row.get('description').value.toLowerCase();
+    const code = row.get('code').value.toLowerCase();
+    const scale = row.get('scale').value?.toString().toLowerCase(); 
+    if (description.includes(searchTerm) || code.includes(searchTerm) || (scale && scale.includes(searchTerm))) {
+      row.enable(); 
+    } else {
+      row.disable(); 
+    }
+  });
+}
 
 
+
+
+// getDefaultRows(groupHeadName: string): any[] {
+//   switch (groupHeadName) {
+//     case  'Item Delivery Evaluation':return  [
+//     { description: 'BAD QUALITY', code: 'BD', scale: 0 },
+//     { description: 'GOOD QUALITY', code: 'GD', scale: 0 }
+//   ];
+//   case 'Supplier Evaluation Scores': return [
+//     { description: 'Excellent', code: 'E', scale: 100 },
+//     { description: 'Poor', code: 'P', scale: 25 }
+//   ];
+//   case'Payment Terms':return  [
+//     { description: '30 days payment term', code: '2', scale: '', Payment: false },
+//     { description: '45 days payment term', code: '3', scale: '', Payment: false }
+//   ];
+//   case'Supplier Evaluation SubFactors': return [
+//     { description: 'Accuracy of Invoices', code: 'Q203' },
+//     { description: 'Delivery Performance', code: 'Q303' }
+//   ];
+//   case'Supplier (office) Evaluation Subfactors': return [
+//     { description: 'Accuracy of Invoices', code: 'Q203'},
+//     { description: 'Consistency of Performance', code: 'Q402'}
+//   ];
+//   case 'Ship Class':return  [
+//     { description: 'BUREA VERITAS', code: 'BV'},
+//     { description: 'DNV -GL', code: 'GERLO' }
+//   ];
+//   case 'Lub Oil Categories': return [
+//     { description: 'AUXILIARY GRADES', code: '2'},
+//     { description: 'MAIN GRADES', code: '1' }
+//   ];
+//   case'Location Numbers': return [
+//     { description: 'AIS', code: 'NAVEQAS'},
+//     { description: '1ST DECK', code: 'DECK1ST' }
+//   ];
+//   case'Locations': return [
+//     { description: 'AIS', code: 'NAVEQAS'},
+//     { description: '1ST DECK', code: 'DECK1ST' }
+//   ];
+//   case 'Functions': return [
+//     { description: 'PURIFIERS/SEPARATORS,FO SUPPLY UNITS', code: 'PUR'},
+//     { description: 'SAFETY EQUIPMENT', code: 'SFTEQ' }
+//   ];
+//   case'Countries': return [
+//     { description: 'REMOTE CONTROL VALVES/TANK GAUGING', code: 'FN006'},
+//     { description: 'SHAFT SYSTEM', code: 'F00079' }
+//   ];
+
+//   case'Origin': return [
+//     { description: 'REMOTE CONTROL VALVES/TANK GAUGING', code: 'FN006'},
+//     { description: 'SHAFT SYSTEM', code: 'F00079' }
+//   ];
+//   case'Storage Places':return  [
+//     { description: 'AC COMPRESSOR AREA/PLATFORM/ROOM', code: 'VSL031'},
+//     { description: 'AHU ROOM', code: 'VSL027' }
+//   ];
+//   case'Type Of Freight':return  [
+//     { description: 'Air Freight', code: '2'},
+//     { description: 'DHL', code: '4' }
+//   ];
+//   default:
+//         return [];
+//     }
+// };
  public loadData() {
   this.exampleDatabase = new IdentifiersLibraryService(this.httpClient,this.serverUrl,this.httpService);
   this.dataSource = new ExampleDataSource(
