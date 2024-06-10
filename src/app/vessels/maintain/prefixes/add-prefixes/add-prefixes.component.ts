@@ -83,7 +83,7 @@ export class AddPrefixesComponent implements OnInit {
 
   }
   cancel(){
-    this.router.navigate(['/vessels/prefixes/list-prefixes']);
+    this.router.navigate(['/vessels/maintain/prefixes/list-prefixes']);
 
   }
   showNotification(colorName, text, placementFrom, placementAlign) {

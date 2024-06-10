@@ -42,6 +42,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./vessel-group/vessel-group.module").then((m) => m.VesselGroupModule),
   },
+  {
+    path: "prefixes",
+    loadChildren: () =>
+      import("./prefixes/prefixes.module").then((m) => m.PrefixesModule),
+  },
 ];
 
 @NgModule({

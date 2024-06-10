@@ -13,11 +13,6 @@ const routes: Routes = [
       import("./maintain/maintain.module").then((m) => m.MaintainModule),
   },
   {
-    path: "prefixes",
-    loadChildren: () =>
-      import("./prefixes/prefixes.module").then((m) => m.PrefixesModule),
-  },
-  {
     path: "engine-types",
     loadChildren: () =>
       import("./engine-types/engine-types.module").then((m) => m.EngineTypesModule),
