@@ -1,0 +1,25 @@
+<!-- <div class="row clearfix">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="box-shadow">
+        <div class="card">
+          <div class="body">
+
+          </div>
+        </div>
+      </div>
+    </div>
+</div> -->
+
+<form class="m-4" autocomplete="off" [formGroup]="docForm">
+    <div>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="desc"></textarea>
+          </mat-form-field>
+    </div>
+  <br>
+  <div>
+    <button class="btn-space saveBtn" mat-raised-button (click)="descCall()"><mat-icon class="saveCancelIcon">done_all</mat-icon>Ok</button>
+    <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+  </div>
+</form>
