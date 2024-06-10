@@ -12,6 +12,12 @@ const routes: Routes = [
     loadChildren: () =>
       import("./utilities/utilities.module").then((m) => m.UtilitiesModule),
   },
+  {
+    path: "supplycycle",
+     loadChildren: () =>
+       import("./supplycycle-controlpanel/supplycycle-controlpanel.module").then((m) => m.SupplycycleControlpanelModule),
+ 
+   },
 ];
 
 @NgModule({

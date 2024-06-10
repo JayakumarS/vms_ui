@@ -1,0 +1,292 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Supplycycle-Controlpanel'" [items]="['Supplies']" [active_item]="'Supplycycle-Controlpanel'">
+        </app-breadcrumb>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+                <div class="materialTableHeader">
+                    <div class="row">
+                      <div class="col-8">
+                        <ul class="header-buttons-left ms-0">
+                          <li class="dropdown">
+                            <h2></h2>
+                          </li>
+                          <li class="dropdown m-l-20">
+                            <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                            <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                              aria-label="Search box">
+                          </li>
+                        </ul>
+                    </div>
+                </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="margin-top: 0.4%">
+                        <button  color="primary" type="button" 
+                          class="btn-space" (click)="Requisition()" mat-raised-button>New Requisition
+                         </button>
+    
+                         <button color="primary"  type="button" class="btn-space" (click)="spotorder()" 
+                          mat-raised-button>New Spot Order</button>
+    
+                        <button color="primary" type="button"  class="btn-space"
+                          (click)="excel()" mat-raised-button>
+                          Import Excel Quotation</button>
+
+                          <button color="primary"  type="button" 
+                          class="btn-space" (click)="refresh()"  mat-raised-button >
+                          Refresh</button>
+                          <button color="primary"  type="button" 
+                          class="btn-space" (click)="search()" mat-raised-button >
+                          Search</button>
+                          
+                      </div>
+                    </div>
+
+                    <br><br>
+                    <div class="card">
+                        <div class="body">
+                 
+                        
+                                <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
+                                    <thead class="">
+                                                      
+                                      <tr>
+                                    <th class="text-center table-heading padding-both-side-2 width_7" style="
+                                width: 1%; border-radius: 0.05rem; "></th>
+                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                width: 4%; border-radius: 0.05rem;">Vessel</th>
+                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                width: 4%; border-radius: 0.05rem;">Department</th>
+                                      <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                      width: 4%; border-radius: 0.05rem;">Document</th>
+                               <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                   width: 4%; border-radius: 0.05rem;">Date</th>
+                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                  width: 4%; border-radius: 0.05rem;">Urgency</th>
+                                 <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                    width: 4%; border-radius: 0.05rem;">Budget</th>
+                               
+                      </tr>
+                    </thead>
+
+                    <ng-container *ngFor="let vesseltable of docForm.get('vesseltable')['controls']; let i = index" >
+                        <tbody  [formGroup]="vesseltable">
+      
+                          <tr>
+                            <td class="padding-both-side-2">
+                              <!-- <mat-checkbox (change)="toggleCheckbox(i)"></mat-checkbox> -->
+                          </td>
+                          <td class="padding-both-side-2">
+                            {{vesseltable.get('vessel').value}}
+                          </td>
+                            <td class="padding-both-side-2">
+                              {{vesseltable.get('department').value}}
+                            </td>
+                            <td class="padding-both-side-2">
+                                {{vesseltable.get('document').value}}
+                              </td>
+                              <td class="padding-both-side-2">
+                                {{vesseltable.get('date').value}}
+                              </td>
+                              <td class="padding-both-side-2">
+                                {{vesseltable.get('urgent').value}}
+                              </td>
+                              <td class="padding-both-side-2">
+                                {{vesseltable.get('budget').value}}
+                              </td>
+
+                        </tr>
+                                             
+                    </tbody>
+                 </ng-container>
+            
+
+        
+</table>
+                          <div style="overflow-x: auto;">    
+                        <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
+                          <thead class="">
+                                            
+                            <tr>
+                                <th class="text-center table-heading padding-both-side-2 width_7" style="
+                                width: 2%; border-radius: 0.05rem; "></th>
+                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                width: 4%; border-radius: 0.05rem;">Type</th>
+                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                width: 4%; border-radius: 0.05rem;">Code</th>
+                                      <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                      width: 4%; border-radius: 0.05rem;">Date</th>
+                               <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                   width: 4%; border-radius: 0.05rem;">Port</th>
+                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                  width: 4%; border-radius: 0.05rem;">Supplier</th>
+                                 <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                    width: 4%; border-radius: 0.05rem;">Info</th>
+                                  <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                  width: 4%; border-radius: 0.05rem;">Items</th>
+                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                width: 4%; border-radius: 0.05rem;">Items Status</th>                      
+                          <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                            width: 4%; border-radius: 0.05rem;">Comm.Info</th>                      
+                               <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                              width: 4%; border-radius: 0.05rem;">Attach.Info</th>
+                      <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                      width: 4%; border-radius: 0.05rem;">Infogate Links</th>         
+                      <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                      width: 4%; border-radius: 0.05rem;">Group Links</th>
+                      <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                      width: 4%; border-radius: 0.05rem;">Vendor Eval</th>
+                      <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                      width: 4%; border-radius: 0.05rem;">Fwd.Instr</th>
+                       <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                       width: 4%; border-radius: 0.05rem;">Tec.Links</th>
+                        <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                         width: 4%; border-radius: 0.05rem;">Acc.Info</th>
+                         <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                         width: 4%; border-radius: 0.05rem;">EComm.</th>
+                         <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                          width: 4%; border-radius: 0.05rem;">IHM Info</th>
+                           <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                           width: 4%; border-radius: 0.05rem;">Interface Info</th>
+                               
+                              </tr>
+                                          </thead>
+                                          <ng-container *ngFor="let supplycycletab of docForm.get('supplycycletab')['controls']; let i = index" >
+                                            <tbody  [formGroup]="supplycycletab">
+                          
+                                              <tr>
+                                                <td class="padding-both-side-2">
+                                                    <!-- {{supplycycletab.get('type').value}} -->
+                                                  </td>
+                                              <td class="padding-both-side-2">
+                                                {{supplycycletab.get('type').value}}
+                                              </td>
+                                                <td class="padding-both-side-2">
+                                                  {{supplycycletab.get('code').value}}
+                                                </td>
+                                                <td class="padding-both-side-2">
+                                                  {{supplycycletab.get('date').value}}
+                                                </td>
+                                                <td class="padding-both-side-2">
+                                                    {{supplycycletab.get('port').value}}
+                                                  </td>
+                                                <td class="padding-both-side-2">
+                                                  {{supplycycletab.get('supplier').value}}
+                                                </td>
+                                                <td class="padding-both-side-2">
+                                                  {{supplycycletab.get('info').value}}
+                                                </td>
+                                               
+                                                <td class="padding-both-side-2">
+                                                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                        <input matInput name="items{{i}}" formControlName="items">
+
+                                                          <!-- <mat-option>
+                                                              <ngx-mat-select-search [placeholderLabel]="'Search'" [noEntriesFoundLabel]="'no results found'" [formControl]="companyFilterCtrl"></ngx-mat-select-search>
+                                                          </mat-option>
+                                                          <mat-option *ngFor="let title of companyFilteredOptions | async" [value]="title.id">{{title.text}}</mat-option>
+                                                      </mat-select>  -->
+        
+                                                  </mat-form-field>
+                                              </td>
+                                           <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                    <input matInput name="itemstatus{{i}}" formControlName="itemstatus">
+
+                                                  </mat-form-field>
+                                              </td>
+                                                 <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput name="comminfo{{i}}" formControlName="comminfo">
+                                                  </mat-form-field>
+                                              </td>
+                                              <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput  name="attachinfo{{i}}" formControlName="attachinfo">
+                                                  </mat-form-field>
+                                              </td>
+                                              <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput name="infogate{{i}}" formControlName="infogate" (input)="tcDtlInput($event.target.value,i)">
+                                                  </mat-form-field>
+                                              </td>
+                                              <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput name="grouplink{{i}}" formControlName="grouplink" (input)="bcDtlInput($event.target.value,i)">
+                                                  </mat-form-field>
+                                              </td>
+                                              <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput  name="vendoreval{{i}}" formControlName="vendoreval">
+                                                  </mat-form-field>
+                                              </td>
+                                              <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput  name="fwdinstruction{{i}}" formControlName="fwdinstruction">
+                                                  </mat-form-field>
+                                              </td>
+                                              <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput  name="techlinks{{i}}" formControlName="techlinks">
+                                                  </mat-form-field>
+                                              </td>
+                                              <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput  name="accinfo{{i}}" formControlName="accinfo">
+                                                  </mat-form-field>
+                                              </td>
+
+                                              <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput  name="ecomm{{i}}" formControlName="ecomm">
+                                                  </mat-form-field>
+                                              </td>
+                                              <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput  name="ihminfo{{i}}" formControlName="ihminfo">
+                                                  </mat-form-field>
+                                              </td>
+                                              <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput  name="interfaceinfo{{i}}" formControlName="interfaceinfo">
+                                                  </mat-form-field>
+                                              </td>
+              
+        
+        
+                                              </tr>
+                                             
+                                            </tbody>
+                                         </ng-container>
+                                    
+        
+                                
+                        </table>
+                    </div> 
+                        <!-- <mat-paginator [length]="collectionSize" [pageSize]="pageSize1" [pageSizeOptions]="[5, 10, 25, 100]"
+                        (page)="onPageChange($event)">
+         </mat-paginator> -->
+        
+         <!-- <mat-paginator #paginator [length]="paginationLength" [pageIndex]="customPageIndex" 
+                        [pageSize]="10" (page)="updateData($event,0)">
+                        </mat-paginator> -->
+                    
+                    </div>
+        
+        </div>
+
+
+
+
+ </div>
+</div>
+</div>
+</div>
+</div>
+</section>
