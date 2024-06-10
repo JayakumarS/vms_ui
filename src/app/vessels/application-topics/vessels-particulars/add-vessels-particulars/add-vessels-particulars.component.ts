@@ -158,6 +158,7 @@ export class AddVesselsParticularsComponent implements OnInit {
   superintendentlist:any;
   currtmpList: any[];
   pandilist: any;
+  active: boolean=false;
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
@@ -265,7 +266,10 @@ this.prefixFilterCtrl.valueChanges
 
   this.typelist = [
   
-    
+      
+  { id: "Dry ", text: "Dry" },
+  { id: "World Scale", text: "World Scale" },
+  { id: "Chemical", text: "Chemical" },
   ];
   
   this.typeFilteredOptions.next(this.typelist.slice());
@@ -374,7 +378,9 @@ this.filteritemfdanddlist();
 
 this.wagescalelist = [
   
-    
+  { id: "SAFEEN WAGES", text: "SAFEEN WAGES" },
+  { id: "SIMATECH-ITF", text: "SIMATECH-ITF" },
+  { id: "TEST WAGE SCALE", text: "TEST WAGE SCALE" },
 ];
 
 this.wagescaleFilteredOptions.next(this.wagescalelist.slice());
@@ -407,7 +413,11 @@ this.filteritemclassificationlist();
 
 this.reasonlist = [
   
-    
+  { id: "Scraped ", text: "Scraped " },
+  { id: "Sold", text: "Sold" },
+  { id:"In Use", text: "In Use" },
+  { id:"On Order ", text: "On Order" },
+
 ];
 
 this.reasonFilteredOptions.next(this.reasonlist.slice());
@@ -436,7 +446,8 @@ this.filteritemvesselClasslist();
 
 
 this.fleetvessellist = [
-  
+  { id: "Lead", text: "Lead" },
+  { id: "Sister", text: "Sister" },
     
 ];
 
@@ -453,7 +464,9 @@ this.filteritemfleetvessellist();
 
 this.leadvesselidlist = [
   
-    
+  { id: "ATHENA", text: "ATHENA" },
+  { id: "GFS PEARL", text: "GFS PEARL" },
+  { id: "GFS PRIME", text: "PRIME" },
 ];
 
 this.leadvesselidFilteredOptions.next(this.leadvesselidlist.slice());
@@ -468,7 +481,10 @@ this.filteritemleadvesselid();
 
 this.flaglist = [
   
-    
+  { id: "BANGLADESH", text: "BANGLADESH" },
+  { id: "BRITISH", text: "BRITISH" },
+  { id: "BELGIAN", text: "BELGIAN" },
+
 ];
 
 this.flagFilteredOptions.next(this.flaglist.slice());
@@ -483,7 +499,10 @@ this.filteritemflaglist();
 
 this.registryportlist = [
   
-    
+  { id: "BANGLADESH", text: "BANGLADESH" },
+  { id: "BRITISH", text: "BRITISH" },
+  { id: "BELGIAN", text: "BELGIAN" },
+
 ];
 
 this.registryportFilteredOptions.next(this.registryportlist.slice());
@@ -511,7 +530,10 @@ this.filteritemiceclasslist();
 
 
 this.shipownerlist = [
-  
+  { id: "ATTAR", text: "ATTAR" },
+  { id: "CME-MAN", text: "CME-MAN" },
+  { id: "SAFEEN", text: "SAFEEN" },
+
     
 ];
 
@@ -527,7 +549,9 @@ this.filteritemshipownerlist();
 
 this.shipownerplatformlist = [
   
-    
+  { id: "ATTAR", text: "ATTAR" },
+  { id: "CME-MAN", text: "CME-MAN" },
+  { id: "SAFEEN", text: "SAFEEN" },
 ];
 
 this.shipownerplatformFilteredOptions.next(this.shipownerplatformlist.slice());
@@ -557,7 +581,9 @@ this.filteritemoperatorlist();
 
 this.officialManagerlist = [
   
-    
+  { id: "GFS-Safeen", text: "GFS-Safeen" },
+  { id: "SMITE", text: "SMITE" },
+  { id: "Simatech", text: "Simatech" },
 ];
 
 this.officialManagerFilteredOptions.next(this.officialManagerlist.slice());
@@ -570,7 +596,9 @@ this.filteritemofficialManagerlist();
 });
 
 this.shipmanagerlist = [
-  
+  { id: "GFS-Safeen", text: "GFS-Safeen" },
+  { id: "SMITE", text: "SMITE" },
+  { id: "Simatech", text: "Simatech" },
     
 ];
 
@@ -585,7 +613,9 @@ this.filteritemshipmanagerlist();
 
 
 this.crewmanagerlist = [
-  
+  { id: "(1) ENGINEER", text: "(1) ENGINEER" },
+  { id: "(2) OFFICER", text: "(2) OFFICER" },
+  { id: "(3) COOK", text: "(3) COOK" },
     
 ];
 
@@ -600,7 +630,9 @@ this.filteritemcrewmanagerlist();
 
 
 this.superintendentlist = [
-  
+  { id: "(1) ENGINEER", text: "(1) ENGINEER" },
+  { id: "(2) OFFICER", text: "(2) OFFICER" },
+  { id: "(3) COOK", text: "(3) COOK" },
     
 ];
 
@@ -615,6 +647,9 @@ this.filteritemsuperintendentlist();
 
 
    }
+   activeStatus(event: any) {
+    this.active = event.checked;
+  }
    filteritemsuperintendentlist(){
     if (!this.superintendentlist) {
       return;

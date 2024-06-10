@@ -370,7 +370,7 @@
 
 
                           <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12" style="padding-left: 127px;">
-                            <mat-checkbox formControlName="isActive" ngInit="checked=true">Active</mat-checkbox>
+                            <mat-checkbox formControlName="isActive" (change)="activeStatus($event)"ngInit="checked=true">Active</mat-checkbox>
                           </div>
                           <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
 
@@ -378,7 +378,7 @@
                       <mat-label> Reason</mat-label>
 
                       
-                      <mat-select  formControlName="reason" #reason>
+                      <mat-select  formControlName="reason" #reason [disabled]="active">
                         <mat-option>
                             <ngx-mat-select-search [placeholderLabel]="'Search'" 
                                 [noEntriesFoundLabel]="'no results found'"
