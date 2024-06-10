@@ -47,6 +47,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./prefixes/prefixes.module").then((m) => m.PrefixesModule),
   },
+  {
+    path: "communication-types",
+    loadChildren: () =>
+      import("./communication-types/communication-types.module").then((m) => m.CommunicationTypesModule),
+  },
 ];
 
 @NgModule({

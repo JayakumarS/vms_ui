@@ -45,7 +45,7 @@ export class AddCommTypesComponent implements OnInit {
   }
 
   cancel(){
-    this.router.navigate(['/vessels/communication-types/list-communication-types']);
+    this.router.navigate(['/vessels/maintain/communication-types/list-communication-types']);
   }
 
   addRow() {

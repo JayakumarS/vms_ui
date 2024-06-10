@@ -18,11 +18,6 @@ const routes: Routes = [
       import("./engine-types/engine-types.module").then((m) => m.EngineTypesModule),
   },
   {
-    path: "communication-types",
-    loadChildren: () =>
-      import("./communication-types/communication-types.module").then((m) => m.CommunicationTypesModule),
-  },
-  {
     path: "fleet-managers",
     loadChildren: () =>
       import("./fleet-managers/fleet-managers.module").then((m) => m.FleetManagersModule),
