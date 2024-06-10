@@ -58,6 +58,11 @@ const routes: Routes = [
     path: "evaluation-departments-per-user",
     loadChildren: () =>
       import("./evaluation-departments-per-user/evaluation-departments-per-user.module").then((m) => m.EvaluationDepartmentsPerUserModule),
+  },
+  {
+    path: "crew-promotion",
+    loadChildren: () =>
+      import("./crew-promotion/crew-promotion.module").then((m) => m.CrewPromotionModule),
   }
 ];
 

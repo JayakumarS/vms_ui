@@ -26,6 +26,11 @@ const routes: Routes = [
     path: "communication-types",
     loadChildren: () =>
       import("./communication-types/communication-types.module").then((m) => m.CommunicationTypesModule),
+  },
+  {
+    path: "fleet-managers",
+    loadChildren: () =>
+      import("./fleet-managers/fleet-managers.module").then((m) => m.FleetManagersModule),
   }
 
 
