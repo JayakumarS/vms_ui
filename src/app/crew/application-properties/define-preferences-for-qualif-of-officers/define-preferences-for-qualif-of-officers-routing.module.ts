@@ -24,6 +24,12 @@ const routes: Routes = [
     loadChildren: () =>
       import("./define-officers-qualification-matching/define-officers-qualification-matching.module").then((m) => m.DefineOfficersQualificationMatchingModule),
   },
+
+  {
+    path: "define-Paired-Rank",
+    loadChildren: () =>
+      import("./define-paired-rank/define-paired-rank.module").then((m) => m.DefinePairedRankModule)
+  },
 ];
 
 @NgModule({

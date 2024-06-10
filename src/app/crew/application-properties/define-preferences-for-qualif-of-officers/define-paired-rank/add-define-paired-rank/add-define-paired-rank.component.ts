@@ -10,14 +10,14 @@ import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { pandi } from '../p-and-i.model';
-import { PAndIService } from '../p-and-i.service';
+import { DefinePairedRankService } from '../define-paired-rank.service';
+import { definePairedRank } from '../define-paired-rank.model';
 @Component({
-  selector: 'app-add-p-and-i',
-  templateUrl: './add-p-and-i.component.html',
-  styleUrls: ['./add-p-and-i.component.sass']
+  selector: 'app-add-define-paired-rank',
+  templateUrl: './add-define-paired-rank.component.html',
+  styleUrls: ['./add-define-paired-rank.component.sass']
 })
-export class AddPAndIComponent implements OnInit {
+export class AddDefinePairedRankComponent implements OnInit {
 
   
   public itemRevenueExpFilterCtrl: FormControl = new FormControl();
@@ -50,7 +50,7 @@ export class AddPAndIComponent implements OnInit {
 
 
   docForm: FormGroup;
-  pandi: pandi;
+  definePairedRank: definePairedRank;
   currencyList=[];
   edit:boolean=false;
   // oldPwd: boolean=false;
@@ -70,7 +70,7 @@ export class AddPAndIComponent implements OnInit {
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public PAndIService: PAndIService,
+    public DefinePairedRankService: DefinePairedRankService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
@@ -83,12 +83,12 @@ export class AddPAndIComponent implements OnInit {
   
 
 
-      pandiDetails: this.fb.array([
+      definepairedrankDetails: this.fb.array([
         this.fb.group({
        
           select:[""],
-          code:[""],
-          description:[""],
+          currentRank:[""],
+          pairedRank:[""],
           
         })
       ]),
@@ -111,29 +111,28 @@ export class AddPAndIComponent implements OnInit {
 
     }
    addRow(){
-    let pandiDetailsDtlArray=this.docForm.controls.pandiDetails as FormArray;
-    let arraylen=pandiDetailsDtlArray.length;
-    var len = this.docForm.controls["pandiDetails"].value.length;
+    let definepairedrankDetailsDtlArray=this.docForm.controls.definepairedrankDetails as FormArray;
+    let arraylen=definepairedrankDetailsDtlArray.length;
+    var len = this.docForm.controls["definepairedrankDetails"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
       sort : 1 + len,
       select: [""],
-      code:[""],
-      description:[""],
-      
+      currentRank:[""],
+      pairedRank:[""],
     })
-    pandiDetailsDtlArray.insert(arraylen,newUsergroup);
+    definepairedrankDetailsDtlArray.insert(arraylen,newUsergroup);
   }
   save(){}
 
   cancel(){
-    this.router.navigate(['/vessels/maintain/p-and-i/list-p-and-i/']);
+    this.router.navigate(['/crew/application-properties/define-preferences-for-qualif-of-officers/define-Paired-Rank/list-Define-Paired-Rank/']);
   }
 
 
   removeRow(){
     let count = 0;
-    const deleteRow = this.docForm.controls.pandiDetails as FormArray;
+    const deleteRow = this.docForm.controls.definepairedrankDetails as FormArray;
     let i = 0;
     
     while (i < deleteRow.length) {
@@ -207,11 +206,11 @@ export class AddPAndIComponent implements OnInit {
   reset(){
     if(!this.edit){
       this.docForm = this.fb.group({
-        pandiDetails: this.fb.array([
+        definepairedrankDetails: this.fb.array([
           this.fb.group({
             sort : 1,
-            code:[""],
-            description:[""],
+            currentRank:[""],
+          pairedRank:[""],
             
           })
         ]),
