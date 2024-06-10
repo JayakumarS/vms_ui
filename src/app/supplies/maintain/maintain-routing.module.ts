@@ -12,11 +12,6 @@ const routes: Routes = [
     loadChildren: () =>
       import("./identifiers-library/identifiers-library.module").then((m) => m.IdentifiersLibraryModule),
   },
-  {
-    path: "utilities",
-    loadChildren: () =>
-      import("./utilities/utilities.module").then((m) => m.UtilitiesModule),
-  },
 ];
 
 @NgModule({
