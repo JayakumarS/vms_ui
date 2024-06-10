@@ -57,6 +57,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./engine-types/engine-types.module").then((m) => m.EngineTypesModule),
   },
+  {
+    path: "fleet-managers",
+    loadChildren: () =>
+      import("./fleet-managers/fleet-managers.module").then((m) => m.FleetManagersModule),
+  }
 ];
 
 @NgModule({

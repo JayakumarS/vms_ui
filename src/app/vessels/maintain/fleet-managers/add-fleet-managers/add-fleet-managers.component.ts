@@ -57,7 +57,7 @@ export class AddFleetManagersComponent extends UnsubscribeOnDestroyAdapter imple
   }
   
   cancel(){
-    this.router.navigate(['/vessels/fleet-managers/list-fleet-managers']);
+    this.router.navigate(['/vessels/maintain/fleet-managers/list-fleet-managers']);
     
   }
 

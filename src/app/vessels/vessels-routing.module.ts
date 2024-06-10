@@ -12,11 +12,6 @@ const routes: Routes = [
     loadChildren: () =>
       import("./maintain/maintain.module").then((m) => m.MaintainModule),
   },
-  {
-    path: "fleet-managers",
-    loadChildren: () =>
-      import("./fleet-managers/fleet-managers.module").then((m) => m.FleetManagersModule),
-  }
 
 
 

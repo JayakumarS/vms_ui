@@ -12,7 +12,6 @@ const routes: Routes = [
     path:'list-fleet-managers',
     component:ListFleetManagersComponent
   }
-
 ];
 
 @NgModule({
