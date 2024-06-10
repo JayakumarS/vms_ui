@@ -9,7 +9,7 @@ const routes: Routes = [
     component:ListFleetsComponent
   },
   {
-    path:"add-fleets",
+    path:"add-fleets/:id",
     component:AddFleetsComponent
   },
 ];

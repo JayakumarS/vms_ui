@@ -33,6 +33,13 @@ export class AddDefinePairedRankComponent implements OnInit {
   @ViewChild('itemType', { static: true }) itemType: MatSelect;
  
 
+  public rankFilterCtrl: FormControl = new FormControl();
+  rankFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('rank', { static: true }) rank: MatSelect;
+
+
+
+
   public contentsFilterslistFilterCtrl: FormControl = new FormControl();
   contentsFilterslistFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
   @ViewChild('contentsFilters', { static: true }) contentsFilters: MatSelect;
@@ -57,6 +64,7 @@ export class AddDefinePairedRankComponent implements OnInit {
 
   // For Encryption
   isChecked: boolean = false;
+  ranklist: any;
 
   requestId: any;
   decryptRequestId: any;
@@ -108,8 +116,43 @@ export class AddDefinePairedRankComponent implements OnInit {
 
       }
      });
+     this.ranklist = [
+      { id: "ENGINEER", text: "ENGINEER" },
+      { id: "OFFICER", text: "OFFICER" },
+      { id: "COOK", text: "COOK" },
+    
+    
+    ];
+    
+    this.rankFilteredOptions.next(this.ranklist.slice());
+    
+    // listen for origin List  search field value changes
+    this.rankFilterCtrl.valueChanges
+    .pipe(takeUntil(this.onDestroy))
+    .subscribe(() => {
+    this.filteritemranklist();
+    });
+
 
     }
+
+    filteritemranklist(){
+      if (!this.ranklist) {
+        return;
+      }
+      // get the search keyword
+      let search = this.rankFilterCtrl.value;
+      if (!search) {
+        this.rankFilteredOptions.next(this.ranklist.slice());
+        return;
+      } else {
+        search = search.toLowerCase();
+      }
+      // filter the banks
+      this.rankFilteredOptions.next(
+        this.ranklist.filter(title => title.text.toLowerCase().includes(search))
+      );
+     }
    addRow(){
     let definepairedrankDetailsDtlArray=this.docForm.controls.definepairedrankDetails as FormArray;
     let arraylen=definepairedrankDetailsDtlArray.length;

@@ -10,7 +10,7 @@ const routes: Routes = [
     component:ListClassComponent
   },
   {
-    path:"add-class",
+    path:"add-class/:id",
     component:AddClassComponent
   },
 ];

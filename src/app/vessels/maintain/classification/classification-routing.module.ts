@@ -9,7 +9,7 @@ const routes: Routes = [
     component:ListClassificationComponent
   },
   {
-    path:"add-classification",
+    path:"add-classification/:id",
     component:AddClassificationComponent
   },
 

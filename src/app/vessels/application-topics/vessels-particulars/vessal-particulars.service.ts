@@ -6,6 +6,7 @@ import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroy
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { vesswlsParticulars } from './vessal-particulars.model';
+import * as moment from 'moment';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -15,6 +16,13 @@ const httpOptions = {
 })
 export class VessalParticularsService extends UnsubscribeOnDestroyAdapter{
 
+  getDate(date): any {
+    return moment(date).format('DD/MM/YYYY');
+  }
+  
+  getDateObj(string): any {
+    return moment(string, 'DD/MM/YYYY')
+  }
   isTblLoading = true;
   currencyList:[];
   dataChange: BehaviorSubject<vesswlsParticulars[]> = new BehaviorSubject<vesswlsParticulars[]>(

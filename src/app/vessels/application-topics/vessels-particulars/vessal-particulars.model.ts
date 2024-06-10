@@ -21,7 +21,7 @@ export class vesswlsParticulars {
     vesselgroup:any;
     fdandd:any;
     wagescale:any;
-    classigication:any;
+    classification:any;
     isActive:any;
     reason:any;
     vesselClass:any;
@@ -53,4 +53,6 @@ export class vesswlsParticulars {
     crewmanager:any;
     superintendent:any;
     groupmanager:any;
+    dateinfleettypeObj:any;
+    valiedUntilObj:any;
 }

@@ -10,7 +10,7 @@ const routes: Routes = [
     component:ListVesselTypesComponent
   },
   {
-    path:"add-vessel-types",
+    path:"add-vessel-types/:id",
     component:AddVesselTypesComponent
   },
 ];
