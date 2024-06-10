@@ -13,11 +13,6 @@ const routes: Routes = [
       import("./maintain/maintain.module").then((m) => m.MaintainModule),
   },
   {
-    path: "engine-types",
-    loadChildren: () =>
-      import("./engine-types/engine-types.module").then((m) => m.EngineTypesModule),
-  },
-  {
     path: "fleet-managers",
     loadChildren: () =>
       import("./fleet-managers/fleet-managers.module").then((m) => m.FleetManagersModule),

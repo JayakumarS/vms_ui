@@ -46,7 +46,7 @@ export class AddEngineTypesComponent implements OnInit {
   }
 
   cancel(){
-    this.router.navigate(['/vessels/engine-types/list-engine-types']);
+    this.router.navigate(['/vessels/maintain/engine-types/list-engine-types']);
   }
 
   addRow() {
