@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header" style="padding: 0.5% !important;" style="padding: 0.5% !important;">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Person Maintenance'" [items]="['Crew']" [active_item]="'Person Maintenance'">
+        <app-breadcrumb [title]="'Define Vessel US Water Arrival/Departure'" [items]="['Crew','Application properties','Working Hours']" [active_item]="'List Vessel US Water Arrival/Departure'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -15,7 +15,7 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ms-0">
                         <li class="dropdown m-l-20 ">
-                          <h2>Person Maintenance</h2>
+                          <h2>Define Vessel US Water Arrival/Departure</h2>
                         </li>
                         <li class="dropdown m-l-20">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -24,7 +24,7 @@
                         </li>
                         <li>
                           <div class="m-l-10" matTooltip="ADD">
-                            <button color="primary" type="button" class="btn-space" [routerLink]="'/crew/applications/person-maintenance/add-person-maintenance/0'" mat-raised-button>
+                            <button color="primary" type="button" class="btn-space" [routerLink]="'/crew/application-properties/define-preferences-for-working-hours/define-vessel-us-water-arrival/add-vessel-us-water/:0'" mat-raised-button>
                               <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Create New
                             </button>
                           </div>
@@ -36,7 +36,7 @@
                         <li>
                           <div class="export-button m-l-10" matTooltip="XLSX">
                             <img src="assets/images/icons/xlsx.png" alt=""
-                              (click)="exporter.exportTable('xlsx', {fileName:'Person-maintenance', sheet: 'sheet1'})" />
+                              (click)="exporter.exportTable('xlsx', {fileName:'customer-list', sheet: 'sheet1'})" />
                           </div>
                         </li>                     
                       </ul>
@@ -46,41 +46,21 @@
                 <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
                   #exporter="matTableExporter">
                   
-                  <ng-container matColumnDef="code">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Code</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.code}}</mat-cell>
+                  <ng-container matColumnDef="vessel">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Vessel</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.vessel}}</mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.name}}</mat-cell>
+                  <ng-container matColumnDef="port">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>port</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.port}}</mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="surName">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxLayoutGap="5px">Surname</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.surName}}</mat-cell>
+                  <ng-container matColumnDef="arrival">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Arrival</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.arrival}}</mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="active">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Active</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.active}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="rank">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Rank</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.rank}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="nationality">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Nationality</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.nationality}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="gender">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Gender</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.gender}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="agent">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Agent</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.agent}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="status">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.status}}</mat-cell>
+                  <ng-container matColumnDef="departure">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Departure</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.departure}}</mat-cell>
                   </ng-container>
                                                    
                   <!-- actions -->
@@ -167,6 +147,6 @@
           </div>
         </div>
       </div>
-    </div>
+      </div>
   </div>
   </section>

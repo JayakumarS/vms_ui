@@ -1,0 +1,17 @@
+<mat-form-field class="example-full-width" appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select (selectionChange)="onSelectionChange($event.value)" [required]="required" [value]="_value">
+    <mat-option>
+      <ngx-mat-select-search [placeholderLabel]="placeholderLabel"
+                             [noEntriesFoundLabel]="noEntriesFoundLabel"
+                             [formControl]="filterCtrl">
+      </ngx-mat-select-search>
+    </mat-option>
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id">
+      {{ option.text }}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="filterCtrl.invalid && (filterCtrl.dirty || filterCtrl.touched)">
+    {{ errorMessage }}
+  </mat-error>
+</mat-form-field>

@@ -7,6 +7,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
 
 import { MaterialModule } from "./material.module";
 import { FeatherIconsModule } from "./components/feather-icons/feather-icons.module";
+import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
+import { MatSelectModule } from "@angular/material/select";
+import { MatOptionModule } from "@angular/material/core";
 @NgModule({
   declarations: [],
   imports: [
@@ -26,6 +29,10 @@ import { FeatherIconsModule } from "./components/feather-icons/feather-icons.mod
     NgxSpinnerModule,
     MaterialModule,
     FeatherIconsModule,
+    NgxMatSelectSearchModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatOptionModule
   ],
 })
 export class SharedModule {}

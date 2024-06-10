@@ -12,6 +12,16 @@ const routes: Routes = [
     loadChildren: () =>
       import("./rank-shift/rank-shift.module").then((m) => m.RankShiftModule),
   },
+  {
+    path: "define-vessel-port-arrival",
+    loadChildren: () =>
+      import("./vessel-port-arrival/vessel-port-arrival.module").then((m) => m.VesselPortArrivalModule),
+  },
+  {
+    path: "define-vessel-us-water-arrival",
+    loadChildren: () =>
+      import("./vessel-us-water-arrival/vessel-us-water-arrival.module").then((m) => m.VesselUsWaterArrivalModule),
+  },
 ];
 
 @NgModule({
