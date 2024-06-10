@@ -13,6 +13,8 @@ export class AddRankShiftComponent implements OnInit {
 
   docForm: FormGroup;
   timingList:any=[];
+  vesselList:any=[];
+  rankList:any=[];
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
@@ -57,6 +59,8 @@ export class AddRankShiftComponent implements OnInit {
         this.timingList.push({ id: id++, text: timeString });
       }
     }
+    this.rankList = [{id:1,text:"Master"},{id:2,text:"Chief Officer"},{id:3,text:"Second Officer"}];
+    this.vesselList = [{id:1,text:"GODA-GODAVARI"},{id:2,text:"RJG-RAJIV GANDHI"},{id:3,text:"IDG-INDIRA GANDHI"},{id:4,text:"ARJ-TCI ARJUN"}];
   }
 
   addRow(){

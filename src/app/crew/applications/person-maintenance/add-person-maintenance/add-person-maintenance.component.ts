@@ -99,7 +99,11 @@ export class AddPersonMaintenanceComponent implements OnInit {
   ngOnInit(): void {
     this.toDay = new Date();
     this.nationalityList = [{id:1,text:"Indian"},{id:2,text:"Others"}];
-
+    this.rankList = [{id:1,text:"Master"},{id:2,text:"Chief Officer"},{id:3,text:"Second Officer"}];
+    this.licenceList = [{id:1,text:"License-1"},{id:2,text:"License-2"},{id:3,text:"License-3"}];
+    this.cList = [{id:1,text:"Decision-1"},{id:2,text:"Decision-1"},{id:3,text:"Decision-1"}];
+    this.agentList = [{id:1,text:"Agent-1"},{id:2,text:"Agent-2"},{id:3,text:"Agent-3"}];
+    this.proposeTypeList = [{id:1,text:"Type-1"},{id:2,text:"Type-2"},{id:3,text:"Type-3"}];
     this.remarksList = [
       {id:1,text:"BLACK LIST"},
       {id:2,text:"DEPORTED"},
@@ -151,31 +155,40 @@ export class AddPersonMaintenanceComponent implements OnInit {
 
   addFile() {
       let obj = [];
-      for(let i=0;i < this.uploadFileList.length;i++){
-        this.excel = this.uploadFileList[i];
-        if (this.checkUndefined(this.excel)) {
-          this.showNotification(
-            "snackbar-danger",
-            "Please select the file",
-            "top",
-            "right"
-          ); 
-        }else {
-           obj = this.docForm.value.files.filter((file: any) => {return file.name === this.excel.name});
-  
-           if (obj != undefined && obj.length > 0) {
+      if(this.uploadFileList.length > 0){
+        for(let i=0;i < this.uploadFileList.length;i++){
+          this.excel = this.uploadFileList[i];
+          if (this.checkUndefined(this.excel)) {
             this.showNotification(
               "snackbar-danger",
-              this.excel.name + " file already added",
+              "Please select the file",
               "top",
               "right"
-            );
-          } else {
-            this.docForm.value.files.push(this.excel);
+            ); 
+          }else {
+             obj = this.docForm.value.files.filter((file: any) => {return file.name === this.excel.name});
+    
+             if (obj != undefined && obj.length > 0) {
+              this.showNotification(
+                "snackbar-danger",
+                this.excel.name + " file already added",
+                "top",
+                "right"
+              );
+            } else {
+              this.docForm.value.files.push(this.excel);
+              this.uploadFileList = [];
+            }
           }
         }
+      }else{
+        this.showNotification(
+          "snackbar-danger",
+          "Please upload atleast one file",
+          "top",
+          "right"
+        );
       }
-      this.uploadFileList = [];
   }
 
   deleteFile(i){
@@ -217,10 +230,10 @@ export class AddPersonMaintenanceComponent implements OnInit {
               );
             } else {
               this.docForm.value.sidFiles.push(this.sidExcel);
+              this.sidUploadFileList = [];
             }
           }
         }
-        this.sidUploadFileList = [];
       }else{
         this.showNotification(
           "snackbar-danger",

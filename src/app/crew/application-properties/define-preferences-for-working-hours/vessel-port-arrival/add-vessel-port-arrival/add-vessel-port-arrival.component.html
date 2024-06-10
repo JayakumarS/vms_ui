@@ -67,44 +67,9 @@
                                       noEntriesFoundLabel="No port found"
                                       [label]="'Port'"
                                       formControlName="port"
-                                      [required]="false"
+                                      [required]="true"
                                       [errorMessage]="'Port is required'">
                                     </app-searchable-select>
-                                    <!-- <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                        <mat-label>Port</mat-label>
-                                        <div style="transform-origin: 50% 16.1875px 0px;
-                                        font-size: 11px;
-                                        opacity: 1;
-                                        min-width: calc(174% + 32px);
-                                        transform: scaleY(1);
-                                        height: 142%; ">
-                                        <mat-select formControlName="port" #portFilter style="margin-left:-48%" required>
-                                            <ngx-mat-select-search [placeholderLabel]="'Search'"
-                                                                   [noEntriesFoundLabel]="'No results found'"
-                                                                   [formControl]="portFilterCtrl">
-                                            </ngx-mat-select-search>
-                                            <mat-select-trigger style="margin-left: 49%;">
-                                              {{ selectedValue ? selectedValue.text : 'Select' }}
-                                            </mat-select-trigger>
-                                            <mat-option *ngFor="let item of portFilteredOptions | async" [value]="item" style="color: rgb(255, 255, 255);
-                                            text-decoration: none;
-                                            outline: 0px;
-                                            background-color: rgb(66, 139, 202);
-                                            height: 122%;">
-                                              <div class="mat-option-content">
-                                                  <div class="row">
-                                                      <div class="col-md-4" style="border: 1px solid;">
-                                                          <span>{{ item.port }}</span>
-                                                      </div>
-                                                      <div class="col-md-4" style="border: 1px solid;">
-                                                          <span>{{ item.country }}</span>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </mat-option>
-                                        </mat-select>
-                                      </div>
-                                    </mat-form-field> -->
                                 </td>
 
                                 <td>
@@ -116,6 +81,9 @@
                                         </div>
                                         <mat-datepicker-toggle matSuffix [for]="arrivalPicker"></mat-datepicker-toggle>
                                         <mat-datepicker #arrivalPicker></mat-datepicker>
+                                        <mat-error *ngIf="getDateControl(i,'arrivalObj').hasError('required')">
+                                          Arrival date is required
+                                        </mat-error>
                                     </mat-form-field>
                                 </td>
 
@@ -128,6 +96,9 @@
                                         </div>
                                         <mat-datepicker-toggle matSuffix [for]="departurePicker"></mat-datepicker-toggle>
                                         <mat-datepicker #departurePicker></mat-datepicker>
+                                        <mat-error *ngIf="getDateControl(i,'departureObj').hasError('required')">
+                                          Departure date is required
+                                        </mat-error>
                                     </mat-form-field>
                                 </td>
                             </tr>

@@ -28,7 +28,7 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor, 
   @Output() selectionChange = new EventEmitter<string>();
   @Input() control: FormControl;
   @Input() required: boolean = false;
-  @Input() errorMessage: string = '';
+  @Input() errorMessage: string = '' || 'This field is required';
 
   filterCtrl = new FormControl('', this.required ? Validators.required : null);
   filteredOptions: Observable<{ id: string, text: string }[]>;
@@ -38,14 +38,26 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor, 
   private onTouched: () => void = () => {};
 
   ngOnInit() {
+    if (!this.control) {
+      this.control = new FormControl('', this.required ? Validators.required : null);
+    }
+
     this.filteredOptions = this.filterCtrl.valueChanges.pipe(
       startWith(''),
       map(value => this.filterOptions(value))
     );
+
+    this.control.valueChanges.subscribe(value => {
+      this._value = value;
+      const selectedOption = this.options.find(option => option.id === value);
+      if (selectedOption) {
+        this.filterCtrl.setValue(selectedOption.text, { emitEvent: false });
+      }
+    });
   }
 
   private filterOptions(value: string): { id: string, text: string }[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value ? value.toLowerCase() : '';
     return this.options.filter(option => option.text.toLowerCase().includes(filterValue));
   }
 
@@ -57,18 +69,16 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor, 
   }
 
   writeValue(value: any): void {
-    this._value = value;
-    // const selectedOption = this.options.find(option => option.id === value);
-    // if (selectedOption) {
-    //   this.filterCtrl.setValue(selectedOption.text, { emitEvent: false });
-    // }
-  }
-
-  getErrorMessage() {
-    if (this.filterCtrl.hasError('required') && (this.filterCtrl.dirty || this.filterCtrl.touched)) {
-      return this.errorMessage || 'This field is required';
+    // this._value = value;
+    if (this.options && value) {
+      const selectedOption = this.options.find(option => option.id === value);
+      if (selectedOption) {
+        //this.filterCtrl.setValue(selectedOption.text, { emitEvent: false });
+        this.control.setValue(selectedOption.id, { emitEvent: false });
+      }
+    } else {
+      this.filterCtrl.reset('', { emitEvent: false });
     }
-    return '';
   }
 
   registerOnChange(fn: any): void {
@@ -84,6 +94,13 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor, 
   }
 
   validate(control: AbstractControl): ValidationErrors | null {
-    return null;
+    return this.required && !control.value ? { required: true } : null;
+  }
+
+  getErrorMessage() {
+    if (this.control.hasError('required')) {
+      return this.errorMessage;
+    }
+    return this.errorMessage;
   }
 }

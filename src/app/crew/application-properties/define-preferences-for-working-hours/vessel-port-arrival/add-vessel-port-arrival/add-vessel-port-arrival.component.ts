@@ -62,14 +62,6 @@ export class AddVesselPortArrivalComponent implements OnInit {
     });
   }
 
-  get firstDetailRow() {
-    return this.docForm.get('firstDetailRow') as FormArray;
-  }
-
-  getVesselControl(index: number) {
-    return this.firstDetailRow.at(index).get('vessel');
-  }
-
   ngOnInit(): void {
     let id = 1;
 
@@ -94,7 +86,7 @@ export class AddVesselPortArrivalComponent implements OnInit {
     // });
   }
 
-  onVesselChange(){}
+   onVesselChange(){}
 
 
    filtervessel(){
@@ -112,6 +104,14 @@ export class AddVesselPortArrivalComponent implements OnInit {
       this.vesselList.filter(title => title.text.toLowerCase().includes(search))
     );
    }
+
+   get firstDetailRow() {
+    return this.docForm.get('firstDetailRow') as FormArray;
+  }
+
+  getDateControl(index: number,name:any) {
+    return this.firstDetailRow.at(index).get([name]);
+  }
 
 
   getDateString(event,id){
@@ -134,8 +134,8 @@ export class AddVesselPortArrivalComponent implements OnInit {
     let arraylen = firstDetailRow.length;
     let newUsergroup: FormGroup = this.fb.group({
       select: [""],
-      vessel: [1],
-      port: [1],
+      vessel: [""],
+      port: [""],
       arrival: [""],
       arrivalObj: [""],
       departure: [""],
@@ -185,7 +185,7 @@ export class AddVesselPortArrivalComponent implements OnInit {
   }
 
   cancel(){
-
+    this.router.navigate(['/crew/application-properties/define-preferences-for-working-hours/define-vessel-port-arrival/list-vessel-port']);
   }
 
 }

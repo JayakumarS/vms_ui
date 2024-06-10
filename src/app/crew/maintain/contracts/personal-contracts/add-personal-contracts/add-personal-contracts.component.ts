@@ -55,6 +55,26 @@ export class AddPersonalContractsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.nationalityList = [{id:1,text:"Indian"},{id:2,text:"Others"}];
+    this.rankList = [{id:1,text:"Master"},{id:2,text:"Chief Officer"},{id:3,text:"Second Officer"}];
+    this.currencyList = [{id:1,text:"INR"},{id:2,text:"USD"},{id:3,text:"KES"}];
+    this.itemList = [{id:1,text:"Item-1"},{id:2,text:"Item-1"},{id:3,text:"Item-3"}];
+  }
+
+  get firstDetailRow() {
+    return this.docForm.get('firstDetailRow') as FormArray;
+  }
+
+  getDateControl(index: number,name:any) {
+    return this.firstDetailRow.at(index).get([name]);
+  }
+
+  get secondDetailRow() {
+    return this.docForm.get('secondDetailRow') as FormArray;
+  }
+
+  validation(index: number,name:any){
+    return this.secondDetailRow.at(index).get([name]);
   }
 
   addRow() {

@@ -31,53 +31,62 @@
                                     <mat-checkbox class="example-margin mb-13" name="select{{i}}" formControlName="select"></mat-checkbox>
                                 </td>
                                 <td class="padding-both-side-2">
-                                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                    <mat-label>Nationality</mat-label>
-                                    <mat-select name="nationality{{i}}" formControlName="seaMan">
-                                        <mat-option *ngFor="let title of seamanList" [value]="title.id">
-                                        {{title.text}}
-                                        </mat-option>
-                                    </mat-select>
-                                    </mat-form-field>
+                                    <app-searchable-select 
+                                        [options]="nationalityList" 
+                                        placeholderLabel="Search for nationality"
+                                        noEntriesFoundLabel="No results found"
+                                        [label]="'Nationality'"
+                                        formControlName="nationality"
+                                        [required]="true"
+                                        [errorMessage]="'Nationality is required'">
+                                    </app-searchable-select>
                                 </td>
 
                                 <td class="padding-both-side-2">
-                                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                    <mat-label>Rank</mat-label>
-                                    <mat-select name="rank{{i}}" formControlName="rank">
-                                        <mat-option *ngFor="let title of rankList" [value]="title.id">
-                                        {{title.text}}
-                                        </mat-option>
-                                    </mat-select>
-                                    </mat-form-field>
+                                    <app-searchable-select 
+                                        [options]="rankList" 
+                                        placeholderLabel="Search for rank"
+                                        noEntriesFoundLabel="No results found"
+                                        [label]="'Rank'"
+                                        formControlName="rank"
+                                        [required]="true"
+                                        [errorMessage]="'Rank is required'">
+                                    </app-searchable-select>
                                 </td>
 
                                 <td class="padding-both-side-2">
-                                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                    <mat-label>Currency</mat-label>
-                                    <mat-select name="currency{{i}}" formControlName="currency">
-                                        <mat-option *ngFor="let title of currencyList" [value]="title.id">
-                                        {{title.text}}
-                                        </mat-option>
-                                    </mat-select>
-                                    </mat-form-field>
+                                    <app-searchable-select 
+                                        [options]="currencyList" 
+                                        placeholderLabel="Search for currency"
+                                        noEntriesFoundLabel="No results found"
+                                        [label]="'Currency'"
+                                        formControlName="currency"
+                                        [required]="true"
+                                        [errorMessage]="'Currency is required'">
+                                    </app-searchable-select>
                                 </td>
 
                                 <td class="padding-both-side-2">
                                     <mat-form-field class="example-full-width" appearance="outline">
                                         <mat-label>Valid From</mat-label>
-                                        <input matInput [matDatepicker]="fromPicker" formControlName="validFrom" (dateInput)="$event.value.format('YYYY/MM/DD')" id="validFromObj" (dateChange)="getDateString($event, 'validFromObj')" autocomplete="off">
+                                        <input matInput [matDatepicker]="fromPicker" formControlName="validFromObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="validFrom" (dateChange)="getDateString($event, 'validFrom')" autocomplete="off" required>
                                         <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                                         <mat-datepicker #fromPicker></mat-datepicker>
+                                        <mat-error *ngIf="getDateControl(i,'validFromObj').hasError('required')">
+                                            Valid From is required
+                                        </mat-error>
                                     </mat-form-field>
                                 </td>
 
                                 <td class="padding-both-side-2">
                                     <mat-form-field class="example-full-width" appearance="outline">
                                         <mat-label>Valid To</mat-label>
-                                        <input matInput [matDatepicker]="toPicker" formControlName="validTo" (dateInput)="$event.value.format('YYYY/MM/DD')" id="validToObj" (dateChange)="getDateString($event, 'validToObj')" autocomplete="off">
+                                        <input matInput [matDatepicker]="toPicker" formControlName="validToObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="validTo" (dateChange)="getDateString($event, 'validTo')" autocomplete="off" required>
                                         <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
                                         <mat-datepicker #toPicker></mat-datepicker>
+                                        <mat-error *ngIf="getDateControl(i,'validToObj').hasError('required')">
+                                            Valid To is required
+                                        </mat-error>
                                     </mat-form-field>
                                 </td>
                             </tr>
@@ -121,32 +130,37 @@
                                     <mat-checkbox class="example-margin mb-13" name="select{{i}}" formControlName="select"></mat-checkbox>
                                 </td>
                                 <td class="padding-both-side-2">
-                                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                    <mat-label>Item</mat-label>
-                                    <mat-select name="item{{i}}" formControlName="item">
-                                        <mat-option *ngFor="let title of itemList" [value]="title.id">
-                                        {{title.text}}
-                                        </mat-option>
-                                    </mat-select>
-                                    </mat-form-field>
+                                    <app-searchable-select 
+                                        [options]="itemList" 
+                                        placeholderLabel="Search for a item"
+                                        noEntriesFoundLabel="No results found"
+                                        [label]="'Item'"
+                                        formControlName="item"
+                                        [required]="true"
+                                        [errorMessage]="'Item is required'">
+                                    </app-searchable-select>
                                 </td>
 
                                 <td class="padding-both-side-2">
                                     <mat-form-field class="example-full-width" appearance="outline">
                                         <mat-label>Amount</mat-label>
-                                        <input matInput name="amount{{i}}" formControlName="amount">
+                                        <input matInput name="amount{{i}}" formControlName="amount" required>
+                                        <mat-error *ngIf="validation(i,'amount').hasError('required')">
+                                            Amount is required
+                                        </mat-error>
                                     </mat-form-field>
                                 </td>
 
                                 <td class="padding-both-side-2">
-                                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                    <mat-label>Coefficient</mat-label>
-                                    <mat-select name="coEfficient{{i}}" formControlName="coEfficient">
-                                        <mat-option *ngFor="let title of coEfficientList" [value]="title.id">
-                                        {{title.text}}
-                                        </mat-option>
-                                    </mat-select>
-                                    </mat-form-field>
+                                    <app-searchable-select 
+                                        [options]="coEfficientList" 
+                                        placeholderLabel="Search for a CoEfficient"
+                                        noEntriesFoundLabel="No results found"
+                                        [label]="'coEfficient'"
+                                        formControlName="coEfficient"
+                                        [required]="true"
+                                        [errorMessage]="'coEfficient is required'">
+                                    </app-searchable-select>
                                 </td>
 
                                 <td class="padding-both-side-2">
