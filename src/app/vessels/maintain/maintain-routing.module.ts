@@ -72,6 +72,16 @@ const routes: Routes = [
     loadChildren: () =>
       import("./areas/areas.module").then((m) => m.AreasModule),
   },
+  {
+    path: "bunker-tanks",
+    loadChildren: () =>
+      import("./bunker-tanks/bunker-tanks.module").then((m) => m.BunkerTanksModule),
+  },
+  {
+    path: "vessel-communication-locations",
+    loadChildren: () =>
+      import("./vessel-communication-locations/vessel-communication-locations.module").then((m) => m.VesselCommunicationLocationsModule),
+  },
   
 ];
 
