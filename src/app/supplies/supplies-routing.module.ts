@@ -21,7 +21,12 @@ const routes: Routes = [
     path: "new",
     loadChildren: () =>
       import("./new/new.module").then((m) => m.NewModule)
-   }
+   },
+   {
+    path: "supply-dashboard",
+    loadChildren: () =>
+      import("./supply-dashboard/supply-dashboard.module").then((m) => m.SupplyDashboardModule),
+  },
 ];
 
 @NgModule({

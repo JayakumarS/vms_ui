@@ -13,6 +13,13 @@ const routes: Routes = [
       import("./maintain/maintain.module").then((m) => m.MaintainModule),
   },
 
+  {
+    path: "vessel-particulars",
+    loadChildren: () =>
+      import("./vessel-particulars/vessel-particulars.module").then((m) => m.VesselParticularsModule),
+  }
+
+
 
 
 ];
