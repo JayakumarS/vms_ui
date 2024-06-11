@@ -61,7 +61,18 @@ const routes: Routes = [
     path: "fleet-managers",
     loadChildren: () =>
       import("./fleet-managers/fleet-managers.module").then((m) => m.FleetManagersModule),
-  }
+  },
+  {
+    path: "accountants",
+    loadChildren: () =>
+      import("./accountants/accountants.module").then((m) => m.AccountantsModule),
+  },
+  {
+    path: "areas",
+    loadChildren: () =>
+      import("./areas/areas.module").then((m) => m.AreasModule),
+  },
+  
 ];
 
 @NgModule({
