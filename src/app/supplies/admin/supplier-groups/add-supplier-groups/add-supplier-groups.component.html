@@ -1,1 +1,101 @@
-<p>add-supplier-groups works!</p>
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Add Supplier Group'" [items]="['Supplies']" [active_item]="'Add Supplier Group'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix ">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="box-shadow">
+                    <div class="card">
+                        <div class="body">
+                            <form class="m-4" [formGroup]="docForm">
+
+                                <div style="overflow-x: auto; max-width: 100%;">
+                                    <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
+                                        <thead class="">
+
+                                            <tr>
+                                                <th class="text-center table-heading padding-both-side-2 width_7" style="
+                            width: 2%; border-radius: 0.05rem; "></th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                            width: 4%; border-radius: 0.05rem;">Group Discription</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                            width: 4%; border-radius: 0.05rem;">Suppliers</th>
+                             <th class="text-center table-heading padding-both-side-2 width_7" style="
+                            width: 2%; border-radius: 0.05rem; "></th>
+                                            </tr>
+                                        </thead>
+
+                                        <ng-container
+                                            *ngFor="let suppliergroupDetails of docForm.get('suppliergroupDetails')['controls']; let i = index">
+                                            <tbody [formGroup]="suppliergroupDetails">
+
+                                                <tr>
+                                                    <td class="padding-both-side-2">
+                                                        <mat-checkbox class="example-margin mb-13" name="select{{i}}" formControlName="select"></mat-checkbox>
+                                                    </td>
+
+                                                    <td class="padding-both-side-2">
+                                                        <mat-form-field class="example-full-width form-control-sm"
+                                                            appearance="outline">
+                                                            <mat-label>Group Discription</mat-label>
+                                                            <input matInput name="groupDiscription{{i}}" formControlName="groupDiscription">
+
+                                                        </mat-form-field>
+
+                                                    </td>
+
+                                                    <td class="padding-both-side-2">
+                                                        <mat-form-field class="example-full-width form-control-sm"
+                                                            appearance="outline">
+                                                            <mat-label>Suppliers</mat-label>
+                                                            <input matInput name="suppliers{{i}}"
+                                                                formControlName="suppliers" [readonly]="true">
+
+                                                        </mat-form-field>
+
+                                                    </td>
+                                                    <td class="padding-both-side-2">
+                                                        <ng-container>
+                                                          <i class="fa fa-ellipsis-h icon-border" (click)="popup()"></i>
+                                                        </ng-container>
+                                                        <ng-template #emptyCell></ng-template>
+                                                      </td>
+                                                </tr>
+
+
+                                            </tbody>
+                                        </ng-container>
+                                    </table>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div>
+                                    <button mat-mini-fab color="primary" (click)="addRow()">
+                                        <mat-icon class="col-white">add</mat-icon>
+                                    </button>
+            
+                                    <button mat-mini-fab color="warn" class="ml-15" (click)="removeRow()">
+                                        <mat-icon class="col-white">delete</mat-icon>
+                                    </button>
+                                    </div>
+                                </div>
+
+
+                                <br>
+                                <div class="center" style="margin-top: 1px;margin-left: 23px;">
+                           <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                           <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+                                 </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
