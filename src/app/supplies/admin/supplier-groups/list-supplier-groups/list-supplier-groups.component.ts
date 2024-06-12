@@ -32,7 +32,7 @@ import { SupplierGroups } from '../supplier-groups.model';
 })
 export class ListSupplierGroupsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns = [
-    "groupDiscription",
+    "groupDescription",
     "suppliers",
 
     "actions"
@@ -210,7 +210,7 @@ export class ExampleDataSource extends DataSource<SupplierGroups> {
           .slice()
           .filter((SupplierGroups: SupplierGroups) => {
             const searchStr = (
-              SupplierGroups.groupDiscription +
+              SupplierGroups.groupDescription +
               SupplierGroups.suppliers 
      
 
@@ -239,8 +239,8 @@ export class ExampleDataSource extends DataSource<SupplierGroups> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-        case "groupDiscription":
-          [propertyA, propertyB] = [a.groupDiscription, b.groupDiscription];
+        case "groupDescription":
+          [propertyA, propertyB] = [a.groupDescription, b.groupDescription];
           break;
         case "suppliers":
           [propertyA, propertyB] = [a.suppliers, b.suppliers];

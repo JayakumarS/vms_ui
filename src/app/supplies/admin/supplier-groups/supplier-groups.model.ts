@@ -1,6 +1,6 @@
 export class SupplierGroups {
 
-    groupDiscription:any;
+    groupDescription:any;
     suppliers:any;
 
  

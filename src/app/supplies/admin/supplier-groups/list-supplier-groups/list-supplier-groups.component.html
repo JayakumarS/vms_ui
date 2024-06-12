@@ -18,7 +18,7 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ms-0">
                         <li class="dropdown">
-                          <h2>Vessal Particulars</h2>
+                          <h2>Supplier Group</h2>
                         </li>
                         <li class="dropdown m-l-20">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -69,9 +69,9 @@
                 <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
                   #exporter="matTableExporter">
                   
-                  <ng-container matColumnDef="groupDiscription">
+                  <ng-container matColumnDef="groupDescription">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Group Description</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.groupDiscription}} </a></mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.groupDescription}} </a></mat-cell>
                   </ng-container>
                 
                   <ng-container matColumnDef="suppliers">
