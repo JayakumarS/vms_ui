@@ -34,6 +34,7 @@ export class ListVesselCommunicationLocationsComponent extends UnsubscribeOnDest
    // "select",
     "code",
     "description",
+    "actions"
     
   ];
 

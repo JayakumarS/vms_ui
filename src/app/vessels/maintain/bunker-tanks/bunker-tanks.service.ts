@@ -51,8 +51,8 @@ export class BunkerTanksService extends UnsubscribeOnDestroyAdapter{
     // Define the type for the list
     let list: BunkerTanks[] = [
       {
-        code: "MAS",
-        description: "GFS Ship Management FZE",
+        code: "HFO1P",
+        description: "HFO 1 PS",
         getRandomID: function (): string {
           throw new Error('Function not implemented.');
         }

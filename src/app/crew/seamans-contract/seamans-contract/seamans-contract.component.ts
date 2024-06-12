@@ -26,6 +26,7 @@ export class SeamansContractComponent implements OnInit {
   currencyList=[];
   edit:boolean=false;
   // oldPwd: boolean=false;
+  showA4Sheet = false;
 
   // For Encryption
   requestId: any;
@@ -95,8 +96,9 @@ export class SeamansContractComponent implements OnInit {
      });
    }
 
-  onSubmit(){
     
+   onSubmit() {
+     this.showA4Sheet = true;
   }
   removeRow(){
     
@@ -195,77 +197,64 @@ export class SeamansContractComponent implements OnInit {
   }
   incrementTimeSlot() {
     let seamansdtltableArray = this.docForm.controls.seamansdtltable1 as FormArray;
-    const numberOfSlots = 4; // Number of rows to insert
+    const numberOfSlots = 4; 
     const currentLength = seamansdtltableArray.length;
     seamansdtltableArray.clear();
 
-    // Initialize start time
     let startTime = 8;
     let endTime = 9;
 
     for (let i = 0; i < numberOfSlots; i++) {
-        // Create form group with start and end time
         let newUsergroup: FormGroup = this.fb.group({
             shiftstart: [`${startTime}.00`],
             shiftend: [`${endTime}.00`],
             place: [""],
             watchkeeping: [""],
         });
-
-        // Insert form group into FormArray
         seamansdtltableArray.insert(currentLength + i, newUsergroup);
-
-        // Increment start and end time by 1 hour
         startTime++;
         endTime++;
     }
 
-    // Update current time slot
     this.currentTimeSlot = `8.00-9.00`;
 }
 
 incrementTimeSlot1(){
   let seamansdtltableArray = this.docForm.controls.seamansdtltable1 as FormArray;
-    const numberOfSlots = 4; // Number of rows to insert
+    const numberOfSlots = 4; 
     const currentLength = seamansdtltableArray.length;
     seamansdtltableArray.clear();
 
-    // Initialize start time
+   
     let startTime = 12;
     let endTime = 13;
 
     for (let i = 0; i < numberOfSlots; i++) {
-        // Create form group with start and end time
+       
         let newUsergroup: FormGroup = this.fb.group({
             shiftstart: [`${startTime}.00`],
             shiftend: [`${endTime}.00`],
             place: [""],
             watchkeeping: [""],
         });
-
-        // Insert form group into FormArray
         seamansdtltableArray.insert(currentLength + i, newUsergroup);
-
-        // Increment start and end time by 1 hour
         startTime++;
         endTime++;
     }
-
-    // Update current time slot
     this.currentTimeSlot = `12.00-13.00`;
 }
 incrementTimeSlot2(){
   let seamansdtltableArray = this.docForm.controls.seamansdtltable1 as FormArray;
-    const numberOfSlots = 4; // Number of rows to insert
+    const numberOfSlots = 4; 
     const currentLength = seamansdtltableArray.length;
     seamansdtltableArray.clear();
 
-    // Initialize start time
+   
     let startTime = 16;
     let endTime = 17;
 
     for (let i = 0; i < numberOfSlots; i++) {
-        // Create form group with start and end time
+        
         let newUsergroup: FormGroup = this.fb.group({
             shiftstart: [`${startTime}.00`],
             shiftend: [`${endTime}.00`],
@@ -273,32 +262,22 @@ incrementTimeSlot2(){
             watchkeeping: [""],
         });
 
-        // Insert form group into FormArray
+       
         seamansdtltableArray.insert(currentLength + i, newUsergroup);
 
-        // Increment start and end time by 1 hour
+        
         startTime++;
         endTime++;
     }
 
-    // Update current time slot
     this.currentTimeSlot = `16.00-17.00`;
 }
 incrementHour(time) {
     const [hours, minutes] = time.split(':');
     let newHours = parseInt(hours, 10) + 1;
-    if (newHours === 24) newHours = 0; // Reset to 0 if it's 24 hours
+    if (newHours === 24) newHours = 0; 
     return `${newHours.toString().padStart(2, '0')}:${minutes}`;
 }
-
-// incrementHour(time) {
-//     const [hours, minutes] = time.split(':');
-//     let newHours = parseInt(hours, 10) + 1;
-//     if (newHours === 24) newHours = 0; // Reset to 0 if it's 24 hours
-//     return `${newHours.toString().padStart(2, '0')}:${minutes}`;
-// }
-
-  
   incrementHour1(startTime: any) {
     throw new Error('Method not implemented.');
   }
@@ -309,7 +288,7 @@ incrementHour(time) {
   }
   fetchDetails(countryCode: any): void {
     this.httpService.get(this.countryMasterService.editCountryMaster + "?countryMaster="+encodeURIComponent(this.encryptionService.encryptAesToString(countryCode, this.serverUrl.secretKey).toString())).subscribe((res: any) => {
-      // console.log(countryCode);
+      
 
       this.docForm.patchValue({
         'countryCode': res.countryMasterBean.countryCode,
@@ -320,21 +299,13 @@ incrementHour(time) {
       })
     },
       (err: HttpErrorResponse) => {
-        // error code here
+        
       }
     );
-    /*  this.httpClient.delete(this.API_URL + id).subscribe(data => {
-      console.log(id);
-      },
-      (err: HttpErrorResponse) => {
-         // error code here
-      }
-    );*/
+   
   }
   
   update() {
-
-    
 
   }
 

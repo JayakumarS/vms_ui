@@ -26,11 +26,14 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { A4SheetComponent } from './a4-sheet/a4-sheet.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 
 @NgModule({
   declarations: [
-    SeamansContractComponent
+    SeamansContractComponent,
+    A4SheetComponent
   ],
   imports: [
     MatDatepickerModule,
@@ -41,6 +44,29 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSortModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatTabsModule,
+    MatCheckboxModule,
+    MatTableExporterModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    ComponentsModule,
+    SharedModule,
+    NgxMatSelectSearchModule,
     MatSnackBarModule,
     MatButtonModule,
     MatIconModule,
@@ -106,7 +132,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       MatProgressSpinnerModule,
       ComponentsModule,
       SharedModule,
-      MatAutocompleteModule
+      MatAutocompleteModule,
   ]
 })
 export class SeamansContractModule { }

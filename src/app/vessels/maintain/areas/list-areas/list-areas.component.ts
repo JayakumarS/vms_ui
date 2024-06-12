@@ -33,6 +33,7 @@ export class ListAreasComponent extends UnsubscribeOnDestroyAdapter implements O
    // "select",
     "code",
     "description",
+    "actions"
     
   ];
 

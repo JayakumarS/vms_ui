@@ -34,6 +34,7 @@ export class ListBunkerTanksComponent extends UnsubscribeOnDestroyAdapter implem
    // "select",
     "code",
     "description",
+    "actions"
     
   ];
 
