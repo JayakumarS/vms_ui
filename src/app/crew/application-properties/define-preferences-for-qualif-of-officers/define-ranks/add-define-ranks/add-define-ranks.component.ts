@@ -91,7 +91,8 @@ export class AddDefineRanksComponent implements OnInit {
 
       defineRankDetails: this.fb.array([
         this.fb.group({
-     
+          select: [""],
+
           rank: [""],
           qualificationRankDescription: [""],
           radioQualification: [""],
@@ -366,12 +367,38 @@ filterquantityCalculationlist(){
       this.itemRevenueExplist.filter(title => title.text.toLowerCase().includes(search))
     );
    }
+   removeRow(){
+    let count = 0;
+    const deleteRow = this.docForm.controls.defineRankDetails as FormArray;
+    let i = 0;
+    
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
+        deleteRow.removeAt(i);
+        count++;
+      } else {
+        i++;
+      }
+    }
+
+    if(count == 0){
+      this.showNotification(
+        "snackbar-danger",
+        "Please select atleast one row",
+        "top",
+        "right"
+      );
+    }
+
+  }
    addRow(){
     let defineRankDetailsDtlArray=this.docForm.controls.defineRankDetails as FormArray;
     let arraylen=defineRankDetailsDtlArray.length;
     var len = this.docForm.controls["defineRankDetails"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
+      select: [""],
+
       rank: [""],
       qualificationRankDescription: [""],
       radioQualification: [""],
@@ -382,13 +409,6 @@ filterquantityCalculationlist(){
     defineRankDetailsDtlArray.insert(arraylen,newUsergroup);
   }
 
-   removeRow(index){
-
-    var value;
-    let dataarray1 = this.docForm.controls.defineRankDetails as FormArray;
-    dataarray1.removeAt(index);
-
-  }
   onSubmit(){
 
   }

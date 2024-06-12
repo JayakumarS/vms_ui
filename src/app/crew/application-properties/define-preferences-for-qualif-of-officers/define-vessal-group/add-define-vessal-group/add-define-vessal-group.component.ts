@@ -78,7 +78,8 @@ export class AddDefineVessalGroupComponent implements OnInit {
 
       definevessaldetails: this.fb.array([
         this.fb.group({
-     
+          select: [""],
+
           typegroup: [""],
           typesubgroup: [""],
           typecode: [""],
@@ -227,6 +228,8 @@ filtertypesubgrouplist(){
     var len = this.docForm.controls["definevessaldetails"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
+      select: [""],
+
       typegroup: [""],
       typesubgroup: [""],
       typecode: [""],
@@ -235,11 +238,28 @@ filtertypesubgrouplist(){
     definevessaldetailsDtlArray.insert(arraylen,newUsergroup);
   }
 
-   removeRow(index){
+  removeRow(){
+    let count = 0;
+    const deleteRow = this.docForm.controls.definevessaldetails as FormArray;
+    let i = 0;
+    
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
+        deleteRow.removeAt(i);
+        count++;
+      } else {
+        i++;
+      }
+    }
 
-    var value;
-    let dataarray1 = this.docForm.controls.definevessaldetails as FormArray;
-    dataarray1.removeAt(index);
+    if(count == 0){
+      this.showNotification(
+        "snackbar-danger",
+        "Please select atleast one row",
+        "top",
+        "right"
+      );
+    }
 
   }
   onSubmit(){
