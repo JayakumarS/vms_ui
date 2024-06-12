@@ -9,7 +9,7 @@ const routes: Routes = [
     component: ListRequisitionComponent
   },
   {
-    path:'add-requisition',
+    path:'add-requisition/:id',
     component: AddRequisitionComponent
   }
 ];

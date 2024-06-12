@@ -220,14 +220,38 @@ mat-row, mat-footer-row {
     width: 100%;
 }
   
-  .date-time-container {
+.date-time-container {
     display: flex;
     align-items: center;
-  }
+}
   
-  .time-picker {
+.time-picker {
     margin-left: 8px; 
-  }
+}
+
+.w-70{
+    width: 70% !important;
+}
+
+.budgetHighlight.active{
+    background: green;
+    border-radius: 3px;
+    padding: 5px;
+    color: white;
+}
+
+.budgerHeader{
+    padding: 5px;
+    background: #276a7a;
+    border-radius: 5px;
+    color: white;
+}
+
+.align{
+    display: flex;
+    align-items: center;
+}
+
 
   
   

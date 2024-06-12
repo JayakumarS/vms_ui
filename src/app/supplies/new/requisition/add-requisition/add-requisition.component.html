@@ -68,11 +68,11 @@
                                 Requisition code is required
                             </mat-error>
                           </mat-form-field>
-                          <mat-icon class="mt-15 c-pointer">subdirectory_arrow_left</mat-icon>
+                          <mat-icon class="mt-15 c-pointer" (click)="getOrderCode()">subdirectory_arrow_left</mat-icon>
                         </div>
 
-                        <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
-                            <app-searchable-select 
+                        <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 flex">
+                            <app-searchable-select class="w-100"
                                 [options]="budgetList" 
                                 placeholderLabel="Search"
                                 noEntriesFoundLabel="No results found"
@@ -81,6 +81,7 @@
                                 [required]="true"
                                 [errorMessage]="'Budget is required'">
                             </app-searchable-select>
+                            <mat-icon *ngIf="this.docForm.value.budget != ''" class="mt-15 c-pointer" (click)="openBudgetPopUp()">drag_indicator</mat-icon>
                         </div>
 
                         <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
@@ -235,7 +236,11 @@
                    </mat-tab>
 
                     <mat-tab label="Comments">
-
+                      <br>
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label></mat-label>
+                        <textarea rows="10" matInput formControlName="comments"></textarea>
+                      </mat-form-field>
                     </mat-tab>
                   </mat-tab-group>
                   <br>

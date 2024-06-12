@@ -7,6 +7,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./requisition/requisition.module").then((m) => m.RequisitionModule),
   },
+  {
+    path: "spot-order",
+    loadChildren: () =>
+      import("./spot-order/spot-order.module").then((m) => m.SpotOrderModule),
+  },
 ];
 
 @NgModule({

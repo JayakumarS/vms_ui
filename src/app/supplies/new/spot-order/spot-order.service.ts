@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { SpotOrder } from './spot-order.model';
 import { BehaviorSubject } from 'rxjs';
-import { Requisition } from './requisition.model';
 import { HttpClient } from '@angular/common/http';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
@@ -9,11 +9,10 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
 @Injectable({
   providedIn: 'root'
 })
-export class RequisitionService extends UnsubscribeOnDestroyAdapter{
+export class SpotOrderService extends UnsubscribeOnDestroyAdapter{
 
-  
   isTblLoading = true;
-  dataChange: BehaviorSubject<Requisition[]> = new BehaviorSubject<Requisition[]>([]);
+  dataChange: BehaviorSubject<SpotOrder[]> = new BehaviorSubject<SpotOrder[]>([]);
   
   constructor(
     private httpClient: HttpClient,
@@ -23,7 +22,7 @@ export class RequisitionService extends UnsubscribeOnDestroyAdapter{
     super();
   }
 
-  get data(): Requisition[] {
+  get data(): SpotOrder[] {
     return this.dataChange.value;
   }
 

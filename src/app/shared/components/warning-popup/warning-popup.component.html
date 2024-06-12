@@ -1,0 +1,20 @@
+<div class="container">
+    <h3 mat-dialog-title>Message</h3>
+    <div>
+      <div class="row">
+        <!--Gift Icon-->
+        <div class="col text-center"> <i class="far fa-times-circle fa-5x col-red"></i> </div>
+        <!--Modal Text-->
+        <div class="col-8 align">
+          <dl class="dl-horizontal">
+            <dt class="pull-left me-2">{{res}}</dt>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <mat-dialog-actions align="end" class="mb-1">
+      <button mat-flat-button color="warn" [mat-dialog-close]="1" (click)="cancel()">
+        Ok
+      </button>
+    </mat-dialog-actions>
+  </div>

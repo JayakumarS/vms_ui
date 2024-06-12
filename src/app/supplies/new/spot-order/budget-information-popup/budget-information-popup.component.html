@@ -1,0 +1,127 @@
+<div class="container">
+    <div class="budgerHeader center">
+        <h4>Budget Information</h4>
+    </div>
+ <div>
+    <div class="d-flex justify-content-center">
+        <div class="flex-sb w-90 p-3">
+            <div class="budgetHighlight" [ngClass]="{'active': activeQuarter === '1st Q'}">
+              <b>1st Q</b>
+            </div>
+            <div class="budgetHighlight" [ngClass]="{'active': activeQuarter === '2nd Q'}">
+              <b>2nd Q</b>
+            </div>
+            <div class="budgetHighlight" [ngClass]="{'active': activeQuarter === '3rd Q'}">
+              <b>3rd Q</b>
+            </div>
+            <div class="budgetHighlight" [ngClass]="{'active': activeQuarter === '4th Q'}">
+              <b>4th Q</b>
+            </div>
+          </div>
+    </div>
+    <hr>
+    <br>
+    <div class="flex-sb">
+        <div>
+            <b>01/01</b>
+        </div>
+        <div>
+            <b>31/03</b>
+        </div>
+        <div>
+            <b>30/06</b>
+        </div>
+        <div>
+            <b>30/09</b>
+        </div>
+        <div>
+            <b>31/12</b>
+        </div>
+    </div>
+    <hr>
+
+    <div class="flex">
+        <div class="w-70 p-3">
+            <div class="d-flex justify-content-end">
+                <b class="text-primary">Date:</b>
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                <b class="text-primary">Budget Full Year:</b>
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                <b class="text-primary">Remaining Full Year:</b>
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                <b class="text-secondary">Previous Period (Invoices/P.O):</b>
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                <b class="text-secondary">Previous Period (Open Requisitions):</b>
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                <b class="text-danger">Budget Current period:</b>
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                <b class="text-danger">Current period(Invoices/P.O):</b>
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                <b class="text-danger">Current period(Open Requisitions):</b>
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                <b class="text-danger">Remaining Current Period:</b>
+            </div>
+        </div>
+    
+        <div class="w-30 p-3">
+            <div class="d-flex justify-content-end">
+                {{currentDate}} 
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                2,000
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                2,000
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                0.00
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                0.00
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                500.00
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                0.00
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                0.00
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+                0.00
+            </div>
+        </div>
+    </div>
+ </div>
+ <hr>
+ <mat-dialog-actions align="end" class="mb-1">
+    <button mat-flat-button color="warn" [mat-dialog-close]="1" (click)="cancel()">
+      Exit
+    </button>
+  </mat-dialog-actions>
+</div>

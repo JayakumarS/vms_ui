@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/common-service/common.service';
-import { DescriptionPopupComponent } from '../description-popup/description-popup.component';
-import { MatDialog } from '@angular/material/dialog';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { DescriptionPopupComponent } from '../../requisition/description-popup/description-popup.component';
 import { WarningPopupComponent } from 'src/app/shared/components/warning-popup/warning-popup.component';
-import { BudgetInformationPopupComponent } from '../../spot-order/budget-information-popup/budget-information-popup.component';
+import { BudgetInformationPopupComponent } from '../budget-information-popup/budget-information-popup.component';
 
 @Component({
-  selector: 'app-add-requisition',
-  templateUrl: './add-requisition.component.html',
-  styleUrls: ['./add-requisition.component.sass']
+  selector: 'app-add-spot-order',
+  templateUrl: './add-spot-order.component.html',
+  styleUrls: ['./add-spot-order.component.sass']
 })
-export class AddRequisitionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-
+export class AddSpotOrderComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+ 
   docForm : FormGroup;
   urgencyList:any=[];
   vesselList:any=[];
@@ -25,7 +25,9 @@ export class AddRequisitionComponent extends UnsubscribeOnDestroyAdapter impleme
   dryDockingList:any=[];
   operationList:any=[];
   approverList:any=[];
-  isHovered = false;
+  currencyList:any=[];
+  paymentTermList:any=[];
+  projectList:any=[];
   isPopupOpened = false;
 
   constructor(
@@ -41,28 +43,40 @@ export class AddRequisitionComponent extends UnsubscribeOnDestroyAdapter impleme
       urgent:[""],
       vesselCode:[""],
       department:[""],
-      rCode:[{ value: '', disabled: true }],
+      orderCode:[{ value: '', disabled: true }],
       budget:[""],
-      rPort:[""],
-      srPort:[""],
-      rrDateObj:[""],
-      rrDate:[""],
-      rDateObj:[""],
-      rDate:[""],
-      vesselEta:[""],
-      desc:[""],
+      dPort:[""],
+      srNo:[""],
+      orderDateObj:[""],
+      orderDate:[""],
+      orderSupplier:[""],
+      ref:[""],
+      orderAgent:[""],
+      orderCurrency:[""],
+      odDateObj:[""],
+      odDate:[""],
+      dicount:[""],
+      orderRate:[""],
       estDateObj:[""],
       estDate:[""],
-      deliveryPort:[""],
-      voyageId:[""],
-      officeReference:[""],
+      paymentTerm:[""],
       operation:[""],
-      dryDocking:[""],
+      readDateObj:[""],
+      readDate:[""],
+      totalWeight:[""],
+      vesselEta:[""],
       vesselEtd:[""],
-      approver:[""],
+      noOfParcels:[""],
+      demension:[""],
+      project:[""],
+      desc:[""],
+      voyageId:[""],
+      dryDocking:[""],
+      paymentTermsText:[""],
       comments:[""]
     });
   }
+
   ngOnInit(): void {
     this.urgencyList = [{id:1,text:"Normal"},{id:3,text:"Medium"},{id:3,text:"Important"}];
     this.vesselList = [{id:1,text:"GODA-GODAVARI"},{id:2,text:"RJG-RAJIV GANDHI"},{id:3,text:"IDG-INDIRA GANDHI"},{id:4,text:"ARJ-TCI ARJUN"}];
@@ -71,6 +85,13 @@ export class AddRequisitionComponent extends UnsubscribeOnDestroyAdapter impleme
     this.approverList = [{id:1,text:"Admin"},{id:3,text:"Officer"}];
     this.operationList = [{id:1,text:"Operation-1"},{id:3,text:"Operation-2"}];
     this.dryDockingList = [{id:1,text:"Drydocking-1"},{id:3,text:"Drydocking-2"}];
+    this.currencyList = [{id:1,text:"INR"},{id:2,text:"USD"},{id:3,text:"AED"}];
+  }
+
+  save(){}
+
+  cancel(){
+    this.router.navigate(['/supplies/new/spot-order/list-spot-order']);
   }
 
   getDateString(event,id){
@@ -87,12 +108,12 @@ export class AddRequisitionComponent extends UnsubscribeOnDestroyAdapter impleme
     if(this.docForm.value.vesselCode != '' && this.docForm.value.department != ''){
       if(this.docForm.value.vesselCode == 1){
         this.docForm.patchValue({
-          'rCode' : "OC-515"
+          'orderCode' : "OC-515"
         })
       }else{
         this.showWarningPopup();
         this.docForm.patchValue({
-          'rCode' : ""
+          'orderCode' : ""
         })
       }
     }else{
@@ -107,6 +128,25 @@ export class AddRequisitionComponent extends UnsubscribeOnDestroyAdapter impleme
         "right"
       );
     }
+  }
+
+  openDescPopUp(){
+    let tempDirection;
+    const dialogRef = this.dialog.open(DescriptionPopupComponent, {
+      data: "",
+      height:"30%",
+      width: "30%",
+      direction: tempDirection,
+    });  
+
+    this.subs.sink = dialogRef.afterClosed().subscribe((res) => {
+      if(res.data != 'CANCEL'){
+        this.isPopupOpened = true;
+        this.docForm.patchValue({
+          desc:res.data
+        })
+      }
+    });
   }
 
   openBudgetPopUp(){
@@ -146,42 +186,6 @@ export class AddRequisitionComponent extends UnsubscribeOnDestroyAdapter impleme
       panelClass: [colorName, 'snackbar-text'],
       data: {
         html: true
-      }
-    });
-  }
-
-
-  onMouseOver() {
-    this.isHovered = true;
-  }
-
-  onMouseOut() {
-    this.isHovered = false;
-  }
-
-  save(){
-
-  }
-
-  cancel(){
-    this.router.navigate(['/supplies/new/requisition/list-requisition']);
-  }
-
-  openDescPopUp(){
-    let tempDirection;
-    const dialogRef = this.dialog.open(DescriptionPopupComponent, {
-      data: "",
-      height:"30%",
-      width: "30%",
-      direction: tempDirection,
-    });  
-
-    this.subs.sink = dialogRef.afterClosed().subscribe((res) => {
-      if(res.data != 'CANCEL'){
-        this.isPopupOpened = true;
-        this.docForm.patchValue({
-          desc:res.data
-        })
       }
     });
   }

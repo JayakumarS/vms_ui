@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { RequisitionService } from '../requisition.service';
-import { Requisition } from '../requisition.model';
+import { SpotOrderService } from '../spot-order.service';
+import { SpotOrder } from '../spot-order.model';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,11 +15,11 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 
 @Component({
-  selector: 'app-list-requisition',
-  templateUrl: './list-requisition.component.html',
-  styleUrls: ['./list-requisition.component.sass']
+  selector: 'app-list-spot-order',
+  templateUrl: './list-spot-order.component.html',
+  styleUrls: ['./list-spot-order.component.sass']
 })
-export class ListRequisitionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class ListSpotOrderComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   displayedColumns = [
     "vessel",
@@ -30,13 +30,13 @@ export class ListRequisitionComponent extends UnsubscribeOnDestroyAdapter implem
   ];
 
  dataSource: ExampleDataSource | null;
- exampleDatabase: RequisitionService | null;
- selection = new SelectionModel<Requisition>(true, []);
- requisition: Requisition | null;
+ exampleDatabase: SpotOrderService | null;
+ selection = new SelectionModel<SpotOrder>(true, []);
+ spotOrder: SpotOrder | null;
  constructor(
    public httpClient: HttpClient,
    public dialog: MatDialog,
-   public requisitionService: RequisitionService,
+   public spotOrderService: SpotOrderService,
    private snackBar: MatSnackBar,
    private serverUrl:serverLocations,
    private httpService:HttpServiceService,
@@ -52,38 +52,30 @@ export class ListRequisitionComponent extends UnsubscribeOnDestroyAdapter implem
  contextMenu: MatMenuTrigger;
  contextMenuPosition = { x: "0px", y: "0px" };
 
- ngOnInit(): void {
-   this.loadData();
- }
+  ngOnInit(): void {
+    this.loadData();
+  }
 
- editCall(id){
-
- }
-
- deleteItem(id){
-
- }
-
- public loadData() {
-   this.exampleDatabase = new RequisitionService(this.httpClient,this.serverUrl,this.httpService);
-   this.dataSource = new ExampleDataSource(
-     this.exampleDatabase,
-     this.paginator,
-     this.sort
-   );
-   this.subs.sink = fromEvent(this.filter.nativeElement, "keyup").subscribe(
-     () => {
-       if (!this.dataSource) {
-         return;
-       }
-       this.dataSource.filter = this.filter.nativeElement.value;
-     }
-   );
- }
+  public loadData() {
+    this.exampleDatabase = new SpotOrderService(this.httpClient,this.serverUrl,this.httpService);
+    this.dataSource = new ExampleDataSource(
+      this.exampleDatabase,
+      this.paginator,
+      this.sort
+    );
+    this.subs.sink = fromEvent(this.filter.nativeElement, "keyup").subscribe(
+      () => {
+        if (!this.dataSource) {
+          return;
+        }
+        this.dataSource.filter = this.filter.nativeElement.value;
+      }
+    );
+  }
 
 }
 
-export class ExampleDataSource extends DataSource<Requisition> {
+export class ExampleDataSource extends DataSource<SpotOrder> {
   filterChange = new BehaviorSubject("");
   get filter(): string {
     return this.filterChange.value;
@@ -91,10 +83,10 @@ export class ExampleDataSource extends DataSource<Requisition> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: Requisition[] = [];
-  renderedData: Requisition[] = [];
+  filteredData: SpotOrder[] = [];
+  renderedData: SpotOrder[] = [];
   constructor(
-    public exampleDatabase: RequisitionService,
+    public exampleDatabase: SpotOrderService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -102,7 +94,7 @@ export class ExampleDataSource extends DataSource<Requisition> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
 
-  connect(): Observable<Requisition[]> {
+  connect(): Observable<SpotOrder[]> {
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
       this._sort.sortChange,
@@ -112,12 +104,12 @@ export class ExampleDataSource extends DataSource<Requisition> {
 
     this.exampleDatabase.getList();
     return merge(...displayDataChanges).pipe(map(() => {
-        this.filteredData = this.exampleDatabase.data.slice().filter((requisition: Requisition) => {
+        this.filteredData = this.exampleDatabase.data.slice().filter((spotOrder: SpotOrder) => {
             const searchStr = (
-              requisition.vessel +
-              requisition.department +
-              requisition.rCode +
-              requisition.budget 
+              spotOrder.vessel +
+              spotOrder.department +
+              spotOrder.rCode +
+              spotOrder.budget 
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -134,7 +126,7 @@ export class ExampleDataSource extends DataSource<Requisition> {
   }
   disconnect() {}
 
-  sortData(data: Requisition[]): Requisition[] {
+  sortData(data: SpotOrder[]): SpotOrder[] {
     if (!this._sort.active || this._sort.direction === "") {
       return data;
     }
