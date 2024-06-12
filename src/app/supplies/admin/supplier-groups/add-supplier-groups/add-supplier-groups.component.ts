@@ -12,6 +12,8 @@ import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { SupplierGroups } from '../supplier-groups.model';
 import { SupplierGroupsService } from '../supplier-groups.service';
+import { SupplierAllocationComponent } from '../supplier-allocation/supplier-allocation.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-add-supplier-groups',
   templateUrl: './add-supplier-groups.component.html',
@@ -46,7 +48,7 @@ export class AddSupplierGroupsComponent implements OnInit {
     public SupplierGroupsService: SupplierGroupsService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
-    public EncrDecr: EncrDecrService,
+    public EncrDecr: EncrDecrService, public dialog: MatDialog,
     private serverUrl:serverLocations,
     private encryptionService:EncryptionService,
     public snackBar: MatSnackBar) { 
@@ -103,8 +105,25 @@ export class AddSupplierGroupsComponent implements OnInit {
     this.router.navigate(['/supplies/admin/supplier-groups/list-supplier-groups/']);
   }
 
-  popup(){
-    
+  popup(row) {
+    let tempDirection: 'ltr' | 'rtl';
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+
+    const dialogRef = this.dialog.open(SupplierAllocationComponent, {
+      data: row,
+      height: "80%",
+      width: "100%",
+      direction: tempDirection,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
   removeRow(){
     let count = 0;

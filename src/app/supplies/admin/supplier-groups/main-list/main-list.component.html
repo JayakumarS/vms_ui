@@ -1,0 +1,54 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+      </div>
+      <div class="row clearfix ">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="box-shadow">
+          <div class="card" >
+            <div class="body" style="height: 500px;">
+              <form class="m-4" [formGroup]="docForm">
+            <div class="tableBody">
+              <div class="table-responsive">
+                  <table class="table table-hover ">
+                      <thead>
+                          <tr>
+                            <th><input type="checkbox"  (change)="selectAll($event)"></th>
+                            <th>Name</th>
+                            <th>Code</th>
+                       
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr
+                              *ngFor="let data of mainList; let i = index">
+                              <td><input type="checkbox" [checked]="data.selected" (change)="select($event, i)"></td>                           
+                              <td>{{data.name}}</td>                       
+                              <td>{{data.code}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+                
+
+              </div>
+          </div>
+<br>
+
+
+
+<br>
+                <div class="row" > 
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3" style="display: flex; justify-content: center;">
+                    <button class="btn-space saveBtn" mat-raised-button (click)="submit()"><mat-icon class="saveCancelIcon">save</mat-icon>Ok</button>
+                    <button class="cancelBtn" type="button" mat-button (click)="onCancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
