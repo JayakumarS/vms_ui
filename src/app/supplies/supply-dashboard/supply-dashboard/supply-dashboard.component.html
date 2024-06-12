@@ -35,6 +35,7 @@
                       </div>
 
                     </div>
+                    <br>
                     <div class="row" *ngIf="sliderChecked">
 
                       <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12">
@@ -58,7 +59,7 @@
                     </div>
                     <div class="row">
                       <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12">
-                        <h6>Vessel</h6>
+                        <h6 *ngIf="sliderChecked">Vessel</h6>
 
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                           <ng-multiselect-dropdown class="inputTxt" formControlName="active" [placeholder]="'Active'"
