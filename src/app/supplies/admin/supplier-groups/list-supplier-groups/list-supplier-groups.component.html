@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="' List Supplier Group'" [items]="['Supplies']" [active_item]="'upplier Group List'">
+        <app-breadcrumb [title]="' List Supplier Group'" [items]="['Supplies']" [active_item]="'Supplier Group List'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -31,7 +31,7 @@
                            
                           <div class="m-l-10" matTooltip="ADD">
                             <button color="primary" type="button" class="btn-space" [routerLink]="'/supplies/admin/supplier-groups/add-supplier-groups/0'" mat-raised-button>
-                              <i class="fas fa-plus-circle" style="font-size: 20px;color: bisque;"></i> Create New
+                              <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Create New
                             </button>
                           </div>
 
@@ -70,7 +70,7 @@
                   #exporter="matTableExporter">
                   
                   <ng-container matColumnDef="groupDiscription">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Group Discription</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Group Description</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.groupDiscription}} </a></mat-cell>
                   </ng-container>
                 
