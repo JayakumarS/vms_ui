@@ -9,7 +9,7 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="box-shadow">
                     <div class="card">
-                        <div class="body" style="padding-left: 110px;">
+                        <div class="body">
                             <form class="m-4" [formGroup]="docForm">
 
                                 <div style="overflow-x: auto; max-width: 100%;">
@@ -83,13 +83,13 @@
 
 
                                 
-                                <div style="overflow-x: auto; max-width: 100%;">
+                                <div style="overflow-x: auto; ">
                                     <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
                                         <thead class="">
 
                                             <tr>
                                                 <th class="text-center table-heading padding-both-side-2 width_7" style="
-                            width: 2%; border-radius: 0.05rem; "></th>
+                            width: 1%; border-radius: 0.05rem; "></th>
                                                 <th class="text-center table-heading padding-both-side-2 width_7" style=" 
                             width: 4%; border-radius: 0.05rem;">Contents</th>
                                
@@ -164,16 +164,18 @@
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
 
-                                        <button *ngIf="!edit" (click)="onSubmit()" class="btn-space" mat-raised-button
+                                        <!-- <button *ngIf="!edit" (click)="onSubmit()" class="btn-space" mat-raised-button
                                             color="accent"
-                                            style="margin-left: 36%;background-color: #34d034;">Submit</button>
-                                        <button *ngIf="edit" (click)="update()" class="btn-space" mat-raised-button
+                                            style="margin-left: 36%;background-color: #34d034;">Submit</button> -->
+                                            <button *ngIf="!edit" class="btn-space saveBtn" mat-raised-button style="margin-left: 36%;"(click)="onSubmit()">
+                                            <mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                                            <button *ngIf="edit" (click)="update()" class="btn-space" mat-raised-button
                                             color="accent"
                                             style="margin-left: 36%;background-color: #34d034;">Update</button>
                                         <button color="primary" type="button" class="btn-space" (click)="reset()"
                                             mat-raised-button>Reset</button>
-                                        <button color="warn" type="button" class="btn-space" (click)="onCancel()"
-                                            mat-raised-button>Cancel</button>
+                                           <button class="cancelBtn" type="button" mat-button (click)="onCancel()">
+                                                <mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
                                     </div>
                                 </div>
                             </form>

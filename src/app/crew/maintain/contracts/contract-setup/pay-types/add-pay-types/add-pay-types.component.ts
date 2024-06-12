@@ -97,7 +97,7 @@ export class AddPayTypesComponent implements OnInit {
      });
      this.contentslist = [
       { id: "Balance Payable", text: "Balance Payable" },
-      { id: "Privious Balance", text: "Privious Balance" },
+      { id: "Previous Balance", text: "Previous Balance" },
       {  id: "Basic Wages", text: "Basic Wages"},
     
     ];

@@ -28,8 +28,8 @@
                         <li >
                           <div class="m-l-10" matTooltip="ADD">
                             <!-- <button mat-mini-fab color="primary" (click)="addNew()"> -->
-                            <button mat-mini-fab color="primary"  [routerLink]="'/crew/maintain/contracts/contract-setup/RFT-Fields/add-rft-field/0'">
-                              <mat-icon class="col-white">add</mat-icon>
+                            <button color="primary"  type="button" class="btn-space" [routerLink]="'/crew/maintain/contracts/contract-setup/RFT-Fields/add-rft-field/0'"mat-raised-button>
+                              <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Create New
                             </button>
                           </div>
                         </li>
@@ -103,10 +103,10 @@
                   </mat-row>
                 </mat-table>
                 <!-- Loading spinner -->
-                <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
+                <!-- <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
                   <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
                   </mat-progress-spinner>
-                </div>
+                </div> -->
                 <!-- context menu start -->
                 <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
                   [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
