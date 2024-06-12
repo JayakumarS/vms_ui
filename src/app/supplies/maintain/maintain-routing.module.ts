@@ -12,6 +12,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./identifiers-library/identifiers-library.module").then((m) => m.IdentifiersLibraryModule),
   },
+  {
+    path: 'maintain-counters',
+    loadChildren: () =>
+      import("./maintain-counters/maintain-counters.module").then((m)=>m.MaintainCountersModule)
+      }
 ];
 
 @NgModule({
