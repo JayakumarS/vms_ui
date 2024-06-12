@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="' Define Administation Acceptance'" [items]="['Crew']" [active_item]="' Define Administation Acceptance List'">
+        <app-breadcrumb [title]="' Define Administration Acceptance'" [items]="['Crew']" [active_item]="' Define Administration Acceptance List'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -18,7 +18,7 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ms-0">
                         <li class="dropdown">
-                          <h2> Define Administation Acceptance</h2>
+                          <h2> Define Administration Acceptance</h2>
                         </li>
                         <li class="dropdown m-l-20">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -30,7 +30,7 @@
                           
                           <div class="m-l-10" matTooltip="ADD">
                             <button color="primary" type="button" class="btn-space" [routerLink]="'/crew/application-properties/define-preferences-for-qualif-of-officers/define-administation/add-Define-administation/0'" mat-raised-button>
-                              <i class="fas fa-plus-circle" style="font-size: 20px;color: bisque;"></i> Create New
+                              <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Create New
                             </button>
                           </div>
 
@@ -75,11 +75,11 @@
                   </ng-container>
                 
                   <ng-container matColumnDef="acceptanceCode">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Administation Acceptance Code</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Administration Acceptance Code</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.acceptanceCode}} </a></mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="acceptancedescription">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Administation Acceptance Description</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Administration Acceptance Description</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.acceptancedescription}} </a></mat-cell>
                   </ng-container>
   
