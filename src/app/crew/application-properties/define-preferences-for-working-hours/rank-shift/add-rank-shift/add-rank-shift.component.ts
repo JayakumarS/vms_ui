@@ -250,7 +250,7 @@ export class AddRankShiftComponent implements OnInit {
   }
 
   cancel(){
-    this.router.navigate(['/crew/application-properties/define-preferences-for-working-hours/define-shift-scenario/list-define-shift-scenario']);
+    this.router.navigate(['/crew/application-properties/define-preferences-for-working-hours/define-rank-shift/list-define-rank-shift']);
   }
 
   showNotification(colorName, text, placementFrom, placementAlign) {
