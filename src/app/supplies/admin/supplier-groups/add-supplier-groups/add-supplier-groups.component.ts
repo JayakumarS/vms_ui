@@ -88,13 +88,11 @@ export class AddSupplierGroupsComponent implements OnInit {
    addRow(){
     let suppliergroupDetailsDtlArray=this.docForm.controls.suppliergroupDetails as FormArray;
     let arraylen=suppliergroupDetailsDtlArray.length;
-    var len = this.docForm.controls["suppliergroupDetails"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
-      sort : 1 + len,
       select: [""],
-      code:[""],
-      description:[""],
+      groupDiscription:[""],
+      suppliers:[""],
       
     })
     suppliergroupDetailsDtlArray.insert(arraylen,newUsergroup);
