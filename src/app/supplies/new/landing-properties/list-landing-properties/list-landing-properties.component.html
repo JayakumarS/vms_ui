@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header" style="padding: 0.5% !important;" style="padding: 0.5% !important;">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Spot Order'" [items]="['Supplies','New']" [active_item]="'Spot Order'">
+        <app-breadcrumb [title]="'List Landing Properties'" [items]="['Supplies','New']" [active_item]="'Landing Properties'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -15,7 +15,7 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ms-0">
                         <li class="dropdown m-l-20 ">
-                          <h2>Spot Order</h2>
+                          <h2>Landing Properties</h2>
                         </li>
                         <li class="dropdown m-l-20">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -24,7 +24,7 @@
                         </li>
                         <li>
                           <div class="m-l-10" matTooltip="ADD">
-                            <button color="primary" type="button" class="btn-space" [routerLink]="'/supplies/new/spot-order/add-spot-order/0'" mat-raised-button>
+                            <button color="primary" type="button" class="btn-space" [routerLink]="'/supplies/new/landing-properties/add-landing-properties/0'" mat-raised-button>
                               <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Create New
                             </button>
                           </div>
@@ -36,7 +36,7 @@
                         <li>
                           <div class="export-button m-l-10" matTooltip="XLSX">
                             <img src="assets/images/icons/xlsx.png" alt=""
-                              (click)="exporter.exportTable('xlsx', {fileName:'Spot-order', sheet: 'sheet1'})" />
+                              (click)="exporter.exportTable('xlsx', {fileName:'Landing-properties', sheet: 'sheet1'})" />
                           </div>
                         </li>                     
                       </ul>
@@ -54,13 +54,13 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Department</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.department}}</mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="rCode">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxLayoutGap="5px">Requisition Code</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.rCode}}</mat-cell>
+                  <ng-container matColumnDef="totalWeight">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxLayoutGap="5px">Total Weight</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.totalWeight}}</mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="budget">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Budget</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.budget}}</mat-cell>
+                  <ng-container matColumnDef="approver">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Approver</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.approver}}</mat-cell>
                   </ng-container>
                                                    
                   <!-- actions -->

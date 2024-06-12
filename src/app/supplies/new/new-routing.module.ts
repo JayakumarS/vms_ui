@@ -12,6 +12,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./spot-order/spot-order.module").then((m) => m.SpotOrderModule),
   },
+  {
+    path: "landing-properties",
+    loadChildren: () =>
+      import("./landing-properties/landing-properties.module").then((m) => m.LandingPropertiesModule),
+  },
 ];
 
 @NgModule({

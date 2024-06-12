@@ -127,15 +127,6 @@ export class AddRequisitionComponent extends UnsubscribeOnDestroyAdapter impleme
       width: "30%",
       direction: tempDirection,
     });  
-
-    this.subs.sink = dialogRef.afterClosed().subscribe((res) => {
-      if(res.data != 'CANCEL'){
-        this.isPopupOpened = true;
-        this.docForm.patchValue({
-          desc:res.data
-        })
-      }
-    });
   }
 
   showNotification(colorName, text, placementFrom, placementAlign) {
@@ -149,7 +140,6 @@ export class AddRequisitionComponent extends UnsubscribeOnDestroyAdapter impleme
       }
     });
   }
-
 
   onMouseOver() {
     this.isHovered = true;
