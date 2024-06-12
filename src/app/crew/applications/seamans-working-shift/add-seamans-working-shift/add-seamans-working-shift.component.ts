@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { CountryMasterService } from 'src/app/master/country-master/country-master.service';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
@@ -11,6 +11,8 @@ import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SeamansWorkingShift } from '../seamans-working-shift.model';
 import { SeamansWorkingShiftResultBean } from '../seamans-working-shift-result-bean';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { MatSelect } from '@angular/material/select';
 
 
 @Component({
@@ -19,13 +21,17 @@ import { SeamansWorkingShiftResultBean } from '../seamans-working-shift-result-b
   styleUrls: ['./add-seamans-working-shift.component.sass']
 })
 export class AddSeamansWorkingShiftComponent implements OnInit {
-
+  public placeFilterCtrl: FormControl = new FormControl();
+  placeFilterCtrlOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('placeTest', { static: true }) placeTest: MatSelect;
+  protected onDestroy = new Subject<void>();
   docForm: FormGroup;
+  placeList:any=[];
   countryMaster: SeamansWorkingShift;
   currencyList=[];
   edit:boolean=false;
   // oldPwd: boolean=false;
-
+  timingList:any=[];
   // For Encryption
   requestId: any;
   decryptRequestId: any;
@@ -47,14 +53,14 @@ export class AddSeamansWorkingShiftComponent implements OnInit {
 
     this.docForm = this.fb.group({
       // first: ["", [Validators.required, Validators.pattern("[a-zA-Z]+")]],
-      seaman: ["", [Validators.required]],
-      vessel: ["", [Validators.required]],
+      seaman: [""],
+      vessel: [""],
       rank:[""],
        servicestate:[""],
       isActive:["true"],
       seamansdtltable: this.fb.array([
         this.fb.group({
-          startingdate: ["",[Validators.required]],
+          startingdate: [""],
           remarks:[""],
           endingDate:[""],
           // rank:["",[Validators.required]],
@@ -64,7 +70,7 @@ export class AddSeamansWorkingShiftComponent implements OnInit {
       ]),
       seamansdtltable1: this.fb.array([
         this.fb.group({
-          shiftstart: [""],
+          shiftStart: [""],
           shiftend: [""],
           place: [""],
           watchkeeping: [""],
@@ -96,15 +102,214 @@ export class AddSeamansWorkingShiftComponent implements OnInit {
 
       }
      });
-   }
+     this.placeList = [{id:1,text:"At Sea"},{id:2,text:"In Port"}];
+   // this.timingList = [{id:1,text:"0:00"},{id:2,text:"0:30"},{id:3,text:"1:00"},{id:4,text:"1:30"}];
 
+    let id = 1;
+
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minutes = 0; minutes < 60; minutes += 30) {
+        const timeString = `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        this.timingList.push({ id: id++, text: timeString });
+      }
+    }
+
+    this.placeFilterCtrlOptions.next(this.placeList.slice());
+  
+    this.placeFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+      this.placeListFilter();
+    });
+   }
+   placeListFilter(){
+    if (!this.placeList) {
+      return;
+    }
+    let search = this.placeFilterCtrl.value;
+
+    if(!search) {
+      this.placeFilterCtrlOptions.next(this.placeList.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.placeFilterCtrlOptions.next(
+      this.placeList.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
+   addRowTwo(){
+    let seamansdtltable1 = this.docForm.controls.seamansdtltable1 as FormArray;
+    let arraylen = seamansdtltable1.length;
+    let newUsergroup: FormGroup = this.fb.group({
+      select: [""],
+      shiftStart: [""],
+      shiftEnd: [""],
+      place: [""],
+      watchKeeping: [true],
+      readOnly: [false],
+      type:[""]
+    })
+    seamansdtltable1.insert(arraylen, newUsergroup);
+  }
+  save(){
+
+  }
+  cancel(){
+    this.router.navigate(['']);
+  }
+  removeRowTwo(){
+    let count = 0;
+    const deleteRow = this.docForm.controls.seamansdtltable1 as FormArray;
+    let i = 0;
+    
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
+        deleteRow.removeAt(i);
+        count++;
+      } else {
+        i++;
+      }
+    }
+
+    if(count == 0){
+      this.showNotification(
+        "snackbar-danger",
+        "Please select atleast one row",
+        "top",
+        "right"
+      );
+    }
+  }
+   shiftOne(){
+    let seamansdtltable1 = this.docForm.controls.seamansdtltable1 as FormArray;
+    for (let i = this.docForm.controls.seamansdtltable1.value.length - 1; i >= 0; i--) {
+      let element = this.docForm.controls.seamansdtltable1.value[i];
+      if (element.type == "1") {
+        seamansdtltable1.removeAt(i);
+      }
+    }
+    seamansdtltable1.clear();
+
+    
+    let arraylen = seamansdtltable1.length;
+    
+    let newUsergroup: FormGroup = this.fb.group({
+      select: [""],
+      shiftStart: ["18.30"],
+      shiftEnd: ["22.30"],
+      place: [""],
+      watchKeeping: [true],
+      readOnly: [true],
+      type:["1"]
+    })
+    seamansdtltable1.insert(arraylen, newUsergroup);
+
+    let newUsergroupTwo: FormGroup = this.fb.group({
+      select: [""],
+      shiftStart: ["6.30"],
+      shiftEnd: ["10.30"],
+      place: [""],
+      watchKeeping: [true],
+      readOnly: [true],
+      type:["1"]
+    })
+    seamansdtltable1.insert(arraylen, newUsergroupTwo);
+  }
+
+  shiftTwo(){
+    let seamansdtltable1 = this.docForm.controls.seamansdtltable1 as FormArray;
+    for (let i = this.docForm.controls.seamansdtltable1.value.length - 1; i >= 0; i--) {
+      let element = this.docForm.controls.seamansdtltable1.value[i];
+      if (element.type == "2") {
+        seamansdtltable1.removeAt(i);
+      }
+    }
+
+    let arraylen = seamansdtltable1.length;
+    let newUsergroup: FormGroup = this.fb.group({
+      select: [""],
+      shiftStart: ["22.30"],
+      shiftEnd: ["02.30"],
+      place: [""],
+      watchKeeping: [true],
+      readOnly: [true],
+      type:["2"]
+    })
+    seamansdtltable1.insert(arraylen, newUsergroup);
+
+    let newUsergroupTwo: FormGroup = this.fb.group({
+      select: [""],
+      shiftStart: ["10.30"],
+      shiftEnd: ["14.30"],
+      place: [""],
+      watchKeeping: [true],
+      readOnly: [true],
+      type:["2"]
+    })
+    seamansdtltable1.insert(arraylen, newUsergroupTwo);
+  }
+
+  shiftThree(){
+    let seamansdtltable1 = this.docForm.controls.seamansdtltable1 as FormArray;
+    for (let i = this.docForm.controls.seamansdtltable1.value.length - 1; i >= 0; i--) {
+      let element = this.docForm.controls.seamansdtltable1.value[i];
+      if (element.type == "3") {
+        seamansdtltable1.removeAt(i);
+      }
+    } 
+
+    let arraylen = seamansdtltable1.length;
+    let newUsergroup: FormGroup = this.fb.group({
+      select: [""],
+      shiftStart: ["02.30"],
+      shiftEnd: ["06.30"],
+      place: [""],
+      watchKeeping: [true],
+      readOnly: [true],
+      type:["3"]
+    })
+    seamansdtltable1.insert(arraylen, newUsergroup);
+
+    let newUsergroupTwo: FormGroup = this.fb.group({
+      select: [""],
+      shiftStart: ["14.30"],
+      shiftEnd: ["18.30"],
+      place: [""],
+      watchKeeping: [true],
+      readOnly: [true],
+      type:["3"]
+    })
+    seamansdtltable1.insert(arraylen, newUsergroupTwo);
+  }
   onSubmit(){
     
   }
-  removeRow(index){
-    var value;
-    let dataarray1 = this.docForm.controls.seamansdtltable as FormArray;
-    dataarray1.removeAt(index);
+  // removeRow(index){
+  //   var value;
+  //   let dataarray1 = this.docForm.controls.seamansdtltable as FormArray;
+  //   dataarray1.removeAt(index);
+  // }
+  removeRow(){
+    let count = 0;
+    const deleteRow = this.docForm.controls.seamansdtltable as FormArray;
+    let i = 0;
+    
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
+        deleteRow.removeAt(i);
+        count++;
+      } else {
+        i++;
+      }
+    }
+
+    if(count == 0){
+      this.showNotification(
+        "snackbar-danger",
+        "Please select atleast one row",
+        "top",
+        "right"
+      );
+    }
   }
   onCheckboxChange() {
     // Add your logic here based on checkbox state change
@@ -147,6 +352,7 @@ export class AddSeamansWorkingShiftComponent implements OnInit {
     let seamansdtltableArray = this.docForm.controls.seamansdtltable as FormArray;
     let arraylen = seamansdtltableArray.length;
     let newUsergroup: FormGroup = this.fb.group({
+      select: [""],
       startingdate: [""],
       remarks: [""],
       endingDate:[""]
@@ -158,16 +364,16 @@ export class AddSeamansWorkingShiftComponent implements OnInit {
   }
   incrementTimeSlot() {
     let seamansdtltableArray = this.docForm.controls.seamansdtltable1 as FormArray;
-    const numberOfSlots = 4; // Number of rows to insert
+    const numberOfSlots = 4; 
     const currentLength = seamansdtltableArray.length;
     seamansdtltableArray.clear();
 
-    // Initialize start time
+   
     let startTime = 8;
     let endTime = 9;
 
     for (let i = 0; i < numberOfSlots; i++) {
-        // Create form group with start and end time
+        
         let newUsergroup: FormGroup = this.fb.group({
             shiftstart: [`${startTime}.00`],
             shiftend: [`${endTime}.00`],
@@ -175,15 +381,15 @@ export class AddSeamansWorkingShiftComponent implements OnInit {
             watchkeeping: [""],
         });
 
-        // Insert form group into FormArray
+       
         seamansdtltableArray.insert(currentLength + i, newUsergroup);
 
-        // Increment start and end time by 1 hour
+       
         startTime++;
         endTime++;
     }
 
-    // Update current time slot
+   
     this.currentTimeSlot = `8.00-9.00`;
 }
 
@@ -261,11 +467,12 @@ incrementHour(time) {
 //     return `${newHours.toString().padStart(2, '0')}:${minutes}`;
 // }
 
-  
   incrementHour1(startTime: any) {
     throw new Error('Method not implemented.');
   }
-  
+ 
+
+
 
   padZero(num: number): string {
     return num < 10 ? `0${num}` : `${num}`;

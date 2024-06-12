@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
+import { SeamansWorkingShiftService } from './seamans-working-shift.service';
 
-import { SeamensShiftingSkillsService } from './seamans-shifting-skills.service';
 
 describe('SeamensShiftingSkillsService', () => {
-  let service: SeamensShiftingSkillsService;
+  let service: SeamansWorkingShiftService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SeamensShiftingSkillsService);
+    service = TestBed.inject(SeamansWorkingShiftService);
   });
 
   it('should be created', () => {

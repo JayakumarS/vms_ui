@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AddSeamansWorkingShiftComponent } from './add-seamans-working-shift.component';
 
-import { AddSeamansShiftingSkillsComponent } from './add-seamans-shifting-skills.component';
 
 describe('AddSeamensShiftingSkillsComponent', () => {
-  let component: AddSeamansShiftingSkillsComponent;
-  let fixture: ComponentFixture<AddSeamansShiftingSkillsComponent>;
+  let component: AddSeamansWorkingShiftComponent;
+  let fixture: ComponentFixture<AddSeamansWorkingShiftComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddSeamansShiftingSkillsComponent ]
+      declarations: [ AddSeamansWorkingShiftComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddSeamansShiftingSkillsComponent);
+    fixture = TestBed.createComponent(AddSeamansWorkingShiftComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

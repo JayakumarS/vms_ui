@@ -6,7 +6,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { SeamansShiftingSkills } from './seamans-shifting-skills.model';
+import { SeamansWorkingShift } from './seamans-working-shift.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,11 +15,11 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class SeamensShiftingSkillsService extends UnsubscribeOnDestroyAdapter{
+export class SeamansWorkingShiftService extends UnsubscribeOnDestroyAdapter{
 
   isTblLoading = true;
   currencyList:[];
-  dataChange: BehaviorSubject<SeamansShiftingSkills[]> = new BehaviorSubject<SeamansShiftingSkills[]>(
+  dataChange: BehaviorSubject<SeamansWorkingShift[]> = new BehaviorSubject<SeamansWorkingShift[]>(
     []
   );
   // Temporarily stores data from dialogs
@@ -41,7 +41,7 @@ export class SeamensShiftingSkillsService extends UnsubscribeOnDestroyAdapter{
   public deleteEventCal = `${this.serverUrl.apiServerAddress}app/countryMaster/deleteEventCal`;
   public editEventDetail = `${this.serverUrl.apiServerAddress}app/countryMaster/editEventDetail`;
 
-  get data(): SeamansShiftingSkills[] {
+  get data(): SeamansWorkingShift[] {
     return this.dataChange.value;
   }
   getDialogData() {
