@@ -9,7 +9,7 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="box-shadow">
                     <div class="card">
-                        <div class="body" style="padding-left: 110px;">
+                        <div class="body">
                             <form class="m-4" [formGroup]="docForm">
 
                                 <div style="overflow-x: auto; max-width: 100%;">
@@ -17,12 +17,9 @@
                                         <thead class="">
 
                                             <tr>
-                                                <th class="text-center table-heading padding-both-side-2 width_7" style="
-                            width: 2%; border-radius: 0.05rem; "></th>
-                                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
-                            width: 4%; border-radius: 0.05rem;">Code</th>
-                                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
-                            width: 4%; border-radius: 0.05rem;">Description</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7"></th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7">Code</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7">Description</th>
                                             </tr>
                                         </thead>
 
@@ -31,11 +28,11 @@
                                             <tbody [formGroup]="pandiDetails">
 
                                                 <tr>
-                                                    <td class="padding-both-side-2">
+                                                    <td class="col-md-1">
                                                         <mat-checkbox class="example-margin mb-13" name="select{{i}}" formControlName="select"></mat-checkbox>
                                                     </td>
 
-                                                    <td class="padding-both-side-2">
+                                                    <td class="col-md-4">
                                                         <mat-form-field class="example-full-width form-control-sm"
                                                             appearance="outline">
                                                             <mat-label>Code</mat-label>
@@ -45,7 +42,7 @@
 
                                                     </td>
 
-                                                    <td class="padding-both-side-2">
+                                                    <td class="col-md-6">
                                                         <mat-form-field class="example-full-width form-control-sm"
                                                             appearance="outline">
                                                             <mat-label>Description</mat-label>
@@ -56,6 +53,9 @@
 
                                                     </td>
 
+                                                    <td class="col-md-1">
+                                                    </td>
+                                                    
                                                 </tr>
 
 
@@ -80,8 +80,7 @@
 
 
                                 <br>
-                                <div class="center" style="margin-top: 1px;
-                               margin-right: 316px">
+                                <div class="center">
                            <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
                            <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
                                  </div>
