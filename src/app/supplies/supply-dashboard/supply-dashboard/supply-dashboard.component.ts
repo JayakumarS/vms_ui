@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import { supplydashboard } from './supply-dashboard.model';
 import { SupplyDashboardService } from '../supply-dashboard.service';
 import * as Chart from 'chart.js';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 @Component({
   selector: 'app-supply-dashboard',
   templateUrl: './supply-dashboard.component.html',
@@ -128,7 +129,7 @@ export class SupplyDashboardComponent implements OnInit {
   protected onDestroy = new Subject<void>();
 
 
-
+  dropdownSettings: IDropdownSettings;
   docForm: FormGroup;
   supplydashboard: supplydashboard;
   currencyList=[];
@@ -158,9 +159,15 @@ export class SupplyDashboardComponent implements OnInit {
   shipmanagerlist:any;
   crewmanagerlist:any;
   superintendentlist:any;
+  departmentList:any;
   currtmpList: any[];
   pandilist: any;
-  active: boolean=false;
+  vessellist: any;
+  activelist: any;
+  inactivelist: any;
+  sliderChecked: boolean = true;
+  checkboxText = 'Fleet';
+  checkboxControl = new FormControl(false);
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
@@ -173,6 +180,11 @@ export class SupplyDashboardComponent implements OnInit {
     public snackBar: MatSnackBar) { 
 
     this.docForm = this.fb.group({
+      checkbox:[true],
+      active:[""],
+      inactive:[""],
+      vessel:[""],
+      department:[""],
       todateObj: [""],
       todate: [""],
       fromdate: [""],
@@ -234,7 +246,13 @@ export class SupplyDashboardComponent implements OnInit {
   }
   
    ngOnInit() {
-
+    this.dropdownSettings = {
+      singleSelection: false,
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 2,
+      allowSearchFilter: true
+    };
      this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
       this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
        this.edit=true;
@@ -243,6 +261,10 @@ export class SupplyDashboardComponent implements OnInit {
 
       }
      });
+this.departmentList=[
+
+
+];
 
      this.prefixlist = [
   
@@ -259,8 +281,23 @@ this.prefixFilterCtrl.valueChanges
   });
 
 
+  this.activelist = [
+    { id: "ABU SAMRAH", text: "ABU SAMRAH" },
+    { id: "AL DANAH", text: "AL DANAH" },
+    { id: "ATHENA", text: "ATHENA" },
+    { id: "GFS GALAXY", text: "GFS GALAXY" },
+  ]
+    this.inactivelist = [
+    { id: "BMS LIBRA", text: "BMS LIBRA" },
+    { id: "MARC", text: "MARC" },
+    { id: "RUBY", text: "RUBY" },
+    { id: "PAMBA1", text: "PAMBA1" },
+  ];
   this.departmentlist = [
-  
+    { id: "AGENCY FEES", text: "AGENCY FEES" },
+  { id: "BERTH CHARGES", text: "BERTH CHARGE" },
+  { id: "CABIN STORES", text: "CABIN STORES" },
+  { id: "CHEMICALS", text: "CHEMICALS" },
   ];
   
   this.departmentFilteredOptions.next(this.departmentlist.slice());
@@ -275,7 +312,9 @@ this.departmentFilterCtrl.valueChanges
 
 
 this.fleetlist = [
-  
+  { id: "GFS SHIP MANAGEMENT FZE", text: "GFS SHIP MANAGEMENT FZE" },
+  { id: "INTERWORLD", text: "INTERWORLD" },
+  { id: "SAFEEN RORO", text: "SAFEEN RORO" },
     
 ];
 
@@ -638,9 +677,21 @@ this.filteritemsuperintendentlist();
 
 
    }
-   activeStatus(event: any) {
-    this.active = event.checked;
+
+   toggleFleet() {
+    // Toggle the state of sliderChecked FormControl
+    this.sliderChecked = !this.sliderChecked;
+
+    this.checkboxControl.setValue(!this.checkboxControl.value);
+  
+    // Update the text based on the state of the checkbox
+    this.checkboxText = this.checkboxControl.value ? 'Vessel' : 'Fleet';
   }
+  
+  
+  //  activeStatus(event: any) {
+  //   this.active = event.checked;
+  // }
    filteritemsuperintendentlist(){
     if (!this.superintendentlist) {
       return;
