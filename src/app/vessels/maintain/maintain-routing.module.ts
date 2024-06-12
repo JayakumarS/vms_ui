@@ -82,6 +82,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./vessel-communication-locations/vessel-communication-locations.module").then((m) => m.VesselCommunicationLocationsModule),
   },
+  {
+    path: "official-managers",
+    loadChildren: () =>
+      import("./official-managers/official-managers.module").then((m) => m.OfficialManagersModule),
+  },
   
 ];
 

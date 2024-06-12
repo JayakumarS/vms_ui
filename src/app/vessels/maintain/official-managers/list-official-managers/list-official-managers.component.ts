@@ -11,31 +11,32 @@ import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { FleetManagersService } from '../fleet-managers.service';
-import { FleetModel } from '../fleet.model';
-
+import { OfficialManagersService } from '../official-managers.service';
+import { OffManagerModel } from '../off-managers.model';
 
 @Component({
-  selector: 'app-list-fleet-managers',
-  templateUrl: './list-fleet-managers.component.html',
-  styleUrls: ['./list-fleet-managers.component.sass']
+  selector: 'app-list-official-managers',
+  templateUrl: './list-official-managers.component.html',
+  styleUrls: ['./list-official-managers.component.css']
 })
-export class ListFleetManagersComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class ListOfficialManagersComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns=[
-    "fleet",
-    "opmanager",
-    "techmanager",
+    "code",
+    "description",
+    "city",
+    "address",
+    "phone",
     "actions"
   ];
   dataSource: ExampleDataSource | null;
-  exampleDatabase: FleetManagersService | null;
-  selection = new SelectionModel<FleetModel>(true, []);
-  fleetmodel: FleetModel | null;
+  exampleDatabase: OfficialManagersService | null;
+  selection = new SelectionModel<OffManagerModel>(true, []);
+  offmanagermodel: OffManagerModel | null;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public fleetservice: FleetManagersService,
+    public offmanagerservice: OfficialManagersService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
@@ -54,9 +55,8 @@ export class ListFleetManagersComponent extends UnsubscribeOnDestroyAdapter impl
   ngOnInit(): void {
     this.loadData();
   }
-
   public loadData() {
-    this.exampleDatabase = new FleetManagersService(this.httpClient,this.serverUrl,this.httpService);
+    this.exampleDatabase = new OfficialManagersService(this.httpClient,this.serverUrl,this.httpService);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -71,6 +71,7 @@ export class ListFleetManagersComponent extends UnsubscribeOnDestroyAdapter impl
       }
     );
   }
+
   addNew(){
 
   }
@@ -80,7 +81,7 @@ export class ListFleetManagersComponent extends UnsubscribeOnDestroyAdapter impl
   }
 
 }
-export class ExampleDataSource extends DataSource<FleetModel> {
+export class ExampleDataSource extends DataSource<OffManagerModel> {
   filterChange = new BehaviorSubject("");
   get filter(): string {
     return this.filterChange.value;
@@ -88,10 +89,10 @@ export class ExampleDataSource extends DataSource<FleetModel> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: FleetModel[] = [];
-  renderedData: FleetModel[] = [];
+  filteredData: OffManagerModel[] = [];
+  renderedData: OffManagerModel[] = [];
   constructor(
-    public exampleDatabase: FleetManagersService,
+    public exampleDatabase: OfficialManagersService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -99,7 +100,7 @@ export class ExampleDataSource extends DataSource<FleetModel> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
 
-  connect(): Observable<FleetModel[]> {
+  connect(): Observable<OffManagerModel[]> {
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
       this._sort.sortChange,
@@ -109,11 +110,13 @@ export class ExampleDataSource extends DataSource<FleetModel> {
 
     this.exampleDatabase.getList();
     return merge(...displayDataChanges).pipe(map(() => {
-        this.filteredData = this.exampleDatabase.data.slice().filter((fleetservice: FleetModel) => {
+        this.filteredData = this.exampleDatabase.data.slice().filter((offmanagermodel: OffManagerModel) => {
             const searchStr = (
-              fleetservice.fleet +
-              fleetservice.opmanager +
-              fleetservice.techmanager 
+              offmanagermodel.code +
+              offmanagermodel.description +
+              offmanagermodel.city +
+              offmanagermodel.address +
+              offmanagermodel.phone 
 
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -131,7 +134,7 @@ export class ExampleDataSource extends DataSource<FleetModel> {
   }
   disconnect() {}
 
-  sortData(data: FleetModel[]): FleetModel[] {
+  sortData(data: OffManagerModel[]): OffManagerModel[] {
     if (!this._sort.active || this._sort.direction === "") {
       return data;
     }
@@ -139,15 +142,23 @@ export class ExampleDataSource extends DataSource<FleetModel> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-        case "fleet":
-          [propertyA, propertyB] = [a.fleet, b.fleet];
+        case "code":
+          [propertyA, propertyB] = [a.code, b.code];
           break;
-        case "opmanager":
-          [propertyA, propertyB] = [a.opmanager, b.opmanager];
+        case "description":
+          [propertyA, propertyB] = [a.description, b.description];
           break;
-        case "techmanager":
-          [propertyA, propertyB] = [a.techmanager, b.techmanager];
+        case "city":
+          [propertyA, propertyB] = [a.city, b.city];
           break;
+        case "address":
+          [propertyA, propertyB] = [a.address, b.address];
+          break;
+        case "phone":
+          [propertyA, propertyB] = [a.phone, b.phone];
+          break;
+
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
