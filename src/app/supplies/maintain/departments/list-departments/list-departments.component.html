@@ -1,0 +1,213 @@
+
+<section class="content">
+    <div class="content-block">
+      <div class="block-header" style="padding: 0.5% !important;" style="padding: 0.5% !important;">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Departments'" [items]="['Supplies','Maintain']" [active_item]="'Departments'">
+        </app-breadcrumb>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="table-responsive"  style="max-height: 500px; overflow-y: auto;">
+                <div class="materialTableHeader" style="padding-top: 1%;padding-bottom: 4%;width: 360%;">
+                  <div class="row">
+                    <div class="col-8">
+                      <ul class="header-buttons-left ms-0">
+                        <li class="dropdown m-l-20 ">
+                          <h2>Departments</h2>
+                        </li>
+                        <li class="dropdown m-l-20">
+                          <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                          <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                            aria-label="Search box">
+                        </li>
+                        <li>
+                          <div class="m-l-10" matTooltip="ADD">
+                            <button color="primary" type="button" class="btn-space" [routerLink]="'/supplies/maintain/departments/add-departments/0'" mat-raised-button>
+                              <i class="fas fa-plus-circle" style="font-size: 20px;color: bisque;"></i> Create New
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="export-button m-l-10" matTooltip="XLSX">
+                            <img src="assets/images/icons/xlsx.png" alt=""
+                              (click)="exporter.exportTable('xlsx', {fileName:'customer-list', sheet: 'sheet1'})" />
+                          </div>
+                        </li>                     
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+               
+                <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
+                  #exporter="matTableExporter" style="width: 360%;">
+                  
+                  <ng-container matColumnDef="code">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Code</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.code}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="department">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Department Name</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.department}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="formType">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Form Type</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                      {{row.formType}}
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="decimals">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Decimals</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.decimals}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="itemsToOrderCommends">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Items to Order Commends</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.itemsToOrderCommends}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="itemsNotToOrderCommends">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Items not to Order Commends</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.itemsNotToOrderCommends}}</mat-cell>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="availableOffice">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Available Office</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.availableOffice}}</mat-cell>
+                  </ng-container>
+                 
+                  <ng-container matColumnDef="availableVessel">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Available Vessel</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.availableVessel}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="officeUndefinedItemsS">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Office Undefined Items(S)</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.officeUndefinedItemsS}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="vesselUndefinedItemsS">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Vessel Undefined Items(S) </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.vesselUndefinedItemsS}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="proposedItems">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Proposed Items </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.proposedItems}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="officeUndefinedItemsL">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Office Undefined Items(L) </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.officeUndefinedItemsL}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="vesselUndefinedItemsL">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Vessel Undefined Items(L)</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.vesselUndefinedItemsL}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="lockSupplyCaseswithinvoicedate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Lock Supply Cases with invoice date </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.lockSupplyCaseswithinvoicedate}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="vesselOrders">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Vessel Orders </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.vesselOrders}}</mat-cell>
+                  </ng-container>
+                 
+                  <ng-container matColumnDef="tolerance">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Tolerance %</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.tolerance}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="minimumItems">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Minimum Items</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.minimumItems}}</mat-cell>
+                  </ng-container>
+
+
+                  <!-- actions -->
+                  <ng-container matColumnDef="actions" class="col-lg-12 col-md-2">
+                    <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                      <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
+                        class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                        (click)="deleteItem(row)" class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </mat-cell>
+                  </ng-container>
+  
+  
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editCall(row)"
+                    [style.cursor]="'pointer'" matRipple>
+                  </mat-row>
+                </mat-table>
+              
+                <!-- Loading spinner -->
+                <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
+                  <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                  </mat-progress-spinner>
+                </div>
+                <!-- context menu start -->
+                <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
+                  [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+                </div>
+                <mat-menu #contextMenu="matMenu">
+                  <ng-template matMenuContent let-item="item">
+                    <button mat-menu-item (click)="addNew()">
+                      <mat-icon>add_box</mat-icon>
+                      <span>Add Record</span>
+                    </button>
+                    <button mat-menu-item (click)="editCall(item)">
+                      <mat-icon>create</mat-icon>
+                      <span>Edit Record</span>
+                    </button>
+                    <button mat-menu-item (click)="deleteItem(item.id,item)">
+                      <mat-icon>delete</mat-icon>
+                      <span>Delete Record</span>
+                    </button>
+                    <button mat-menu-item (click)="refresh()">
+                      <mat-icon>refresh</mat-icon>
+                      <span>Refresh Record</span>
+                    </button>
+                    <button mat-menu-item disabled>
+                      <mat-icon>no_encryption</mat-icon>
+                      <span>Disable</span>
+                    </button>
+                    <button mat-menu-item [matMenuTriggerFor]="nestedmenu">
+                      <mat-icon>list_alt</mat-icon>
+                      <span> Nested Menu</span>
+                    </button>
+                  </ng-template>
+                </mat-menu>
+                <mat-menu #nestedmenu="matMenu">
+                  <button mat-menu-item>
+                    <mat-icon>mail_outline</mat-icon>
+                    <span>Item 1</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>call</mat-icon>
+                    <span>Item 2</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>chat</mat-icon>
+                    <span>Item 3</span>
+                  </button>
+                </mat-menu>
+                <!-- context menu end -->
+                <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
+                  [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+                  No results
+                </div>
+                <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+                  [pageSizeOptions]="[5, 10, 25, 100]">
+                </mat-paginator>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>

@@ -15,8 +15,14 @@ const routes: Routes = [
   {
     path: 'maintain-counters',
     loadChildren: () =>
-      import("./maintain-counters/maintain-counters.module").then((m)=>m.MaintainCountersModule)
+      import("./maintain-counters/maintain-counters.module").then((m)=>m.MaintainCountersModule),
       }
+      ,
+  {
+    path: 'departments',
+    loadChildren: () =>
+    import("./departments/departments.module").then((m)=>m.DepartmentsModule),
+  }
 ];
 
 @NgModule({
