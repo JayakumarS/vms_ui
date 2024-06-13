@@ -1,0 +1,1605 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Vessels Details'" [items]="['Vessels']" [active_item]="'Vessels Details'">
+        </app-breadcrumb>
+      </div>
+      <div class="row clearfix ">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="box-shadow">
+          <div class="card">
+            <div class="body" >
+              <form class="m-4" [formGroup]="docForm">
+                <!-- <div class="row justify-content-center">
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 text-center" style="margin-top: 22px;font-size: medium">
+                        <label>VESSEL :</label>
+                    </div>
+                
+                    <div class="col-md-3 text-center"  style="margin-left: -98px">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-select formControlName="vessel">
+                                <mat-option [value]="'GOLD'">GOLD</mat-option>
+                                <mat-option [value]="'SILVER'">SILVER</mat-option>
+                                <mat-option [value]="'PLATINUM'">PLATINUM</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div> -->
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12" style="margin-left: 529px">
+              
+
+
+                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                      <mat-label>Vessel</mat-label>
+
+                      <mat-select  formControlName="vessel"  >
+                        <mat-option [value]="'YES'">
+                             GFS PRECIOUS
+                          </mat-option>
+                      </mat-select>
+             
+                  </mat-form-field>
+                </div>
+                <td class="padding-both-side-2">
+                    <div *ngIf="!edit" class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                        
+                      <mat-checkbox class="example-full-width form-control-sm" [(ngModel)]="isChecked" (change)="onCheckboxChange()">
+                        <span style="font-size: 16px;">General Details</span>
+                      </mat-checkbox>
+                    </div>
+                  </td>
+                  <td class="padding-both-side-2">
+                    <div *ngIf="!edit" class="col-xl-8 col-lg-8 col-md-12 col-sm-12" style="margin-left: 278px">
+                        
+                      <mat-checkbox class="example-full-width form-control-sm" [(ngModel)]="isChecked" (change)="onCheckboxChange1()">
+                        <span style="font-size: 16px;">Technical</span>
+                      </mat-checkbox>
+                    </div>
+                  </td>
+                
+                
+                </form>
+              
+            </div>
+          </div>
+          <div class="card"style="height: 1700px;" *ngIf="checkBox">
+
+            <div class="card">
+              <div class="body" style="padding-left: 110px;">
+                  <h4>GENERAL DETAILS</h4>
+                <form class="m-4" [formGroup]="docForm">
+                  <div class="row" >
+                               <div  class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Code</mat-label>
+                          <input matInput formControlName="code" readonly>
+                        </mat-form-field>
+                      </div>
+                      <div *ngIf="!edit" class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Name</mat-label>
+                          <input matInput formControlName="name" (blur)="validateCountry($event.target.value)" maxlength="3" required>
+                     
+                         
+                        </mat-form-field>
+                      </div>
+                    
+                      <!-- Second Field: Country Name -->
+                      <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Short Name</mat-label>
+                          <input matInput formControlName="shortname" maxlength="15" required>
+                      
+                        </mat-form-field>
+                      </div>
+                    
+                      <!-- Third Field: Additional Field 1 -->
+                      <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Prefix</mat-label>
+                          <mat-select  formControlName="prefix" #prefix>
+                            <!-- <mat-option>
+                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                    [noEntriesFoundLabel]="'no results found'"
+                                    [formControl]="prefixFilterCtrl"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option
+                                *ngFor="let title of prefixFilteredOptions | async"
+                                [value]="title.id">
+                                {{title.text}}
+                            </mat-option> -->
+                        </mat-select>
+                        </mat-form-field>
+                      </div>
+                    
+                      <!-- Fourth Field: Additional Field 2 -->
+                      <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Initials</mat-label>
+                          <input matInput formControlName="" maxlength="15" required>
+                   
+                        </mat-form-field>
+                      </div>
+                    
+                      <!-- Fifth Field: Additional Field 3 -->
+                      <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Sorting</mat-label>
+                          <input matInput formControlName="sorting" >
+                     
+                        </mat-form-field>
+                      </div>
+                  
+                 
+                    </div>
+                    
+                
+                  <div class="row">
+                    <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>X Name 1</mat-label>
+                              <input matInput formControlName="xname1" >
+                            </mat-form-field>                
+                            </div>
+  
+                            <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12">
+                              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                        <mat-label>Type</mat-label>
+                        <mat-select  formControlName="type" #type>
+                          <!-- <mat-option>
+                              <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                  [noEntriesFoundLabel]="'no results found'"
+                                  [formControl]="typeFilterCtrl"></ngx-mat-select-search>
+                          </mat-option>
+                          <mat-option
+                              *ngFor="let title of typeFilteredOptions | async"
+                              [value]="title.id">
+                              {{title.text}}
+                          </mat-option> -->
+                      </mat-select>
+  
+  
+                      </mat-form-field>
+                    </div>
+            
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                      <mat-label>Fleet</mat-label>
+  
+  
+                      <mat-select  formControlName="fleet" #fleet>
+                        <!-- <mat-option>
+                            <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                [noEntriesFoundLabel]="'no results found'"
+                                [formControl]="fleetFilterCtrl"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option
+                            *ngFor="let title of fleetFilteredOptions | async"
+                            [value]="title.id">
+                            {{title.text}}
+                        </mat-option> -->
+                    </mat-select>
+  
+                    </mat-form-field>
+                    </div>
+                    <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
+                    <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/fleets/add-fleets/0'">
+                      <mat-icon class="col-white">add</mat-icon>
+                    </button>
+                     </div>
+                  </div> 
+               
+  
+                  <div class="row">
+                      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>X Name 2</mat-label>
+                              <input matInput formControlName="xname2" >
+                            </mat-form-field>                  </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                      <mat-checkbox formControlName="isActive"  ngInit="checked=true">Show on Secheduling</mat-checkbox>
+  
+                    </div>
+            
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                      <mat-label>Vessel Type  </mat-label>
+  
+                      <mat-select  formControlName="vesseltype" #vesseltype>
+                        <!-- <mat-option>
+                            <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                [noEntriesFoundLabel]="'no results found'"
+                                [formControl]="vesseltypeFilterCtrl"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option
+                            *ngFor="let title of vesseltypeFilteredOptions | async"
+                            [value]="title.id">
+                            {{title.text}}
+                        </mat-option> -->
+                    </mat-select>
+  
+  
+  
+                    
+                    </mat-form-field>
+                     </div>
+                     <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
+                      <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/vessel-types/add-vessel-types/0'">
+                        <mat-icon class="col-white">add</mat-icon>
+                      </button>
+                       </div>
+                  </div> 
+  
+                  <div class="row">
+                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>P & I </mat-label>
+  
+                              <mat-select  formControlName="pandi" #pandi>
+                                <!-- <mat-option>
+                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                        [noEntriesFoundLabel]="'no results found'"
+                                        [formControl]="pandiFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option
+                                    *ngFor="let title of pandiFilteredOptions | async"
+                                    [value]="title.id">
+                                    {{title.text}}
+                                </mat-option> -->
+                            </mat-select>
+  
+                            
+  
+                            </mat-form-field>                
+                          
+                          </div>
+                          <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
+                            <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/p-and-i/add-p-and-i/0'">
+                              <mat-icon class="col-white">add</mat-icon>
+                            </button>
+                             </div>
+  
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                      <mat-checkbox formControlName="isActive"  ngInit="checked=true">Active for chartering</mat-checkbox>
+  
+                    </div>
+            
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                      <mat-label>Vessel Type 2</mat-label>
+                      <input type="text" matInput formControlName="vesseltype2">
+                     
+                    </mat-form-field>
+                     </div>
+                  </div> 
+  
+  
+                  <div class="row">
+                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>HULL & Machinery</mat-label>
+  
+                              
+                              <mat-select  formControlName="hullandmachinery" #hullandmachinery>
+                                <!-- <mat-option>
+                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                        [noEntriesFoundLabel]="'no results found'"
+                                        [formControl]="hullandmachineryFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option
+                                    *ngFor="let title of hullandmachineryFilteredOptions | async"
+                                    [value]="title.id">
+                                    {{title.text}}
+                                </mat-option> -->
+                            </mat-select>
+  
+                            </mat-form-field>               
+                             </div>
+                             <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
+                              <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/p-and-i/add-p-and-i/0'">
+                                <mat-icon class="col-white">add</mat-icon>
+                              </button>
+                               </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                      <mat-checkbox formControlName="virtual"  ngInit="checked=true">Virtual</mat-checkbox>
+  
+                    </div>
+            
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                      <mat-label>Vessel Group</mat-label>
+                     
+  
+                      <mat-select  formControlName="vesselgroup" #vesselgroup>
+                        <!-- <mat-option>
+                            <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                [noEntriesFoundLabel]="'no results found'"
+                                [formControl]="vesselgroupFilterCtrl"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option
+                            *ngFor="let title of vesselgroupFilteredOptions | async"
+                            [value]="title.id">
+                            {{title.text}}
+                        </mat-option> -->
+                    </mat-select>
+  
+  
+                    </mat-form-field>
+                     </div>
+                     <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
+                      <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/vessel-group/add-vessel-group/0'">
+                        <mat-icon class="col-white">add</mat-icon>
+                      </button>
+                       </div>
+                  </div> 
+  
+  
+                  <div class="row">
+                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label> FD & D</mat-label>
+  
+  
+                              <mat-select  formControlName="fdandd" #fdandd>
+                                <!-- <mat-option>
+                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                        [noEntriesFoundLabel]="'no results found'"
+                                        [formControl]="fdanddFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option
+                                    *ngFor="let title of fdanddFilteredOptions | async"
+                                    [value]="title.id">
+                                    {{title.text}}
+                                </mat-option> -->
+                            </mat-select>
+                            </mat-form-field>                  
+                          </div>
+                          <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
+                            <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/p-and-i/add-p-and-i/0'">
+                              <mat-icon class="col-white">add</mat-icon>
+                            </button>
+                             </div>
+  
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                      <mat-checkbox formControlName="isActive"  ngInit="checked=true">Own</mat-checkbox>
+  
+                    </div>
+            
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                      <mat-label>Wage Scale</mat-label>
+                      
+  
+                      <mat-select  formControlName="wagescale" #wagescale>
+                        <!-- <mat-option>
+                            <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                [noEntriesFoundLabel]="'no results found'"
+                                [formControl]="wagescaleFilterCtrl"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option
+                            *ngFor="let title of wagescaleFilteredOptions | async"
+                            [value]="title.id">
+                            {{title.text}}
+                        </mat-option> -->
+                    </mat-select>
+  
+  
+                    </mat-form-field>
+                     </div>
+                     <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
+                      <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/wage-scale/add-wageScale/0'">
+                        <mat-icon class="col-white">add</mat-icon>
+                      </button>
+                       </div>
+                  </div> 
+  
+                  <div class="row">
+                      <div class="col-xl-2 col-lg-3 col-md-6 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label> Classification Society</mat-label>
+  
+                              <mat-select  formControlName="classification" #classigication>
+                                <!-- <mat-option>
+                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                        [noEntriesFoundLabel]="'no results found'"
+                                        [formControl]="classificationFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option
+                                    *ngFor="let title of classificationFilteredOptions | async"
+                                    [value]="title.id">
+                                    {{title.text}}
+                                </mat-option> -->
+                            </mat-select>
+          
+  
+  
+  
+                            </mat-form-field>             
+                               </div>
+                               <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
+                                <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/classification/add-classification/0'">
+                                  <mat-icon class="col-white">add</mat-icon>
+                                </button>
+                                 </div>
+  
+  
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12" style="padding-left: 127px;">
+                              <mat-checkbox formControlName="isActive" (change)="activeStatus($event)"ngInit="checked=true">Active</mat-checkbox>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+  
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                        <mat-label> Reason</mat-label>
+  
+                        
+                        <mat-select  formControlName="reason" #reason [disabled]="active">
+                          <!-- <mat-option>
+                              <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                  [noEntriesFoundLabel]="'no results found'"
+                                  [formControl]="reasonFilterCtrl"></ngx-mat-select-search>
+                          </mat-option>
+                          <mat-option
+                              *ngFor="let title of reasonFilteredOptions | async"
+                              [value]="title.id">
+                              {{title.text}}
+                          </mat-option> -->
+                      </mat-select>
+    
+  
+  
+                      </mat-form-field>
+                    </div>
+            
+                    <div class="col-xl-2 col-lg-3 col-md-6 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                      <mat-label>Vessel Class</mat-label>
+                    
+  
+                      <mat-select  formControlName="vesselClass" #vesselClass>
+                        <!-- <mat-option>
+                            <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                [noEntriesFoundLabel]="'no results found'"
+                                [formControl]="vesselClassFilterCtrl"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option
+                            *ngFor="let title of vesselClassFilteredOptions | async"
+                            [value]="title.id">
+                            {{title.text}}
+                        </mat-option> -->
+                    </mat-select>
+  
+  
+                    </mat-form-field>
+                     </div>
+                     <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
+                      <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/class/add-class/0'">
+                        <mat-icon class="col-white">add</mat-icon>
+                      </button>
+                       </div>
+                  </div> 
+  
+                  <div class="row">
+                      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>Fleet Vessel Idnt</mat-label>
+  
+                              <mat-select  formControlName="fleetvessel" #fleetvessel>
+                                <!-- <mat-option>
+                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                        [noEntriesFoundLabel]="'no results found'"
+                                        [formControl]="fleetvesselFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option
+                                    *ngFor="let title of fleetvesselFilteredOptions | async"
+                                    [value]="title.id">
+                                    {{title.text}}
+                                </mat-option> -->
+                            </mat-select>
+                            </mat-form-field>               
+                             </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+              
+                          <mat-label>Date in Fleet Type</mat-label>
+                          <input matInput [matDatepicker]="datepicker1" formControlName="dateinfleettypeObj" 
+                          id="dateinfleettype"  (dateChange)="onDateChange($event,'dateinfleettype',0)"
+                          (input)="onDateInput($event.target.value,'dateinfleettype',0)"   placeholder="dd/mm/yyyy">
+                          <mat-datepicker-toggle matSuffix [for]="datepicker1"></mat-datepicker-toggle>
+                          <mat-datepicker #datepicker1></mat-datepicker>
+                
+                        </mat-form-field>
+  
+  
+                    </div>
+            
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+  
+                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                      <mat-label>Valied Until(Mga)</mat-label>
+                      <input matInput [matDatepicker]="datepicker2" formControlName="valiedUntilObj" 
+                      id="valiedUntil"  (dateChange)="onDateChange2($event,'valiedUntil',0)"
+                      (input)="onDateInput2($event.target.value,'valiedUntil',0)"   placeholder="dd/mm/yyyy">
+                      <mat-datepicker-toggle matSuffix [for]="datepicker2"></mat-datepicker-toggle>
+                      <mat-datepicker #datepicker2></mat-datepicker>
+            
+                    </mat-form-field>
+  
+  
+                     </div>
+                  </div> 
+  
+                  <div class="row">
+                      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>Lead Vessel Id</mat-label>
+  
+                              <mat-select  formControlName="leadvesselid" #leadvesselid>
+                                <!-- <mat-option>
+                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                        [noEntriesFoundLabel]="'no results found'"
+                                        [formControl]="leadvesselidFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option
+                                    *ngFor="let title of leadvesselidFilteredOptions | async"
+                                    [value]="title.id">
+                                    {{title.text}}
+                                </mat-option> -->
+                            </mat-select>
+  
+  
+                            </mat-form-field>              
+                             </div>
+               
+            
+                   
+                  </div> 
+                  <br>
+             
+                </form>
+              </div>
+            </div>
+            <div calss="row">
+            <div class="card" style="float: left;
+            width: 50%;
+            padding: 10px;
+            height: 750px; ">
+             <div class="body" style="padding-left: 110px;">
+              <h4>MAIN DETAILS</h4>
+            <form class="m-4" [formGroup]="docForm">
+    
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Flag </mat-label>
+  
+                          
+                          <mat-select  formControlName="flag" #flag>
+                            <!-- <mat-option>
+                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                    [noEntriesFoundLabel]="'no results found'"
+                                    [formControl]="flagFilterCtrl"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option
+                                *ngFor="let title of flagFilteredOptions | async"
+                                [value]="title.id">
+                                {{title.text}}
+                            </mat-option> -->
+                        </mat-select>
+  
+                        </mat-form-field>                 
+                       </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                          <mat-checkbox formControlName="greek" ngInit="checked=true">Greek Flag</mat-checkbox>
+  
+                </div>
+        
+              
+              </div> 
+  
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Registry Port </mat-label>
+  
+                              
+                          <mat-select  formControlName="registryport" #registryport>
+                            <!-- <mat-option>
+                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                    [noEntriesFoundLabel]="'no results found'"
+                                    [formControl]="registryportFilterCtrl"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option
+                                *ngFor="let title of registryportFilteredOptions | async"
+                                [value]="title.id">
+                                {{title.text}}
+                            </mat-option> -->
+                        </mat-select>
+  
+  
+                        </mat-form-field>      
+                                  </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                    <mat-label>Registry No</mat-label>
+                    <input matInput formControlName="registryno" >
+                  </mat-form-field>
+                </div>
+        
+              
+              </div> 
+  
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Built Date</mat-label>
+                          <input matInput formControlName="builtdate">
+                        </mat-form-field>                  </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>Place Build</mat-label>
+                              <input matInput formControlName="placeBuild" >
+                            </mat-form-field>                  </div>
+        
+              
+              </div> 
+  
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Yard Build</mat-label>
+                          <input matInput formControlName="yardbuild" >
+                        </mat-form-field>                  </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                    <mat-label>IMO NO</mat-label>
+                    <input matInput formControlName="imono" >
+                  </mat-form-field>
+                </div>
+        
+              
+              </div> 
+  
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Hull NO</mat-label>
+                          <input matInput formControlName="hullno">
+                        </mat-form-field>                  </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                    <mat-label>Call Sign</mat-label>
+                    <input matInput formControlName="callsign" >
+                  </mat-form-field>
+                </div>
+        
+              
+              </div> 
+  
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Nat Number</mat-label>
+                          <input matInput formControlName="natnumber" >
+                        </mat-form-field>                  </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                    <mat-label>MMIS</mat-label>
+                    <input matInput formControlName="mmis" >
+                  </mat-form-field>
+                </div>
+        
+              
+              </div> 
+  
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Class No</mat-label>
+                          <input matInput formControlName="classno" >
+                        </mat-form-field>                  </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                    <mat-label>Ice Class</mat-label>
+  
+                    <mat-select  formControlName="iceclass" #iceclass>
+                      <!-- <mat-option>
+                          <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                              [noEntriesFoundLabel]="'no results found'"
+                              [formControl]="iceclassFilterCtrl"></ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option
+                          *ngFor="let title of iceclassFilteredOptions | async"
+                          [value]="title.id">
+                          {{title.text}}
+                      </mat-option> -->
+                  </mat-select>
+  
+  
+  
+                  </mat-form-field>
+                </div>
+        
+              
+              </div> 
+           
+          </form>
+          </div>
+            </div>
+            <div class="card"  style="float: left;
+            width: 50%;
+            padding: 10px;
+            height: 350px;">
+           <div class="body" style="padding-left: 110px;">
+              <h4>COMMERCIAL</h4>
+            <form class="m-4" [formGroup]="docForm">
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Shipowner</mat-label>
+  
+                          <mat-select  formControlName="shipowner" #shipowner>
+                            <!-- <mat-option>
+                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                    [noEntriesFoundLabel]="'no results found'"
+                                    [formControl]="shipownerFilterCtrl"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option
+                                *ngFor="let title of shipownerFilteredOptions | async"
+                                [value]="title.id">
+                                {{title.text}}
+                            </mat-option> -->
+                        </mat-select>
+  
+  
+                        </mat-form-field>                
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                    <mat-label>Shipowner(Platform)</mat-label>
+  
+                    <mat-select  formControlName="shipownerplatform" #shipownerplatform>
+                      <!-- <mat-option>
+                          <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                              [noEntriesFoundLabel]="'no results found'"
+                              [formControl]="shipownerplatformFilterCtrl"></ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option
+                          *ngFor="let title of shipownerplatformFilteredOptions | async"
+                          [value]="title.id">
+                          {{title.text}}
+                      </mat-option> -->
+                  </mat-select>
+  
+  
+                  </mat-form-field>
+                </div>
+        
+              
+              </div> 
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Operator </mat-label>
+                          <mat-select  formControlName="operator" #operator>
+                            <!-- <mat-option>
+                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                    [noEntriesFoundLabel]="'no results found'"
+                                    [formControl]="operatorFilterCtrl"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option
+                                *ngFor="let title of operatorFilteredOptions | async"
+                                [value]="title.id">
+                                {{title.text}}
+                            </mat-option> -->
+                        </mat-select>
+                        </mat-form-field>              
+                          </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        
+                  <mat-checkbox formControlName="useOperator" ngInit="checked=true">Use Operator(ACC)</mat-checkbox>
+  
+                </div>
+        
+              
+              </div> 
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Saftey No</mat-label>
+                          <input matInput formControlName="safteyno" >
+                        </mat-form-field>                  </div>
+                     
+        
+              
+              </div> 
+              
+          </form>
+          </div>
+            </div>
+            <div class="card"  style="float: right;
+            width: 50%;
+            padding: 10px;
+            height: 350px;">
+           <div class="body" style="padding-left: 110px;">
+              <h4>CREW</h4>
+            <form class="m-4" [formGroup]="docForm">
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Official Manager</mat-label>
+  
+  
+                          <mat-select  formControlName="officialManager" #opeofficialManagerrator>
+                            <!-- <mat-option>
+                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                    [noEntriesFoundLabel]="'no results found'"
+                                    [formControl]="officialManagerFilterCtrl"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option
+                                *ngFor="let title of officialManagerFilteredOptions | async"
+                                [value]="title.id">
+                                {{title.text}}
+                            </mat-option> -->
+                        </mat-select>
+  
+                        </mat-form-field>              
+                          </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                    <mat-label>Ship Manager</mat-label>
+                    <mat-select  formControlName="shipmanager" #shipmanager>
+                      <!-- <mat-option>
+                          <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                              [noEntriesFoundLabel]="'no results found'"
+                              [formControl]="shipmanagerFilterCtrl"></ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option
+                          *ngFor="let title of shipmanagerFilteredOptions | async"
+                          [value]="title.id">
+                          {{title.text}}
+                      </mat-option> -->
+                  </mat-select>
+                  </mat-form-field>
+                </div>
+        
+              
+              </div> 
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Crew Manager</mat-label>
+                          <mat-select  formControlName="crewmanager" #crewmanager>
+                            <!-- <mat-option>
+                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                    [noEntriesFoundLabel]="'no results found'"
+                                    [formControl]="crewmanagerFilterCtrl"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option
+                                *ngFor="let title of crewmanagerFilteredOptions | async"
+                                [value]="title.id">
+                                {{title.text}}
+                            </mat-option> -->
+                        </mat-select>
+                        </mat-form-field>            
+                            </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                    <mat-label>Superintendent</mat-label>
+                    <mat-select  formControlName="superintendent" #superintendent>
+                      <!-- <mat-option>
+                          <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                              [noEntriesFoundLabel]="'no results found'"
+                              [formControl]="superintendentFilterCtrl"></ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option
+                          *ngFor="let title of superintendentFilteredOptions | async"
+                          [value]="title.id">
+                          {{title.text}}
+                      </mat-option> -->
+                  </mat-select>
+                  </mat-form-field>
+                </div>
+        
+              
+              </div> 
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Group Manager</mat-label>
+                          <input matInput formControlName="groupmanager" >
+                        </mat-form-field>            
+                            </div>
+                       
+        
+              
+              </div> 
+              <br><br><br><br>
+  
+            
+             
+          </form>
+          </div>
+            </div>
+          </div>
+    
+          
+          </div>
+          <div class="card">
+            <div class="body" >
+                <h4>TECHNICAL</h4>
+                <div class="card"  style="float: left;width: 40%; padding: 10px;height: 541px;">
+                  <div class="body" >
+                     <h4>MAIN ENGINE</h4>
+                   <form class="m-4" [formGroup]="docForm">
+                     <div class="row">
+                       <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                             <mat-label>Main Engine Number </mat-label>
+                             <input matInput formControlName="groupmanager" >
+                           </mat-form-field>            
+                               </div>
+                          
+                               <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                 <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                     <mat-label>Engine Type </mat-label>
+                                     <input matInput formControlName="groupmanager" >
+                                   </mat-form-field>            
+                                       </div>
+                     
+                     </div> 
+                     <div class="row">
+                       <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                             <mat-label>Engine Rating</mat-label>
+                             <input matInput formControlName="groupmanager" >
+                           </mat-form-field>            
+                               </div>
+             
+                               <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                 <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                     <mat-label>ME RPM at MCR</mat-label>
+                                     <input matInput formControlName="groupmanager" >
+                                   </mat-form-field>            
+                                       </div>
+               
+                     
+                     </div> 
+                     <div class="row">
+                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>ME Power MCR(kW)</mat-label>
+                            <input matInput formControlName="groupmanager" >
+                          </mat-form-field>            
+                              </div>
+            
+                              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                    <mat-label>BHP(KW)</mat-label>
+                                    <input matInput formControlName="groupmanager" >
+                                  </mat-form-field>            
+                                      </div>
+              
+                    
+                    </div> 
+                    <div class="row">
+                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>Sfoc Max(gr/kWH)</mat-label>
+                            <input matInput formControlName="groupmanager" >
+                          </mat-form-field>            
+                              </div>
+            
+                              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                    <mat-label>Sfoc Min</mat-label>
+                                    <input matInput formControlName="groupmanager" >
+                                  </mat-form-field>            
+                                      </div>
+              
+                    
+                    </div> 
+                    <div class="row">
+                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>MCR RPM</mat-label>
+                            <input matInput formControlName="groupmanager" >
+                          </mat-form-field>            
+                              </div>
+            
+                              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                    <mat-label>No.Of Cylinders</mat-label>
+                                    <input matInput formControlName="groupmanager" >
+                                  </mat-form-field>            
+                                      </div>
+              
+                    
+                    </div> 
+                    <div class="row">
+                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>No.Of Air Coolers</mat-label>
+                            <input matInput formControlName="groupmanager" >
+                          </mat-form-field>            
+                              </div>
+            
+                              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                    <mat-label>ME Cons at Sea</mat-label>
+                                    <input matInput formControlName="groupmanager" >
+                                  </mat-form-field>            
+                                      </div>
+              
+                    
+                    </div> 
+                     <br><br><br><br>
+         
+                   
+                    
+                 </form>
+                 </div>
+                   </div>
+            <div class="card"  style="float: left;width: 30%; padding: 10px;height: 350px;">
+           <div class="body" >
+              <h4>MAIN PROPULSION </h4>
+            <form class="m-4" [formGroup]="docForm">
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                      <mat-label>Propellers No</mat-label>
+                      <input matInput formControlName="groupmanager" >
+                    </mat-form-field>            
+                        </div>
+                   
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>Propellers Type</mat-label>
+                              <input matInput formControlName="groupmanager" >
+                            </mat-form-field>            
+                                </div>
+              
+              </div> 
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                      <mat-label>Propellers Diameter</mat-label>
+                      <input matInput formControlName="groupmanager" >
+                    </mat-form-field>            
+                        </div>
+      
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>Propellers Pitch</mat-label>
+                              <input matInput formControlName="groupmanager" >
+                            </mat-form-field>            
+                                </div>
+        
+              
+              </div> 
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Bollard Pull</mat-label>
+                          <input matInput formControlName="groupmanager" >
+                        </mat-form-field>            
+                            </div>
+                       
+        
+              
+              </div> 
+              <br><br><br><br>
+  
+            
+             
+          </form>
+          </div>
+            </div>
+            <div class="card"  style="float: left;width: 30%; padding: 10px;height: 350px;">
+              <div class="body" >
+                 <h4>CLEAR DECK</h4>
+               <form class="m-4" [formGroup]="docForm">
+                 <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                        <mat-label>Length</mat-label>
+                        <input matInput formControlName="groupmanager" >
+                      </mat-form-field>            
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                <mat-label>Breath</mat-label>
+                                <input matInput formControlName="groupmanager" >
+                              </mat-form-field>            
+                                  </div>
+           
+                 
+                 </div> 
+                 <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                        <mat-label>Area</mat-label>
+                        <input matInput formControlName="groupmanager" >
+                      </mat-form-field>            
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                <mat-label>Strength</mat-label>
+                                <input matInput formControlName="groupmanager" >
+                              </mat-form-field>            
+                                  </div>
+           
+                 
+                 </div> 
+                 
+                 
+                 <br><br><br><br>
+     
+               
+                
+             </form>
+             </div>
+               </div>
+               <div class="card"  style= "float:right;width: 30%; padding: 10px;height: 350px;">
+                <div class="body" >
+                    <h4>STEERING GEAR</h4>
+                  <form class="m-4" [formGroup]="docForm">
+                    <div class="row">
+                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                       <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                           <mat-label>Rudders No</mat-label>
+                           <input matInput formControlName="groupmanager" >
+                         </mat-form-field>            
+                             </div>
+                             
+              
+                    
+                    </div> 
+                    
+                    
+                    <br><br><br><br>
+        
+                  
+                   
+                </form>
+                </div>
+                  </div> 
+               <div class="card"  style= "float:right;width: 30%; padding: 10px;height: 350px;">
+                <div class="body" >
+                   <h4>SIDE THURSTERS</h4>
+                 <form class="m-4" [formGroup]="docForm">
+                   <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>BT's No</mat-label>
+                          <input matInput formControlName="groupmanager" >
+                        </mat-form-field>            
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                  <mat-label>ST's No</mat-label>
+                                  <input matInput formControlName="groupmanager" >
+                                </mat-form-field>            
+                                    </div>
+             
+                   
+                   </div> 
+                   <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>BT's Rating</mat-label>
+                          <input matInput formControlName="groupmanager" >
+                        </mat-form-field>            
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                  <mat-label>ST's Rating</mat-label>
+                                  <input matInput formControlName="groupmanager" >
+                                </mat-form-field>            
+                                    </div>
+             
+                   
+                   </div> 
+                   
+                   
+                   <br><br><br><br>
+       
+                 
+                  
+               </form>
+               </div>
+                 </div>
+                 
+               
+
+            
+                </div>
+                </div>
+                <div class="card">
+                  <div class="body"style="padding-left: 110px;" >
+                      <h4>GENERAL</h4>
+                    <form class="m-4" [formGroup]="docForm">
+                      <div class="row">
+                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>Reduction gear Radio</mat-label>
+                              <input matInput formControlName="groupmanager" >
+                            </mat-form-field>            
+                                </div>
+                              <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" style="margin-left: 224px">
+                               <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                   <mat-label>Lubs</mat-label>
+                                  <input matInput formControlName="groupmanager" >
+                                  </mat-form-field>            
+                                  </div>
+                                   <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" style="margin-left: 224px">
+                                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                      <mat-label>Last DRD</mat-label>
+                                     <input matInput formControlName="groupmanager" >
+                                      </mat-form-field>            
+                                       </div>
+                            </div> 
+                            <div class="row">
+                              <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                    <mat-label>HFO Specific Gravity</mat-label>
+                                    <input matInput formControlName="groupmanager" >
+                                  </mat-form-field>            
+                                      </div>
+                                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" style="margin-left: 224px">
+                                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                         <mat-label>Australian Hold Ladde</mat-label>
+                                        <input matInput formControlName="groupmanager" >
+                                        </mat-form-field>            
+                                        </div>
+                                         <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" style="margin-left: 224px">
+                                           <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                            <mat-label>Next DRD</mat-label>
+                                           <input matInput formControlName="groupmanager" >
+                                            </mat-form-field>            
+                                             </div>
+                                  </div>
+                             <div class="row">
+                              <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                  <mat-label>DO Specific Gravity</mat-label>
+                                 <input matInput formControlName="groupmanager" >
+                               </mat-form-field>            
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" style="margin-left: 224px">
+                                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                    <mat-label>VP System Parameter</mat-label>
+                                   <input matInput formControlName="groupmanager" >
+                                 </mat-form-field>            
+                                  </div>
+                                  <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" style="margin-left: 224px">
+                                   
+                                      <mat-label>Fresh Water Gnerator</mat-label>
+                                     
+                                          
+                                    </div>
+                                  <!-- <td class="padding-both-side-2">
+                                    <div *ngIf="!edit" class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                        
+                                      <mat-checkbox class="example-full-width form-control-sm" [(ngModel)]="isChecked" (change)="onCheckboxChange()">
+                                        <span style="font-size: 16px;">General Details</span>
+                                      </mat-checkbox>
+                                    </div>
+                                  </td> -->
+                             </div> 
+                             <div class="row">
+                              <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                  <mat-label>IFO Specific Gravity</mat-label>
+                                 <input matInput formControlName="groupmanager" >
+                               </mat-form-field>            
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" style="margin-left: 224px">
+                                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                    <mat-label>CPP Parameter</mat-label>
+                                   <input matInput formControlName="groupmanager" >
+                                 </mat-form-field>            
+                                  </div>
+                             </div> 
+                             <div class="row">
+                              <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                  <mat-label>Operating Draught</mat-label>
+                                 <input matInput formControlName="groupmanager" >
+                               </mat-form-field>            
+                                </div>
+                                
+                             </div> 
+
+                       <br>
+                 
+                    </form>
+                  </div>
+                  
+                </div>
+                <div class="card" style= "float:left;width: 60%; padding: 10px;height: 314px;">
+                  <div class="body"style="padding-left: 110px;" >
+                      <h4>BUNKERS INFO</h4>
+                    <form class="m-4" [formGroup]="docForm">
+                      <div class="row">
+                        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>Ballest</mat-label>
+                              <input matInput formControlName="groupmanager" >
+                            </mat-form-field>            
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                      <mat-label>Hose inch</mat-label>
+                                      <input matInput formControlName="groupmanager" >
+                                    </mat-form-field>            
+                                  </div>
+                                 
+                                <div class="row">
+                              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12" >
+                               <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                   <mat-label>Lubs</mat-label>
+                                  <input matInput formControlName="groupmanager" >
+                                  </mat-form-field>            
+                                  </div>
+                                  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12" style="margin-left: 10px;" >
+                                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                        <mat-label>Rate(mt/hr)</mat-label>
+                                       <input matInput formControlName="groupmanager" >
+                                       </mat-form-field>            
+                                       </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12" style="margin-left: 279px" >
+                                   <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                       <mat-label>Location</mat-label>
+                                      <input matInput formControlName="groupmanager" >
+                                      </mat-form-field>            
+                                      </div>
+                                     
+                                    </div>
+                                  
+                            </div> 
+                            
+                            
+                           
+                             
+
+                       <br>
+                 
+                    </form>
+                  </div>
+                </div>
+                <div class="card"  style= "float:right;width: 40%; padding: 10px;height: 369px;">
+                  <div class="body" >
+                      <h4>AVG DAILY CONS.(LTRS)</h4>
+                    <form class="m-4" [formGroup]="docForm">
+                      <div class="row">
+                       <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                             <mat-label>CO</mat-label>
+                             <input matInput formControlName="groupmanager" >
+                           </mat-form-field>            
+                               </div>
+                             </div> 
+                             <div class="row">
+                              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                    <mat-label>SO</mat-label>
+                                    <input matInput formControlName="groupmanager" >
+                                  </mat-form-field>            
+                                      </div>
+                                    </div> 
+                                    <div class="row">
+                                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                            <mat-label>GO</mat-label>
+                                            <input matInput formControlName="groupmanager" >
+                                          </mat-form-field>            
+                                              </div>
+                                            </div> 
+                                            <div class="row">
+                                              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                    <mat-label>Barcode Functionality</mat-label>
+                                                    <input matInput formControlName="groupmanager" >
+                                                  </mat-form-field>            
+                                                      </div>
+                                                    </div> 
+                      
+                      
+                      <br><br><br><br>
+          
+                    
+                     
+                  </form>
+                  </div>
+                    </div>
+                <div class="card" style= "float:left;width: 60%; padding: 10px;height: 314px;">
+                  <div class="body"style="padding-left: 110px;" >
+                      <h4>Attachments</h4>
+                    <form class="m-4" [formGroup]="docForm">
+                      <div class="row">
+                        <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>Text Logo</mat-label>
+                              <input matInput formControlName="groupmanager" >
+                            </mat-form-field>            
+                                </div>
+                                
+                                 
+                                <div class="row">
+                              <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12" >
+                               <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                   <mat-label>BMP Logo</mat-label>
+                                  <input matInput formControlName="groupmanager" >
+                                  </mat-form-field>            
+                                  </div>
+                                  
+                                </div>
+                                <div class="row">
+                                  <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12"  >
+                                   <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                       <mat-label>Order Comments</mat-label>
+                                      <input matInput formControlName="groupmanager" >
+                                      </mat-form-field>            
+                                      </div>
+                                     
+                                    </div>
+                                  
+                            </div> 
+                            
+                            
+                           
+                             
+
+                       <br>
+                 
+                    </form>
+                  </div>
+                </div>
+                <div class="card" style= "float:left;width: 60%; padding: 10px;height: 314px;">
+                  <div class="body"style="padding-left: 110px;" >
+                      <h4>SUPPLIERS</h4>
+                    <form class="m-4" [formGroup]="docForm">
+                      <div class="row">
+                        <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>Text Logo</mat-label>
+                              <input matInput formControlName="groupmanager" >
+                            </mat-form-field>            
+                                </div>
+                                
+                                 
+                                <div class="row">
+                              <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12" >
+                               <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                   <mat-label>BMP Logo</mat-label>
+                                  <input matInput formControlName="groupmanager" >
+                                  </mat-form-field>            
+                                  </div>
+                                  
+                                </div>
+                                <div class="row">
+                                  <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12"  >
+                                   <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                       <mat-label>Order Comments</mat-label>
+                                      <input matInput formControlName="groupmanager" >
+                                      </mat-form-field>            
+                                      </div>
+                                     
+                                    </div>
+                                  
+                            </div> 
+                            
+                            
+                           
+                             
+
+                       <br>
+                 
+                    </form>
+                  </div>
+                </div>
+                <div class="card" style= "float:left;width: 60%; padding: 10px;height: 314px;">
+                  <div class="body"style="padding-left: 110px;" >
+                      <h4>FRAMO</h4>
+                    <form class="m-4" [formGroup]="docForm">
+                      <div class="row">
+                        <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                              <mat-label>Text Logo</mat-label>
+                              <input matInput formControlName="groupmanager" >
+                            </mat-form-field>            
+                                </div>
+                                
+                                 
+                                <div class="row">
+                              <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12" >
+                               <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                   <mat-label>BMP Logo</mat-label>
+                                  <input matInput formControlName="groupmanager" >
+                                  </mat-form-field>            
+                                  </div>
+                                  
+                                </div>
+                                <div class="row">
+                                  <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12"  >
+                                   <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                       <mat-label>Order Comments</mat-label>
+                                      <input matInput formControlName="groupmanager" >
+                                      </mat-form-field>            
+                                      </div>
+                                     
+                                    </div>
+                                  
+                            </div> 
+                            <div class="card"  style= "width: 85%;
+                            padding: 10px;
+                            height: 951px;
+                            margin-top: -138%;
+                            margin-left: 107%">
+                              <div class="body" >
+                                  <h4>GENERATORS</h4>
+                                <form class="m-4" [formGroup]="docForm">
+                                  <div class="row">
+                                   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                         <mat-label>CO</mat-label>
+                                         <input matInput formControlName="groupmanager" >
+                                       </mat-form-field>            
+                                           </div>
+                                         </div> 
+                                         <div class="row">
+                                          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                <mat-label>SO</mat-label>
+                                                <input matInput formControlName="groupmanager" >
+                                              </mat-form-field>            
+                                                  </div>
+                                                </div> 
+                                                <div class="row">
+                                                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                        <mat-label>GO</mat-label>
+                                                        <input matInput formControlName="groupmanager" >
+                                                      </mat-form-field>            
+                                                          </div>
+                                                        </div> 
+                                                        <div class="row">
+                                                          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                                <mat-label>Barcode Functionality</mat-label>
+                                                                <input matInput formControlName="groupmanager" >
+                                                              </mat-form-field>            
+                                                                  </div>
+                                                                </div> 
+                                  
+                                  
+                                  <br><br><br><br>
+                      
+                                
+                                 
+                              </form>
+                              </div>
+                                </div>
+                            
+                           
+                             
+
+                       <br>
+                 
+                    </form>
+                  </div>
+                </div>
+        </div>
+        </div>
+      </div>
+      
+
+
+        
+    </div>
+  </section>
+
+

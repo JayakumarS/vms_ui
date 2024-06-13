@@ -17,6 +17,11 @@ const routes: Routes = [
     path: "vessel-particulars",
     loadChildren: () =>
       import("./vessel-particulars/vessel-particulars.module").then((m) => m.VesselParticularsModule),
+  },
+  {
+    path: "reports",
+    loadChildren: () =>
+      import("./reports/reports.module").then((m) => m.ReportsModule),
   }
 
 
