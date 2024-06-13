@@ -165,18 +165,22 @@
                           <div style="overflow-x: auto;">
                             <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
                             <thead class="">
-                                <tr>
+                              <tr>
+                                <th style="width: 1%;"></th>
                                 <th style="width: 1%;"></th>
                                 <th class="text-center table-heading padding-both-side-2 width_7">Box No</th>
                                 <th class="text-center table-heading padding-both-side-2 width_7">Length (cm)</th>
                                 <th class="text-center table-heading padding-both-side-2 width_7">Width (cm)</th>
                                 <th class="text-center table-heading padding-both-side-2 width_7">Height (cm)</th>
                                 <th class="text-center table-heading padding-both-side-2 width_7">Weight (kg)</th>  
-                                </tr>
+                              </tr>
                             </thead>
                             <ng-container *ngFor="let firstDetailBean of docForm.get('firstDetailRow')['controls']; let i = index">
                                 <tbody [formGroup]="firstDetailBean">
-                                <tr>
+                                <tr> 
+                                    <td class="padding-both-side-2">
+                                      <mat-icon *ngIf="firstDetailBean.value.showIcon" style="color: #3d7381;">forward</mat-icon>
+                                    </td>
                                     <td class="padding-both-side-2">
                                         <mat-checkbox class="example-margin mb-13" name="select{{i}}" formControlName="select"></mat-checkbox>
                                     </td>
@@ -184,25 +188,25 @@
                                       <p>{{i+1}}</p>
                                     </td>
     
-                                    <td class="padding-both-side-2">
+                                    <td class="padding-both-side-2" (click)="showIcon(i)">
                                       <mat-form-field class="example-full-width" appearance="outline">
                                         <input class="text-end" matInput formControlName="length" appDecimalFormat>
                                       </mat-form-field>
                                     </td>
 
-                                    <td class="padding-both-side-2">
+                                    <td class="padding-both-side-2" (click)="showIcon(i)">
                                       <mat-form-field class="example-full-width" appearance="outline">
                                         <input class="text-end" matInput formControlName="width" appDecimalFormat>
                                       </mat-form-field>
                                     </td>
 
-                                    <td class="padding-both-side-2">
+                                    <td class="padding-both-side-2" (click)="showIcon(i)">
                                       <mat-form-field class="example-full-width" appearance="outline">
                                         <input class="text-end" matInput formControlName="height" appDecimalFormat>
                                       </mat-form-field>
                                     </td>
 
-                                    <td class="padding-both-side-2">
+                                    <td class="padding-both-side-2" (click)="showIcon(i)">
                                      <mat-form-field class="example-full-width" appearance="outline">
                                         <input class="text-end" matInput formControlName="weight" appDecimalFormat (blur)="totalCalculation()">
                                       </mat-form-field> 

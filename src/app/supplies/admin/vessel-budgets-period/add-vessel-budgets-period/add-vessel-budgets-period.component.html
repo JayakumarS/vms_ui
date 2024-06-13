@@ -1,0 +1,49 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Add Vessel Budgets Period'" [items]="['Supplies','New']" [active_item]="'Vessel Budgets Period'">
+        </app-breadcrumb>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="box-shadow">
+            <div class="card">
+              <div class="body">
+               <form class="m-4" autocomplete="off" [formGroup]="docForm">
+                  <div class="row center">
+                    <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <app-searchable-select 
+                            [options]="vesselList" 
+                            placeholderLabel="Search"
+                            noEntriesFoundLabel="No results found"
+                            [label]="'Vessel Code'"
+                            formControlName="vessel"
+                            [required]="true"
+                            [errorMessage]="'Vessel is required'">
+                        </app-searchable-select>
+                    </div>
+                  </div>  
+
+                  <div class="row center">
+                    <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <mat-radio-group aria-label="Select an option" formControlName="type">
+                            <mat-radio-button value="1">Calendar</mat-radio-button>
+                            <mat-radio-button value="2">Financial</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                   </div>
+                  <br>
+                  <br>
+                  <div class="center">
+                    <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                    <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+                  </div>
+               </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

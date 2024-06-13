@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -27,7 +27,8 @@ export class AddLandingPropertiesComponent extends UnsubscribeOnDestroyAdapter i
     private snackBar: MatSnackBar,
     private commonService: CommonService,
     public router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private cd: ChangeDetectorRef
   ) { 
     super();
     this.docForm = this.fb.group({
@@ -49,6 +50,7 @@ export class AddLandingPropertiesComponent extends UnsubscribeOnDestroyAdapter i
       firstDetailRow: this.fb.array([
         this.fb.group({
           select: [""],
+          showIcon: [false],
           sNo: [1],
           length: [""],
           width: [""],
@@ -157,6 +159,7 @@ export class AddLandingPropertiesComponent extends UnsubscribeOnDestroyAdapter i
     let arraylen = firstDetailRow.length;
     let newUsergroup: FormGroup = this.fb.group({
       select: [""],
+      showIcon: [false],
       sNo: [arraylen+1],
       length: [""],
       width: [""],
@@ -196,7 +199,14 @@ export class AddLandingPropertiesComponent extends UnsubscribeOnDestroyAdapter i
         const weight = parseFloat(element.weight);
         return isNaN(weight) ? acc : acc + weight;
     }, 0).toFixed(2);
-}
+  }
+
+  showIcon(index){
+    const control = <FormArray>this.docForm.controls['firstDetailRow'];
+    for (let i = 0; i < control.length; i++) {
+      control.at(i).patchValue({ showIcon: i === index });
+    }
+  }
 
 
   showNotification(colorName, text, placementFrom, placementAlign) {
