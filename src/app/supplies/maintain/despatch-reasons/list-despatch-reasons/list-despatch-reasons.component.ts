@@ -1,44 +1,46 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { UnitsPackingsService } from '../units-packings.service';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { DespatchReasons } from '../despatch-reasons.model';
+import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { DataSource, SelectionModel } from '@angular/cdk/collections';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { Router } from '@angular/router';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DespatchReasonsService } from '../despatch-reasons.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { UnitsPackings } from '../units-packings.model';
-import { DataSource, SelectionModel } from '@angular/cdk/collections';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 
 @Component({
-  selector: 'app-list-units-packings',
-  templateUrl: './list-units-packings.component.html',
-  styleUrls: ['./list-units-packings.component.sass']
+  selector: 'app-list-despatch-reasons',
+  templateUrl: './list-despatch-reasons.component.html',
+  styleUrls: ['./list-despatch-reasons.component.sass']
 })
-export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class ListDespatchReasonsComponent extends UnsubscribeOnDestroyAdapter  implements OnInit {
 
   displayedColumns = [
-    "unitGroup",
-    "conversionFactor",
-    "abbreviation",
-    "unitLock",
+    "code",
+    "shortDescription",
+    "longDescription",
+    "periodRange",
+    "commends",
      "actions"
    ];
- 
+  
+
 
   dataSource: ExampleDataSource | null;
-  exampleDatabase: UnitsPackingsService | null;
-  selection = new SelectionModel<UnitsPackings>(true, []);
-  unitsPackings: UnitsPackings | null;
+  exampleDatabase: DespatchReasonsService | null;
+  selection = new SelectionModel<DespatchReasons>(true, []);
+  despatchReasons: DespatchReasons | null;
   subs: any;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public unitsPackingsService: UnitsPackingsService,
+    public despatchReasonsService: DespatchReasonsService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
@@ -67,7 +69,7 @@ export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter impl
   }
  
   public loadData() {
-    this.exampleDatabase = new UnitsPackingsService(this.httpClient,this.serverUrl,this.httpService);
+    this.exampleDatabase = new DespatchReasonsService(this.httpClient,this.serverUrl,this.httpService);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -84,7 +86,7 @@ export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter impl
   }
  }
  
- export class ExampleDataSource extends DataSource<UnitsPackings> {
+ export class ExampleDataSource extends DataSource<DespatchReasons> {
   filterChange = new BehaviorSubject("");
   get filter(): string {
     return this.filterChange.value;
@@ -92,10 +94,10 @@ export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter impl
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: UnitsPackings[] = [];
-  renderedData: UnitsPackings[] = [];
+  filteredData: DespatchReasons[] = [];
+  renderedData: DespatchReasons[] = [];
   constructor(
-    public exampleDatabase: UnitsPackingsService,
+    public exampleDatabase: DespatchReasonsService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -103,7 +105,7 @@ export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter impl
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
  
-  connect(): Observable<UnitsPackings[]> {
+  connect(): Observable<DespatchReasons[]> {
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
       this._sort.sortChange,
@@ -113,12 +115,13 @@ export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter impl
 
     this.exampleDatabase.getList();
     return merge(...displayDataChanges).pipe(map(() => {
-        this.filteredData = this.exampleDatabase.data.slice().filter((unitsPackings: UnitsPackings) => {
+        this.filteredData = this.exampleDatabase.data.slice().filter((despatchReasons: DespatchReasons) => {
             const searchStr = (
-              unitsPackings.unitGroup +
-              unitsPackings.conversionFactor + 
-              unitsPackings.abbreviation+
-              unitsPackings.unitLock 
+              despatchReasons.code +
+              despatchReasons.shortDescription + 
+              despatchReasons.longDescription+
+              despatchReasons.periodRange +
+              despatchReasons.commends 
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -135,7 +138,7 @@ export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter impl
   }
   disconnect() {}
  
-  sortData(data: UnitsPackings[]): UnitsPackings[] {
+  sortData(data: DespatchReasons[]): DespatchReasons[] {
     if (!this._sort.active || this._sort.direction === "") {
       return data;
     }
@@ -143,18 +146,21 @@ export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter impl
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-        case "unitGroup":
-          [propertyA, propertyB] = [a.unitGroup, b.unitGroup];
+        case "code":
+          [propertyA, propertyB] = [a.code, b.code];
           break;
-        case "conversionFactor":
-          [propertyA, propertyB] = [a.conversionFactor, b.conversionFactor];
+        case "shortDescription":
+          [propertyA, propertyB] = [a.shortDescription, b.shortDescription];
           break;
-          case "abbreviation":
-            [propertyA, propertyB] = [a.abbreviation, b.abbreviation];
+          case "longDescription":
+            [propertyA, propertyB] = [a.longDescription, b.longDescription];
             break;
-            case "abbreviation":
-              [propertyA, propertyB] = [a.abbreviation, b.abbreviation];
+            case "periodRange":
+              [propertyA, propertyB] = [a.periodRange, b.periodRange];
               break;
+              case "commends":
+                [propertyA, propertyB] = [a.commends, b.commends];
+                break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

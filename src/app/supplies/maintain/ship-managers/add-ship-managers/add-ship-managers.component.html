@@ -1,0 +1,139 @@
+
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb 
+        [title]="'Add Ship Managers'" 
+        [items]="['Supplies','Maintain']" [active_item]="'Add Ship Managers'">
+    </app-breadcrumb>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="box-shadow">
+            <div class="card">
+              <div class="body">
+               <form class="m-4" autocomplete="off" [formGroup]="docForm">
+               
+                <div>
+                <div style="overflow-x: auto;">
+                    <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
+                      <thead class="">
+                        <tr>
+                          <th style="width: 1%;"></th>
+                          <th class="text-center table-heading padding-both-side-2 width_7" >Ship Manager Code</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7" >Name</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7" >Details 1</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7" >Details 2</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">Details 3</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7" >Details 4</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7 ">Details 5</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7" >Details 6</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7" >Vat</th>
+                         
+                        </tr>
+                      </thead>
+                      <ng-container *ngFor="let firstDetailBean of docForm.get('firstDetailRow')['controls']; let i = index">
+                         <tbody [formGroup]="firstDetailBean" >
+                          <tr>
+                              <td class="padding-both-side-2">
+                                <mat-checkbox class="example-margin mb-13" name="select{{i}}" formControlName="select"></mat-checkbox>
+                              </td>
+                                  
+                           
+
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline" >
+                                    <mat-label>Ship Manager Code</mat-label>
+                                    <input matInput name="code{{i}}" formControlName="code">
+                               </mat-form-field>
+                              </td>
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline" >
+                                    <mat-label>Name</mat-label>
+                                    <input matInput name="name{{i}}" formControlName="name">
+                               </mat-form-field>
+                              </td>
+
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline" >
+                                    <mat-label>Details 1</mat-label>
+                                    <input matInput name="details1{{i}}" formControlName="details1">
+                               </mat-form-field>
+                              </td>
+
+                             
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline" >
+                                    <mat-label>Details 2</mat-label>
+                                    <input matInput name="details2{{i}}" formControlName="details2">
+                               </mat-form-field>
+                              </td>
+                            
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline" >
+                                    <mat-label>Details 3</mat-label>
+                                    <input matInput name="details3{{i}}" formControlName="details3">
+                               </mat-form-field>
+                              </td>
+                                
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline" >
+                                    <mat-label>Details 4</mat-label>
+                                    <input matInput name="details4{{i}}" formControlName="details4">
+                               </mat-form-field>
+                              </td>
+
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline" >
+                                    <mat-label>Details 5</mat-label>
+                                    <input matInput name="details5{{i}}" formControlName="details5">
+                               </mat-form-field>
+                              </td>
+
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline" >
+                                    <mat-label>Details 6</mat-label>
+                                    <input matInput name="details6{{i}}" formControlName="details6">
+                               </mat-form-field>
+                              </td>
+
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width form-control-sm" appearance="outline" >
+                                    <mat-label>Vat</mat-label>
+                                    <input matInput name="vat{{i}}" formControlName="vat">
+                               </mat-form-field>
+                              </td>
+
+                          </tr>
+                        </tbody>
+                      </ng-container>
+                    </table>
+                  </div>
+                </div>
+                <br><br>
+                <div class="row">
+                  <div>
+                    <button mat-mini-fab color="primary" (click)="addRow()">
+                      <mat-icon class="col-white">add</mat-icon>
+                    </button>
+  
+                    <button mat-mini-fab color="warn" class="ml-5" (click)="removeRow()">
+                      <mat-icon class="col-white">delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+  
+                   <br>
+                   <div class="center">
+                     <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon>save</mat-icon>Save</button>
+                     <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon>cancel</mat-icon>Cancel</button>
+                   </div>
+                   </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

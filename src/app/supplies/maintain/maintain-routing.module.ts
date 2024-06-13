@@ -27,7 +27,18 @@ const routes: Routes = [
     path: 'units-packings',
     loadChildren: () =>
     import("./units-packings/units-packings.module").then((m)=>m.UnitsPackingsModule),
+  },
+  {
+    path: 'ship-managers',
+    loadChildren: () =>
+    import("./ship-managers/ship-managers.module").then((m)=>m.ShipManagersModule),
+  },
+  {
+    path: 'despatch-reasons',
+    loadChildren: () =>
+    import("./despatch-reasons/despatch-reasons.module").then((m)=>m.DespatchReasonsModule),
   }
+ 
 ];
 
 @NgModule({

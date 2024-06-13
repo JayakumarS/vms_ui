@@ -1,21 +1,22 @@
+
 <section class="content">
     <div class="content-block">
       <div class="block-header" style="padding: 0.5% !important;" style="padding: 0.5% !important;">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'List Define Crew Evaluation Criteria'" [items]="['Crew','Application Properties']" [active_item]="'Define Crew Evaluation Criteria'">
+        <app-breadcrumb [title]="'List Ship Managers'" [items]="['Supplies','Maintain']" [active_item]="'Ship Managers'">
         </app-breadcrumb>
       </div>
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div class="card">
             <div class="body">
-              <div class="table-responsive">
-                <div class="materialTableHeader" style="padding-top: 1%;padding-bottom: 4%;">
+              <div class="table-responsive"  style="max-height: 500px; overflow-y: auto;">
+                <div class="materialTableHeader" style="padding-top: 1%;padding-bottom: 4%; width: 110%;">
                   <div class="row">
                     <div class="col-8">
                       <ul class="header-buttons-left ms-0">
                         <li class="dropdown m-l-20 ">
-                          <h2>Define Crew Evaluation Criteria</h2>
+                          <h2>Ship Managers</h2>
                         </li>
                         <li class="dropdown m-l-20">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -24,7 +25,7 @@
                         </li>
                         <li>
                           <div class="m-l-10" matTooltip="ADD">
-                            <button color="primary" type="button" class="btn-space" [routerLink]="'/crew/application-properties/define-crew-evaluation-criteria/add-define-crew-evaluation-criteria/0'" mat-raised-button>
+                            <button color="primary" type="button" class="btn-space" [routerLink]="'/supplies/maintain/ship-managers/add-ship-managers/0'" mat-raised-button>
                               <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Create New
                             </button>
                           </div>
@@ -43,29 +44,50 @@
                     </div>
                   </div>
                 </div>
+               
                 <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
-                  #exporter="matTableExporter">
+                  #exporter="matTableExporter" style="width: 110%;" >
                   
-                  <ng-container matColumnDef="evaluationCriteria">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Evaluation Criteria</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.evaluationCriteria}}</mat-cell>
+                  <ng-container matColumnDef="code">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Ship Manager Code</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.code}}</mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="evaluationDescription">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Evaluation Description</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.evaluationDescription}}</mat-cell>
+                  <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.name}}</mat-cell>
                   </ng-container>
-                  <!-- <ng-container matColumnDef="vsl">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxLayoutGap="5px">Vsl</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.vsl}}</mat-cell>
-                  </ng-container> -->
-                  <ng-container matColumnDef="vsl">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxLayoutGap="5px">Vsl</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
-                      <mat-checkbox [(ngModel)]="row.vsl" disabled></mat-checkbox>
-                    </mat-cell>
+                  <ng-container matColumnDef="details1">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Details 1</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.details1}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="details2">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Details 2</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.details2}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="details3">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Details 3</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.details3}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="details4">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Details 4</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.details4}}</mat-cell>
                   </ng-container>
                   
-                                                   
+                  <ng-container matColumnDef="details5">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Details 5</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.details5}}</mat-cell>
+                  </ng-container>
+                 
+                  <ng-container matColumnDef="details6">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Details 6</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.details6}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="vat">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Vat</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.vat}}</mat-cell>
+                  </ng-container>
+                  
+
                   <!-- actions -->
                   <ng-container matColumnDef="actions" class="col-lg-12 col-md-2">
                     <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
@@ -87,6 +109,7 @@
                     [style.cursor]="'pointer'" matRipple>
                   </mat-row>
                 </mat-table>
+              
                 <!-- Loading spinner -->
                 <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
                   <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">

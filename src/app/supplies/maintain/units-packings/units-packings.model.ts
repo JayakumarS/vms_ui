@@ -1,4 +1,4 @@
-export class UnitsPackingsComponent {
+export class UnitsPackings {
   unitGroup:string;
   conversionFactor: string;
   abbreviation: string;

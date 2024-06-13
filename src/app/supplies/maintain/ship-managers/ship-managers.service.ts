@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { UnitsPackings} from './units-packings.model';
+import { ShipManagers } from './ship-managers.model';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UnitsPackingsService extends UnsubscribeOnDestroyAdapter {
+export class ShipManagersService extends UnsubscribeOnDestroyAdapter{
+
   isTblLoading = true;
-  dataChange: BehaviorSubject<UnitsPackings[]> = new BehaviorSubject<UnitsPackings[]>([]);
+  dataChange: BehaviorSubject<ShipManagers[]> = new BehaviorSubject<ShipManagers[]>([]);
   
   constructor(
     private httpClient: HttpClient,
@@ -21,13 +22,13 @@ export class UnitsPackingsService extends UnsubscribeOnDestroyAdapter {
     super();
   }
 
-  get data(): UnitsPackings[] {
+  get data(): ShipManagers[] {
     return this.dataChange.value;
   }
-
+ 
   getList(){
     let value,url;
-    let list = [{    unitGroup:"Kgr",conversionFactor:"0,64374",abbreviation:"PACK-24 OZ",unitLock:"N"}];
+    let list = [{    code:"",name:"",details1:"",details2:"",details3:"",details4:"",details5:"",details6:"",vat:""}];
     this.isTblLoading = false;
     this.dataChange.next(list);
     // this.subs.sink = this.httpService.post<any>(url,value).subscribe(

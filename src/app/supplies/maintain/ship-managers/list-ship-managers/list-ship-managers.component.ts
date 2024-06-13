@@ -1,48 +1,54 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { UnitsPackingsService } from '../units-packings.service';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { serverLocations } from 'src/app/auth/serverLocations';
-import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { Router } from '@angular/router';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
-import { UnitsPackings } from '../units-packings.model';
+import { ShipManagers } from '../ship-managers.model';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
+import { ShipManagersService } from '../ship-managers.service';
+import { Router } from '@angular/router';
+import { HttpServiceService } from 'src/app/auth/http-service.service';
+import { serverLocations } from 'src/app/auth/serverLocations';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 
 @Component({
-  selector: 'app-list-units-packings',
-  templateUrl: './list-units-packings.component.html',
-  styleUrls: ['./list-units-packings.component.sass']
+  selector: 'app-list-ship-managers',
+  templateUrl: './list-ship-managers.component.html',
+  styleUrls: ['./list-ship-managers.component.sass']
 })
-export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class ListShipManagersComponent extends UnsubscribeOnDestroyAdapter  implements OnInit {
 
   displayedColumns = [
-    "unitGroup",
-    "conversionFactor",
-    "abbreviation",
-    "unitLock",
-     "actions"
+    "code",
+     "name",
+     "details1",
+     "details2",
+     "details3",
+     "details4",
+     "details5",
+     "details6",
+     "vat",
+      "actions"
+    
    ];
  
-
   dataSource: ExampleDataSource | null;
-  exampleDatabase: UnitsPackingsService | null;
-  selection = new SelectionModel<UnitsPackings>(true, []);
-  unitsPackings: UnitsPackings | null;
-  subs: any;
+  exampleDatabase: ShipManagersService | null;
+  selection = new SelectionModel<ShipManagers>(true, []);
+  shipManagers: ShipManagers | null;
+  
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public unitsPackingsService: UnitsPackingsService,
+    public shipManagersService: ShipManagersService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
-    public router: Router
+    public router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     super();
   }
@@ -67,7 +73,7 @@ export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter impl
   }
  
   public loadData() {
-    this.exampleDatabase = new UnitsPackingsService(this.httpClient,this.serverUrl,this.httpService);
+    this.exampleDatabase = new ShipManagersService(this.httpClient,this.serverUrl,this.httpService);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -84,7 +90,7 @@ export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter impl
   }
  }
  
- export class ExampleDataSource extends DataSource<UnitsPackings> {
+ export class ExampleDataSource extends DataSource<ShipManagers> {
   filterChange = new BehaviorSubject("");
   get filter(): string {
     return this.filterChange.value;
@@ -92,10 +98,10 @@ export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter impl
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: UnitsPackings[] = [];
-  renderedData: UnitsPackings[] = [];
+  filteredData: ShipManagers[] = [];
+  renderedData: ShipManagers[] = [];
   constructor(
-    public exampleDatabase: UnitsPackingsService,
+    public exampleDatabase: ShipManagersService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -103,22 +109,28 @@ export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter impl
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
  
-  connect(): Observable<UnitsPackings[]> {
+  connect(): Observable<ShipManagers[]> {
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
       this._sort.sortChange,
       this.filterChange,
       this.paginator.page,
     ];
+ 
 
     this.exampleDatabase.getList();
     return merge(...displayDataChanges).pipe(map(() => {
-        this.filteredData = this.exampleDatabase.data.slice().filter((unitsPackings: UnitsPackings) => {
+        this.filteredData = this.exampleDatabase.data.slice().filter((shipManagers: ShipManagers) => {
             const searchStr = (
-              unitsPackings.unitGroup +
-              unitsPackings.conversionFactor + 
-              unitsPackings.abbreviation+
-              unitsPackings.unitLock 
+              shipManagers.code +
+              shipManagers.name +
+              shipManagers.details1 +
+              shipManagers.details2 +
+              shipManagers.details3 +
+              shipManagers.details4 +
+              shipManagers.details5 +
+              shipManagers.details6 +
+              shipManagers.vat 
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -135,7 +147,7 @@ export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter impl
   }
   disconnect() {}
  
-  sortData(data: UnitsPackings[]): UnitsPackings[] {
+  sortData(data: ShipManagers[]): ShipManagers[] {
     if (!this._sort.active || this._sort.direction === "") {
       return data;
     }
@@ -143,18 +155,35 @@ export class ListUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter impl
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-        case "unitGroup":
-          [propertyA, propertyB] = [a.unitGroup, b.unitGroup];
+        case "code":
+          [propertyA, propertyB] = [a.code, b.code];
           break;
-        case "conversionFactor":
-          [propertyA, propertyB] = [a.conversionFactor, b.conversionFactor];
+        case "name":
+          [propertyA, propertyB] = [a.name, b.name];
           break;
-          case "abbreviation":
-            [propertyA, propertyB] = [a.abbreviation, b.abbreviation];
-            break;
-            case "abbreviation":
-              [propertyA, propertyB] = [a.abbreviation, b.abbreviation];
-              break;
+        case "details1":
+          [propertyA, propertyB] = [a.details1, b.details1];
+          break;
+          case "details2":
+          [propertyA, propertyB] = [a.details2, b.details2];
+          break;
+          case "details3":
+           [propertyA, propertyB] = [a.details3, b.details3];
+           break;
+           case "details4":
+             [propertyA, propertyB] = [a.details4, b.details4];
+             break;
+             case "details5":
+               [propertyA, propertyB] = [a.details5, b.details5];
+               break;
+               case "details6":
+                 [propertyA, propertyB] = [a.details6, b.details6];
+                 break;
+                 case "vat":
+                   [propertyA, propertyB] = [a.vat, b.vat];
+                   break;
+ 
+                  
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
