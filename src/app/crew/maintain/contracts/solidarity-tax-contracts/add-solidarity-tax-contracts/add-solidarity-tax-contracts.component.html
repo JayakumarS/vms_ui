@@ -35,24 +35,15 @@
 
 
                             <td class="padding-both-side-2">
-                              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                <mat-label>Currency</mat-label>
-                                <mat-select name="currency{{i}}" formControlName="currency" #contractscurrency>
-                                  <mat-option>
-                                      <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                      [noEntriesFoundLabel]="'no results found'"
-                                      [formControl]="currencyFilterCtrl"></ngx-mat-select-search>
-                                  </mat-option>
-                                  <mat-option
-                                      *ngFor="let title of currencyFilteredOptions | async"
-                                      [value]="title.id">
-                                      {{title.text}}
-                                  </mat-option>
-                                </mat-select>
-                              </mat-form-field>
-                            </td>
+                              <app-searchable-select [options]="currencyList" placeholderLabel="Search"
+                              noEntriesFoundLabel="No results found" [label]="'Currency'"
+                           formControlName="currency" [required]="false"
+                               [errorMessage]="'Currency is required'">
+                               </app-searchable-select>
+                    </td>
 
-                            
+                                                       
+
                             <td class="padding-both-side-2">
                               <mat-form-field class="example-full-width" appearance="outline">
                                   <mat-label>From Date</mat-label>
@@ -72,22 +63,14 @@
                             </td>
 
                             <td class="padding-both-side-2">
-                              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                <mat-label>Item</mat-label>
-                                <mat-select name="item{{i}}" formControlName="item" #contractsitem>
-                                  <mat-option>
-                                      <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                      [noEntriesFoundLabel]="'no results found'"
-                                      [formControl]="itemFilterCtrl"></ngx-mat-select-search>
-                                  </mat-option>
-                                  <mat-option
-                                      *ngFor="let title of itemFilteredOptions | async"
-                                      [value]="title.id">
-                                      {{title.text}}
-                                  </mat-option>
-                                </mat-select>
-                              </mat-form-field>
+                              <app-searchable-select [options]="itemList" placeholderLabel="Search"
+                                     noEntriesFoundLabel="No results found" [label]="'Item'"
+                                 formControlName="item" [required]="false"
+                                    [errorMessage]="'Currency is required'">
+                               </app-searchable-select>
                             </td>
+
+                           
                             <td class="padding-both-side-2">
                               <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                 <mat-label>Proportional Calculation</mat-label>

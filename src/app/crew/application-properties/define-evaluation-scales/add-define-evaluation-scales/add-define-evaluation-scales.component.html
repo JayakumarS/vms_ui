@@ -33,22 +33,13 @@
                               </td>
                                   
                               <td class="padding-both-side-2">
-                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                  <mat-label>Scale Description</mat-label>
-                                  <mat-select name="scaleDescription{{i}}" formControlName="scaleDescription" #evaluationscaleDescription>
-                                    <mat-option>
-                                        <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                        [noEntriesFoundLabel]="'no results found'"
-                                        [formControl]="scaleDescriptionFilterCtrl"></ngx-mat-select-search>
-                                    </mat-option>
-                                    <mat-option
-                                        *ngFor="let title of scaleDescriptionFilteredOptions | async"
-                                        [value]="title.id">
-                                        {{title.text}}
-                                    </mat-option>
-                                  </mat-select>
-                                </mat-form-field>
+                                <app-searchable-select [options]="scaleDescriptionList" placeholderLabel="Search"
+                              noEntriesFoundLabel="No results found" [label]="'Scale Description'"
+                              formControlName="scaleDescription" [required]="false"
+                              [errorMessage]="'Scale Description is required'">
+                          </app-searchable-select>
                               </td>
+                              
 
                               <td class="padding-both-side-2">
                                 <mat-form-field class="example-full-width" appearance="outline" >

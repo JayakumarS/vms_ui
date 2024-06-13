@@ -22,11 +22,7 @@ export class AddEvaluationDepartmentsPerUserComponent implements OnInit {
   userIDFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
   @ViewChild('contractsuserID', { static: true }) contractsuserID: MatSelect;
 
-  protected onDestroy = new Subject<void>();
-
-  public departmentFilterCtrl: FormControl = new FormControl();
-  departmentFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('contractsdepartment', { static: true }) contractsdepartment: MatSelect;
+ 
 
   constructor(private fb: FormBuilder,
     private snackBar: MatSnackBar,
@@ -47,58 +43,12 @@ export class AddEvaluationDepartmentsPerUserComponent implements OnInit {
    
   ngOnInit(): void {
      this.userIDList = [{id:1,text:"E0001"},{id:2,text:"E0002"},{id:3,text:"E0003"},{id:4,text:"E0004"},{id:5,text:"E0005"},{id:6,text:"E0006"},{id:7,text:"E0007"},{id:8,text:"E0008"},{id:9,text:"E0009"},{id:10,text:"E00010"}];
-    this.userIDFilteredOptions.next(this.userIDList.slice());
-    
-    this.userIDFilterCtrl.valueChanges
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe(() => {
-        this.filteruserID();
-      });
-
-
-      this.departmentList = [{id:1,text:"DEBT-1"},{id:2,text:"DEBT-2"},{id:3,text:"DEBT-3"}];
-    this.departmentFilteredOptions.next(this.departmentList.slice());
-    
-    this.departmentFilterCtrl.valueChanges
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe(() => {
-        this.filterdepartment();
-      });
+    this.departmentList = [{id:1,text:"DEBT-1"},{id:2,text:"DEBT-2"},{id:3,text:"DEBT-3"}];
+   
   }
 
 
-  filteruserID(){
-    if (!this.userIDList) {
-      return;
-    }
-    let search = this.userIDFilterCtrl.value;
-    if (!search) {
-      this.userIDFilteredOptions.next(this.userIDList.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    this.userIDFilteredOptions.next(
-      this.userIDList.filter(title => title.text.toLowerCase().includes(search))
-    );
-   }
-
-
-   filterdepartment(){
-    if (!this.departmentList) {
-      return;
-    }
-    let search = this.departmentFilterCtrl.value;
-    if (!search) {
-      this.departmentFilteredOptions.next(this.departmentList.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    this.departmentFilteredOptions.next(
-      this.departmentList.filter(title => title.text.toLowerCase().includes(search))
-    );
-   }
+ 
 
   addRow() {
     

@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { CommonService } from 'src/app/common-service/common.service';
 
 @Component({
@@ -16,14 +14,7 @@ export class AddSolidarityTaxContractsComponent implements OnInit {
   itemList:any=[];
   currencyList:any=[];
   proportionalCalculations:string[]=['YES','NO'];
-  public itemFilterCtrl: FormControl = new FormControl();
-  itemFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('contractsitem', { static: true }) contractsitem: MatSelect;
-  protected onDestroy = new Subject<void>();
-
-  public currencyFilterCtrl: FormControl = new FormControl();
-  currencyFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('contractscurrency', { static: true }) contractscurrency: MatSelect;
+ 
 
   constructor(private fb: FormBuilder,
     private snackBar: MatSnackBar,
@@ -56,56 +47,11 @@ export class AddSolidarityTaxContractsComponent implements OnInit {
 
   ngOnInit(): void {
     this.itemList = [{id:1,text:"ADDITIONAL(TDS)-CURRENT FINANCIAL YEAR"},{id:2,text:"ADDITIONAL(TDS)-PREVIOUS FINANCIAL YEAR"},{id:3,text:"ADMIN CHARGES FOR PENSION &ANNUITY"}];
-    this.itemFilteredOptions.next(this.itemList.slice());
-
-    this.itemFilterCtrl.valueChanges
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe(() => {
-        this.filteritem();
-      });
-
-
-    this.currencyList = [{id:1,text:"INR"},{id:2,text:"USD"},{id:3,text:"AED"}];
-    this.currencyFilteredOptions.next(this.currencyList.slice());
-    
-    this.currencyFilterCtrl.valueChanges
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe(() => {
-        this.filterCurrency();
-      });
+   this.currencyList = [{id:1,text:"INR"},{id:2,text:"USD"},{id:3,text:"AED"}];
+   
   }
 
-  filteritem(){
-    if (!this.itemList) {
-      return;
-    }
-    let search = this.itemFilterCtrl.value;
-    if (!search) {
-      this.itemFilteredOptions.next(this.itemList.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    this.itemFilteredOptions.next(
-      this.itemList.filter(title => title.text.toLowerCase().includes(search))
-    );
-   }
-
-   filterCurrency(){
-    if (!this.currencyList) {
-      return;
-    }
-    let search = this.currencyFilterCtrl.value;
-    if (!search) {
-      this.currencyFilteredOptions.next(this.currencyList.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    this.currencyFilteredOptions.next(
-      this.currencyList.filter(title => title.text.toLowerCase().includes(search))
-    );
-   }
+  
 
   addRow() {
     

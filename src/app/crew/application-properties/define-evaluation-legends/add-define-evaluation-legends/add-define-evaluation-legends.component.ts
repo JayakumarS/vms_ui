@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { CommonService } from 'src/app/common-service/common.service';
 
 @Component({
@@ -16,16 +14,7 @@ export class AddDefineEvaluationLegendsComponent implements OnInit {
   docForm: FormGroup;
   evaluationCriteriaList:any=[];
   evaluationScaleList:any=[];
-  public evaluationScaleFilterCtrl: FormControl = new FormControl();
-  evaluationScaleFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('legendsevaluationScale', { static: true }) legendsevaluationScale: MatSelect;
-
-  protected onDestroy = new Subject<void>();
-
-  public evaluationCriteriaFilterCtrl: FormControl = new FormControl();
-  evaluationCriteriaFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('legendsevaluationCriteria', { static: true }) legendsevaluationCriteria: MatSelect;
-
+ 
   constructor(private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private commonService: CommonService,
@@ -45,58 +34,12 @@ export class AddDefineEvaluationLegendsComponent implements OnInit {
    
   ngOnInit(): void {
      this.evaluationScaleList = [{id:1,text:"ABILITY"},{id:2,text:"CONDUCT"},{id:3,text:" PMS & COMPUTER AWARWNESS-INCL DANAOS"},{id:4,text:"ISM COMPLIANCE"},{id:5,text:"DILIGNCE"},{id:6,text:"DISCIPLINE"},{id:7,text:"INTEGRITY"}];
-    this.evaluationScaleFilteredOptions.next(this.evaluationScaleList.slice());
-    
-    this.evaluationScaleFilterCtrl.valueChanges
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe(() => {
-        this.filterevaluationScale();
-      });
-
-
-      this.evaluationCriteriaList = [{id:1,text:"NA"},{id:2,text:"YES"},{id:3,text:"NO"},{id:4,text:"HEALTHY"},{id:5,text:"REGULAR MEDCIAL ISSUES"},{id:6,text:"POOR"},{id:7,text:"FAIR"},{id:8,text:"GOOD"},{id:9,text:"V.GOOD"},{id:10,text:"EXCELLENT"}];
-      this.evaluationCriteriaFilteredOptions.next(this.evaluationCriteriaList.slice());
-      
-      this.evaluationCriteriaFilterCtrl.valueChanges
-        .pipe(takeUntil(this.onDestroy))
-        .subscribe(() => {
-          this.filterevaluationCriteria();
-        });
+     this.evaluationCriteriaList = [{id:1,text:"NA"},{id:2,text:"YES"},{id:3,text:"NO"},{id:4,text:"HEALTHY"},{id:5,text:"REGULAR MEDCIAL ISSUES"},{id:6,text:"POOR"},{id:7,text:"FAIR"},{id:8,text:"GOOD"},{id:9,text:"V.GOOD"},{id:10,text:"EXCELLENT"}];
+     
   }
 
 
-   filterevaluationScale(){
-    if (!this.evaluationScaleList) {
-      return;
-    }
-    let search = this.evaluationScaleFilterCtrl.value;
-    if (!search) {
-      this.evaluationScaleFilteredOptions.next(this.evaluationScaleList.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    this.evaluationScaleFilteredOptions.next(
-      this.evaluationScaleList.filter(title => title.text.toLowerCase().includes(search))
-    );
-   }
-
-
-   filterevaluationCriteria(){
-    if (!this.evaluationCriteriaList) {
-      return;
-    }
-    let search = this.evaluationCriteriaFilterCtrl.value;
-    if (!search) {
-      this.evaluationCriteriaFilteredOptions.next(this.evaluationCriteriaList.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    this.evaluationCriteriaFilteredOptions.next(
-      this.evaluationCriteriaList.filter(title => title.text.toLowerCase().includes(search))
-    );
-   }
+ 
 
   addRow() {
     

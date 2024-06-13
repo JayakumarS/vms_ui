@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { CommonService } from 'src/app/common-service/common.service';
 
 
@@ -18,11 +16,7 @@ export class AddDefineEvaluationScalesComponent implements OnInit {
   scaleDescriptionList:any=[];
 
 
-  protected onDestroy = new Subject<void>();
-
-  public scaleDescriptionFilterCtrl: FormControl = new FormControl();
-  scaleDescriptionFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('evaluationscaleDescription', { static: true }) evaluationscaleDescription: MatSelect;
+ 
 
   constructor(private fb: FormBuilder,
     private snackBar: MatSnackBar,
@@ -43,31 +37,10 @@ export class AddDefineEvaluationScalesComponent implements OnInit {
    
   ngOnInit(): void {
      this.scaleDescriptionList = [{id:1,text:"NA"},{id:2,text:"YES"},{id:3,text:"NO"},{id:4,text:"HEALTHY"},{id:5,text:"REGULAR MEDCIAL ISSUES"},{id:6,text:"POOR"},{id:7,text:"FAIR"},{id:8,text:"GOOD"},{id:9,text:"V.GOOD"},{id:10,text:"EXCELLENT"}];
-    this.scaleDescriptionFilteredOptions.next(this.scaleDescriptionList.slice());
     
-    this.scaleDescriptionFilterCtrl.valueChanges
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe(() => {
-        this.filterscaleDescription();
-      });
   }
 
 
-   filterscaleDescription(){
-    if (!this.scaleDescriptionList) {
-      return;
-    }
-    let search = this.scaleDescriptionFilterCtrl.value;
-    if (!search) {
-      this.scaleDescriptionFilteredOptions.next(this.scaleDescriptionList.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    this.scaleDescriptionFilteredOptions.next(
-      this.scaleDescriptionList.filter(title => title.text.toLowerCase().includes(search))
-    );
-   }
 
   addRow() {
     

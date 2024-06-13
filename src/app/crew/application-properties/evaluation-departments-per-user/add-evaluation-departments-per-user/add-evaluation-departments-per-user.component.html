@@ -33,40 +33,21 @@
                               </td>
                                   
                               <td class="padding-both-side-2">
-                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                  <mat-label>Department</mat-label>
-                                  <mat-select name="department{{i}}" formControlName="department" #contractsdepartment>
-                                    <mat-option>
-                                        <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                        [noEntriesFoundLabel]="'no results found'"
-                                        [formControl]="departmentFilterCtrl"></ngx-mat-select-search>
-                                    </mat-option>
-                                    <mat-option
-                                        *ngFor="let title of departmentFilteredOptions | async"
-                                        [value]="title.id">
-                                        {{title.text}}
-                                    </mat-option>
-                                  </mat-select>
-                                </mat-form-field>
+                                <app-searchable-select [options]="departmentList" placeholderLabel="Search"
+                              noEntriesFoundLabel="No results found" [label]="'Department'"
+                              formControlName="department" [required]="false"
+                              [errorMessage]="'Department is required'">
+                          </app-searchable-select>
                               </td>
-
+                              
                               <td class="padding-both-side-2">
-                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                  <mat-label>User ID</mat-label>
-                                  <mat-select name="userID{{i}}" formControlName="userID" #contractsuserID>
-                                    <mat-option>
-                                        <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                        [noEntriesFoundLabel]="'no results found'"
-                                        [formControl]="userIDFilterCtrl"></ngx-mat-select-search>
-                                    </mat-option>
-                                    <mat-option
-                                        *ngFor="let title of userIDFilteredOptions | async"
-                                        [value]="title.id">
-                                        {{title.text}}
-                                    </mat-option>
-                                  </mat-select>
-                                </mat-form-field>
+                                <app-searchable-select [options]="userIDList" placeholderLabel="Search"
+                              noEntriesFoundLabel="No results found" [label]="'User ID'"
+                              formControlName="userID" [required]="false"
+                              [errorMessage]="'User ID is required'">
+                          </app-searchable-select>
                               </td>
+                             
                               
                           </tr>
                         </tbody>
