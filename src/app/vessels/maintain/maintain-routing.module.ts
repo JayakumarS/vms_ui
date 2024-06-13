@@ -87,6 +87,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./official-managers/official-managers.module").then((m) => m.OfficialManagersModule),
   },
+  {
+    path: "ship-managers",
+    loadChildren: () =>
+      import("./ship-managers/ship-managers.module").then((m) => m.ShipManagersModule),
+  },
   
 ];
 
