@@ -12,19 +12,19 @@
 
           <div class="card">
             <div class="body" style="padding-left: 110px;">
-                <h2>GENERAL</h2>
+                <h4>GENERAL</h4>
               <form class="m-4" [formGroup]="docForm">
                 <div class="row" >
                              <div  class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
                       <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                         <mat-label>Code</mat-label>
-                        <input matInput formControlName="code" readonly>
+                        <input matInput formControlName="code" >
                       </mat-form-field>
                     </div>
                     <div *ngIf="!edit" class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
                       <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                         <mat-label>Name</mat-label>
-                        <input matInput formControlName="name" (blur)="validateCountry($event.target.value)" maxlength="3" required>
+                        <input matInput formControlName="name">
                    
                        
                       </mat-form-field>
@@ -34,7 +34,7 @@
                     <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
                       <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                         <mat-label>Short Name</mat-label>
-                        <input matInput formControlName="shortname" maxlength="15" required>
+                        <input matInput formControlName="shortname">
                     
                       </mat-form-field>
                     </div>
@@ -62,7 +62,7 @@
                     <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
                       <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                         <mat-label>Initials</mat-label>
-                        <input matInput formControlName="" maxlength="15" required>
+                        <input matInput formControlName="" maxlength="15" >
                  
                       </mat-form-field>
                     </div>
@@ -510,7 +510,7 @@
           padding: 10px;
           height: 750px; ">
            <div class="body" style="padding-left: 110px;">
-            <h2>MAIN DETAILS</h2>
+            <h4>MAIN DETAILS</h4>
           <form class="m-4" [formGroup]="docForm">
   
             <div class="row">
@@ -676,7 +676,7 @@
           padding: 10px;
           height: 350px;">
          <div class="body" style="padding-left: 110px;">
-            <h2>COMMERCIAL</h2>
+            <h4>COMMERCIAL</h4>
           <form class="m-4" [formGroup]="docForm">
             <div class="row">
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
@@ -767,7 +767,7 @@
           padding: 10px;
           height: 350px;">
          <div class="body" style="padding-left: 110px;">
-            <h2>CREW</h2>
+            <h4>CREW</h4>
           <form class="m-4" [formGroup]="docForm">
             <div class="row">
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">

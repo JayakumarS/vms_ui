@@ -23,6 +23,13 @@ const routes: Routes = [
     loadChildren: () =>
       import("./item/item.module").then((m) => m.ItemModule),
   },
+  {
+    path: "systems-and-subsystems",
+    loadChildren: () =>
+      import("./systems-and-subsystems/systems-and-subsystems.module").then((m) => m.SystemsAndSubsystemsModule),
+  },
+
+  
 
 
 ];
