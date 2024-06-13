@@ -33,6 +33,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./admin/admin.module").then((m) => m.AdminModule),
   },
+  {
+    path: "map",
+    loadChildren: () =>
+      import("./map/map.module").then((m) => m.MapModule),
+  },
 
 ];
 

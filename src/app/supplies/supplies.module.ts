@@ -5,7 +5,8 @@ import { SuppliesRoutingModule } from './supplies-routing.module';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
     SuppliesRoutingModule

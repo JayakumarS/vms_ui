@@ -1,0 +1,66 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Map'" [items]="['Supplies','Map']" [active_item]="'Map'">
+        </app-breadcrumb>
+      </div>
+      <div class="row clearfix ">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="box-shadow">
+          <!-- <div class="card"><br> -->
+          
+            <button style="width: 3%;margin-left: 96%;color: white;background-color: #6196cc;border: white;" 
+            (click)="filter()"><i class="fa fa-filter"></i></button>
+            <div class="body" >
+              <br>
+                <div id="map" class="map"></div>
+            </div>
+            <div class="card" style="margin-top: -5%;width: 28%;">
+              <div class="flex"> 
+                <div>
+                  <img src='/assets/images/bulker.png' style='margin-left: 10px;
+                  width: 48px;
+                  height: 32px;'/>
+                  </div>
+                  <div>
+                    <span>Bulker(Dry)</span>
+                  </div>
+              </div>
+              <div class="flex"> 
+                <div>
+                  <img src='/assets/images/tanker.png' style='margin-left: 10px;
+                  width: 48px;
+                  height: 32px;'/>
+                  </div>
+                  <div>
+                    <span>Tanker(World Scale,Chemical)</span>
+                  </div>
+              </div>
+              <div class="flex"> 
+                <div>
+                  <img src='/assets/images/container.png' style='margin-left: 10px;
+                  width: 48px;
+                  height: 32px;'/>
+                  </div>&nbsp;
+                  <div>
+                    <span>Container(Reefer)</span>
+                  </div>
+              </div>
+              <div class="flex"> 
+                <div>
+                  <img src='/assets/images/multiple-vessel.png' style='margin-left: 10px;
+                  width: 48px;
+                  height: 32px;'/>
+                  </div>
+                  <div>
+                    <span>Multiple Vessels at same location or type is not set.</span>
+                  </div>
+              </div>
+              </div>
+        <!-- </div> -->
+      </div>
+      </div>
+    </div>
+  </div>
+</section>

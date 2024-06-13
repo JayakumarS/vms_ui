@@ -1,0 +1,22 @@
+<h6 style="margin-left: 29%;color: #4694c6;">FILTERED BY VESSEL</h6>
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+    <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Vessel</mat-label>
+        <mat-select formControlName="vessel" multiple #filterstatus>
+            <mat-option>
+                <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                [noEntriesFoundLabel]="'no results found'"
+                [formControl]="vesselFilterCtrl"></ngx-mat-select-search>
+            </mat-option>
+            <mat-option
+                *ngFor="let title of vesselFilteredOptions | async"
+                [value]="title.id">
+                {{title.text}}
+            </mat-option>
+          </mat-select>
+      </mat-form-field>
+</div>
+<div style="margin-top: 23%;margin-left: 22%;">
+    <button class="btn-space saveBtn" mat-raised-button (click)="apply()"><mat-icon>done</mat-icon>Apply</button>
+    <button (click)="cancel()" class="btn-space" color="warn" type="button" mat-raised-button><mat-icon>refresh</mat-icon>Reset</button>
+</div>
