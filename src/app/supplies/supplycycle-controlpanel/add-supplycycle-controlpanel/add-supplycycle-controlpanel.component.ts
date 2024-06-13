@@ -40,6 +40,8 @@ export class AddSupplycycleControlpanelComponent extends UnsubscribeOnDestroyAda
   isReset: boolean = false;
   requestId: number;
   edit:boolean=false;
+  exampleDatabase: SuppliesService | null;
+
   constructor(private fb: FormBuilder,
     private httpService: HttpServiceService,
     private snackBar: MatSnackBar,
@@ -137,8 +139,8 @@ onUpdate(){
       "right");
 }
 
-}
 
+}
 showNotification(colorName, text, placementFrom, placementAlign) {
   this.snackBar.open(text, "", {
     duration: 3000,
@@ -149,20 +151,20 @@ showNotification(colorName, text, placementFrom, placementAlign) {
 }
 
 onCancel(){
-  this.router.navigate(['/supplies//zones/list-zones']);
+  this.router.navigate(['/supplies/zones/list-zones']);
 
 }
   Requisition(){
-
+    this.router.navigate(['/supplies/new/requisition/add-requisition/0']);
   }
   refresh(){
-
+ 
   }
   search(){
 
   }
   spotorder(){
-
+    this.router.navigate(['/supplies/new/spot-order/add-spot-order/0']);
   }
   excel(){
 
