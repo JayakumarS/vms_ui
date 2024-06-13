@@ -17,7 +17,12 @@ const routes: Routes = [
     path: "department-budgets",
     loadChildren: () =>
       import("./department-budgets/department-budgets.module").then((m) => m.DepartmentBudgetsModule),
-  }
+  },
+  {
+    path: "item",
+    loadChildren: () =>
+      import("./item/item.module").then((m) => m.ItemModule),
+  },
 
 
 ];

@@ -1,0 +1,279 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Items'" [items]="['Supplies','Admin']" [active_item]="'Items'">
+        </app-breadcrumb>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="box-shadow">
+            <div class="card">
+              <div class="body">
+               <form class="m-4" autocomplete="off" [formGroup]="docForm">
+                <div class="flex" style="width: 297%;">
+                <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+                <div class="row w-100">
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Catalogue/System</mat-label>
+                            <mat-select formControlName="system" #filterstatus>
+                                <mat-option>
+                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                    [noEntriesFoundLabel]="'no results found'"
+                                    [formControl]="systemFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option
+                                    *ngFor="let title of systemFilteredOptions | async"
+                                    [value]="title.id">
+                                    {{title.text}}
+                                </mat-option>
+                              </mat-select>
+                          </mat-form-field>
+                    </div>
+                    </div>
+
+                    <div class="row w-100">
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Group/Subsystem</mat-label>
+                        <mat-select formControlName="subsystem" #filterstatus>
+                            <mat-option>
+                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                [noEntriesFoundLabel]="'no results found'"
+                                [formControl]="subsystemFilterCtrl"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option
+                                *ngFor="let title of subsystemFilteredOptions | async"
+                                [value]="title.id">
+                                {{title.text}}
+                            </mat-option>
+                          </mat-select>
+                          </mat-form-field>
+                    </div>
+                    </div>
+
+                    <div class="row w-100">
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Item Ref Code</mat-label>
+                        <input matInput formControlName="refCode">
+                        </mat-form-field>
+                    </div>
+                    </div>
+
+                    <div class="row w-100">
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Draw No</mat-label>
+                            <input matInput formControlName="drawNo">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row w-100">
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Short Description</mat-label>
+                            <input matInput formControlName="startFrom" type="shortDesc">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+                    <div class="row w-100">
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Unit</mat-label>
+                            <mat-select formControlName="unit" #filterstatus>
+                                <mat-option>
+                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                    [noEntriesFoundLabel]="'no results found'"
+                                    [formControl]="unitFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option
+                                    *ngFor="let title of unitFilteredOptions | async"
+                                    [value]="title.id">
+                                    {{title.text}}
+                                </mat-option>
+                              </mat-select>
+                              </mat-form-field>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12" style="margin-top: 15px;">
+                            <mat-label>Interface Code : </mat-label>
+                        </div>
+                    </div>
+
+                    <div class="row w-100">
+                        <div class="col-xl-2 col-lg-3 col-md-12 col-sm-12">
+                        <mat-label>Item Nature : </mat-label>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 col-md-12 col-sm-12" style="margin-left:-10%;margin-top: -3px;">
+                        <p>Material<mat-slide-toggle></mat-slide-toggle> Fleet</p>
+                    </div>
+                    </div>
+
+                    <div class="row w-100">
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Draw Position No</mat-label>
+                            <input matInput formControlName="positionNo">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    
+                    <div class="row w-100">
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                           <mat-form-field class="example-full-width" appearance="outline">
+                              <mat-label>Long Description</mat-label>
+                              <textarea matInput formControlName="longDesc"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12" style="margin-top: 24px;">
+                            <p><mat-slide-toggle>Display</mat-slide-toggle></p>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                          <app-file-upload (change)="uploadFile($event)"></app-file-upload>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                          <button (click)="addFile()" type="button" mat-mini-fab color="primary"
+                            style="margin-left: -14px;margin-top: 18px;">
+                            <mat-icon class="col-white">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+  
+                      <div>
+                        <div *ngFor="let link of this.docForm.value.files; let index = index">
+                          <a style="display: none" [href]="filePathdata + '/' + link.filename"
+                            download="{{link.name}}"></a>
+                          <div>{{index + 1}}.  <a style="color: green">{{link.name}}</a>
+                            <button class="btn btn-default input-sm" type="button" (click)="deleteFile(index)"
+                              data-toggle="tooltip" title="Delete file">
+                              <i class="fa fa-trash"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row w-100">
+                        <mat-label>Quantity</mat-label>
+
+                        <div class="col-xl-1 col-lg-2 col-md-12 col-sm-12">
+                            
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Min</mat-label>
+                                    <input matInput formControlName="qtyMin" placeholder="0.00">
+                            </mat-form-field>
+                        </div>
+                         <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Max</mat-label>
+                                    <input matInput formControlName="qtyMax"  placeholder="0.00">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+                    <div class="row w-100">
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 d-flex align-items-center">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Referance Cost</mat-label>
+                                <div style="display: flex; align-items: center;">
+                                    <input matInput formControlName="refCost" placeholder="0.00" 
+                                    style="flex: 1; text-align: center;">
+                                    <span>USR(Gross)</span>
+                                </div>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row w-100">
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Consumption Factor</mat-label>
+                            <input matInput formControlName="factor" type="shortDesc">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row w-100">
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Item Category</mat-label>
+                                <mat-select formControlName="itemCategory" #filterstatus>
+                                    <mat-option>
+                                        <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                                        [noEntriesFoundLabel]="'no results found'"
+                                        [formControl]="systemFilterCtrl"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option
+                                        *ngFor="let title of systemFilteredOptions | async"
+                                        [value]="title.id">
+                                        {{title.text}}
+                                    </mat-option>
+                                  </mat-select>
+                              </mat-form-field>
+                        </div>
+                        </div>
+                    
+                  <br>
+                  <div class="center">
+                    <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon>save</mat-icon>Save</button>
+                    <!-- <button (click)="cancel()" class="cancelBtn" type="button"  mat-raised-button><mat-icon>cancel</mat-icon>Cancel</button> -->
+                </div>
+              </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="margin-left: -22%;">
+                <div class="row clearfix">
+                    <label style="color: #d82727;font-size: 20px;text-decoration: underline;margin-top: -2%;">Item 1 of 1</label>
+                    <br>
+                </div>
+                <div class="row w-100">
+                    <p><mat-slide-toggle class="custom-slide-toggle">Active Flag</mat-slide-toggle></p>
+                </div>
+                <div class="row w-100">
+                    <p><mat-slide-toggle>Onboard Flag</mat-slide-toggle></p>
+                </div>
+                <div class="row w-100">
+                    <p><mat-slide-toggle>Preferred Item</mat-slide-toggle></p>
+                </div>
+                <div class="row w-100">
+                    <p><mat-slide-toggle>Critical Item</mat-slide-toggle></p>
+                </div>
+                <div class="row w-100">
+                    <p><mat-slide-toggle>Expiry Item</mat-slide-toggle></p>
+                </div>
+                <div class="row w-100">
+                    <p><mat-slide-toggle>Green Passport</mat-slide-toggle></p>
+                </div>
+                <div class="row w-100">
+                    <p><mat-slide-toggle>For Budget</mat-slide-toggle></p>
+                </div>
+                <div class="row w-100">
+                    <p><mat-slide-toggle>Optimum</mat-slide-toggle></p>
+                </div>
+                <div class="row w-100">
+                    <p><mat-slide-toggle>MD Required</mat-slide-toggle></p>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="margin-left: -42%;width: 27%;">
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Company Id</mat-label>
+                    <input matInput formControlName="startFrom">
+                    </mat-form-field>
+                </div>
+            </div>
+            </div>
+               </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
