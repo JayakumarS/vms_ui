@@ -74,7 +74,7 @@ export class AddItemComponent implements OnInit {
       .subscribe(() => {
         this.filterSystem();
       });
-      this.subsystemList = [{id:1,text:"ACCUMULATOR BATTERIES"},{id:2,text:"AIR COND-PLANT"},{id:3,text:"CARRIER"},{id:4,text:"ALARM MONITORING SYSTEM"}];
+      this.subsystemList = [{id:1,text:"SPARE-ACCUMULATOR BATTERIES"},{id:2,text:"Spare-AIR COND-PLANT"},{id:3,text:"Spare-CARRIER"},{id:4,text:"Spare-ALARM MONITORING SYSTEM"}];
       this.subsystemFilteredOptions.next(this.subsystemList.slice());
   
       this.subsystemFilterCtrl.valueChanges
