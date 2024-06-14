@@ -38,6 +38,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./map/map.module").then((m) => m.MapModule),
   },
+  {
+    path: "landedgoods",
+     loadChildren: () =>
+       import("./landedgoods-controlpanel/landedgoods-controlpanel.module").then((m) => m.LandedgoodsControlpanelModule),
+   },
 
 ];
 

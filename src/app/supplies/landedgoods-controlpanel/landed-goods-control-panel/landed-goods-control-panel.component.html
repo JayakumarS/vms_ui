@@ -1,0 +1,233 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Landedgoods-Controlpanel'" [items]="['Supplies']" [active_item]="'Landedgoods-Controlpanel'">
+        </app-breadcrumb>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+                <div class="materialTableHeader">
+                    <div class="row">
+                      <div class="col-8">
+                        <ul class="header-buttons-left ms-0">
+                          <li class="dropdown">
+                            <h2></h2>
+                          </li>
+                          <li class="dropdown m-l-20">
+                            <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                            <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                              aria-label="Search box">
+                          </li>
+                          <!-- <li>
+                          <button  matTooltip="EDIT" mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="Landing()"
+                          class="tbl-action-btn">
+                          <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                        </button>
+                    </li> -->
+                        </ul>
+                    </div>
+                </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="margin-top: 0.4%">
+                         <button  color="primary" type="button" 
+                          class="btn-space" (click)="Landing()" mat-raised-button>Landing Properties 
+                         </button> 
+    
+                         <!-- <button color="primary" type="button"  class="btn-space"
+                          (click)="excel()" mat-raised-button>
+                          Import Excel Quotation</button>  -->
+
+                          <button color="primary"  type="button" 
+                          class="btn-space" (click)="refresh()"  mat-raised-button >
+                          Refresh</button>
+                           <!-- <button color="primary"  type="button" 
+                          class="btn-space" (click)="search()" mat-raised-button >
+                          Search</button>  -->
+                          
+                      </div>
+                    </div> 
+
+                    <br><br>
+                    <div class="card">
+                        <div class="body">
+                 
+                        
+           
+                          <div style="overflow-x: auto;">    
+                        <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
+                          <thead class="">
+                                            
+                            <tr>
+                                <th class="text-center table-heading padding-both-side-2 width_7" style="
+                                width: 2%; border-radius: 0.05rem; "></th>
+                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                width: 4%; border-radius: 0.05rem;">Type</th>
+                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                width: 4%; border-radius: 0.05rem;">Code</th>
+                                      <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                      width: 4%; border-radius: 0.05rem;">Date</th>
+                               <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                   width: 4%; border-radius: 0.05rem;">Port</th>
+                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                  width: 4%; border-radius: 0.05rem;">Landed/Delivered To</th>
+                                 <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                    width: 4%; border-radius: 0.05rem;">Information</th>
+                                  <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                  width: 4%; border-radius: 0.05rem;">Original Items</th>
+                                   <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                  width: 4%; border-radius: 0.05rem;">Scapped Items</th>
+                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                                width: 4%; border-radius: 0.05rem;">Status</th>                      
+                          <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                            width: 4%; border-radius: 0.05rem;">Comments.Info</th>                      
+                               <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                              width: 4%; border-radius: 0.05rem;">Attachments.Info</th>
+                      <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                      width: 4%; border-radius: 0.05rem;">Infogate Links</th>         
+                     
+                               
+                              </tr>
+                                          </thead>
+                                          <ng-container *ngFor="let landgoodstab of docForm.get('landgoodstab')['controls']; let i = index" >
+                                            <tbody  [formGroup]="landgoodstab">
+                          
+                                           
+                                               
+                                              <!-- <td class="padding-both-side-2">
+                                                {{landgoodstab.get('type').value}}
+                                              </td> -->
+                                             
+                                                <tr *ngIf="landgoodstab.get('show').value == true">
+                                                    <td colspan="5">
+                                                      Vessel: {{landgoodstab.get('vessel').value}}, 
+                                                    </td>
+                                                    <td colspan="3">
+                                                        Department: {{landgoodstab.get('department').value}}, 
+                                                   </td>
+                                                   <td colspan="5">
+                                                        Document: {{landgoodstab.get('document').value}}
+                                                      </td>
+                                                  </tr>
+                                           
+                                              
+                                              <td class="padding-both-side-2"></td>
+                                              <td class="padding-both-side-2" [ngStyle]="{'color': landgoodstab.get('type').value === 'Vessel Landing To Agent' ? 'blue' : 'inherit'}" style="white-space: nowrap;">
+                                                {{landgoodstab.get('type').value}}
+                                              </td>
+                                              <td class="padding-both-side-2"style="white-space: nowrap;" >
+                                                {{landgoodstab.get('code').value}}
+                                              </td>
+                                              <td class="padding-both-side-2">
+                                                {{landgoodstab.get('date').value}}
+                                              </td>
+                                              <td class="padding-both-side-2" >
+                                                {{landgoodstab.get('port').value}}
+                                              </td>
+                                              <td class="padding-both-side-2" >
+                                                {{landgoodstab.get('deliver').value}}
+                                              </td>
+                                              <td class="padding-both-side-2" >
+                                                {{landgoodstab.get('info').value}}
+                                              </td>
+                                               
+                                                <td class="padding-both-side-2">
+                                                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                        <input matInput name="items{{i}}" formControlName="items">
+                                                  </mat-form-field>
+                                              </td>
+                                              <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput name="scapitems{{i}}" formControlName="scapitems">
+                                                </mat-form-field>
+                                            </td>
+                                           <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                    <input matInput name="itemstatus{{i}}" formControlName="itemstatus">
+
+                                                  </mat-form-field>
+                                              </td>
+                                                 <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput name="comminfo{{i}}" formControlName="comminfo">
+                                                  </mat-form-field>
+                                              </td>
+                                              <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput  name="attachinfo{{i}}" formControlName="attachinfo">
+                                                  </mat-form-field>
+                                              </td>
+                                              <td class="padding-both-side-2">
+                                                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                      <input matInput name="infogate{{i}}" formControlName="infogate" >
+                                                  </mat-form-field>
+                                              </td>
+                                             
+                                           
+                                             
+                                            </tbody>
+                                         </ng-container>
+                                    
+                                        
+                                
+                        </table>
+                        <!-- <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
+                            <thead class="">
+                                              
+                              <tr>
+                            <th class="text-center table-heading padding-both-side-2 width_7" style="
+                        width: 1%; border-radius: 0.05rem; "></th>
+                        <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                        width: 4%; border-radius: 0.05rem;">Vessel</th>
+                        <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                        width: 4%; border-radius: 0.05rem;">Department</th>
+                              <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                              width: 4%; border-radius: 0.05rem;">Document</th>
+                      
+                       
+              </tr>
+            </thead>
+
+            <ng-container *ngFor="let vesseltable of docForm.get('vesseltable')['controls']; let i = index" >
+                <tbody  [formGroup]="vesseltable">
+
+                  <tr>
+                    <td class="padding-both-side-2">
+                  </td>
+                  <td class="padding-both-side-2">
+                    {{vesseltable.get('vessel').value}}
+                  </td>
+                    <td class="padding-both-side-2">
+                      {{vesseltable.get('department').value}}
+                    </td>
+                    <td class="padding-both-side-2">
+                        {{vesseltable.get('document').value}}
+                      </td>
+                     
+                </tr>
+                                     
+            </tbody>
+         </ng-container>
+    
+
+
+</table> -->
+                    </div> 
+                   
+                    
+                    </div>
+        
+        </div>
+
+
+
+
+ </div>
+</div>
+</div>
+</div>
+</div>
+</section>
