@@ -68,6 +68,11 @@ const routes: Routes = [
     path: "crew-payroll-currency",
     loadChildren: () =>
       import("./crew-payroll-currency/crew-payroll-currency.module").then((m) => m.CrewPayrollCurrencyModule),
+  },
+  {
+    path: "user-agent-link",
+    loadChildren: () =>
+      import("./user-agent-link/user-agent-link.module").then((m) => m.UserAgentLinkModule),
   }
 ];
 
