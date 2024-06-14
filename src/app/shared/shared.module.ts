@@ -10,8 +10,11 @@ import { FeatherIconsModule } from "./components/feather-icons/feather-icons.mod
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { MatSelectModule } from "@angular/material/select";
 import { MatOptionModule } from "@angular/material/core";
+import { DecimalFormatDirective } from "../directives/decimal-format-directive/decimal-format.directive";
 @NgModule({
-  declarations: [],
+  declarations: [
+    DecimalFormatDirective
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -21,6 +24,7 @@ import { MatOptionModule } from "@angular/material/core";
     NgxSpinnerModule,
   ],
   exports: [
+    DecimalFormatDirective,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

@@ -1,0 +1,247 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Vessel Budgets'" [items]="['Supplies','Admin']" [active_item]="'Vessel Budgets'">
+        </app-breadcrumb>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="box-shadow">
+            <div class="card">
+              <div class="body">
+               <form class="m-4" autocomplete="off" [formGroup]="docForm">
+                  <div class="row center">
+                    <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <app-searchable-select 
+                            [options]="vesselList" 
+                            placeholderLabel="Search"
+                            noEntriesFoundLabel="No results found"
+                            [label]="'Vessel Code'"
+                            (selectionChange)="getDtlsByVessel()" 
+                            formControlName="vessel"
+                            [required]="true"
+                            [errorMessage]="'Vessel is required'">
+                        </app-searchable-select>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <app-searchable-select 
+                            [options]="yearList" 
+                            placeholderLabel="Search"
+                            noEntriesFoundLabel="No results found"
+                            [label]="'Year'"
+                            (selectionChange)="getDtlsByDate()"
+                            formControlName="year"
+                            [required]="true"
+                            [errorMessage]="'Year is required'">
+                        </app-searchable-select>
+                    </div>
+                  </div>  
+                  <br>
+                  <br>
+                  <div class="m-l-10">
+                    <button color="primary" type="button" class="btn-space" mat-raised-button (click)="addVesselPopUp()">
+                      <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Add
+                    </button>
+                  </div>
+                  <br>
+                  <div>
+                    <div style="overflow-x: auto;">
+                      <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
+                      <thead class="">
+                        <tr>
+                          <!-- <th style="width: 1%;"></th> -->
+                          <th style="width: 1%;"></th>
+                          <th style="width: 1%;"></th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">Budget</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">From</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">To</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">Allocated</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">1st Q</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">2nd Q</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">3rd Q</th>  
+                          <th class="text-center table-heading padding-both-side-2 width_7">4th Q</th>
+                          <th class="text-center table-heading padding-both-side-2 width_7">Comments</th>
+                        </tr>
+                      </thead>
+                      <ng-container *ngFor="let firstDetailBean of docForm.get('firstDetailRow')['controls']; let i = index">
+                        <tbody [formGroup]="firstDetailBean">
+                          <tr>
+                            <td colspan="11" style="background-color: #90d0b0;">
+                              <b style="color: white;">{{firstDetailBean.value.typeHeader}}</b>
+                            </td>
+                          </tr>
+                          <ng-container *ngFor="let sub of firstDetailBean.get('subDetailRow')['controls']; let j = index">
+                            <tr [formGroup]="sub">
+                              <td class="padding-both-side-2">
+                                <mat-icon class="c-pointer" (click)="openBudgetPopUp()">drag_indicator</mat-icon>
+                              </td>
+                      
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <input matInput formControlName="code" readonly>
+                                </mat-form-field>
+                              </td>
+                      
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <input matInput formControlName="budget" readonly>
+                                </mat-form-field>
+                              </td>
+                      
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <input matInput formControlName="fromDate" readonly>
+                                </mat-form-field>
+                              </td>
+                      
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <input matInput formControlName="toDate" readonly>
+                                </mat-form-field>
+                              </td>
+                      
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <input class="text-end" matInput formControlName="allocated" appDecimalFormat (blur)="quartercalculation(i,j)">
+                                </mat-form-field>
+                              </td>
+                      
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <input class="text-end" matInput formControlName="firstQ" appDecimalFormat (blur)="allocationCalculated(i,j)">
+                                </mat-form-field>
+                              </td>
+                      
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <input class="text-end" matInput formControlName="secondQ" appDecimalFormat (blur)="allocationCalculated(i,j)">
+                                </mat-form-field>
+                              </td>
+                      
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <input class="text-end" matInput formControlName="thirdQ" appDecimalFormat (blur)="allocationCalculated(i,j)">
+                                </mat-form-field>
+                              </td>
+                      
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <input class="text-end" matInput formControlName="fourthQ" appDecimalFormat (blur)="allocationCalculated(i,j)">
+                                </mat-form-field>
+                              </td>
+                      
+                              <td class="padding-both-side-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <textarea matInput formControlName="comments"></textarea>
+                                </mat-form-field>
+                              </td>
+                            </tr>
+                          </ng-container>
+                      
+                          <tr style="background-color: white !important;">
+                            <td class="padding-both-side-2"></td>
+                            <td class="padding-both-side-2"></td>
+                            <td class="padding-both-side-2"></td>
+                            <td class="padding-both-side-2"></td>
+                            <td class="padding-both-side-2"><b style="color: #666;font-weight: 500;">Total For {{firstDetailBean.value.typeHeader}}</b></td>
+
+                            <td class="padding-both-side-2">
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Total Allocation</mat-label>
+                                <input matInput formControlName="totalAllocation" appDecimalFormat readonly>
+                              </mat-form-field>
+                            </td>
+                      
+                            <td class="padding-both-side-2">
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Total 1st Q</mat-label>
+                                <input matInput formControlName="totalFirstQ" appDecimalFormat readonly>
+                              </mat-form-field>
+                            </td>
+                      
+                            <td class="padding-both-side-2">
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Total 2nd Q</mat-label>
+                                <input matInput formControlName="totalSecondQ" appDecimalFormat readonly>
+                              </mat-form-field>
+                            </td>
+                      
+                            <td class="padding-both-side-2">
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Total 3rd Q</mat-label>
+                                <input matInput formControlName="totalThirdQ" appDecimalFormat readonly>
+                              </mat-form-field>
+                            </td>
+                      
+                            <td class="padding-both-side-2">
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Total 4th Q</mat-label>
+                                <input matInput formControlName="totalFourthQ" appDecimalFormat readonly>
+                              </mat-form-field>
+                            </td>
+                            <td class="padding-both-side-2"></td>
+                          </tr>
+                        </tbody>
+                      </ng-container>
+                      </table>
+                    </div>
+                  </div>
+                  <br>
+                  <!-- <div class="row">
+                    <div *ngIf="docForm.get('firstDetailRow')['controls'].length > 0">
+                      <button mat-mini-fab color="warn" class="ml-5" (click)="removeRow()">
+                          <mat-icon class="col-white">delete</mat-icon>
+                      </button>
+                    </div>
+                  </div> -->
+                  <div class="row d-flex justify-content-end">
+                    <div class="col-xl-1 col-lg-4 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Grand Total Allocation</mat-label>
+                        <input class="text-end" matInput formControlName="grandTotalAllocation" readonly appDecimalFormat>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-xl-1 col-lg-4 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Grand Total 1st Q</mat-label>
+                        <input class="text-end" matInput formControlName="grandTotalFirstQ" readonly appDecimalFormat>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-xl-1 col-lg-4 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Grand Total 2nd Q</mat-label>
+                        <input class="text-end" matInput formControlName="grandTotalSecondQ" readonly appDecimalFormat>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-xl-1 col-lg-4 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Grand Total 3rd Q</mat-label>
+                        <input class="text-end" matInput formControlName="grandTotalThirdQ" readonly appDecimalFormat>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-xl-1 col-lg-4 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Grand Total 4th Q</mat-label>
+                        <input class="text-end" matInput formControlName="grandTotalFourthQ" readonly appDecimalFormat>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="center">
+                    <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                    <!-- <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button> -->
+                  </div>
+               </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

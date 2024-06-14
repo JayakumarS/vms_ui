@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="budgerHeader center">
+        <h4>Select Vessel Budgets</h4>
+    </div>
+ <div>
+    <div class="tableBody">
+        <div class="table-responsive">
+            <table class="table table-hover" style="margin-top: 5px;">
+                <thead>
+                    <tr>
+                        <th><mat-checkbox class="example-margin" (click)="selectAll()"></mat-checkbox></th>
+                        <th class="tableHeader text-center">Code</th>
+                        <th class="tableHeader text-center">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of list;let i = index">
+                        <tr>
+                            <td colspan="3" style="background-color: #90d0b0;">
+                                <b style="color: white;">{{data.text}}</b>
+                            </td>
+                        </tr>
+                        <ng-container *ngFor="let sub of data.subList;let j = index">
+                            <tr>
+                                <td><mat-checkbox [(ngModel)]="sub.select" class="example-margin" (change)="singleSelect(sub.select,i,j)"></mat-checkbox></td>
+                                <td>{{sub.code}}</td>
+                                <td>{{sub.desc}}</td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+ </div>
+ <div class="d-flex justify-content-end">
+    <button class="btn-space saveBtn" (click)="setDtls()" mat-raised-button><mat-icon class="saveCancelIcon">done_all</mat-icon>Ok</button>
+    <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">close</mat-icon>Cancel</button>
+  </div>
+</div>

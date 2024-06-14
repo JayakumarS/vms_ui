@@ -57,7 +57,7 @@ export class AddLandingPropertiesComponent extends UnsubscribeOnDestroyAdapter i
           height: [""],
           weight: [""]
         })
-      ]),
+      ])
     });
   }
 

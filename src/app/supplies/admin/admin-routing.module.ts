@@ -29,9 +29,11 @@ const routes: Routes = [
       import("./systems-and-subsystems/systems-and-subsystems.module").then((m) => m.SystemsAndSubsystemsModule),
   },
 
-  
-
-
+  {
+    path: "vessel-budgets",
+    loadChildren: () =>
+      import("./vessel-budgets/vessel-budgets.module").then((m) => m.VesselBudgetsModule),
+  }
 ];
 
 @NgModule({
