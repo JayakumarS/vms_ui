@@ -1,0 +1,84 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Copy Vessel Budgets'" [items]="['Supplies','Utilities']"
+                [active_item]="'Copy Vessel Budgets'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="box-shadow">
+                    <div class="card">
+                        <div class="body">
+                            <form class="m-4" autocomplete="off" [formGroup]="docForm">
+                                <div class="row w-100">
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <app-searchable-select [label]="'From Vessel'" [options]="fromvessellist"
+                                            placeholderLabel="Search" noEntriesFoundLabel="No results found"
+                                            formControlName="fromvessel" [required]="false"
+                                            [errorMessage]="'From Vessel is required'">
+                                        </app-searchable-select>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>From Year</mat-label>
+                                            <input matInput formControlName="fromyear1">
+                                        </mat-form-field>
+
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>To Year</mat-label>
+                                            <input matInput formControlName="toyear1">
+                                        </mat-form-field>
+
+                                    </div>
+
+                                    
+                                </div>
+                                <div class="row w-100">
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <app-searchable-select [label]="'To Vessel'" [options]="tovessellist"
+                                            placeholderLabel="Search" noEntriesFoundLabel="No results found"
+                                            formControlName="tovessel" [required]="false"
+                                            [errorMessage]="'From System Code is required'">
+                                        </app-searchable-select>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>From Year</mat-label>
+                                            <input matInput formControlName="fromyear2">
+                                        </mat-form-field>
+
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>To Year</mat-label>
+                                            <input matInput formControlName="toyear2">
+                                        </mat-form-field>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="center">
+                                    <button color="primary" class="btn-space" mat-raised-button
+                                        (click)="copy()"><mat-icon>save</mat-icon>Copy</button>
+                                    <button class="cancelBtn" type="button" mat-raised-button
+                                        (click)="cancel()"><mat-icon>cancel</mat-icon>Cancel</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

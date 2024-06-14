@@ -1,0 +1,65 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Copy Systems'" [items]="['Supplies','Utilities']" [active_item]="'Copy Systems'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="box-shadow">
+                    <div class="card">
+                        <div class="body">
+                            <form class="m-4" autocomplete="off" [formGroup]="docForm">
+                                <div class="row w-100">
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <app-searchable-select [label]="'From System Code'" [options]="fromcodelist"
+                                            placeholderLabel="Search" noEntriesFoundLabel="No results found"
+                                            formControlName="fromcode" [required]="false"
+                                            [errorMessage]="'From System Code is required'">
+                                        </app-searchable-select>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>To System Code</mat-label>
+                                            <input matInput formControlName="tocode">
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Include Jobs</mat-label>
+                                            <mat-select formControlName="jobs">
+                                                <mat-option value="true" selected >YES</mat-option>
+                                                <mat-option value="false">NO</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Include Spares</mat-label>
+                                            <mat-select formControlName="spares">
+                                                <mat-option value="true" selected >YES</mat-option>
+                                                <mat-option value="false">NO</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="center">
+                                    <button color="primary" class="btn-space" mat-raised-button
+                                        (click)="copy()"><mat-icon>save</mat-icon>Copy</button>
+                                    <button class="cancelBtn" type="button" mat-raised-button
+                                        (click)="cancel()"><mat-icon>cancel</mat-icon>Cancel</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

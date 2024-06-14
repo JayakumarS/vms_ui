@@ -50,13 +50,19 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonService } from 'src/app/common-service/common.service';
 import { UserLogComponent } from './user-log/user-log.component';
 import { UserLogPopupComponent } from './user-log-popup/user-log-popup.component';
+import { CopySystemsComponent } from './copy-systems/copy-systems.component';
+import { CopySubsystemsComponent } from './copy-subsystems/copy-subsystems.component';
+import { CopyVesselbudgetsComponent } from './copy-vesselbudgets/copy-vesselbudgets.component';
 
 
 @NgModule({
   declarations: [
     AddUtilitiesComponent,
     UserLogComponent,
-    UserLogPopupComponent
+    UserLogPopupComponent,
+    CopySystemsComponent,
+    CopySubsystemsComponent,
+    CopyVesselbudgetsComponent
   ],
   providers: [
     CommonService
