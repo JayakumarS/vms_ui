@@ -27,6 +27,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./crew-familiarization/crew-familiarization.module").then((m) => m.CrewFamiliarizationModule),
   },
+  {
+    path: "utilities",
+    loadChildren: () =>
+      import("./utilities/utilities.module").then((m) => m.UtilitiesModule),
+  },
 ];
 
 @NgModule({
