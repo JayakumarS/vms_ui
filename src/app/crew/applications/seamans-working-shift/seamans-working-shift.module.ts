@@ -24,12 +24,14 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SeamansWorkingShiftRoutingModule } from './seamans-working-shift-routing.module';
 import { AddSeamansWorkingShiftComponent } from './add-seamans-working-shift/add-seamans-working-shift.component';
+import { ListSeamansWorkingShiftComponent } from './list-seamans-working-shift/list-seamans-working-shift.component';
 
 
 
 @NgModule({
   declarations: [
-    AddSeamansWorkingShiftComponent
+    AddSeamansWorkingShiftComponent,
+    ListSeamansWorkingShiftComponent
   ],
   imports: [
     CommonModule,

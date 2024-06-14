@@ -60,9 +60,11 @@ export class AddSeamansWorkingShiftComponent implements OnInit {
       isActive:["true"],
       seamansdtltable: this.fb.array([
         this.fb.group({
+          select:[""],
           startingdate: [""],
           remarks:[""],
           endingDate:[""],
+          isChecked:[""],
           // rank:["",[Validators.required]],
           
         })
@@ -70,10 +72,11 @@ export class AddSeamansWorkingShiftComponent implements OnInit {
       ]),
       seamansdtltable1: this.fb.array([
         this.fb.group({
+          select: [""],
           shiftStart: [""],
-          shiftend: [""],
+          shiftEnd: [""],
           place: [""],
-          watchkeeping: [""],
+          watchKeeping: [""],
 
         })
       ]),
@@ -154,7 +157,7 @@ export class AddSeamansWorkingShiftComponent implements OnInit {
 
   }
   cancel(){
-    this.router.navigate(['']);
+    this.router.navigate(['/crew/applications/seamans-working-shift/list-seamans-working-shift']);
   }
   removeRowTwo(){
     let count = 0;
@@ -355,8 +358,8 @@ export class AddSeamansWorkingShiftComponent implements OnInit {
       select: [""],
       startingdate: [""],
       remarks: [""],
-      endingDate:[""]
-      
+      endingDate:[""],
+      isChecked:[""],
 
     })
     seamansdtltableArray.insert(arraylen, newUsergroup);
@@ -509,7 +512,7 @@ incrementHour(time) {
   }
 
   onCancel(){
-    this.router.navigate(['/crew/maintain/maintain-rank/list-maintain-rank']);
+    this.router.navigate(['//crew/applications/seamans-working-shift/list-seamans-working-shift']);
   }
 
   getmastrcurr(){

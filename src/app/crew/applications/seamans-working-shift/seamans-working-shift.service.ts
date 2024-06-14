@@ -48,7 +48,7 @@ export class SeamansWorkingShiftService extends UnsubscribeOnDestroyAdapter{
     return this.dialogData;
   }
   /** CRUD METHODS */
-  getAllList(): void {
+  getList(): void {
         
   }
   

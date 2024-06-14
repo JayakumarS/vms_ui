@@ -11,7 +11,8 @@ export class SeamansWorkingShift {
     place:any;
     shiftend:any;
     shiftstart:any;
-    
+    startingDate:any;
+    isChecked:any;
     clientType:string;
     Success:boolean;
       constructor(commodity) {
