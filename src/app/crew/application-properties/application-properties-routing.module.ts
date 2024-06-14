@@ -63,6 +63,11 @@ const routes: Routes = [
     path: "crew-promotion",
     loadChildren: () =>
       import("./crew-promotion/crew-promotion.module").then((m) => m.CrewPromotionModule),
+  },
+  {
+    path: "crew-payroll-currency",
+    loadChildren: () =>
+      import("./crew-payroll-currency/crew-payroll-currency.module").then((m) => m.CrewPayrollCurrencyModule),
   }
 ];
 

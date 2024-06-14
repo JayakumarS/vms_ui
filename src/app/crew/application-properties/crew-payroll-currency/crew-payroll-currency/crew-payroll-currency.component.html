@@ -1,0 +1,89 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Crew Payroll Currency'" [items]="['Crew ,Application Properties']" [active_item]="'Crew Payroll Currency'">
+        </app-breadcrumb>
+      </div>
+      <div class="row clearfix ">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="box-shadow">
+          <div class="card">
+            <div class="body" >
+              <form class="m-4" [formGroup]="docForm">
+                <div class="row" style="padding-left: 110px;">
+                  <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12" style="margin-left: 50px;">
+                    <mat-label><b></b></mat-label>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12" style="font-size:medium;margin-top: 20px" >
+                          <span>Define Nationality with currency Euro:</span>
+                      </div>
+                
+                  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12" >
+              
+
+
+                       
+
+                        <app-searchable-select 
+                        [options]="nationList" 
+                        placeholderLabel="Search for a nation"
+                        noEntriesFoundLabel="No nation found"
+                      
+                        formControlName="nationList"
+                        [required]="true"
+                        [errorMessage]="'nation is required'">
+                      </app-searchable-select>
+               
+                  </div>
+                </div>
+                <div class="row" style="padding-left: 110px;">
+                    <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12" style="margin-left: 50px;">
+                      <mat-label><b></b></mat-label>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12" style="font-size:medium;margin-top: 20px" >
+                            <span>Voyage Validation[Y/N]:</span>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12" style="margin-top: 19px;margin-left: 10px" >
+              
+
+                            <mat-radio-group>
+                                <mat-radio-button value="yes">Yes</mat-radio-button>
+                                <mat-radio-button value="no">No</mat-radio-button>
+                              </mat-radio-group>
+                          </div>
+                    
+                  </div>
+                  <div class="center" style="margin-top: 74px">
+                    <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                  </div>
+                
+                
+                <br>
+
+                
+                
+
+
+                
+              <br>
+              <br>
+              
+             <br>   
+            
+                    
+              </form>
+              
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      
+
+
+        
+    </div>
+  </section>
+
+
