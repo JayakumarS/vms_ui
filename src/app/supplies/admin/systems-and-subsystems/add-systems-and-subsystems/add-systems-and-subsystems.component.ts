@@ -23,9 +23,9 @@ export class AddSystemsAndSubsystemsComponent implements OnInit {
 
 
 
-  public vesseltypeFilterCtrl: FormControl = new FormControl();
-  vesseltypeFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('vesseltype', { static: true }) vesseltype: MatSelect;
+  public functionFilterCtrl: FormControl = new FormControl();
+  functionFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('function', { static: true }) function: MatSelect;
 
 
   public hazardousFilterCtrl: FormControl = new FormControl();
@@ -36,6 +36,10 @@ export class AddSystemsAndSubsystemsComponent implements OnInit {
   public makerFilterCtrl: FormControl = new FormControl();
   makerFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
   @ViewChild('maker', { static: true }) maker: MatSelect;
+
+  public departmentFilterCtrl: FormControl = new FormControl();
+  departmentFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('department', { static: true }) department: MatSelect;
 
 
   protected onDestroy = new Subject<void>();
@@ -74,6 +78,8 @@ export class AddSystemsAndSubsystemsComponent implements OnInit {
   currtmpList: any[];
   pandilist: any;
   markerlist: any;
+  departmentlist: any;
+  functionlist: any;
   hazardouslist: any;
   active: boolean=false;
   constructor(private fb: FormBuilder,
@@ -97,7 +103,7 @@ export class AddSystemsAndSubsystemsComponent implements OnInit {
       bookno: [""],
       drawingno: [""],
       hazardous: [""],
-
+      department: [""],
       systemSubsystemdetails: this.fb.array([
         this.fb.group({
           select: [""],
@@ -168,12 +174,76 @@ this.makerFilterCtrl.valueChanges
 .subscribe(() => {
   this.filteritemmarkerlist();
 });
+this.departmentlist = [
+       { id: "DECK", text: "DECK" },
+       { id: "ENGINE", text: "ENGINE" },
+       {  id: "CATERING", text: "CATERING"},
+       {  id: "OTHERS", text: "OTHERS"},
+]
 
+this.departmentFilteredOptions.next(this.departmentlist.slice());
+
+// listen for origin List  search field value changes
+this.departmentFilterCtrl.valueChanges
+.pipe(takeUntil(this.onDestroy))
+.subscribe(() => {
+  this.filteritemdepartment();
+});
+
+this.functionlist = [
+  { id: "ACCOMMODATION", text: "ACCOMMODATION" },
+  { id: "ACCOMMODATION LADDEERS", text: " ACCOMMODATION LADDEERS" },
+  {  id: "AIR COMPRESSORS", text: "AIR COMPRESSORS"},
+  {  id: "AIR DRIVEN PUMPS", text: "AIR DRIVEN PUMPS"},
+]
+
+this.functionFilteredOptions.next(this.functionlist.slice());
+
+// listen for origin List  search field value changes
+this.functionFilterCtrl.valueChanges
+.pipe(takeUntil(this.onDestroy))
+.subscribe(() => {
+this.filteritemfunctionlistt();
+});
 
 
 
    }
 
+   filteritemfunctionlistt(){
+    if (!this.functionlist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.functionFilterCtrl.value;
+    if (!search) {
+      this.functionFilteredOptions.next(this.functionlist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.functionFilteredOptions.next(
+      this.functionlist.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
+   filteritemdepartment(){
+    if (!this.departmentlist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.departmentFilterCtrl.value;
+    if (!search) {
+      this.departmentFilteredOptions.next(this.departmentlist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.departmentFilteredOptions.next(
+      this.departmentlist.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
    filteritemmarkerlist(){
     if (!this.markerlist) {
       return;
@@ -263,25 +333,7 @@ this.makerFilterCtrl.valueChanges
   }
 
 
- 
-   filteritemvesseltypelist(){
-    if (!this.vesseltypelist) {
-      return;
-    }
-    // get the search keyword
-    let search = this.vesseltypeFilterCtrl.value;
-    if (!search) {
-      this.vesseltypeFilteredOptions.next(this.vesseltypelist.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    // filter the banks
-    this.vesseltypeFilteredOptions.next(
-      this.vesseltypelist.filter(title => title.text.toLowerCase().includes(search))
-    );
-   }
- 
+
 
    onDateChange(event: any, inputFlag: any, index: number) {
     if(event.target.value!=null){
