@@ -1,0 +1,243 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header" style="padding: 0.5% !important;" style="padding: 0.5% !important;">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'List E-Commerce Suppliers Reference'" [items]="['Supplies','Maintain']" [active_item]="'E-Commerce Suppliers Reference'">
+        </app-breadcrumb>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="table-responsive">
+
+                <form class="m-4" [formGroup]="docForm">
+                  <div class="row" style="display: flex;align-items: center;justify-content: center;margin-right: 4%;margin-left: 12%;">
+                   
+                      <mat-radio-group (change)="onRadioChange($event)">
+                          <mat-radio-button value="WS">Web Suppliers Reference</mat-radio-button>
+                          <mat-radio-button value="SSS">Shipserv Suppliers Reference</mat-radio-button>
+                          <mat-radio-button value="PS">Procureship Suppliers Reference</mat-radio-button>
+                          <mat-radio-button value="MS">Mespas Suppliers Reference</mat-radio-button>
+                          <mat-radio-button value="SPS">SeaProc Suppliers Reference</mat-radio-button>
+                      </mat-radio-group>
+                
+                   </div> 
+                </form>
+  
+
+                <div class="materialTableHeader" style="padding-top: 1%;padding-bottom: 4%;">
+                  <div class="row">
+                    <div class="col-8">
+                      <ul class="header-buttons-left ms-0">
+                        <li class="dropdown m-l-20 ">
+                          <h2>E-Commerce Suppliers Reference</h2>
+                        </li>
+                        <li class="dropdown m-l-20">
+                          <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                          <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                            aria-label="Search box">
+                        </li>
+                        <li>
+                          <div class="m-l-10" matTooltip="ADD">
+                            <button color="primary" type="button" class="btn-space" [routerLink]="'/supplies/maintain/e-commerce-suppliers-reference/add-e-commerce-suppliers-reference/0'" mat-raised-button>
+                              <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Create New
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="export-button m-l-10" matTooltip="XLSX">
+                            <img src="assets/images/icons/xlsx.png" alt=""
+                              (click)="exporter.exportTable('xlsx', {fileName:'Landing-properties', sheet: 'sheet1'})" />
+                          </div>
+                        </li>                     
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
+                  #exporter="matTableExporter">
+                  <ng-container *ngIf="showWebSuppliersReference">
+                    <ng-container matColumnDef="webCode">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Web Code</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.webCode}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="webSupCode">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Code</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.webSupCode}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="webSupName">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Name</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.webSupName}}</mat-cell>
+                    </ng-container>
+                  </ng-container>
+  
+                  <ng-container *ngIf="showShipservSuppliersReference">
+                    <ng-container matColumnDef="shipservCode">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Shipserv Code</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.shipservCode}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="shipservSupCode">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Code</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.shipservSupCode}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="shipservSupName">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Name</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.shipservSupName}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="shipservContRefer">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Control Reference</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.shipservContRefer}}</mat-cell>
+                    </ng-container>
+                  </ng-container>
+  
+                  <ng-container *ngIf="showProcureshipSuppliersReference">
+                    <ng-container matColumnDef="procureshipCode">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Procureship Code</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.procureshipCode}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="procureSupCode">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Code</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.procureSupCode}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="procureSupName">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Name</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.procureSupName}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="procureContRefer">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Control Reference</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.procureContRefer}}</mat-cell>
+                    </ng-container>
+                  </ng-container>
+  
+                  <ng-container *ngIf="showMespasSuppliersReference">
+                    <ng-container matColumnDef="mespasCode">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Mespas Code</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.mespasCode}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="mespasSupCode">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Code</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.mespasSupCode}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="mespasSupName">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Name</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.mespasSupName}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="mespasContRefer">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Control Reference</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.mespasContRefer}}</mat-cell>
+                    </ng-container>
+                  </ng-container>
+  
+                  <ng-container *ngIf="showSeaProcSuppliersReference">
+                    <ng-container matColumnDef="seaProcCode">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>SeaProc Code</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.seaProcCode}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="seaProcSupCode">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Code</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.seaProcSupCode}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="seaProcSupName">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Name</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.seaProcSupName}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="seaProcContRefer">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Control Reference</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.seaProcContRefer}}</mat-cell>
+                    </ng-container>
+                  </ng-container>
+  
+               
+
+                  <!-- actions -->
+                  <ng-container matColumnDef="actions" class="col-lg-12 col-md-2">
+                    <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                      <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
+                        class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                        (click)="deleteItem(row)" class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </mat-cell>
+                  </ng-container>
+  
+  
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editCall(row)"
+                    [style.cursor]="'pointer'" matRipple>
+                  </mat-row>
+                </mat-table>
+                <!-- Loading spinner -->
+                <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
+                  <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                  </mat-progress-spinner>
+                </div>
+                <!-- context menu start -->
+                <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
+                  [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+                </div>
+                <mat-menu #contextMenu="matMenu">
+                  <ng-template matMenuContent let-item="item">
+                    <button mat-menu-item (click)="addNew()">
+                      <mat-icon>add_box</mat-icon>
+                      <span>Add Record</span>
+                    </button>
+                    <button mat-menu-item (click)="editCall(item)">
+                      <mat-icon>create</mat-icon>
+                      <span>Edit Record</span>
+                    </button>
+                    <button mat-menu-item (click)="deleteItem(item.id,item)">
+                      <mat-icon>delete</mat-icon>
+                      <span>Delete Record</span>
+                    </button>
+                    <button mat-menu-item (click)="refresh()">
+                      <mat-icon>refresh</mat-icon>
+                      <span>Refresh Record</span>
+                    </button>
+                    <button mat-menu-item disabled>
+                      <mat-icon>no_encryption</mat-icon>
+                      <span>Disable</span>
+                    </button>
+                    <button mat-menu-item [matMenuTriggerFor]="nestedmenu">
+                      <mat-icon>list_alt</mat-icon>
+                      <span> Nested Menu</span>
+                    </button>
+                  </ng-template>
+                </mat-menu>
+                <mat-menu #nestedmenu="matMenu">
+                  <button mat-menu-item>
+                    <mat-icon>mail_outline</mat-icon>
+                    <span>Item 1</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>call</mat-icon>
+                    <span>Item 2</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>chat</mat-icon>
+                    <span>Item 3</span>
+                  </button>
+                </mat-menu>
+                <!-- context menu end -->
+                <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
+                  [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+                  No results
+                </div>
+                <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+                  [pageSizeOptions]="[5, 10, 25, 100]">
+                </mat-paginator>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>

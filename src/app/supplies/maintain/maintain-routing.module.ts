@@ -37,8 +37,13 @@ const routes: Routes = [
     path: 'despatch-reasons',
     loadChildren: () =>
     import("./despatch-reasons/despatch-reasons.module").then((m)=>m.DespatchReasonsModule),
+  },
+  {
+    path: 'e-commerce-suppliers-reference',
+    loadChildren: () =>
+    import("./e-commerce-suppliers-reference/e-commerce-suppliers-reference.module").then((m)=>m.ECommerceSuppliersReferenceModule),
   }
- 
+
 ];
 
 @NgModule({
