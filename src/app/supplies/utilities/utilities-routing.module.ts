@@ -5,6 +5,7 @@ import { UserLogComponent } from './user-log/user-log.component';
 import { CopySystemsComponent } from './copy-systems/copy-systems.component';
 import { CopySubsystemsComponent } from './copy-subsystems/copy-subsystems.component';
 import { CopyVesselbudgetsComponent } from './copy-vesselbudgets/copy-vesselbudgets.component';
+import { ChangeReqDeptComponent } from './change-req-dept/change-req-dept.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path:'copy-vesselbudgets',
     component:CopyVesselbudgetsComponent
+  },
+  {
+    path:'change-req-dept',
+    component:ChangeReqDeptComponent
   }
 ];
 
