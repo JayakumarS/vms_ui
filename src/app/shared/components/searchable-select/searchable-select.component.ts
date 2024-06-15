@@ -24,10 +24,11 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor, 
   @Input() options: { id: string, text: string }[] = [];
   @Input() placeholderLabel: string = 'Search';
   @Input() noEntriesFoundLabel: string = 'no results found';
-  @Input() label: string = 'Select an option';
+  @Input() label: string = '';
   @Output() selectionChange = new EventEmitter<string>();
   @Input() control: FormControl;
   @Input() required: boolean = false;
+  @Input() disabled: boolean = false;
   @Input() errorMessage: string = '' || 'This field is required';
 
   filterCtrl = new FormControl('', this.required ? Validators.required : null);
