@@ -1,0 +1,58 @@
+<div class="body">
+    <form class="m-4" [formGroup]="docForm">
+        <div class="row">
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>From Department</mat-label>
+                    <input matInput formControlName="fromdept">
+                </mat-form-field>
+            </div>
+
+
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>From Budget</mat-label>
+                    <input matInput formControlName="frombudg">
+                </mat-form-field>
+            </div>
+
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <app-searchable-select [label]="'To Department'" [options]="deptlist" placeholderLabel="Search"
+                    noEntriesFoundLabel="No results found" formControlName="todept" [required]="false"
+                    [errorMessage]="'To Department is required'">
+                </app-searchable-select>
+            </div>
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <app-searchable-select [label]="'To Budget'" [options]="budglist" placeholderLabel="Search"
+                    noEntriesFoundLabel="No results found" formControlName="tobudg" [required]="false"
+                    [errorMessage]="'To Budget is required'">
+                </app-searchable-select>
+
+            </div>
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2 flex">
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>New Code</mat-label>
+                    <input matInput placeholder="Enter New Code" formControlName="code">
+                </mat-form-field>
+                <mat-icon class="mt-15 c-pointer" (click)="getcode()">arrow_back</mat-icon>
+            </div>
+
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <div class="example-button-row" align="end">
+                    <button class="btn-space saveBtn" mat-raised-button
+                        (click)="save()"><mat-icon>done</mat-icon>Ok</button>
+                    <button class="cancelBtn" type="button" mat-button
+                        (click)="cancel()"><mat-icon>cancel</mat-icon>Cancel</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</div>

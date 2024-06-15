@@ -53,6 +53,8 @@ import { UserLogPopupComponent } from './user-log-popup/user-log-popup.component
 import { CopySystemsComponent } from './copy-systems/copy-systems.component';
 import { CopySubsystemsComponent } from './copy-subsystems/copy-subsystems.component';
 import { CopyVesselbudgetsComponent } from './copy-vesselbudgets/copy-vesselbudgets.component';
+import { ChangeReqDeptComponent } from './change-req-dept/change-req-dept.component';
+import { ChangeReqPopupComponent } from './change-req-dept/change-req-popup/change-req-popup.component';
 
 
 @NgModule({
@@ -62,7 +64,9 @@ import { CopyVesselbudgetsComponent } from './copy-vesselbudgets/copy-vesselbudg
     UserLogPopupComponent,
     CopySystemsComponent,
     CopySubsystemsComponent,
-    CopyVesselbudgetsComponent
+    CopyVesselbudgetsComponent,
+    ChangeReqDeptComponent,
+    ChangeReqPopupComponent
   ],
   providers: [
     CommonService
