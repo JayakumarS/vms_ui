@@ -89,7 +89,7 @@ export class AddMultiSeamenInsertComponent implements OnInit {
       startdate: [""],
       vessal: [""],
       port: [""],
-      offSigndetail: this.fb.array([
+      multiseamendetail: this.fb.array([
         this.fb.group({
           select: [""],
           code:[""],
@@ -544,21 +544,26 @@ this.filteritemnamelist();
   }
 
    addRow(){
-    let offSigndetailDtlArray=this.docForm.controls.offSigndetail as FormArray;
-    let arraylen=offSigndetailDtlArray.length;
+    let multiseamendetailDtlArray=this.docForm.controls.multiseamendetail as FormArray;
+    let arraylen=multiseamendetailDtlArray.length;
     let newUsergroup:FormGroup = this.fb.group({
       select: [""],
-
-      nationality:[""],
+      code:[""],
       rank:[""],
-      months: [""],
+      pay: [""],
+      currency: [""],
+      name: [""],
+      joiningdateObj: [""],
+      joiningdate: [""],
+      estSigndateObj: [""],
+      estSigndate: [""],
     })
-    offSigndetailDtlArray.insert(arraylen,newUsergroup);
+    multiseamendetailDtlArray.insert(arraylen,newUsergroup);
   }
 
    removeRow(){
     let count = 0;
-    const deleteRow = this.docForm.controls.offSigndetail as FormArray;
+    const deleteRow = this.docForm.controls.multiseamendetail as FormArray;
     let i = 0;
     
     while (i < deleteRow.length) {
@@ -636,7 +641,7 @@ this.filteritemnamelist();
         vessaltype: [""],
 
 
-        offSigndetail: this.fb.array([
+        multiseamendetail: this.fb.array([
           this.fb.group({
             siNo : 1,
             nationality:[""],
