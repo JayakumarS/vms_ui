@@ -27,6 +27,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./off-sign/off-sign.module").then((m) => m.OffSignModule),
   },
+  {
+    path: "crew-ticketing",
+    loadChildren: () =>
+      import("./crew-ticketing/crew-ticketing.module").then((m) => m.CrewTicketingModule),
+  }
 ];
 
 @NgModule({
