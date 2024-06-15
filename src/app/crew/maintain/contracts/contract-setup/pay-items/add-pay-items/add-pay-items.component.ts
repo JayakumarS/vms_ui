@@ -85,6 +85,7 @@ export class AddPayItemsComponent implements OnInit {
 
       payitemsDetails: this.fb.array([
         this.fb.group({
+          select: [""],
           sort : 1,
           code:[""],
           description:[""],
@@ -330,6 +331,8 @@ filterquantityCalculationlist(){
     var len = this.docForm.controls["payitemsDetails"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
+      select: [""],
+
       sort : 1 + len,
       code:[""],
       description:[""],
@@ -344,12 +347,28 @@ filterquantityCalculationlist(){
     })
     payitemsDetailsDtlArray.insert(arraylen,newUsergroup);
   }
+  removeRow(){
+    let count = 0;
+    const deleteRow = this.docForm.controls.payitemsDetails as FormArray;
+    let i = 0;
+    
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
+        deleteRow.removeAt(i);
+        count++;
+      } else {
+        i++;
+      }
+    }
 
-   removeRow(index){
-
-    var value;
-    let dataarray1 = this.docForm.controls.payitemsDetails as FormArray;
-    dataarray1.removeAt(index);
+    if(count == 0){
+      this.showNotification(
+        "snackbar-danger",
+        "Please select atleast one row",
+        "top",
+        "right"
+      );
+    }
 
   }
   onSubmit(){

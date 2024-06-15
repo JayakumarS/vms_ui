@@ -67,6 +67,7 @@ export class AddPayTypesComponent implements OnInit {
 
       payTypesdetail: this.fb.array([
         this.fb.group({
+          select:[""],
           siNo : 1,
           payType:[""],
           contents:[""],
@@ -173,6 +174,7 @@ this.payTypeFilterCtrl.valueChanges
     var len = this.docForm.controls["payTypesdetail"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
+      select:[""],
       siNo :len + 1,
       payType:[""],
       contents:[""],
@@ -185,13 +187,31 @@ this.payTypeFilterCtrl.valueChanges
     payTypesdetailDtlArray.insert(arraylen,newUsergroup);
   }
 
-   removeRow(index){
+  removeRow(){
+    let count = 0;
+    const deleteRow = this.docForm.controls.payTypesdetail as FormArray;
+    let i = 0;
+    
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
+        deleteRow.removeAt(i);
+        count++;
+      } else {
+        i++;
+      }
+    }
 
-    var value;
-    let dataarray1 = this.docForm.controls.payTypesdetail as FormArray;
-    dataarray1.removeAt(index);
+    if(count == 0){
+      this.showNotification(
+        "snackbar-danger",
+        "Please select atleast one row",
+        "top",
+        "right"
+      );
+    }
 
   }
+   
   onSubmit(){
 
   }

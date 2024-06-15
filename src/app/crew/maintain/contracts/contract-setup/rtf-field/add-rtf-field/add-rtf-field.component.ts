@@ -62,6 +62,7 @@ export class AddRTFFieldComponent implements OnInit {
 
       rtfDetails: this.fb.array([
         this.fb.group({
+          select: [""],
           rtfField:[""],
           description:[""],
 
@@ -71,6 +72,7 @@ export class AddRTFFieldComponent implements OnInit {
 
       rtfDetailsrow: this.fb.array([
         this.fb.group({
+          select: [""],
           contents:[""],
 
         })
@@ -129,23 +131,48 @@ filteritemcontentslist(){
       this.contentslist.filter(title => title.text.toLowerCase().includes(search))
     );
    }
-   addRow(){
+   addRow1(){
     let rtfDetailsDtlArray=this.docForm.controls.rtfDetails as FormArray;
     let arraylen=rtfDetailsDtlArray.length;
 
     let newUsergroup:FormGroup = this.fb.group({
-
+      select: [""],
       rtfField:[""],
       description:[""],
 
     })
     rtfDetailsDtlArray.insert(arraylen,newUsergroup);
   }  
-  addRow1(){
+  removeRow1(){
+    let count = 0;
+    const deleteRow = this.docForm.controls.rtfDetails as FormArray;
+    let i = 0;
+    
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
+        deleteRow.removeAt(i);
+        count++;
+      } else {
+        i++;
+      }
+    }
+
+    if(count == 0){
+      this.showNotification(
+        "snackbar-danger",
+        "Please select atleast one row",
+        "top",
+        "right"
+      );
+    }
+
+  }
+  addRow2(){
     let rtfDetailsrowArray=this.docForm.controls.rtfDetailsrow as FormArray;
     let arraylen=rtfDetailsrowArray.length;
 
     let newUsergroup:FormGroup = this.fb.group({
+      select: [""],
 
       contents:[""],
 
@@ -153,20 +180,31 @@ filteritemcontentslist(){
     rtfDetailsrowArray.insert(arraylen,newUsergroup);
   }
 
-   removeRow(index){
+  removeRow2(){
+    let count = 0;
+    const deleteRow = this.docForm.controls.rtfDetailsrow as FormArray;
+    let i = 0;
+    
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
+        deleteRow.removeAt(i);
+        count++;
+      } else {
+        i++;
+      }
+    }
 
-    var value;
-    let dataarray1 = this.docForm.controls.rtfDetails as FormArray;
-    dataarray1.removeAt(index);
+    if(count == 0){
+      this.showNotification(
+        "snackbar-danger",
+        "Please select atleast one row",
+        "top",
+        "right"
+      );
+    }
 
   }
-  removeRow1(index){
 
-    var value;
-    let dataarray1 = this.docForm.controls.rtfDetailsrow as FormArray;
-    dataarray1.removeAt(index);
-
-  }
   onSubmit(){
 
   }
