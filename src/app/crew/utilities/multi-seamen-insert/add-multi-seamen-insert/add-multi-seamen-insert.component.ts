@@ -95,6 +95,8 @@ export class AddMultiSeamenInsertComponent implements OnInit {
           code:[""],
           rank:[""],
           pay: [""],
+          currency: [""],
+          name: [""],
           joiningdateObj: [""],
           joiningdate: [""],
           estSigndateObj: [""],
