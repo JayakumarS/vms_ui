@@ -1,6 +1,6 @@
 <mat-form-field class="example-full-width" appearance="outline">
   <mat-label>{{ label }}</mat-label>
-  <mat-select (selectionChange)="onSelectionChange($event.value)" [required]="required" [value]="_value" [formControl]="control">
+  <mat-select (selectionChange)="onSelectionChange($event.value)" [required]="required" [disabled]= "disabled" [value]="_value" [formControl]="control">
     <mat-option>
       <ngx-mat-select-search [placeholderLabel]="placeholderLabel"
                              [noEntriesFoundLabel]="noEntriesFoundLabel"
