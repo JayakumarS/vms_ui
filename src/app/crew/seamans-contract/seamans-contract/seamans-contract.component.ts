@@ -95,7 +95,7 @@ export class SeamansContractComponent implements OnInit {
       }
      });
    }
-
+   getDateString(event,id){}
     
    onSubmit() {
      this.showA4Sheet = true;
