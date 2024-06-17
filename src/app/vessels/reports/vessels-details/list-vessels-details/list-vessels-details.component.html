@@ -2672,11 +2672,11 @@
                  </form>
                  </div>
                    </div>
-            <div class="card"  style="float: left;width: 30%; padding: 10px;height: 350px;" *ngIf="checkBox3">
+            <div class="card"  style="float: left;width: 30%; padding: 10px;height: 696px;" *ngIf="checkBox3">
            <div class="body" >
               <h4>VESSEL DEFAULT CONSUMPTIONS</h4>
             <form class="m-4" [formGroup]="docForm">
-              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="margin-left: 224px" >
+              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" >
                 <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                          <mat-label>Sea Non ECA FO</mat-label>
  
@@ -2689,7 +2689,7 @@
                      </mat-form-field>
                    </div>
               <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="margin-left: 224px" >
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12"  >
                   <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                            <mat-label>Sea ECA FO</mat-label>
    
@@ -2705,7 +2705,7 @@
               
               </div> 
               <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="margin-left: 224px" >
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" >
                   <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                            <mat-label>Port Non ECA FO</mat-label>
    
@@ -2721,7 +2721,7 @@
               
               </div> 
               <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="margin-left: 224px" >
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12"  >
                   <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                            <mat-label>Port ECA FO</mat-label>
    
@@ -2737,7 +2737,7 @@
               
               </div> 
               <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="margin-left: 224px" >
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12"  >
                   <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                            <mat-label>Sea Non ECA FO</mat-label>
    
@@ -2753,7 +2753,7 @@
               
               </div> 
               <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="margin-left: 224px" >
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12"  >
                   <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                            <mat-label>Sea ECA FO</mat-label>
    
@@ -2769,7 +2769,7 @@
               
               </div> 
               <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="margin-left: 224px" >
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" >
                   <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                            <mat-label>Port Non ECA FO</mat-label>
    
@@ -2785,7 +2785,7 @@
               
               </div>
               <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="margin-left: 224px" >
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12"  >
                   <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                            <mat-label>Port ECA FO</mat-label>
    
@@ -2807,39 +2807,51 @@
           </form>
           </div>
             </div>
-            <div class="card"  style="float: left;width: 30%; padding: 10px;height: 350px;" *ngIf="checkBox3">
+            <div class="card"  style="float: left;width: 30%; padding: 10px;height: 376px;" *ngIf="checkBox3">
               <div class="body" >
-                 <h4>CLEAR DECK</h4>
+                 <h4>WEATHER NAVIGATOR</h4>
                <form class="m-4" [formGroup]="docForm">
                  <div class="row">
                   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Length(m)</mat-label>
+                        <mat-label>Min Draft</mat-label>
                         <input matInput formControlName="groupmanager" >
                       </mat-form-field>            
                           </div>
-                          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                <mat-label>Breath(m)</mat-label>
-                                <input matInput formControlName="groupmanager" >
-                              </mat-form-field>            
-                                  </div>
+                        
            
                  
                  </div> 
                  <div class="row">
                   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Area(m2)</mat-label>
+                        <mat-label>Max Draft</mat-label>
                         <input matInput formControlName="groupmanager" >
                       </mat-form-field>            
                           </div>
-                          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                <mat-label>Strength(mtn/m2)</mat-label>
-                                <input matInput formControlName="groupmanager" >
-                              </mat-form-field>            
-                                  </div>
+                          
+           
+                 
+                 </div> 
+                 <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                        <mat-label>Max Speed</mat-label>
+                        <input matInput formControlName="groupmanager" >
+                      </mat-form-field>            
+                          </div>
+                          
+           
+                 
+                 </div> 
+                 <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                        <mat-label>Dead Weight</mat-label>
+                        <input matInput formControlName="groupmanager" >
+                      </mat-form-field>            
+                          </div>
+                          
            
                  
                  </div> 

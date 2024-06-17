@@ -7,6 +7,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./vessels-details/vessels-details.module").then((m) => m.VesselsDetailsModule),
   },
+  {
+    path: "vessels-history",
+    loadChildren: () =>
+      import("./vessels-history/vessels-history.module").then((m) => m.VesselsHistoryModule),
+  },
 
 ];
 

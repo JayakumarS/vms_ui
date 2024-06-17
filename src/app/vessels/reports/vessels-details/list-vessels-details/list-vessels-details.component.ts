@@ -167,31 +167,31 @@ export class ListVesselsDetailsComponent implements OnInit {
   officialManagerlist:any;
   shipmanagerlist:any;
   crewmanagerlist:any;
-  checkBox: boolean = false;
-  checkBox1: boolean = false;
-  checkBox4: boolean = false;
-  checkBox3: boolean = false;
-  checkBox5: boolean = false;
-  checkBox6: boolean = false;
-  checkBox7: boolean = false;
-  checkBox8: boolean = false;
-  checkBox9: boolean = false;
-  checkBox10: boolean = false;
-  checkBox11: boolean = false;
-  checkBox12: boolean = false;
-  checkBox13: boolean = false;
-  checkBox14: boolean = false;
-  checkBox15: boolean = false;
-  checkBox16: boolean = false;
-  checkBox17: boolean = false;
-  checkBox18: boolean = false;
-  checkBox19: boolean = false;
-  checkBox20: boolean = false;
-  checkBox21: boolean = false;
-  checkBox22: boolean = false;
-  checkBox23: boolean = false;
-  checkBox24: boolean = false;
-  checkBox25: boolean = false;
+  checkBox: boolean = true;
+  checkBox1: boolean = true;
+  checkBox4: boolean = true;
+  checkBox3: boolean = true;
+  checkBox5: boolean = true;
+  checkBox6: boolean = true;
+  checkBox7: boolean = true;
+  checkBox8: boolean = true;
+  checkBox9: boolean = true;
+  checkBox10: boolean = true;
+  checkBox11: boolean = true;
+  checkBox12: boolean = true;
+  checkBox13: boolean = true;
+  checkBox14: boolean = true;
+  checkBox15: boolean = true;
+  checkBox16: boolean = true;
+  checkBox17: boolean = true;
+  checkBox18: boolean = true;
+  checkBox19: boolean = true;
+  checkBox20: boolean = true;
+  checkBox21: boolean = true;
+  checkBox22: boolean = true;
+  checkBox23: boolean = true;
+  checkBox24: boolean = true;
+  checkBox25: boolean = true;
 
   superintendentlist:any;
   pandilist: any;
@@ -216,7 +216,7 @@ export class ListVesselsDetailsComponent implements OnInit {
       remarks1:[""],
       remarks2:[""],
       remarks3:[""],
-      isChecked: [""],
+      isChecked: [true],
       seaman: [""],
       vessel: [""],
       rank:[""],
