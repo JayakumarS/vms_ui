@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/common-service/common.service';
@@ -25,8 +25,8 @@ export class AddCitiesAirportsComponent implements OnInit {
         firstDetailRow: this.fb.array([
           this.fb.group({
             select: [""],
-            code: [""],
-            title: [""],
+            code:['', Validators.required],
+            title: ['', Validators.required],
             country: [""]
           })
         ]),
@@ -46,8 +46,8 @@ export class AddCitiesAirportsComponent implements OnInit {
     let arraylen = firstDetailRow.length;
     let newUsergroup: FormGroup = this.fb.group({
       select: [""],
-      code: [""],
-            title: [""],
+      code: ['', Validators.required],
+            title: ['', Validators.required],
             country: [""]
      
     })

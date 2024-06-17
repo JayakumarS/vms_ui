@@ -37,12 +37,18 @@
                                 <mat-form-field class="example-full-width" appearance="outline" >
                                     <mat-label>City/Airport Code</mat-label>
                                     <input matInput formControlName="code">
+                                    <mat-error *ngIf="docForm.get('firstDetailRow').hasError('required')">
+                                      City/Airport Code is required
+                                    </mat-error>
                                 </mat-form-field>
                               </td>
                               <td class="padding-both-side-2">
                                 <mat-form-field class="example-full-width" appearance="outline" >
                                     <mat-label>Title</mat-label>
                                     <input matInput formControlName="title">
+                                    <mat-error *ngIf="docForm.get('firstDetailRow').hasError('required')">
+                                      Title is required
+                                    </mat-error>
                                 </mat-form-field>
                               </td>
 
