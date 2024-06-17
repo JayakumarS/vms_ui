@@ -14,6 +14,7 @@ import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { VesselTypes } from '../vessel-types.model';
 import { VesselTypesService } from '../vessel-types.service';
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
 @Component({
   selector: 'app-add-vessel-types',
   templateUrl: './add-vessel-types.component.html',
@@ -78,7 +79,8 @@ export class AddVesselTypesComponent implements OnInit {
     public EncrDecr: EncrDecrService,
     private serverUrl:serverLocations,
     private encryptionService:EncryptionService,
-    public snackBar: MatSnackBar) { 
+    public snackBar: MatSnackBar,
+    public matError : MatErrorService) { 
 
 
     this.docForm = this.fb.group({
@@ -89,9 +91,8 @@ export class AddVesselTypesComponent implements OnInit {
         this.fb.group({
           sort : 1,
           select:[""],
-          code:[""],
+          code: ["", Validators.required],
           description:[""],
-          
         })
       ]),
     });
@@ -106,8 +107,16 @@ export class AddVesselTypesComponent implements OnInit {
         this.fetchDetails(this.decryptRequestId) ;
       }
      });
-
     }
+
+    get rowDtls() {
+      return this.docForm.get('vesselTypeDtls') as FormArray;
+    }
+  
+    getControl(index: number,name:any) {
+      return this.rowDtls.at(index).get([name]);
+    }
+
    addRow(){
     let vesselTypeDtlsDtlArray=this.docForm.controls.vesselTypeDtls as FormArray;
     let arraylen=vesselTypeDtlsDtlArray.length;
@@ -116,7 +125,7 @@ export class AddVesselTypesComponent implements OnInit {
     let newUsergroup:FormGroup = this.fb.group({
       sort : 1 + len,
       select: [""],
-      code:[""],
+      code: ["", Validators.required],
       description:[""],
       
     })
@@ -155,19 +164,25 @@ export class AddVesselTypesComponent implements OnInit {
         let arraylen = dtlArray.length;
         let newUsergroup: FormGroup = this.fb.group({
           select:[""],
-          code: [element.code + ""],
+          code: [element.code],
           description:[element.description + ""]
         })
         dtlArray.insert(arraylen, newUsergroup);
+        newUsergroup.get('code').disable();
       });
       }, error: (err) => console.log(err)
      });
   }
   
   update() {
+    const dtlArray = this.docForm.get('vesselTypeDtls') as FormArray;
+    dtlArray.controls.forEach(control => {
+      control.get('code').enable();
+    });
     if(this.docForm.valid){
       this.vesselTypesService.updateVesselType(this.docForm.value, this.router, this.notificationService);
     }else{
+      this.matError.markFormGroupTouched(this.docForm);
       this.notificationService.showNotification(
         "snackbar-danger",
         "Please fill the required details",
@@ -179,6 +194,7 @@ export class AddVesselTypesComponent implements OnInit {
     if(this.docForm.valid){
       this.vesselTypesService.saveVesselType(this.docForm.value, this.router, this.notificationService);
     }else{
+      this.matError.markFormGroupTouched(this.docForm);
       this.notificationService.showNotification(
         "snackbar-danger",
         "Please fill the required details",

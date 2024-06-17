@@ -37,7 +37,9 @@
                                                             appearance="outline">
                                                             <mat-label>Code</mat-label>
                                                             <input matInput name="code{{i}}" formControlName="code">
-
+                                                            <mat-error *ngIf="getControl(i,'code').hasError('required')">
+                                                                Code is required
+                                                            </mat-error>
                                                         </mat-form-field>
 
                                                     </td>
