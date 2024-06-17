@@ -9,10 +9,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class DepartmentsPopupComponent implements OnInit {
   docForm: FormGroup;
-  dialog: any;
+  
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<DepartmentsPopupComponent>,
+    public dialogRef: MatDialogRef<DepartmentsPopupComponent>
   ) { 
     this.docForm = this.fb.group({
       itemsNotToOrderCommends:[""]
@@ -21,13 +21,10 @@ export class DepartmentsPopupComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.docForm = this.fb.group({
-      itemsNotToOrderCommends:[""]
-    });
   }
 
   itemsNotToOrderCommendsCall(){
-    this.dialogRef.close({ data: this.docForm.value.itemsNotToOrderCommends });
+    this.dialogRef.close({ data: this.docForm.value.itemsNotToOrderCommends});
   }
 
 

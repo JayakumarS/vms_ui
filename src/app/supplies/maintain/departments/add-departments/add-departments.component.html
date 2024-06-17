@@ -165,7 +165,7 @@
                             </div>
                             </td>
 
-                              <td class="padding-both-side-2">
+                              <!-- <td class="padding-both-side-2">
                                 <div class="flex padding-both-side-2" style="margin-left: 84px;margin-right: 84px;">
                                 <mat-checkbox formControlName="toggleLockValue" (change)="toggleValues(i)"  ></mat-checkbox>
                               <p *ngIf="!docForm.get('firstDetailRow').value[i].lockSupplyCaseswithinvoicedate" style=" color: green; margin-left: 22px;">before</p>
@@ -176,8 +176,22 @@
                                 <div class="flex padding-both-side-2"  style="margin-left: 35px;margin-right: 35px;">
                                 <p style="color: green;">{{ docForm.get('firstDetailRow').value[i].vesselOrders ? 'YES' : 'NO' }}</p>
                               </div>
-                              </td>
+                              </td> -->
                               
+                              <td class="padding-both-side-2">
+                                <div class="flex padding-both-side-2" style="margin-left: 84px;margin-right: 84px;">
+                                  <mat-checkbox formControlName="toggleLockValue" (change)="toggleValues(i)"></mat-checkbox>
+                                  <p *ngIf="!firstDetailBean.get('lockSupplyCaseswithinvoicedate').value" style="color: green; margin-left: 22px;">before</p>
+                                  <p *ngIf="firstDetailBean.get('lockSupplyCaseswithinvoicedate').value" style="color: green; margin-left: 22px;">after</p>
+                                </div>
+                              </td>
+                              <td class="padding-both-side-2">
+                                <div class="flex padding-both-side-2" style="margin-left: 35px;margin-right: 35px;">
+                                  <p style="color: green;">{{ firstDetailBean.get('vesselOrders').value ? 'YES' : 'NO' }}</p>
+                                </div>
+                              </td>
+
+
                               <td class="padding-both-side-2">
                                 <mat-form-field class="example-full-width " style="margin-left: 11px;width:81%; margin-right: -61px;" appearance="outline">
                                     <mat-label>Tolerance %</mat-label>
