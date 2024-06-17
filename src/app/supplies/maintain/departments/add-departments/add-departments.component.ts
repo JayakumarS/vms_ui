@@ -19,9 +19,6 @@ export class AddDepartmentsComponent extends UnsubscribeOnDestroyAdapter  implem
 
   docForm: FormGroup;
   formTypeList:any=[];
-  isPopupOpened = false;
-  itemsToOrderCommendsList:any=[];
-  itemsNotToOrderCommendsList:any=[];
   isHovered = false;
   firstDetailRow: any;
   
@@ -53,7 +50,8 @@ export class AddDepartmentsComponent extends UnsubscribeOnDestroyAdapter  implem
             lockSupplyCaseswithinvoicedate: new FormControl(false),
             vesselOrders: new FormControl(false),
             tolerance: [""],
-            minimumItems: [""]
+            minimumItems: [""],
+            toggleLockValue: new FormControl(false)
           })
         ]),
       });
@@ -87,7 +85,7 @@ export class AddDepartmentsComponent extends UnsubscribeOnDestroyAdapter  implem
       formType: [""],
       decimals: [""],
       itemsToOrderCommends: [""],
-      itemsNotToOrderCommends: [""],
+      itemsNotToOrderCommends:[""],
       availableOffice: [""],
       availableVessel: [""],
       officeUndefinedItemsS: [""],
@@ -98,8 +96,8 @@ export class AddDepartmentsComponent extends UnsubscribeOnDestroyAdapter  implem
       lockSupplyCaseswithinvoicedate: [""],
       vesselOrders: [""],
       tolerance: [""],
-      minimumItems: [""]
-     
+      minimumItems: [""],
+      toggleLockValue: new FormControl(false)
      
     })
     firstDetailRow.insert(arraylen, newUsergroup);
@@ -181,7 +179,6 @@ export class AddDepartmentsComponent extends UnsubscribeOnDestroyAdapter  implem
 
     this.subs.sink = dialogRef.afterClosed().subscribe((res) => {
       if(res.data != 'CANCEL'){
-        this.isPopupOpened = true;
         this.docForm.patchValue({
           itemsToOrderCommends:res.data
         })
@@ -200,7 +197,7 @@ export class AddDepartmentsComponent extends UnsubscribeOnDestroyAdapter  implem
 
     this.subs.sink = dialogRef.afterClosed().subscribe((res) => {
       if(res.data != 'CANCEL'){
-        this.isPopupOpened = true;
+
         this.docForm.patchValue({
           itemsNotToOrderCommends:res.data
         })
@@ -209,15 +206,16 @@ export class AddDepartmentsComponent extends UnsubscribeOnDestroyAdapter  implem
   }
  
 
-
   toggleValues(index: number) {
-    const currentValue = this.docForm.get('firstDetailRow').value[index].lockSupplyCaseswithinvoicedate;
-    this.docForm.get('firstDetailRow').value[index].lockSupplyCaseswithinvoicedate = !currentValue;
-    const currentVesselOrdersValue = this.docForm.get('firstDetailRow').value[index].vesselOrders;
-    this.docForm.get('firstDetailRow').value[index].vesselOrders = !currentVesselOrdersValue;
+    const firstDetailRow = this.docForm.get('firstDetailRow') as FormArray;
+    const firstDetailBean = firstDetailRow.at(index) as FormGroup;
+
+    const currentLockValue = firstDetailBean.get('lockSupplyCaseswithinvoicedate').value;
+    firstDetailBean.get('lockSupplyCaseswithinvoicedate').setValue(!currentLockValue);
+
+    const currentVesselOrdersValue = firstDetailBean.get('vesselOrders').value;
+    firstDetailBean.get('vesselOrders').setValue(!currentVesselOrdersValue);
   }
-
-
 
 
 

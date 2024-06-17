@@ -134,6 +134,7 @@ import { DepartmentsPopupComponent } from './departments-popup/departments-popup
     MatTreeModule,
     PortalModule,
     ScrollingModule
+
    
   ]
 })

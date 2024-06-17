@@ -8,11 +8,13 @@ import { MatDialogRef} from '@angular/material/dialog';
   styleUrls: ['./departments-pop-up.component.sass']
 })
 export class DepartmentsPopUpComponent  implements OnInit{
+
+  
   docForm: FormGroup;
-  dialog: any;
+  
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<DepartmentsPopUpComponent>,
+    public dialogRef: MatDialogRef<DepartmentsPopUpComponent>
   ) { 
     this.docForm = this.fb.group({
       itemsToOrderCommends:[""]
@@ -21,13 +23,10 @@ export class DepartmentsPopUpComponent  implements OnInit{
 
   ngOnInit(): void {
 
-    this.docForm = this.fb.group({
-      itemsToOrderCommends:[""]
-    });
   }
 
   itemsToOrderCommendsCall(){
-    this.dialogRef.close({ data: this.docForm.value.itemsToOrderCommends });
+    this.dialogRef.close({ data: this.docForm.value.itemsToOrderCommends});
   }
 
 
@@ -39,4 +38,7 @@ export class DepartmentsPopUpComponent  implements OnInit{
   onClick(): void {
     
   }
+
+
+
 }
