@@ -39,10 +39,13 @@ export class VesselsHistoryComponent implements OnInit {
   nationList:any=[];
   // For Encryption
   requestId: any;
+  cashbankReceipts: any;
+
   decryptRequestId: any;
   currtmpList: any[];
-  isChecked: boolean = false;
+  isChecked: boolean = true;
   currentTimeSlot: any;
+  active: boolean=false;
 
 
   constructor(private fb: FormBuilder,
@@ -67,30 +70,12 @@ export class VesselsHistoryComponent implements OnInit {
       fromdate: [""],
       fromdateObj: [""],
       rank:[""],
+      groupmanager:[""],
+      isChecked:[true],
        servicestate:[""],
       isActive:["true"],
-      seamansdtltable: this.fb.array([
-        this.fb.group({
-          select:[""],
-          startingdate: [""],
-          remarks:[""],
-          endingDate:[""],
-          isChecked:[""],
-          // rank:["",[Validators.required]],
-          
-        })
-       
-      ]),
-      seamansdtltable1: this.fb.array([
-        this.fb.group({
-          select: [""],
-          shiftStart: [""],
-          shiftEnd: [""],
-          place: [""],
-          watchKeeping: [""],
-
-        })
-      ]),
+      isCheckbox:[""]
+   
     });
     
     }

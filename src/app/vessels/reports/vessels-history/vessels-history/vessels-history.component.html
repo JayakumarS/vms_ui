@@ -8,7 +8,7 @@
       <div class="row clearfix ">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
         <div class="box-shadow">
-          <div class="card">
+          <div class="card" style="height:250px">
             <div class="body" >
               <form class="m-4" [formGroup]="docForm">
                 <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12" style="margin-left: 529px">
@@ -58,44 +58,687 @@
                   </div>
                   <p style="color: red; margin-left: 428px">* Underline lables have modified values <span style="color: darkred; font-weight: bold;"></span></p>
 
-                  <!-- <div class="row">
-
-                    <div class="col-xl- col-lg-12 col-md-12 col-sm-12">
-
-                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>To Date</mat-label>
-                        <input matInput [matDatepicker]="datepicker2" formControlName="todateObj" id="todate"
-                          (dateChange)="onDateChange2($event,'todate',0)"
-                          (input)="onDateInput2($event.target.value,'todate',0)" placeholder="dd/mm/yyyy">
-                        <mat-datepicker-toggle matSuffix [for]="datepicker2"></mat-datepicker-toggle>
-                        <mat-datepicker #datepicker2></mat-datepicker>
-
-                      </mat-form-field>
-
-
-                    </div>
-                  </div> -->
-
-               
-                 
-                
-                
-                <br>
-
-                
-                
-
-
-                
+                  <br>
+                  <br>
               <br>
-              <br>
-              
-             <br>   
-            
-                    
-              </form>
+               <br>   
+             </form>
               
             </div>
+          </div>
+          <div class="card">
+            <div class="body"style="padding-left: 110px;" >
+                <h4>MODIFIED DATE : </h4>
+              <form class="m-4" [formGroup]="docForm">
+                   <div class="row">
+                        <div class="col">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Code:</b> SC07 </label>
+                            </div>
+                            <br>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Name:</b>SAFEEN PEARL</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Short Name:</b> SAFEEN PEARL</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>X Name:</b> </label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Type:</b> Reefer/Container</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Vessel Group:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Class:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Wage Scale:</b> {{ cashbankReceipts?.acctCurrency }}</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Vessel Type:</b> Container</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Vessel Type 2:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                            </div>
+                            <br>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Flag:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                            </div>
+                               
+                       </div> 
+                            <br>
+                            <div class="col">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Prefix:</b> MV</label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Fleet:</b> SAFEEN CONTAINERS</label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Ship Owner:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                </div>
+                                
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Official Manager:</b> GFS-SAFEEN</label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Ship Manager:</b> {{ cashbankReceipts?.acctCurrency }}</label>
+                                </div>
+                                <br>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Crew Manager:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Operator:</b> {{ cashbankReceipts?.chequeNO }}</label>
+
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Superintendent:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Group Manager:</b> {{ cashbankReceipts?.chequeNO }}</label>
+
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>IMO NO:</b> {{ cashbankReceipts?.chequeNO }}</label>
+
+                                </div>
+                                <br>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Active:</b> {{ cashbankReceipts?.chequeNO }}</label>
+
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <mat-checkbox class="example-full-width form-control-sm" formControlName="isChecked"></mat-checkbox>
+
+                                      </div>
+                            </div>
+                            <br>
+                            <div class="col">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Initials:</b> </label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                 
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Avail.For Chartering:</b> <mat-checkbox class="example-full-width form-control-sm" formControlName="isChecked"></mat-checkbox>
+                                    </label>
+
+                                </div>
+                                <!-- <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" >
+                                    <mat-checkbox class="example-full-width form-control-sm" formControlName="isChecked"></mat-checkbox>
+
+                                      </div> -->
+                            </div>
+                            <div class="col">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Sorting:</b> </label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                 
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Own:</b> <mat-checkbox class="example-full-width form-control-sm" formControlName="isChecked"></mat-checkbox>
+                                    </label>
+
+                                </div>
+                                <!-- <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" >
+                                    <mat-checkbox class="example-full-width form-control-sm" formControlName="isChecked"></mat-checkbox>
+
+                                      </div> -->
+                            </div>
+                            <br>
+                        </div>
+                          
+                       
+                   
+                     
+                     
+
+                 <br>
+           
+              </form>
+            </div>
+            
+          </div>
+          <div class="card">
+            <div class="body"style="padding-left: 110px;" >
+                <h4>MODIFIED DATE : </h4>
+              <form class="m-4" [formGroup]="docForm">
+                   <div class="row">
+                        <div class="col">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Code:</b> SC07 </label>
+                            </div>
+                            <br>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Name:</b>SAFEEN PEARL</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Short Name:</b> SAFEEN PEARL</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>X Name:</b> </label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Type:</b> Reefer/Container</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Vessel Group:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Class:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Wage Scale:</b> {{ cashbankReceipts?.acctCurrency }}</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Vessel Type:</b> Container</label>
+                            </div>
+                            <br>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Vessel Type 2:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                            </div>
+                            <br>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <label><b>Flag:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                            </div>
+                               
+                       </div> 
+                            <br>
+                            <div class="col">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Prefix:</b> MV</label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Fleet:</b> SAFEEN CONTAINERS</label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Ship Owner:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                </div>
+                                
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Official Manager:</b> SIMATECH</label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Ship Manager:</b> {{ cashbankReceipts?.acctCurrency }}</label>
+                                </div>
+                                <br>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Crew Manager:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Operator:</b> {{ cashbankReceipts?.chequeNO }}</label>
+
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Superintendent:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Group Manager:</b> {{ cashbankReceipts?.chequeNO }}</label>
+
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>IMO NO:</b> {{ cashbankReceipts?.chequeNO }}</label>
+
+                                </div>
+                                <br>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Active:</b> {{ cashbankReceipts?.chequeNO }}</label>
+
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <mat-checkbox class="example-full-width form-control-sm" formControlName="isChecked"></mat-checkbox>
+
+                                      </div>
+                            </div>
+                            <br>
+                            <div class="col">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Initials:</b> </label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                 
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Avail.For Chartering:</b> <mat-checkbox class="example-full-width form-control-sm" formControlName="isCheckbox"></mat-checkbox>
+                                    </label>
+
+                                </div>
+                                <!-- <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" >
+                                    <mat-checkbox class="example-full-width form-control-sm" formControlName="isChecked"></mat-checkbox>
+
+                                      </div> -->
+                            </div>
+                            <div class="col">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Sorting:</b> </label>
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                 
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                 
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                                </div>
+                                <br>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <label><b>Own:</b> <mat-checkbox class="example-full-width form-control-sm" formControlName="isChecked"></mat-checkbox>
+                                    </label>
+
+                                </div>
+                                <!-- <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" >
+                                    <mat-checkbox class="example-full-width form-control-sm" formControlName="isChecked"></mat-checkbox>
+
+                                      </div> -->
+                            </div>
+                            <br>
+                        </div>
+                          
+                       
+                   
+                     
+                     
+
+                 <br>
+           
+              </form>
+            </div>
+            
           </div>
         </div>
         </div>
