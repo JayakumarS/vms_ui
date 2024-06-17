@@ -12,6 +12,9 @@ export class VesselsDetails {
     shortname:any;
     prefix:any;
     initials:any;
+    remarks3:any;
+    remarks2:any;
+    remarks1:any;
     sorting:any;
     xname1:any;
     type:any;

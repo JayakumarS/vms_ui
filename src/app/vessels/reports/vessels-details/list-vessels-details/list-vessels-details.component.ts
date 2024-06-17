@@ -168,6 +168,30 @@ export class ListVesselsDetailsComponent implements OnInit {
   shipmanagerlist:any;
   crewmanagerlist:any;
   checkBox: boolean = false;
+  checkBox1: boolean = false;
+  checkBox4: boolean = false;
+  checkBox3: boolean = false;
+  checkBox5: boolean = false;
+  checkBox6: boolean = false;
+  checkBox7: boolean = false;
+  checkBox8: boolean = false;
+  checkBox9: boolean = false;
+  checkBox10: boolean = false;
+  checkBox11: boolean = false;
+  checkBox12: boolean = false;
+  checkBox13: boolean = false;
+  checkBox14: boolean = false;
+  checkBox15: boolean = false;
+  checkBox16: boolean = false;
+  checkBox17: boolean = false;
+  checkBox18: boolean = false;
+  checkBox19: boolean = false;
+  checkBox20: boolean = false;
+  checkBox21: boolean = false;
+  checkBox22: boolean = false;
+  checkBox23: boolean = false;
+  checkBox24: boolean = false;
+  checkBox25: boolean = false;
 
   superintendentlist:any;
   pandilist: any;
@@ -189,6 +213,10 @@ export class ListVesselsDetailsComponent implements OnInit {
 
     this.docForm = this.fb.group({
       // first: ["", [Validators.required, Validators.pattern("[a-zA-Z]+")]],
+      remarks1:[""],
+      remarks2:[""],
+      remarks3:[""],
+      isChecked: [""],
       seaman: [""],
       vessel: [""],
       rank:[""],
@@ -739,7 +767,223 @@ this.filteritemsuperintendentlist();
       this.superintendentlist.filter(title => title.text.toLowerCase().includes(search))
     );
    }
-   onCheckboxChange1(){}
+  
+    onCheckboxChange1() {
+      this.checkBox1 = !this.checkBox1;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange3() {
+      this.checkBox3 = !this.checkBox3;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange4() {
+      this.checkBox4 = !this.checkBox4;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange5() {
+      this.checkBox5 = !this.checkBox5;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange6() {
+      this.checkBox6 = !this.checkBox6;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange7() {
+      this.checkBox7 = !this.checkBox7;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange8() {
+      this.checkBox8 = !this.checkBox8;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange9() {
+      this.checkBox9 = !this.checkBox9;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange10() {
+      this.checkBox10 = !this.checkBox10;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange11() {
+      this.checkBox11 = !this.checkBox11;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange12() {
+      this.checkBox12 = !this.checkBox12;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange13() {
+      this.checkBox13 = !this.checkBox13;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange14() {
+      this.checkBox14 = !this.checkBox14;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange15() {
+      this.checkBox15 = !this.checkBox15;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange16() {
+      this.checkBox16 = !this.checkBox16;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange17() {
+      this.checkBox17 = !this.checkBox17;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange18() {
+      this.checkBox18 = !this.checkBox18;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange19() {
+      this.checkBox19 = !this.checkBox19;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange20() {
+      this.checkBox20 = !this.checkBox20;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange21() {
+      this.checkBox21 = !this.checkBox21;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange22() {
+      this.checkBox22 = !this.checkBox22;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange23() {
+      this.checkBox23 = !this.checkBox23;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange24() {
+      this.checkBox24 = !this.checkBox24;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
+    onCheckboxChange25() {
+      this.checkBox25 = !this.checkBox25;
+      
+      if (this.checkBox) {
+        console.log('Checkbox is checked');
+      } else {
+        console.log('Checkbox is unchecked');
+      }
+    }
    filteritemcrewmanagerlist(){
     if (!this.crewmanagerlist) {
       return;
