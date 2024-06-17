@@ -72,7 +72,7 @@ export class AddVesselTypesComponent implements OnInit {
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public PayItemsService: VesselTypesService,
+    public vesselTypesService: VesselTypesService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
@@ -85,7 +85,7 @@ export class AddVesselTypesComponent implements OnInit {
   
 
 
-      payitemsDetails: this.fb.array([
+      vesselTypeDtls: this.fb.array([
         this.fb.group({
           sort : 1,
           select:[""],
@@ -100,22 +100,18 @@ export class AddVesselTypesComponent implements OnInit {
   }
   
    ngOnInit() {
-    
-
      this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
       this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
-       this.edit=true;
-       //For User login Editable mode
-       this.fetchDetails(this.requestId) ;
-
+        this.edit=true;
+        this.fetchDetails(this.decryptRequestId) ;
       }
      });
 
     }
    addRow(){
-    let payitemsDetailsDtlArray=this.docForm.controls.payitemsDetails as FormArray;
-    let arraylen=payitemsDetailsDtlArray.length;
-    var len = this.docForm.controls["payitemsDetails"].value.length;
+    let vesselTypeDtlsDtlArray=this.docForm.controls.vesselTypeDtls as FormArray;
+    let arraylen=vesselTypeDtlsDtlArray.length;
+    var len = this.docForm.controls["vesselTypeDtls"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
       sort : 1 + len,
@@ -124,12 +120,12 @@ export class AddVesselTypesComponent implements OnInit {
       description:[""],
       
     })
-    payitemsDetailsDtlArray.insert(arraylen,newUsergroup);
+    vesselTypeDtlsDtlArray.insert(arraylen,newUsergroup);
   }
 
   removeRow(){
     let count = 0;
-    const deleteRow = this.docForm.controls.payitemsDetails as FormArray;
+    const deleteRow = this.docForm.controls.vesselTypeDtls as FormArray;
     let i = 0;
     
     while (i < deleteRow.length) {
@@ -150,21 +146,50 @@ export class AddVesselTypesComponent implements OnInit {
       );
     }
   }
-  fetchDetails(countryCode: any): void {
-   
+
+  fetchDetails(id){
+    this.httpService.get<any>(this.vesselTypesService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+      let dtlArray = this.docForm.controls.vesselTypeDtls as FormArray;
+      dtlArray.clear();
+      data.list.forEach((element, index) => {
+        let arraylen = dtlArray.length;
+        let newUsergroup: FormGroup = this.fb.group({
+          select:[""],
+          code: [element.code + ""],
+          description:[element.description + ""]
+        })
+        dtlArray.insert(arraylen, newUsergroup);
+      });
+      }, error: (err) => console.log(err)
+     });
   }
   
   update() {
-
-
+    if(this.docForm.valid){
+      this.vesselTypesService.updateVesselType(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
-  save(){}
+  save(){
+    if(this.docForm.valid){
+      this.vesselTypesService.saveVesselType(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
+  }
 
   cancel(){
     this.router.navigate(['/vessels/maintain/vessel-types/list-vessel-types']);
   }
-
-
 
   getmastrcurr(){
 
@@ -202,7 +227,7 @@ export class AddVesselTypesComponent implements OnInit {
   reset(){
     if(!this.edit){
       this.docForm = this.fb.group({
-        payitemsDetails: this.fb.array([
+        vesselTypeDtls: this.fb.array([
           this.fb.group({
             sort : 1,
             code:[""],

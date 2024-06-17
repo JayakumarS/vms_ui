@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -5,7 +6,9 @@ import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/materia
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { CommonService } from 'src/app/common-service/common.service';
+import { VERSION } from '@angular/core';
 
 @Component({
   selector: 'app-list-multi-seamen-sign-off',
@@ -31,7 +34,8 @@ export class ListMultiSeamenSignOffComponent implements OnInit {
     private snackBar: MatSnackBar,
     private commonService: CommonService,
     public router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private httpService: HttpServiceService
   ) {
     this.docForm = this.fb.group({
         vessel:["",Validators.required],
@@ -67,7 +71,12 @@ export class ListMultiSeamenSignOffComponent implements OnInit {
 
     let firstDtl = this.docForm.controls.firstDetailRow as FormArray;
     firstDtl.clear();
-  }
+    // let data = {"name":"balaji","age":"24"};
+    // this.httpService.post('http://localhost:8080/api/test/save',data).subscribe({next: (data: any) => {
+    //   console.log(VERSION.full);
+    //   }, error: (err) => console.log(err)
+    //  });
+    }
 
   get firstDetailRow() {
     return this.docForm.get('firstDetailRow') as FormArray;

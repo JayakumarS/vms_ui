@@ -11,6 +11,11 @@ const routes: Routes = [
     path: "multi-seamen-sign-off",
     loadChildren: () =>
       import("./multi-seamen-sign-off/multi-seamen-sign-off.module").then((m) => m.MultiSeamenSignOffModule),
+  },
+  {
+    path: "update-voyage",
+    loadChildren: () =>
+      import("./update-voyage/update-voyage.module").then((m) => m.UpdateVoyageModule),
   }
 ];
 

@@ -41,12 +41,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { CountryMasterRoutingModule } from 'src/app/master/country-master/country-master-routing.module';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ViewVesselTypesComponent } from './view-vessel-types/view-vessel-types.component';
 
 
 @NgModule({
   declarations: [
     ListVesselTypesComponent,
-    AddVesselTypesComponent
+    AddVesselTypesComponent,
+    ViewVesselTypesComponent
   ],
   imports: [
     CommonModule,
