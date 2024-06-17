@@ -52,15 +52,6 @@ export class ListSolidarityTaxContractsComponent extends UnsubscribeOnDestroyAda
   docForm: FormGroup;
   currencyList:any=[];
 
-
-  public currencyFilterCtrl: FormControl = new FormControl();
-  public currencyFilteredOptions: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
-  @ViewChild('contractscurrency', { static: true }) contractscurrency: MatSelect;
-
-  protected onDestroy = new Subject<void>();
-
- 
-
   displayedColumns = [
     "currency",
     "fromDate",
@@ -115,32 +106,11 @@ export class ListSolidarityTaxContractsComponent extends UnsubscribeOnDestroyAda
       { id: 2, text: 'USD' },
       { id: 3, text: 'AED' }
     ];
-    this.currencyFilteredOptions.next(this.currencyList.slice());
-
-
-this.currencyFilterCtrl.valueChanges
-  .pipe(takeUntil(this.onDestroy))
-  .subscribe(() => {
-    this.filteritemcurrency();
-  });
+   
 
 
    }
-   filteritemcurrency(){
-    if (!this.currencyList) {
-      return;
-    }
-    let search = this.currencyFilterCtrl.value;
-    if (!search) {
-      this.currencyFilteredOptions.next(this.currencyList.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    this.currencyFilteredOptions.next(
-      this.currencyList.filter(title => title.text.toLowerCase().includes(search))
-    );
-   }
+  
 
   refresh(){
     this.loadData();

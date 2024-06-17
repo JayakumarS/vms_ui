@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -48,8 +48,8 @@ export class AddAirlinesComponent extends UnsubscribeOnDestroyAdapter implements
       firstDetailRow: this.formbuilder.array([
         this.formbuilder.group({
           select: [""],
-          code: [""],
-          title: [""],
+          code:  ['', Validators.required],
+          title:  ['', Validators.required],
           phoneNo: [""],
           dddress: [""]
          
@@ -83,8 +83,8 @@ export class AddAirlinesComponent extends UnsubscribeOnDestroyAdapter implements
     let arraylen = firstDetailRow.length;
     let newUsergroup: FormGroup = this.formbuilder.group({
       select: [""],
-      code: [""],
-          title: [""],
+      code:  ['', Validators.required],
+      title:  ['', Validators.required],
           phoneNo: [""],
           dddress: [""]
      

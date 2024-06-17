@@ -62,6 +62,7 @@ import { ListCompanyEmployeesComponent } from './list-company-employees/list-com
   imports: [
     CommonModule,
     CompanyEmployeesRoutingModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatTableModule,

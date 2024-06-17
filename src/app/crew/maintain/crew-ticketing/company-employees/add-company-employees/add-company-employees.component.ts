@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/common-service/common.service';
@@ -26,8 +26,8 @@ export class AddCompanyEmployeesComponent implements OnInit {
           this.fb.group({
             select: [""],
             employeeCode: [""],
-            employeeName: [""],
-            employeeSurname: [""],
+            employeeName: ['', Validators.required],
+            employeeSurname: ['', Validators.required],
             fatherName: [""],
             passportNo: [""],
             remarks: [""]
@@ -51,8 +51,8 @@ export class AddCompanyEmployeesComponent implements OnInit {
     let newUsergroup: FormGroup = this.fb.group({
       select: [""],
       employeeCode: [""],
-      employeeName: [""],
-      employeeSurname: [""],
+      employeeName: ['', Validators.required],
+      employeeSurname: ['', Validators.required],
       fatherName: [""],
       passportNo: [""],
       remarks: [""]

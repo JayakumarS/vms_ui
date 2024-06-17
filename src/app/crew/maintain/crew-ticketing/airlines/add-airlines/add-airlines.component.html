@@ -37,6 +37,9 @@
                                                 <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                                     <mat-label>Airline Code</mat-label>
                                                     <input matInput formControlName="code">
+                                                    <mat-error *ngIf="docForm.get('firstDetailRow').hasError('required')">
+                                                        Airline Code is required
+                                                      </mat-error>
                                                 </mat-form-field>
                                             </div> 
         
@@ -44,6 +47,9 @@
                                                 <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                                     <mat-label>Airline Title</mat-label>
                                                     <input matInput formControlName="title">
+                                                    <mat-error *ngIf="docForm.get('firstDetailRow').hasError('required')">
+                                                        Airline Title is required
+                                                      </mat-error>
                                                 </mat-form-field>
                                             </div>
         
