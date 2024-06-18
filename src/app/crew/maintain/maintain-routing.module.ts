@@ -48,6 +48,16 @@ const routes: Routes = [
     path: "work-status",
     loadChildren: () =>
       import("./work-status/work-status.module").then((m) => m.WorkStatusModule),
+  },
+  {
+    path: "language",
+    loadChildren: () =>
+      import("./languages/languages.module").then((m) => m.LanguagesModule),
+  },
+  {
+    path: "agent",
+    loadChildren: () =>
+      import("./agent/agent.module").then((m) => m.AgentModule),
   }
 
 
