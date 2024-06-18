@@ -92,23 +92,14 @@ export class AddMaintainRankComponent implements OnInit {
      });
    
 
-     this.groupagelist = [
-      { id: "g1", text: "junior officer" },
-      { id: "g2", text: "  officer" },
-      {  id: "g3", text: "petty officer"},
-      {  id: "g4", text: "senior officer"},
-      {  id: "g5", text: "SuperNumerary"},
-      {  id: "g6", text: "Trainee"},
-      {  id: "g7", text: "Visitor"}
 
-    ];
       
-    //  this.httpService.get<any>(this.MaintainRankService.getgrouppage).subscribe((res: any) => {
+     this.httpService.get<any>(this.MaintainRankService.getgrouppage).subscribe((res: any) => {
 
-    //   this.groupagelist = res;
+      this.groupagelist = res;
 
       this.groupageFilteredOptions.next(this.groupagelist.slice());
-        // });
+        });
 
 
         
