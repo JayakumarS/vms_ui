@@ -18,14 +18,14 @@
 
                                             <tr>
                                                 <th class="text-center table-heading padding-both-side-2 width_7"></th>
-                                                <th class="text-center table-heading padding-both-side-2 width_7">Code</th>
-                                                <th class="text-center table-heading padding-both-side-2 width_7">Description</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7">Class Code</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7">Class Description</th>
                                                 <th style="width: 1%;"></th>
                                         </thead>
 
                                         <ng-container
-                                            *ngFor="let payitemsDetails of docForm.get('payitemsDetails')['controls']; let i = index">
-                                            <tbody [formGroup]="payitemsDetails">
+                                            *ngFor="let classDetails of docForm.get('classDetails')['controls']; let i = index">
+                                            <tbody [formGroup]="classDetails">
 
                                                 <tr>
                                                     <td class="col-md-1">
@@ -35,7 +35,7 @@
                                                     <td class="col-md-4">
                                                         <mat-form-field class="example-full-width form-control-sm"
                                                             appearance="outline">
-                                                            <mat-label>Code</mat-label>
+                                                            <mat-label>Class Code</mat-label>
                                                             <input matInput name="code{{i}}" formControlName="code">
 
                                                         </mat-form-field>
@@ -45,7 +45,7 @@
                                                     <td class="col-md-6">
                                                         <mat-form-field class="example-full-width form-control-sm"
                                                             appearance="outline">
-                                                            <mat-label>Description</mat-label>
+                                                            <mat-label>Class Description</mat-label>
                                                             <input matInput name="description{{i}}"
                                                                 formControlName="description">
 
@@ -79,8 +79,9 @@
 
                                 <br>
                                 <div class="center">
-                            <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
-                            <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+                                    <button *ngIf="!edit" class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                                    <button *ngIf="edit" class="btn-space saveBtn" mat-raised-button (click)="update()"><mat-icon class="saveCancelIcon">save</mat-icon>Update</button>
+                                   <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
                                   </div>
                             </form>
                         </div>

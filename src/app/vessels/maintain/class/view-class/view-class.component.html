@@ -2,8 +2,8 @@
     <div class="content-block">
         <div class="block-header">
             <!-- breadcrumb -->
-            <app-breadcrumb [title]="'View Wage Scale'" [items]="['Vessel','Maintain']"
-                [active_item]="'View Wage Scale'">
+            <app-breadcrumb [title]="'View Class'" [items]="['Vessel','Maintain']"
+                [active_item]="'View Class'">
             </app-breadcrumb>
         </div>
         <div class="row clearfix ">
@@ -18,10 +18,10 @@
                                     <table class="border1" style=" border: 1px solidrgb(157, 158, 163); width:100%; border-collapse: collapse; margin-top: 20px; text-align: right;">
                                     <tr style="font-weight: 600; text-align: center;height: 30px; vertical-align: middle;  background-color: rgb(96 125 139 / 82%);  color: rgb(252, 248, 248); font-weight: bold;font-size:15px; font-style:normal; text-indent: 4px;">
                                         <th>
-                                            Wage Scale Code
+                                            Class Code
                                         </th>
                                         <th>
-                                            Wage Scale Description
+                                            Class Description
                                         </th>
                                     </tr>
                                     <tr *ngFor="let item of viewDtl; let i = index"

@@ -14,6 +14,7 @@ import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { Class } from '../class.model';
 import { ClassService } from '../class.service';
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
 @Component({
   selector: 'app-add-class',
   templateUrl: './add-class.component.html',
@@ -72,11 +73,11 @@ export class AddClassComponent implements OnInit {
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public PayItemsService: ClassService,
+    public classService: ClassService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
-    private serverUrl:serverLocations,
+    private serverUrl:serverLocations,public matError : MatErrorService,
     private encryptionService:EncryptionService,
     public snackBar: MatSnackBar) { 
 
@@ -85,7 +86,7 @@ export class AddClassComponent implements OnInit {
   
 
 
-      payitemsDetails: this.fb.array([
+      classDetails: this.fb.array([
         this.fb.group({
           sort : 1,
           select: [""],
@@ -106,16 +107,16 @@ export class AddClassComponent implements OnInit {
       this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
        this.edit=true;
        //For User login Editable mode
-       this.fetchDetails(this.requestId) ;
+       this.fetchDetails(this.decryptRequestId) ;
 
       }
      });
 
     }
    addRow(){
-    let payitemsDetailsDtlArray=this.docForm.controls.payitemsDetails as FormArray;
+    let payitemsDetailsDtlArray=this.docForm.controls.classDetails as FormArray;
     let arraylen=payitemsDetailsDtlArray.length;
-    var len = this.docForm.controls["payitemsDetails"].value.length;
+    var len = this.docForm.controls["classDetails"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
       sort : 1 + len,
@@ -129,7 +130,7 @@ export class AddClassComponent implements OnInit {
 
   removeRow(){
     let count = 0;
-    const deleteRow = this.docForm.controls.payitemsDetails as FormArray;
+    const deleteRow = this.docForm.controls.classDetails as FormArray;
     let i = 0;
     
     while (i < deleteRow.length) {
@@ -150,13 +151,52 @@ export class AddClassComponent implements OnInit {
       );
     }
   }
-  save(){}
-  fetchDetails(countryCode: any): void {
-   
+  save(){
+    
+    if(this.docForm.valid){
+    this.classService.saveclass(this.docForm.value, this.router, this.notificationService);
+  }else{
+    this.matError.markFormGroupTouched(this.docForm);
+    this.notificationService.showNotification(
+      "snackbar-danger",
+      "Please fill the required details",
+      "top",
+      "right");
   }
-  
+  }
   update() {
+    const dtlArray = this.docForm.get('classDetails') as FormArray;
+    dtlArray.controls.forEach(control => {
+      control.get('code').enable();
+    });
+    if(this.docForm.valid){
+      this.classService.updateclass(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
+  }
 
+  fetchDetails(id: any): void {
+    this.httpService.get<any>(this.classService.editclass+"?id="+id).subscribe({next: (data: any) => {
+      let dtlArray = this.docForm.controls.classDetails as FormArray;
+      dtlArray.clear();
+      data.list.forEach((element, index) => {
+        let arraylen = dtlArray.length;
+        let newUsergroup: FormGroup = this.fb.group({
+          select:[""],
+          code: [element.code],
+          description:[element.description + ""]
+        })
+        dtlArray.insert(arraylen, newUsergroup);
+        newUsergroup.get('code').disable();
+      });
+      }, error: (err) => console.log(err)
+     });
 
   }
   cancel(){
