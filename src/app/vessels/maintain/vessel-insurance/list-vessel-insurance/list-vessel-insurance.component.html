@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Maintain Rank'" [items]="['Maintain']" [active_item]="'Maintain Rank List'">
+        <app-breadcrumb [title]="'Vessel Insurance'" [items]="['Vessel','Maintain']" [active_item]="'Vessel Insurance List'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -15,7 +15,7 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ms-0">
                         <li class="dropdown">
-                          <h2>MaintainRank</h2>
+                          <h2>Vessel Insurance</h2>
                         </li>
                         <li class="dropdown m-l-20">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -24,7 +24,7 @@
                         </li>
                         <li>
                           <div class="m-l-10" matTooltip="ADD">
-                            <button color="primary" type="button" class="btn-space"  [routerLink]="'/crew/maintain/maintain-rank/add-maintain-rank/0'" mat-raised-button>
+                            <button color="primary" type="button" class="btn-space" [routerLink]="'/vessels/maintain/vessel-insurance/add-vessel-insurance/0'" mat-raised-button>
                               <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Create New
                             </button>
                           </div>
@@ -39,8 +39,6 @@
                               (click)="exporter.exportTable('xlsx', {fileName:'GRN-list', sheet: 'sheet1'})" />
                           </div>
                         </li>
-                        
-                       
                         
                       </ul>
                     </div>
@@ -57,32 +55,7 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header>DESCRIPTION</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.description}}</mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="groupage">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>GROUPAGE</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.groupage}}
-                    </mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="oAndt">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>O/T</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.oAndt}}
-                    </mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="department">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>DEPARTMENT</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.department}}
-                    </mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="sno">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>S.code</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.sno}}
-                    </mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="remarks">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>REMARKS</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.remarks}}
-                    </mat-cell>
-                  </ng-container>
-             
+                  
                  
                  
                  
@@ -169,8 +142,8 @@
                   No results
                 </div>
                 <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
-                  [pageSizeOptions]="[5, 10, 25, 100]">
-                </mat-paginator>
+                [pageSizeOptions]="[5, 10, 25, 100]">
+              </mat-paginator>
               </div>
           </div>
         </div>

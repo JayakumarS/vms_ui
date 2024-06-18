@@ -14,45 +14,45 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { DeleteComponent } from 'src/app/master/country-master/list-country-master/dialog/delete/delete.component';
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { PAndIService } from '../p-and-i.service';
-import { pandi } from '../p-and-i.model';
-
+import { RankGroupService } from '../rank-group.service';
+import { RankGroup } from '../rank-group.model';
+import { DeleteComponent } from './delete/delete.component';
 
 @Component({
-  selector: 'app-list-p-and-i',
-  templateUrl: './list-p-and-i.component.html',
-  styleUrls: ['./list-p-and-i.component.sass']
+  selector: 'app-list-rank-group',
+  templateUrl: './list-rank-group.component.html',
+  styleUrls: ['./list-rank-group.component.sass']
 })
-export class ListPAndIComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class ListRankGroupComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns = [
    // "select",
     "code",
     "description",
+    "remarks",
     "actions"
   ];
 
   dataSource: ExampleDataSource | null;
-  exampleDatabase: PAndIService | null;
-  selection = new SelectionModel<pandi>(true, []);
+  exampleDatabase: RankGroupService | null;
+  selection = new SelectionModel<RankGroup>(true, []);
   index: number;
   id: number;
-  customerMaster: pandi | null;
+  customerMaster: RankGroup | null;
   permissionList: any=[];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public countryMasterService: PAndIService,
+    public RankGroupService: RankGroupService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
     public router: Router,
     private EncrDecr:EncrDecrService,
     private spinner: NgxSpinnerService,
-    private tokenStorageService : TokenStorageService,
+    private tokenStorageService : TokenStorageService
   ) {
     super();
   }
@@ -90,7 +90,7 @@ export class ListPAndIComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   public loadData() {
-    this.exampleDatabase = new PAndIService(this.httpClient,this.serverUrl,this.httpService);
+    this.exampleDatabase = new RankGroupService(this.httpClient,this.serverUrl,this.httpService);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -108,44 +108,68 @@ export class ListPAndIComponent extends UnsubscribeOnDestroyAdapter implements O
 
 
   editCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/add-CountryMaster/', encrypted]);
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
+   this.router.navigate(['/crew/maintain/rank-group/add-Rank-Group/', row.code]);
   }
 
   viewCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/viewCountryMaster/', encrypted]);
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+     this.router.navigate(['/crew/maintain/rank-group/view-Rank-Group/', row.code]);
   }
 
-  // deleteItem(i: number, row) {
-  //   this.index = i;
-  //   this.id = row.countryCode;
-  //   let tempDirection;
-  //   if (localStorage.getItem("isRtl") === "true") {
-  //     tempDirection = "rtl";
-  //   } else {
-  //     tempDirection = "ltr";
-  //   }
-  //   const dialogRef = this.dialog.open(DeleteComponent, {
-  //     height: "270px",
-  //     width: "400px",
-  //     data: row,
-  //     direction: tempDirection,
-  //   });
-  //   this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
-  //     this.loadData();
-  //   });
-  // }
+  deleteItem(row){
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
 
-  deleteItem(row){ 
-   
-    };
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      height: "270px",
+      width: "400px",
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+    if (data.data == true) {
+      this.spinner.show();
+      this.RankGroupService.delete(row.code).subscribe({
+        next: (data) => {
+          this.spinner.hide();
+          if (data.success) {
+            this.loadData();
+            this.showNotification(
+              "snackbar-success",
+              "Record Deleted",
+              "bottom",
+              "center"
+            );
+          }
+          else{
+            this.showNotification(
+              "snackbar-danger",
+              "Error in save",
+              "bottom",
+              "center"
+            );
+          }
+        },
+        error: (error) => {
+          this.spinner.hide();
+        }
+      });
+    }else{
+      //this.loadData();
+    }
+    })
+  }
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
 // context menu
-  onContextMenu(event: MouseEvent, item: pandi) {
+  onContextMenu(event: MouseEvent, item: RankGroup) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + "px";
     this.contextMenuPosition.y = event.clientY + "px";
@@ -164,7 +188,7 @@ export class ListPAndIComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 }
 
-export class ExampleDataSource extends DataSource<pandi> {
+export class ExampleDataSource extends DataSource<RankGroup> {
   filterChange = new BehaviorSubject("");
   get filter(): string {
     return this.filterChange.value;
@@ -172,10 +196,10 @@ export class ExampleDataSource extends DataSource<pandi> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: pandi[] = [];
-  renderedData: pandi[] = [];
+  filteredData: RankGroup[] = [];
+  renderedData: RankGroup[] = [];
   constructor(
-    public exampleDatabase: PAndIService,
+    public exampleDatabase: RankGroupService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -184,7 +208,7 @@ export class ExampleDataSource extends DataSource<pandi> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<pandi[]> {
+  connect(): Observable<RankGroup[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -198,11 +222,13 @@ export class ExampleDataSource extends DataSource<pandi> {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((pandi: pandi) => {
+          .filter((RankGroup: RankGroup) => {
             const searchStr = (
-              pandi.code +
-              pandi.description 
-             
+              RankGroup.code +
+              RankGroup.description +
+              RankGroup.remarks 
+
+              
 
              
             ).toLowerCase();
@@ -222,7 +248,7 @@ export class ExampleDataSource extends DataSource<pandi> {
   }
   disconnect() {}
   /** Returns a sorted copy of the database data. */
-  sortData(data: pandi[]): pandi[] {
+  sortData(data: RankGroup[]): RankGroup[] {
     if (!this._sort.active || this._sort.direction === "") {
       return data;
     }
@@ -230,15 +256,18 @@ export class ExampleDataSource extends DataSource<pandi> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-      
+        
         case "code":
           [propertyA, propertyB] = [a.code, b.code];
           break;
         case "description":
           [propertyA, propertyB] = [a.description, b.description];
           break;
-        ;
-
+        
+          case "remarks":
+            [propertyA, propertyB] = [a.remarks, b.remarks];
+            break;
+          
         
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

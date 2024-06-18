@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'P & I'" [items]="['Vessel','Maintain']" [active_item]="'P & I List'">
+        <app-breadcrumb [title]="'Rank Group'" [items]="['Crew','Maintain']" [active_item]="'Rank Group List'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -15,9 +15,8 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ms-0">
                         <li class="dropdown">
-                          <h2>P & I</h2>
+                          <h2>Rank Group</h2>
                         </li>
-                        
                         <li class="dropdown m-l-20">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
                           <input placeholder="Search" type="text" #filter class="browser-default search-field"
@@ -25,7 +24,7 @@
                         </li>
                         <li>
                           <div class="m-l-10" matTooltip="ADD">
-                            <button color="primary" type="button" class="btn-space" [routerLink]="'/vessels/maintain/p-and-i/add-p-and-i/0'" mat-raised-button>
+                            <button color="primary" type="button" class="btn-space" [routerLink]="'/crew/maintain/rank-group/add-Rank-Group/0'" mat-raised-button>
                               <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Create New
                             </button>
                           </div>
@@ -40,21 +39,7 @@
                               (click)="exporter.exportTable('xlsx', {fileName:'GRN-list', sheet: 'sheet1'})" />
                           </div>
                         </li>
-                        <li>
-                          <div class="export-button m-l-10" matTooltip="CSV">
-                            <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv',{fileName:'GRN-list'})" />
-                          </div>
-                        </li>
-                        <li>
-                          <div class="export-button m-l-10" matTooltip="JSON">
-                            <img src="assets/images/icons/json.png" alt="" (click)="exporter.exportTable('json',{fileName:'GRN-list'})" />
-                          </div>
-                        </li>
-                        <li>
-                          <div class="export-button m-l-10" matTooltip="TXT">
-                            <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt',{fileName:'GRN-list'})" />
-                          </div>
-                        </li>
+                        
                       </ul>
                     </div>
                   </div>
@@ -71,25 +56,28 @@
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.description}}</mat-cell>
                   </ng-container>
                   
-                 
+                  <ng-container matColumnDef="remarks">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>REMARKS</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.remarks}}</mat-cell>
+                  </ng-container>
                  
                  
                   <!-- actions -->
-                  <ng-container matColumnDef="actions">
-                    <mat-header-cell class="pr-0" *matHeaderCellDef>ACTIONS</mat-header-cell>
+                  <ng-container matColumnDef="actions" class="col-lg-12 col-md-2">
+                    <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                      <button *ngIf="permissionList?.modify" matTooltip="EDIT" mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
+                      <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
                         class="tbl-action-btn">
                         <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                       </button>
-                      <button *ngIf="permissionList?.delete" matTooltip="DELETE" mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                      <button mat-icon-button (click)="$event.stopPropagation()"
+                          (click)="viewCall(row)" class="tbl-action-btn">
+                      <i class="fa fa-eye" style="color:#33b91f;" aria-hidden="true"></i>
+                    </button>
+                      <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
                         (click)="deleteItem(row)" class="tbl-action-btn">
                         <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
                       </button>
-                      <button *ngIf="permissionList?.view" matTooltip="VIEW" mat-icon-button  (click)="$event.stopPropagation()" (click)="viewCall(row)"
-                      class="tbl-action-btn">
-                      <i class="fa fa-eye" style="color:#33b91f;"aria-hidden="true"></i> 
-                    </button>
                     </mat-cell>
                   </ng-container>
   
@@ -157,8 +145,8 @@
                   No results
                 </div>
                 <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
-                  [pageSizeOptions]="[5, 10, 25, 100]">
-                </mat-paginator>
+                [pageSizeOptions]="[5, 10, 25, 100]">
+              </mat-paginator>
               </div>
           </div>
         </div>

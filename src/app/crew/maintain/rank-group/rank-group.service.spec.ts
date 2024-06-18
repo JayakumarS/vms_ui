@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PAndIService } from './p-and-i.service';
+import { RankGroupService } from './rank-group.service';
 
-describe('PAndIService', () => {
-  let service: PAndIService;
+describe('RankGroupService', () => {
+  let service: RankGroupService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PAndIService);
+    service = TestBed.inject(RankGroupService);
   });
 
   it('should be created', () => {

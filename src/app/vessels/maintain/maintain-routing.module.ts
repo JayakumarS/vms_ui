@@ -28,9 +28,9 @@ const routes: Routes = [
       import("./wage-scales/wage-scales.module").then((m) => m.WageScalesModule),
   },
   {
-    path: "p-and-i",
+    path: "vessel-insurance",
     loadChildren: () =>
-      import("./p-and-i/p-and-i.module").then((m) => m.PAndIModule),
+      import("./vessel-insurance/vessel-insurance.module").then((m) => m.VesselInsuranceModule),
   },
   {
     path: "fd-and-d",

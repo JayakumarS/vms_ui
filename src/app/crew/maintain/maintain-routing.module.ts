@@ -31,6 +31,12 @@ const routes: Routes = [
     path: "crew-ticketing",
     loadChildren: () =>
       import("./crew-ticketing/crew-ticketing.module").then((m) => m.CrewTicketingModule),
+  },
+
+  {
+    path: "rank-group",
+    loadChildren: () =>
+      import("./rank-group/rank-group.module").then((m) => m.RankGroupModule),
   }
 ];
 

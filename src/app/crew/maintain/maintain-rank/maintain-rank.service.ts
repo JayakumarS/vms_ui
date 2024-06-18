@@ -27,20 +27,17 @@ export class MaintainRankService extends UnsubscribeOnDestroyAdapter{
   constructor(private httpClient: HttpClient, private serverUrl: serverLocations, private httpService: HttpServiceService) {
     super();
   }
-  private getAllMasters = `${this.serverUrl.apiServerAddress}app/countryMaster/getList`;
-  private saveCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/save`;
-  public deleteCountryUrl = `${this.serverUrl.apiServerAddress}app/countryMaster/delete`;
-  public editCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/edit`;
-  public updateCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/update`;
-  public currencyListUrl = `${this.serverUrl.apiServerAddress}app/currencyMaster/getList`;
-  public editcountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/getCode`;
-  public validateCusShortNameUrl = `${this.serverUrl.apiServerAddress}app/common/commonServices/validateUnique`;
-  public viewCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/view`;
-  public savePrePlan = `${this.serverUrl.apiServerAddress}app/countryMaster/savePrePlan`;
-  public updatePreplanCal = `${this.serverUrl.apiServerAddress}app/countryMaster/updatePreplan`;
-  public deleteEventCal = `${this.serverUrl.apiServerAddress}app/countryMaster/deleteEventCal`;
-  public editEventDetail = `${this.serverUrl.apiServerAddress}app/countryMaster/editEventDetail`;
 
+
+  public saveUrl = `${this.serverUrl.apiServerAddress}api/crew/maintainRank/save`;
+  public listUrl = `${this.serverUrl.apiServerAddress}api/crew/maintainRank/list`;
+  public editUrl = `${this.serverUrl.apiServerAddress}api/crew/maintainRank/edit`;
+  public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/maintainRank/delete`;
+  public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/maintainRank/update`;
+  public getdepartment = `${this.serverUrl.apiServerAddress}api/crew/maintainRank/getdepartment`;
+  public getgrouppage = `${this.serverUrl.apiServerAddress}api/crew/maintainRank/getgrouppage`;
+
+  
   get data(): MaintainRank[] {
     return this.dataChange.value;
   }
@@ -49,83 +46,61 @@ export class MaintainRankService extends UnsubscribeOnDestroyAdapter{
   }
   
   getList() {
-    // Define the type for the list
-    let list: MaintainRank[] = [
-      {
-        code: "MAS",
-        description: "Master",
-        groupage: "Senior Officer",
-        ot: "yes",
-        department: "Deck",
-        sno: "1",
-        remarks: "Master",
-        id:""
-      }
-    ];
-  
-    // Set loading to false initially
-    this.isTblLoading = false;
-  
-    // Update the dataChange subject with the list
-    this.dataChange.next(list);
-  
-    // Uncomment and define value and url for future API requests
-    // let value = {}; // Define the payload for the POST request
-    // let url = 'your-api-endpoint'; // Replace with the actual API endpoint
-  
-    // If you plan to fetch data from an API, uncomment the code below
-    /*
-    this.isTblLoading = true; // Set loading to true while fetching data
-    this.subs.sink = this.httpService.post<MaintainRank[]>(url, value).subscribe(
-      (data) => {
+    this.isTblLoading = true; 
+    this.httpService.get<any>(this.listUrl).subscribe({next: (data: any) => {
         this.isTblLoading = false;
-        this.dataChange.next(data);
-      },
-      (error: HttpErrorResponse) => {
-        this.isTblLoading = false;
-        console.log(error.name + " " + error.message);
-      }
-    );
-    */
+        this.dataChange.next(data.list);
+      }, error: (err) => console.log(err)
+     });
   }
   
 
-  
- 
-  
-  
-  // deleteEmployees(countryCode : any,router,notificationService): void {
-  //    this.httpService.get<CountryMaster>(this.deleteCountryUrl+"?countryCode="+countryCode).subscribe(data => {
-  //     console.log(countryCode);
-  //     if(data.Success===true){
-  //       notificationService.showNotification(
-  //         "snackbar-success",
-  //         "Deleted Record Successfully...!!!",
-  //         "bottom",
-  //         "center"
-  //       );
-  //       router.navigate(['/master/country-Master/list-CountryMaster']);
-  //     }
-  //     else if(data.Success===false){
-  //       notificationService.showNotification(
-  //         "snackbar-danger",
-  //         "Error in delete...!!!",
-  //         "bottom",
-  //         "center"
-  //       );
-  //     }
 
-  //     },
-  //     (err: HttpErrorResponse) => {
-  //        // error code here
-  //     }
-  //   );
-  // }
+  saveRank(MaintainRank: MaintainRank, router, notificationService){
+    this.httpService.post<MaintainRank>(this.saveUrl, MaintainRank).subscribe({next: (data: any) => {
+     if (data.success == true) {
+       notificationService.showNotification(
+         "snackbar-success",
+         "Record Added Successfully",
+         "bottom",
+         "center"
+       );
+       router.navigate(['/crew/maintain/maintain-rank/list-maintain-rank']);
+     }else{
+       notificationService.showNotification(
+         "snackbar-danger",
+         "Not Updated",
+         "bottom",
+         "center"
+       );
+     }
+     }, error: (err) => console.log(err)
+    });
+ }
 
-  getCurrencyList() {
-   
-   
-  }
+ updateRank(MaintainRank: MaintainRank, router, notificationService){
+  this.httpService.post<MaintainRank>(this.updateUrl, MaintainRank).subscribe({next: (data: any) => {
+    if (data.success == true) {
+      notificationService.showNotification(
+        "snackbar-success",
+        "Record Updated Successfully",
+        "bottom",
+        "center"
+      );
+      router.navigate(['/crew/maintain/maintain-rank/list-maintain-rank']);
+    }else{
+      notificationService.showNotification(
+        "snackbar-danger",
+        "Not Updated",
+        "bottom",
+        "center"
+      );
+    }
+    }, error: (err) => console.log(err)
+   });
+}
+delete(id){
+  return this.httpClient.get<any>(this.deleteUrl + "?id=" + id);
+}
 
- 
 }

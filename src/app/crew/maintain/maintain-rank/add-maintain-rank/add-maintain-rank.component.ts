@@ -1,6 +1,6 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { CountryMasterService } from 'src/app/master/country-master/country-master.service';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
@@ -14,7 +14,8 @@ import { MaintainRank } from '../maintain-rank.model';
 import { MaintainRankResultBean } from '../maintain-rank-result-bean';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
-
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
+import { MaintainRankService } from '../maintain-rank.service';
 @Component({
   selector: 'app-add-maintain-rank',
   templateUrl: './add-maintain-rank.component.html',
@@ -49,44 +50,38 @@ export class AddMaintainRankComponent implements OnInit {
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public countryMasterService: CountryMasterService,
+    public MaintainRankService: MaintainRankService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
     private serverUrl:serverLocations,
     private encryptionService:EncryptionService,
-    public snackBar: MatSnackBar) { 
+    public snackBar: MatSnackBar,public matError : MatErrorService) { 
 
     this.docForm = this.fb.group({
-      // first: ["", [Validators.required, Validators.pattern("[a-zA-Z]+")]],
-      code: ["", [Validators.required]],
-      description: ["", [Validators.required]],
-      groupage: ["", [Validators.required]],
-      
-      isActive:["true"],
+
+      maintainRankBeanDtls: this.fb.array([
+        this.fb.group({
+      select: [""],
+      code: [""],
+      description: [""],
+      groupage: [""],
+      oAndt: [""],
+      department: [""],
+      sno: 1,
+      remarks:[""],
+    })
+  ]),
     });
 
   }
   
    ngOnInit() {
     
-     // Currency list dropdown
-    this.httpService.get<MaintainRankResultBean>(this.countryMasterService.currencyListUrl).subscribe(
-      // //  (data) => {
-      // //    this.currencyList = data.currencyList;
-      // //    this.currtmpList=data.currencyList;
-      // //  },
-      //  (error: HttpErrorResponse) => {
-      //   //  console.log(error.name + " " + error.message);
-      //  }
-     );
-
-     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
+    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
       this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
-       this.edit=true;
-       //For User login Editable mode
-       this.fetchDetails(this.requestId) ;
-
+        this.edit=true;
+        this.fetchDetails(this.decryptRequestId) ;
       }
      });
 
@@ -96,18 +91,28 @@ export class AddMaintainRankComponent implements OnInit {
        this.filtergroupage();
      });
    
-     this.groupagelist = [
-       { id: "junior officer", text: "junior officer" },
-       { id: " officer", text: "  officer" },
-       {  id: "petty officer", text: "petty officer"},
-       {  id: "senior officer", text: "senior officer"},
-       {  id: "SuperNumerary", text: "SuperNumerary"},
-       {  id: "Trainee", text: "Trainee"},
-       {  id: "Visitor", text: "Visitor"}
-     ];
-     
 
-     this.groupageFilteredOptions.next(this.groupagelist.slice());
+     this.groupagelist = [
+      { id: "g1", text: "junior officer" },
+      { id: "g2", text: "  officer" },
+      {  id: "g3", text: "petty officer"},
+      {  id: "g4", text: "senior officer"},
+      {  id: "g5", text: "SuperNumerary"},
+      {  id: "g6", text: "Trainee"},
+      {  id: "g7", text: "Visitor"}
+
+    ];
+      
+    //  this.httpService.get<any>(this.MaintainRankService.getgrouppage).subscribe((res: any) => {
+
+    //   this.groupagelist = res;
+
+      this.groupageFilteredOptions.next(this.groupagelist.slice());
+        // });
+
+
+        
+     
 
 
      this.departmentFilterCtrl.valueChanges
@@ -116,22 +121,94 @@ export class AddMaintainRankComponent implements OnInit {
        this.filterdepartment();
      });
    
-     this.departmentlist = [
-       { id: "deck", text: "deck" },
-       { id: " engine", text: " engine" },
-       {  id: "catering", text: "catering"},
-       {  id: "others", text: "others"},
-     
-     ];
-     
+ 
+     this.httpService.get<any>(this.MaintainRankService.getdepartment).subscribe((res: any) => {
 
-     this.departmentFilteredOptions.next(this.departmentlist.slice());
+      this.departmentlist = res;
+
+      this.departmentFilteredOptions.next(this.departmentlist.slice());
+    });
+
+
+
+   }
+   update() {
+
+    const dtlArray = this.docForm.get('maintainRankBeanDtls') as FormArray;
+    dtlArray.controls.forEach(control => {
+      control.get('code').enable();
+    });
+    if(this.docForm.valid){
+      this.MaintainRankService.updateRank(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
+
+  }
+
+   save(){
+    if(this.docForm.valid){
+      this.MaintainRankService.saveRank(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
 
 
    }
 
-   save(){}
 
+   addRow(){
+    let rankdetailDtlArray=this.docForm.controls.maintainRankBeanDtls as FormArray;
+    let arraylen=rankdetailDtlArray.length;
+    var len = this.docForm.controls["maintainRankBeanDtls"].value.length;
+
+    let newUsergroup:FormGroup = this.fb.group({
+      select: [""],
+      code: [""],
+      description: [""],
+      groupage: [""],
+      oAndt: [""],
+      department: [""],
+      sno: 1 + len,
+      remarks:[""],
+    })
+    rankdetailDtlArray.insert(arraylen,newUsergroup);
+  }
+
+   removeRow(){
+    let count = 0;
+    const deleteRow = this.docForm.controls.maintainRankBeanDtls as FormArray;
+    let i = 0;
+    
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
+        deleteRow.removeAt(i);
+        count++;
+      } else {
+        i++;
+      }
+    }
+
+    if(count == 0){
+      this.showNotification(
+        "snackbar-danger",
+        "Please select atleast one row",
+        "top",
+        "right"
+      );
+    }
+
+  }
    cancel(){
      this.router.navigate(['/crew/maintain/maintain-rank/list-maintain-rank']);
    }
@@ -170,40 +247,31 @@ export class AddMaintainRankComponent implements OnInit {
       this.departmentlist.filter(title => title.text.toLowerCase().includes(search))
     );
    }
-  fetchDetails(countryCode: any): void {
-    this.httpService.get(this.countryMasterService.editCountryMaster + "?countryMaster="+encodeURIComponent(this.encryptionService.encryptAesToString(countryCode, this.serverUrl.secretKey).toString())).subscribe((res: any) => {
-      // console.log(countryCode);
-
-      this.docForm.patchValue({
-        'countryCode': res.countryMasterBean.countryCode,
-        'countryName': res.countryMasterBean.countryName,
-        'currency': res.countryMasterBean.currency,
-        'clientType': res.countryMasterBean.clientType,
-        'isActive': res.countryMasterBean.isActive,
-      })
-    },
-      (err: HttpErrorResponse) => {
-        // error code here
-      }
-    );
-    /*  this.httpClient.delete(this.API_URL + id).subscribe(data => {
-      console.log(id);
-      },
-      (err: HttpErrorResponse) => {
-         // error code here
-      }
-    );*/
+  fetchDetails(id: any): void {
+    this.httpService.get<any>(this.MaintainRankService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+      let dtlArray = this.docForm.controls.maintainRankBeanDtls as FormArray;
+      dtlArray.clear();
+      data.list.forEach((element, index) => {
+        let arraylen = dtlArray.length;
+        let newUsergroup: FormGroup = this.fb.group({
+          select:[""],
+          code: [element.code],
+          description:[element.description + ""],
+          groupage: [element.groupage],
+          department:[element.department],
+          oAndt: [element.oAndt.toString()],
+          sno:[element.sno],
+          remarks:[element.remarks]
+        })
+        dtlArray.insert(arraylen, newUsergroup);
+        newUsergroup.get('code').disable();
+      });
+      }, error: (err) => console.log(err)
+     });
+  
   }
   
-  update() {
 
-    
-
-  }
-
-  // onCancel(){
-  //   this.router.navigate(['/crew/maintain/maintain-rank/list-maintain-rank']);
-  // }
 
   getmastrcurr(){
     
@@ -262,13 +330,7 @@ export class AddMaintainRankComponent implements OnInit {
     });
   }
   validateCountry(event){
-    this.httpService.get<any>(this.countryMasterService.validateCusShortNameUrl+ "?tableName=" +"country"+"&columnName="+"country_code"+"&columnValue="+event).subscribe((res: any) => {
-      if(res){
-        this.docForm.controls['countryCode'].setErrors({ country: true });
-      }else{
-        this.docForm.controls['countryCode'].setErrors(null);
-      }
-    });
+   
   }
 
 }

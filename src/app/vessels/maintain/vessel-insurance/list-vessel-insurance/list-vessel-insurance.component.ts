@@ -1,6 +1,4 @@
-
-
-  import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from "@angular/material/dialog";
@@ -19,45 +17,41 @@ import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { MaintainRankService } from '../maintain-rank.service';
-import { MaintainRank } from '../maintain-rank.model';
+import { VesselInsuranceService } from '../vessel-insurance.service';
+import { VesselInsurance } from '../vessel-Insurance.model';
 import { DeleteComponent } from './delete/delete.component';
+
 @Component({
-  selector: 'app-list-maintain-rank',
-  templateUrl: './list-maintain-rank.component.html',
-  styleUrls: ['./list-maintain-rank.component.sass']
+  selector: 'app-list-vessel-insurance',
+  templateUrl: './list-vessel-insurance.component.html',
+  styleUrls: ['./list-vessel-insurance.component.sass']
 })
-export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class ListVesselInsuranceComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns = [
    // "select",
     "code",
     "description",
-    "groupage",
-    "oAndt",
-    "department",
-    "sno",
-    "remarks",
     "actions"
   ];
 
   dataSource: ExampleDataSource | null;
-  exampleDatabase: MaintainRankService | null;
-  selection = new SelectionModel<MaintainRank>(true, []);
+  exampleDatabase: VesselInsuranceService | null;
+  selection = new SelectionModel<VesselInsurance>(true, []);
   index: number;
   id: number;
-  customerMaster: MaintainRank | null;
+  customerMaster: VesselInsurance | null;
   permissionList: any=[];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public MaintainRankService: MaintainRankService,
+    public VesselInsuranceService: VesselInsuranceService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
     public router: Router,
     private EncrDecr:EncrDecrService,
     private spinner: NgxSpinnerService,
-    private tokenStorageService : TokenStorageService,
+    private tokenStorageService : TokenStorageService
   ) {
     super();
   }
@@ -95,7 +89,7 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
   }
 
   public loadData() {
-    this.exampleDatabase = new MaintainRankService(this.httpClient,this.serverUrl,this.httpService);
+    this.exampleDatabase = new VesselInsuranceService(this.httpClient,this.serverUrl,this.httpService);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -113,32 +107,14 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
 
 
   editCall(row) {
-    this.router.navigate(['/crew/maintain/maintain-rank/add-maintain-rank/', row.code]);
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
+    this.router.navigate(['/vessels/maintain/vessel-insurance/add-vessel-insurance/', row.code]);
   }
 
   viewCall(row) {
-    this.router.navigate(['/crew/maintain/maintain-rank/view-maintain-rank/', row.code]);
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    this.router.navigate(['/vessels/maintain/vessel-insurance/view-vessel-insurance/', row.code]);
   }
-
-  // deleteItem(i: number, row) {
-  //   this.index = i;
-  //   this.id = row.countryCode;
-  //   let tempDirection;
-  //   if (localStorage.getItem("isRtl") === "true") {
-  //     tempDirection = "rtl";
-  //   } else {
-  //     tempDirection = "ltr";
-  //   }
-  //   const dialogRef = this.dialog.open(DeleteComponent, {
-  //     height: "270px",
-  //     width: "400px",
-  //     data: row,
-  //     direction: tempDirection,
-  //   });
-  //   this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
-  //     this.loadData();
-  //   });
-  // }
 
   deleteItem(row){
     let tempDirection;
@@ -157,7 +133,7 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.MaintainRankService.delete(row.code).subscribe({
+      this.VesselInsuranceService.delete(row.code).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {
@@ -192,7 +168,7 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
     this.paginator._changePageSize(this.paginator.pageSize);
   }
 // context menu
-  onContextMenu(event: MouseEvent, item: MaintainRank) {
+  onContextMenu(event: MouseEvent, item: VesselInsurance) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + "px";
     this.contextMenuPosition.y = event.clientY + "px";
@@ -211,7 +187,7 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
   }
 }
 
-export class ExampleDataSource extends DataSource<MaintainRank> {
+export class ExampleDataSource extends DataSource<VesselInsurance> {
   filterChange = new BehaviorSubject("");
   get filter(): string {
     return this.filterChange.value;
@@ -219,10 +195,10 @@ export class ExampleDataSource extends DataSource<MaintainRank> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: MaintainRank[] = [];
-  renderedData: MaintainRank[] = [];
+  filteredData: VesselInsurance[] = [];
+  renderedData: VesselInsurance[] = [];
   constructor(
-    public exampleDatabase: MaintainRankService,
+    public exampleDatabase: VesselInsuranceService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -231,7 +207,7 @@ export class ExampleDataSource extends DataSource<MaintainRank> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<MaintainRank[]> {
+  connect(): Observable<VesselInsurance[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -245,13 +221,11 @@ export class ExampleDataSource extends DataSource<MaintainRank> {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((maintain: MaintainRank) => {
+          .filter((VesselInsurance: VesselInsurance) => {
             const searchStr = (
-              maintain.code +
-              maintain.description +
-              maintain.groupage +
-              maintain.oAndt +
-              maintain.department 
+              VesselInsurance.code +
+              VesselInsurance.description 
+             
 
              
             ).toLowerCase();
@@ -271,7 +245,7 @@ export class ExampleDataSource extends DataSource<MaintainRank> {
   }
   disconnect() {}
   /** Returns a sorted copy of the database data. */
-  sortData(data: MaintainRank[]): MaintainRank[] {
+  sortData(data: VesselInsurance[]): VesselInsurance[] {
     if (!this._sort.active || this._sort.direction === "") {
       return data;
     }
@@ -279,23 +253,12 @@ export class ExampleDataSource extends DataSource<MaintainRank> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-        case "id":
-          [propertyA, propertyB] = [a.id, b.id];
-          break;
+        
         case "code":
           [propertyA, propertyB] = [a.code, b.code];
           break;
         case "description":
           [propertyA, propertyB] = [a.description, b.description];
-          break;
-        case "groupage":
-          [propertyA, propertyB] = [a.groupage, b.groupage];
-          break;
-          case "oAndt":
-          [propertyA, propertyB] = [a.oAndt, b.oAndt];
-          break;
-          case "department":
-          [propertyA, propertyB] = [a.department, b.department];
           break;
         
 

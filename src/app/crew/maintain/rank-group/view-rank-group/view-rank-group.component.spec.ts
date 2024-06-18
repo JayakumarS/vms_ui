@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddPAndIComponent } from './add-p-and-i.component';
+import { ViewRankGroupComponent } from './view-rank-group.component';
 
-describe('AddPAndIComponent', () => {
-  let component: AddPAndIComponent;
-  let fixture: ComponentFixture<AddPAndIComponent>;
+describe('ViewRankGroupComponent', () => {
+  let component: ViewRankGroupComponent;
+  let fixture: ComponentFixture<ViewRankGroupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddPAndIComponent ]
+      declarations: [ ViewRankGroupComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddPAndIComponent);
+    fixture = TestBed.createComponent(ViewRankGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

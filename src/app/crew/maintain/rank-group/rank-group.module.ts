@@ -1,64 +1,60 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MaintainRankRoutingModule } from './maintain-rank-routing.module';
-import { AddMaintainRankComponent } from './add-maintain-rank/add-maintain-rank.component';
-import { NotificationService } from 'src/app/core/service/notification.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatTableModule } from "@angular/material/table";
-import { MatPaginatorModule } from "@angular/material/paginator";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatSelectModule } from "@angular/material/select";
-import { MatDialogModule } from "@angular/material/dialog";
-import { MatMenuModule } from "@angular/material/menu";
-import { MatSortModule } from "@angular/material/sort";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatTabsModule } from "@angular/material/tabs";
-import { MatTooltipModule } from "@angular/material/tooltip";
-import { MatTableExporterModule } from "mat-table-exporter";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { ComponentsModule } from "src/app/shared/components/components.module";
-import { SharedModule } from "src/app/shared/shared.module";
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import { ListMaintainRankComponent } from './list-maintain-rank/list-maintain-rank.component';
+import { RankGroupRoutingModule } from './rank-group-routing.module';
+import { AddRankGroupComponent } from './add-rank-group/add-rank-group.component';
+import { ListRankGroupComponent } from './list-rank-group/list-rank-group.component';
 import { A11yModule } from '@angular/cdk/a11y';
 import { PortalModule } from '@angular/cdk/portal';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CdkTableModule } from '@angular/cdk/table';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTableExporterModule } from 'mat-table-exporter';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CountryMasterRoutingModule } from 'src/app/master/country-master/country-master-routing.module';
-import { ViewMaintainRankComponent } from './view-maintain-rank/view-maintain-rank.component';
-import { DeleteComponent } from './list-maintain-rank/delete/delete.component';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { DeleteComponent } from './list-rank-group/delete/delete.component';
+import { ViewRankGroupComponent } from './view-rank-group/view-rank-group.component';
 
 
 @NgModule({
   declarations: [
-    ListMaintainRankComponent,
-    AddMaintainRankComponent,
-    ViewMaintainRankComponent,
-    DeleteComponent
-  ],
-  providers: [
-    NotificationService
+    AddRankGroupComponent,
+    ListRankGroupComponent,
+    DeleteComponent,
+    ViewRankGroupComponent
   ],
   imports: [
     CommonModule,
-    MaintainRankRoutingModule,
+    RankGroupRoutingModule,
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
@@ -212,6 +208,4 @@ import { DeleteComponent } from './list-maintain-rank/delete/delete.component';
       MatAutocompleteModule
   ]
 })
-export class MaintainRankModule { 
-
-}
+export class RankGroupModule { }

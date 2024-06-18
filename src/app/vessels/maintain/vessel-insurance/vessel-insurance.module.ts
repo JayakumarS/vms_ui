@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PAndIRoutingModule } from './p-and-i-routing.module';
-import { AddPAndIComponent } from './add-p-and-i/add-p-and-i.component';
-import { ListPAndIComponent } from './list-p-and-i/list-p-and-i.component';
+import { VesselInsuranceRoutingModule } from './vessel-insurance-routing.module';
+import { AddVesselInsuranceComponent } from './add-vessel-insurance/add-vessel-insurance.component';
+import { ListVesselInsuranceComponent } from './list-vessel-insurance/list-vessel-insurance.component';
 import { A11yModule } from '@angular/cdk/a11y';
 import { PortalModule } from '@angular/cdk/portal';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -41,16 +41,20 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { CountryMasterRoutingModule } from 'src/app/master/country-master/country-master-routing.module';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { DeleteComponent } from './list-vessel-insurance/delete/delete.component';
+import { ViewVesselInsuranceComponent } from './view-vessel-insurance/view-vessel-insurance.component';
 
 
 @NgModule({
   declarations: [
-    AddPAndIComponent,
-    ListPAndIComponent
+    AddVesselInsuranceComponent,
+    ListVesselInsuranceComponent,
+    DeleteComponent,
+    ViewVesselInsuranceComponent
   ],
   imports: [
     CommonModule,
-    PAndIRoutingModule,
+    VesselInsuranceRoutingModule,
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
@@ -204,4 +208,4 @@ import { SharedModule } from 'src/app/shared/shared.module';
       MatAutocompleteModule
   ]
 })
-export class PAndIModule { }
+export class VesselInsuranceModule { }

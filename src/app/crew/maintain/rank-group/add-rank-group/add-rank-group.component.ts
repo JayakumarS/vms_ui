@@ -10,14 +10,15 @@ import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { pandi } from '../p-and-i.model';
-import { PAndIService } from '../p-and-i.service';
+import { RankGroupService } from '../rank-group.service';
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
+import { RankGroup } from '../rank-group.model';
 @Component({
-  selector: 'app-add-p-and-i',
-  templateUrl: './add-p-and-i.component.html',
-  styleUrls: ['./add-p-and-i.component.sass']
+  selector: 'app-add-rank-group',
+  templateUrl: './add-rank-group.component.html',
+  styleUrls: ['./add-rank-group.component.sass']
 })
-export class AddPAndIComponent implements OnInit {
+export class AddRankGroupComponent implements OnInit {
 
   
   public itemRevenueExpFilterCtrl: FormControl = new FormControl();
@@ -50,7 +51,7 @@ export class AddPAndIComponent implements OnInit {
 
 
   docForm: FormGroup;
-  pandi: pandi;
+  RankGroup: RankGroup;
   currencyList=[];
   edit:boolean=false;
   // oldPwd: boolean=false;
@@ -70,26 +71,27 @@ export class AddPAndIComponent implements OnInit {
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public PAndIService: PAndIService,
+    public RankGroupService: RankGroupService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
     private serverUrl:serverLocations,
     private encryptionService:EncryptionService,
-    public snackBar: MatSnackBar) { 
+    public snackBar: MatSnackBar,
+    public matError : MatErrorService) { 
 
 
     this.docForm = this.fb.group({
   
 
 
-      pandiDetails: this.fb.array([
+      rankGroupDtls: this.fb.array([
         this.fb.group({
-       
+          sort : 1,
           select:[""],
-          code:[""],
+          code: ["", Validators.required],
           description:[""],
-          
+          remarks:[""],
         })
       ]),
     });
@@ -98,42 +100,40 @@ export class AddPAndIComponent implements OnInit {
   }
   
    ngOnInit() {
-    
-
      this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
       this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
-       this.edit=true;
-       //For User login Editable mode
-       this.fetchDetails(this.requestId) ;
-
+        this.edit=true;
+        this.fetchDetails(this.decryptRequestId) ;
       }
      });
-
     }
+
+    get rowDtls() {
+      return this.docForm.get('rankGroupDtls') as FormArray;
+    }
+  
+    getControl(index: number,name:any) {
+      return this.rowDtls.at(index).get([name]);
+    }
+
    addRow(){
-    let pandiDetailsDtlArray=this.docForm.controls.pandiDetails as FormArray;
-    let arraylen=pandiDetailsDtlArray.length;
-    var len = this.docForm.controls["pandiDetails"].value.length;
+    let rankGroupDtlsDtlArray=this.docForm.controls.rankGroupDtls as FormArray;
+    let arraylen=rankGroupDtlsDtlArray.length;
+    var len = this.docForm.controls["rankGroupDtls"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
       sort : 1 + len,
       select: [""],
-      code:[""],
+      code: ["", Validators.required],
       description:[""],
-      
+      remarks:[""],
     })
-    pandiDetailsDtlArray.insert(arraylen,newUsergroup);
+    rankGroupDtlsDtlArray.insert(arraylen,newUsergroup);
   }
-  save(){}
-
-  cancel(){
-    this.router.navigate(['/vessels/maintain/p-and-i/list-p-and-i/']);
-  }
-
 
   removeRow(){
     let count = 0;
-    const deleteRow = this.docForm.controls.pandiDetails as FormArray;
+    const deleteRow = this.docForm.controls.rankGroupDtls as FormArray;
     let i = 0;
     
     while (i < deleteRow.length) {
@@ -154,21 +154,58 @@ export class AddPAndIComponent implements OnInit {
       );
     }
   }
-  onSubmit(){
 
-  }
-  fetchDetails(countryCode: any): void {
-   
+  fetchDetails(id){
+    this.httpService.get<any>(this.RankGroupService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+      let dtlArray = this.docForm.controls.rankGroupDtls as FormArray;
+      dtlArray.clear();
+      data.list.forEach((element, index) => {
+        let arraylen = dtlArray.length;
+        let newUsergroup: FormGroup = this.fb.group({
+          select:[""],
+          code: [element.code],
+          description:[element.description + ""],
+          remarks: [element.remarks],
+
+        })
+        dtlArray.insert(arraylen, newUsergroup);
+        newUsergroup.get('code').disable();
+      });
+      }, error: (err) => console.log(err)
+     });
   }
   
   update() {
-
-
+    const dtlArray = this.docForm.get('rankGroupDtls') as FormArray;
+    dtlArray.controls.forEach(control => {
+      control.get('code').enable();
+    });
+    if(this.docForm.valid){
+      this.RankGroupService.updateVesselType(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
+  }
+  save(){
+    if(this.docForm.valid){
+      this.RankGroupService.saveRankGroup(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
 
-  onCancel(){
-    this.router.navigate(['/vessels/maintain/fleets/list-fleets']);
-
+  cancel(){
+    this.router.navigate(['/crew/maintain/rank-group/list-Rank-Group']);
   }
 
   getmastrcurr(){
@@ -207,7 +244,7 @@ export class AddPAndIComponent implements OnInit {
   reset(){
     if(!this.edit){
       this.docForm = this.fb.group({
-        pandiDetails: this.fb.array([
+        rankGroupDtls: this.fb.array([
           this.fb.group({
             sort : 1,
             code:[""],
