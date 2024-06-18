@@ -37,7 +37,20 @@ const routes: Routes = [
     path: "rank-group",
     loadChildren: () =>
       import("./rank-group/rank-group.module").then((m) => m.RankGroupModule),
+  },
+
+  {
+    path: "work-license",
+    loadChildren: () =>
+      import("./work-license/work-license.module").then((m) => m.WorkLicenseModule),
+  },
+  {
+    path: "work-status",
+    loadChildren: () =>
+      import("./work-status/work-status.module").then((m) => m.WorkStatusModule),
   }
+
+
 ];
 
 @NgModule({
