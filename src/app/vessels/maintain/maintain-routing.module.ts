@@ -92,7 +92,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./ship-managers/ship-managers.module").then((m) => m.ShipManagersModule),
   },
-  
+  {
+    path: "vessel-owner",
+    loadChildren: () =>
+      import("./vessel-owner/vessel-owner.module").then((m) => m.VesselOwnerModule),
+  },
 ];
 
 @NgModule({

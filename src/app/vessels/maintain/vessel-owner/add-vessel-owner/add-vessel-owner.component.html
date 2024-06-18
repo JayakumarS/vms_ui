@@ -2,7 +2,7 @@
     <div class="content-block">
         <div class="block-header">
             <!-- breadcrumb -->
-            <app-breadcrumb [title]="'Add Work Status'" [items]="['Crew']" [active_item]="'Add Work Status'">
+            <app-breadcrumb [title]="'Add Vessel Owner'" [items]="['Vessel','Maintain']" [active_item]="'Add Vessel Owner'">
             </app-breadcrumb>
         </div>
         <div class="row clearfix ">
@@ -18,14 +18,14 @@
 
                                             <tr>
                                                 <th class="text-center table-heading padding-both-side-2 width_7"></th>
-                                                <th class="text-center table-heading padding-both-side-2 width_7">Work Status Code</th>
-                                                <th class="text-center table-heading padding-both-side-2 width_7">Work Status Description</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7">Vessel Owner Code</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7">Vessel Owner Name</th>
                                                 <th style="width: 1%;"></th>
                                         </thead>
 
                                         <ng-container
-                                            *ngFor="let workStatusBeanDtls of docForm.get('workStatusBeanDtls')['controls']; let i = index">
-                                            <tbody [formGroup]="workStatusBeanDtls">
+                                            *ngFor="let vesselOwnerBeanDtls of docForm.get('vesselOwnerBeanDtls')['controls']; let i = index">
+                                            <tbody [formGroup]="vesselOwnerBeanDtls">
 
                                                 <tr>
                                                     <td class="col-md-1">
@@ -35,7 +35,7 @@
                                                     <td class="col-md-4">
                                                         <mat-form-field class="example-full-width form-control-sm"
                                                             appearance="outline">
-                                                            <mat-label>Work Status Code</mat-label>
+                                                            <mat-label>Vessel Owner Code</mat-label>
                                                             <input matInput name="code{{i}}" formControlName="code">
                                                             <mat-error *ngIf="getControl(i,'code').hasError('required')">
                                                                 Code is required
@@ -47,7 +47,8 @@
                                                     <td class="col-md-6">
                                                         <mat-form-field class="example-full-width form-control-sm"
                                                             appearance="outline">
-                                                            <mat-label>Work Status Description</mat-label>
+                                                            <mat-label>Vessel Owner Name
+                                                            </mat-label>
                                                             <input matInput name="description{{i}}"
                                                                 formControlName="description">
 
