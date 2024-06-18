@@ -12,6 +12,7 @@ import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { WageScalesService } from '../wage-scales.service';
 import { wagescale } from '../wage-scale.model';
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
 @Component({
   selector: 'app-add-wage-scales',
   templateUrl: './add-wage-scales.component.html',
@@ -70,11 +71,11 @@ export class AddWageScalesComponent implements OnInit {
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public WageScalesService: WageScalesService,
+    public wageScalesService: WageScalesService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
-    private serverUrl:serverLocations,
+    private serverUrl:serverLocations,public matError : MatErrorService,
     private encryptionService:EncryptionService,
     public snackBar: MatSnackBar) { 
 
@@ -104,7 +105,7 @@ export class AddWageScalesComponent implements OnInit {
       this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
        this.edit=true;
        //For User login Editable mode
-       this.fetchDetails(this.requestId) ;
+       this.fetchDetails(this.decryptRequestId) ;
 
       }
      });
@@ -124,7 +125,7 @@ export class AddWageScalesComponent implements OnInit {
     })
     wageScaleDetailsDtlArray.insert(arraylen,newUsergroup);
   }
-  save(){}
+
 
   cancel(){
     this.router.navigate(['/vessels/maintain/wage-scale/list-wageScale/']);
@@ -154,22 +155,57 @@ export class AddWageScalesComponent implements OnInit {
       );
     }
   }
-  onSubmit(){
-
-  }
-  fetchDetails(countryCode: any): void {
-   
-  }
   
+
+  fetchDetails(id: any): void {
+    this.httpService.get<any>(this.wageScalesService.editwage+"?id="+id).subscribe({next: (data: any) => {
+      let dtlArray = this.docForm.controls.wageScaleDetails as FormArray;
+      dtlArray.clear();
+      data.list.forEach((element, index) => {
+        let arraylen = dtlArray.length;
+        let newUsergroup: FormGroup = this.fb.group({
+          select:[""],
+          code: [element.code],
+          description:[element.description + ""]
+        })
+        dtlArray.insert(arraylen, newUsergroup);
+        newUsergroup.get('code').disable();
+      });
+      }, error: (err) => console.log(err)
+     });
+
+  }
+  save(){
+    
+    if(this.docForm.valid){
+    this.wageScalesService.savescale(this.docForm.value, this.router, this.notificationService);
+  }else{
+    this.matError.markFormGroupTouched(this.docForm);
+    this.notificationService.showNotification(
+      "snackbar-danger",
+      "Please fill the required details",
+      "top",
+      "right");
+  }
+  }
   update() {
-
-
+    const dtlArray = this.docForm.get('wageScaleDetails') as FormArray;
+    dtlArray.controls.forEach(control => {
+      control.get('code').enable();
+    });
+    if(this.docForm.valid){
+      this.wageScalesService.updatescale(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
 
-  onCancel(){
-    this.router.navigate(['/vessels/maintain/fleets/list-fleets']);
 
-  }
 
   getmastrcurr(){
 

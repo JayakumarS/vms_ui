@@ -25,8 +25,8 @@
                                         </thead>
 
                                         <ng-container
-                                            *ngFor="let payitemsDetails of docForm.get('payitemsDetails')['controls']; let i = index">
-                                            <tbody [formGroup]="payitemsDetails">
+                                            *ngFor="let fleetDtls of docForm.get('fleetDtls')['controls']; let i = index">
+                                            <tbody [formGroup]="fleetDtls">
 
                                                 <tr>
                                                     <td class="col-md-1">
@@ -81,9 +81,11 @@
 
                                 <br>
                                 <div class="center">
-                           <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                           <button  *ngIf="!edit" class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                           <button *ngIf="edit" class="btn-space saveBtn" mat-raised-button (click)="update()"><mat-icon class="saveCancelIcon">save</mat-icon>Update</button>
                            <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
-                                 </div>
+
+                        </div>
                             </form>
                         </div>
                     </div>

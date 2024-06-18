@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListFleetsComponent } from './list-fleets/list-fleets.component';
 import { AddFleetsComponent } from './add-fleets/add-fleets.component';
+import { ViewFleetsComponent } from './view-fleets/view-fleets.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path:"add-fleets/:id",
     component:AddFleetsComponent
+  },
+  {
+    path:"view-fleets/:id",
+    component:ViewFleetsComponent
   },
 ];
 

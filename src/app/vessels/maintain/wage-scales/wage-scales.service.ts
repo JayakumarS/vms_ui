@@ -25,20 +25,12 @@ export class WageScalesService extends UnsubscribeOnDestroyAdapter{
   constructor(private httpClient: HttpClient, private serverUrl: serverLocations, private httpService: HttpServiceService) {
     super();
   }
-  private getAllMasters = `${this.serverUrl.apiServerAddress}app/countryMaster/getList`;
-  private saveCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/save`;
-  public deleteCountryUrl = `${this.serverUrl.apiServerAddress}app/countryMaster/delete`;
-  public editCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/edit`;
-  public updateCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/update`;
-  public currencyListUrl = `${this.serverUrl.apiServerAddress}app/currencyMaster/getList`;
-  public editcountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/getCode`;
-  public validateCusShortNameUrl = `${this.serverUrl.apiServerAddress}app/common/commonServices/validateUnique`;
-  public viewCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/view`;
-  public savePrePlan = `${this.serverUrl.apiServerAddress}app/countryMaster/savePrePlan`;
-  public updatePreplanCal = `${this.serverUrl.apiServerAddress}app/countryMaster/updatePreplan`;
-  public deleteEventCal = `${this.serverUrl.apiServerAddress}app/countryMaster/deleteEventCal`;
-  public editEventDetail = `${this.serverUrl.apiServerAddress}app/countryMaster/editEventDetail`;
-
+  private listwage = `${this.serverUrl.apiServerAddress}api/vessels/wagescale/list`;
+  private savewage = `${this.serverUrl.apiServerAddress}api/vessels/wagescale/save`;
+  public deletewage = `${this.serverUrl.apiServerAddress}api/vessels/wagescale/delete`;
+  public editwage = `${this.serverUrl.apiServerAddress}api/vessels/wagescale/edit`;
+  public updatewage = `${this.serverUrl.apiServerAddress}api/vessels/wagescale/update`;
+ 
   get data(): wagescale[] {
     return this.dataChange.value;
   }
@@ -46,15 +38,61 @@ export class WageScalesService extends UnsubscribeOnDestroyAdapter{
     return this.dialogData;
   }
   getList() {
-  
+    this.isTblLoading = true; 
+    this.httpService.get<any>(this.listwage).subscribe({next: (data: any) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data.list);
+      }, error: (err) => console.log(err)
+     });
   }
 
-
-
-  getCurrencyList() {
-   
+  savescale(wagescale: wagescale, router, notificationService) {
+    this.httpService.post<wagescale>(this.savewage, wagescale).subscribe({next: (data: any) => {
+      if (data.success == true) {
+        notificationService.showNotification(
+          "snackbar-success",
+          "Record Added Successfully",
+          "bottom",
+          "center"
+        );
+        router.navigate(['/vessels/maintain/wage-scale/list-wageScale']);
+      }else{
+        notificationService.showNotification(
+          "snackbar-danger",
+          "Not Updated",
+          "bottom",
+          "center"
+        );
+      }
+      }, error: (err) => console.log(err)
+     });
    
   }
 
+  updatescale(wagescale: wagescale, router, notificationService){
+    this.httpService.post<wagescale>(this.updatewage, wagescale).subscribe({next: (data: any) => {
+      if (data.success == true) {
+        notificationService.showNotification(
+          "snackbar-success",
+          "Record Updated Successfully",
+          "bottom",
+          "center"
+        );
+        router.navigate(['/vessels/maintain/wage-scale/list-wageScale']);
+      }else{
+        notificationService.showNotification(
+          "snackbar-danger",
+          "Not Updated",
+          "bottom",
+          "center"
+        );
+      }
+      }, error: (err) => console.log(err)
+     });
+  }
+
+  delete(id){
+    return this.httpClient.get<any>(this.deletewage + "?id=" + id);
+  }
  
 }

@@ -41,12 +41,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { CountryMasterRoutingModule } from 'src/app/master/country-master/country-master-routing.module';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ViewWageScalesComponent } from './view-wage-scales/view-wage-scales.component';
 
 
 @NgModule({
   declarations: [
     AddWageScalesComponent,
-    ListWageScalesComponent
+    ListWageScalesComponent,
+    ViewWageScalesComponent
   ],
   imports: [
     CommonModule,

@@ -39,12 +39,12 @@ export class ListWageScalesComponent extends UnsubscribeOnDestroyAdapter impleme
   selection = new SelectionModel<wagescale>(true, []);
   index: number;
   id: number;
-  customerMaster: wagescale | null;
+  wagescale: wagescale | null;
   permissionList: any=[];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public countryMasterService: WageScalesService,
+    public wageScalesService: WageScalesService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
@@ -105,40 +105,63 @@ export class ListWageScalesComponent extends UnsubscribeOnDestroyAdapter impleme
     );
   }
 
+  deleteItem(row){ 
+   
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
 
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      height: "270px",
+      width: "400px",
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+    if (data.data == true) {
+      this.spinner.show();
+      this.wageScalesService.delete(row.code).subscribe({
+        next: (data) => {
+          this.spinner.hide();
+          if (data.success) {
+            this.loadData();
+            this.showNotification(
+              "snackbar-success",
+              "Record Deleted",
+              "bottom",
+              "center"
+            );
+          }
+          else{
+            this.showNotification(
+              "snackbar-danger",
+              "Error in save",
+              "bottom",
+              "center"
+            );
+          }
+        },
+        error: (error) => {
+          this.spinner.hide();
+        }
+      });
+    }else{
+      //this.loadData();
+    }
+    })
+    };
   editCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/add-CountryMaster/', encrypted]);
+    this.router.navigate(['/vessels/maintain/wage-scale/add-wageScale/',row.code]);
   }
 
   viewCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/viewCountryMaster/', encrypted]);
+    this.router.navigate(['/vessels/maintain/wage-scale/view-wageScale/',row.code]);
   }
 
-  // deleteItem(i: number, row) {
-  //   this.index = i;
-  //   this.id = row.countryCode;
-  //   let tempDirection;
-  //   if (localStorage.getItem("isRtl") === "true") {
-  //     tempDirection = "rtl";
-  //   } else {
-  //     tempDirection = "ltr";
-  //   }
-  //   const dialogRef = this.dialog.open(DeleteComponent, {
-  //     height: "270px",
-  //     width: "400px",
-  //     data: row,
-  //     direction: tempDirection,
-  //   });
-  //   this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
-  //     this.loadData();
-  //   });
-  // }
-
-  deleteItem(row){ 
-   
-    };
+ 
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
