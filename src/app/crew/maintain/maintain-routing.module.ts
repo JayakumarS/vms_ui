@@ -80,7 +80,11 @@ const routes: Routes = [
       import("./pay-types/pay-types.module").then((m) => m.PayTypesModule),
   },
 
- 
+  {
+    path: "setup-rank",
+    loadChildren: () =>
+      import("./setup-rank-certificates/setup-rank-certificates.module").then((m) => m.SetupRankCertificatesModule),
+  }, 
 
 ];
 
