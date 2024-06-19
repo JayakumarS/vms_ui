@@ -1,4 +1,4 @@
-export class HealthStatus{
+export class Certificates{
    
     code: string;
     description: string;

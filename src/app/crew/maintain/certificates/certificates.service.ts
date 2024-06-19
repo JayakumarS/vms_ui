@@ -4,7 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { HealthStatus } from './health-status.model';
+import { Certificates } from './certificates.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,11 +13,11 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class HealthStatusService extends UnsubscribeOnDestroyAdapter{
+export class CertificatesService extends UnsubscribeOnDestroyAdapter{
 
   isTblLoading = true;
   currencyList:[];
-  dataChange: BehaviorSubject<HealthStatus[]> = new BehaviorSubject<HealthStatus[]>(
+  dataChange: BehaviorSubject<Certificates[]> = new BehaviorSubject<Certificates[]>(
     []
   );
   // Temporarily stores data from dialogs
@@ -26,14 +26,14 @@ export class HealthStatusService extends UnsubscribeOnDestroyAdapter{
     super();
   }
 
-  public saveUrl = `${this.serverUrl.apiServerAddress}api/crew/HealthStatus/save`;
-  public listUrl = `${this.serverUrl.apiServerAddress}api/crew/HealthStatus/list`;
-  public editUrl = `${this.serverUrl.apiServerAddress}api/crew/HealthStatus/edit`;
-  public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/HealthStatus/delete`;
-  public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/HealthStatus/update`;
+  public saveUrl = `${this.serverUrl.apiServerAddress}api/crew/Certificates/save`;
+  public listUrl = `${this.serverUrl.apiServerAddress}api/crew/Certificates/list`;
+  public editUrl = `${this.serverUrl.apiServerAddress}api/crew/Certificates/edit`;
+  public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/Certificates/delete`;
+  public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/Certificates/update`;
 
 
-  get data(): HealthStatus[] {
+  get data(): Certificates[] {
     return this.dataChange.value;
   }
   getDialogData() {
@@ -49,8 +49,8 @@ export class HealthStatusService extends UnsubscribeOnDestroyAdapter{
      });
   }
 
-  saveeHealthStatus(HealthStatus: HealthStatus, router, notificationService){
-     this.httpService.post<HealthStatus>(this.saveUrl, HealthStatus).subscribe({next: (data: any) => {
+  saveCertificates(Certificates: Certificates, router, notificationService){
+     this.httpService.post<Certificates>(this.saveUrl, Certificates).subscribe({next: (data: any) => {
       if (data.success == true) {
         notificationService.showNotification(
           "snackbar-success",
@@ -58,7 +58,7 @@ export class HealthStatusService extends UnsubscribeOnDestroyAdapter{
           "bottom",
           "center"
         );
-        router.navigate(['/crew/maintain/health-status/list-health-status']);
+        router.navigate(['/crew/maintain/certificates/list-certificates']);
       }else{
         notificationService.showNotification(
           "snackbar-danger",
@@ -71,8 +71,8 @@ export class HealthStatusService extends UnsubscribeOnDestroyAdapter{
      });
   }
 
-  updateHealthStatus(HealthStatus: HealthStatus, router, notificationService){
-    this.httpService.post<HealthStatus>(this.updateUrl, HealthStatus).subscribe({next: (data: any) => {
+  updateCertificates(Certificates: Certificates, router, notificationService){
+    this.httpService.post<Certificates>(this.updateUrl, Certificates).subscribe({next: (data: any) => {
       if (data.success == true) {
         notificationService.showNotification(
           "snackbar-success",
@@ -80,7 +80,7 @@ export class HealthStatusService extends UnsubscribeOnDestroyAdapter{
           "bottom",
           "center"
         );
-        router.navigate(['/crew/maintain/health-status/list-health-status']);
+        router.navigate(['/crew/maintain/certificates/list-certificates']);
       }else{
         notificationService.showNotification(
           "snackbar-danger",
