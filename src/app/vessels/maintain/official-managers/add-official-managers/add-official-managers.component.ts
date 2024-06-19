@@ -156,7 +156,9 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
           description: [element.description],
           city: [element.city],
           address:[element.address],
-          phone:[element.phone + ""]
+          poscode:[element.poscode],
+          phone:[element.phone ],
+          remarks:[element.remarks + " "],
         })
         dtlArray.insert(arraylen, newUsergroup);
         newUsergroup.get('shipman').disable();
