@@ -112,8 +112,8 @@ export class ListCountryMasterComponent extends UnsubscribeOnDestroyAdapter impl
   }
 
   viewCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/viewCountryMaster/', encrypted]);
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    this.router.navigate(['/vessels/master/country-Master/view-CountryMaster/', row.countryCode]);
   }
 
   // deleteItem(row) {

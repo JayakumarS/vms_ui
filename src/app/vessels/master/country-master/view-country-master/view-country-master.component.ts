@@ -47,8 +47,8 @@ export class ViewCountryMasterComponent implements OnInit {
   }
   
    ngOnInit() {
-    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
-      this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
+    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){
+     this.requestId = params.id;
        this.edit=true;
        //For User login Editable mode
        this.fetchDetails(this.requestId) ;
@@ -57,25 +57,10 @@ export class ViewCountryMasterComponent implements OnInit {
      });
    }
 
-  // fetchDetails(countryCode: any): void {
-  //   this.httpService.get(this.countryMasterService.editCountryMaster + "?countryMaster="+encodeURIComponent(this.encryptionService.encryptAesToString(countryCode, this.serverUrl.secretKey).toString())).subscribe((res: any) => {
-  //     console.log(countryCode);
-
-  //     console.log(this.docForm);
-  //     this.countryMaster = res.countryMasterBean;
-  //   },
-  //     (err: HttpErrorResponse) => {
-  //     }
-  //   );
-   
-  // }
-
   fetchDetails(countryCode: any): void {
-    this.httpService.get(this.countryMasterService.viewCountryMaster + "?countryMaster="+encodeURIComponent(this.encryptionService.encryptAesToString(countryCode, this.serverUrl.secretKey).toString())).subscribe((res: any) => {
+    this.httpService.get(this.countryMasterService.editCountryMaster + "?id="+countryCode).subscribe((res: any) => {
       // console.log(countryCode);
-
-      // console.log(this.docForm);
-      this.countryMaster = res.viewCountryMasterBean;
+      this.countryDetailItemList = res.list;
     },
       (err: HttpErrorResponse) => {
       }
@@ -85,7 +70,7 @@ export class ViewCountryMasterComponent implements OnInit {
   
  
   onCancel(){
-    this.router.navigate(['/master/country-Master/list-CountryMaster']);
+    this.router.navigate(['/vessels/master/country-Master/list-CountryMaster']);
   }
 }
 

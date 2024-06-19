@@ -16,7 +16,7 @@ const routes: Routes = [
     component: ListCountryMasterComponent,
   },
   {
-    path: "viewCountryMaster/:id",
+    path: "view-CountryMaster/:id",
     component: ViewCountryMasterComponent,
   }
 ];
