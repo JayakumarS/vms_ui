@@ -58,7 +58,18 @@ const routes: Routes = [
     path: "agent",
     loadChildren: () =>
       import("./agent/agent.module").then((m) => m.AgentModule),
+  },
+  {
+    path: "health-status",
+    loadChildren: () =>
+      import("./health-status/health-status.module").then((m) => m.HealthStatusModule),
+  },
+  {
+    path: "certificates",
+    loadChildren: () =>
+      import("./certificates/certificates.module").then((m) => m.CertificatesModule),
   }
+
 
 
 ];
