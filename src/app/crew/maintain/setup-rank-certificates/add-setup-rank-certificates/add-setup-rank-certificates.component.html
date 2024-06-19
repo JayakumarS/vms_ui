@@ -33,9 +33,10 @@
         #exporter="matTableExporter">
         
         <ng-container matColumnDef="categories">
-          <mat-header-cell *matHeaderCellDef mat-sort-header class="column-categories"><span>Categories </span><span style="margin-left: 57px;">Ranks </span></mat-header-cell>
-          <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"class="column-categories"> {{row.categories}} </mat-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header ><span>Categories </span><span style="margin-left: 57px;">Ranks </span></mat-header-cell>
+          <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.categories}} </mat-cell>
         </ng-container>
+   
         <ng-container matColumnDef="master">
           <mat-header-cell *matHeaderCellDef mat-sort-header>MAS</mat-header-cell>
           <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> 
