@@ -68,9 +68,19 @@ const routes: Routes = [
     path: "certificates",
     loadChildren: () =>
       import("./certificates/certificates.module").then((m) => m.CertificatesModule),
-  }
+  },
+  {
+    path: "trainings",
+    loadChildren: () =>
+      import("./trainings/trainings.module").then((m) => m.TrainingsModule),
+  },
+  {
+    path: "paytypes",
+    loadChildren: () =>
+      import("./pay-types/pay-types.module").then((m) => m.PayTypesModule),
+  },
 
-
+ 
 
 ];
 
