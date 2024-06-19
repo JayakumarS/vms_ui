@@ -263,7 +263,7 @@ showNotification(colorName, text, placementFrom, placementAlign) {
   });
 }
 onCancel(){
-  this.router.navigate(['/crew/maintain/libraryfile/list-library']);
+  this.router.navigate(['/crew/maintain/setup-rank/add-setuprank']);
 }
 public loadData() {
   this.exampleDatabase = new SetupRankCertificatesService(this.httpClient,this.serverUrl,this.httpService);

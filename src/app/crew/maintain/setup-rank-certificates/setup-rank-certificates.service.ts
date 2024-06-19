@@ -45,7 +45,7 @@ export class SetupRankCertificatesService extends UnsubscribeOnDestroyAdapter{
           "bottom",
           "center"
         );
-        router.navigate(['/crew/maintain/libraryfile/list-library']);
+        router.navigate(['/crew/maintain/setup-rank/add-setuprank']);
       }
       else {
         spinner.hide();
@@ -75,7 +75,7 @@ export class SetupRankCertificatesService extends UnsubscribeOnDestroyAdapter{
           "bottom",
           "center"
         );
-        router.navigate(['/crew/maintain/libraryfile/list-library']);
+        router.navigate(['crew/maintain/setup-rank/add-setuprank']);
       }
       else {
         notificationService.showNotification(

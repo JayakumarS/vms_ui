@@ -86,6 +86,11 @@ const routes: Routes = [
       import("./setup-rank-certificates/setup-rank-certificates.module").then((m) => m.SetupRankCertificatesModule),
   }, 
 
+{
+  path: "setup-ranktraining",
+  loadChildren: () =>
+    import("./setup-rank-trainings/setup-rank-trainings.module").then((m) => m.SetupRankTrainingsModule),
+}, 
 ];
 
 @NgModule({
