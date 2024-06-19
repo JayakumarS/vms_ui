@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UomMasterService } from '../uom-master.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -7,26 +8,25 @@ import { serverLocations } from 'src/app/auth/serverLocations';
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { NotificationService } from 'src/app/core/service/notification.service';
-import { PortMasterService } from '../port-master.service';
+import { UOMMaster } from '../uom-master.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { PortMaster } from '../port-master.model';
 
 @Component({
-  selector: 'app-add-port-master',
-  templateUrl: './add-port-master.component.html',
-  styleUrls: ['./add-port-master.component.sass']
+  selector: 'app-add-uom',
+  templateUrl: './add-uom.component.html',
+  styleUrls: ['./add-uom.component.sass']
 })
-export class AddPortMasterComponent implements OnInit {
-  docForm : FormGroup;
-  edit:boolean=false;
+export class AddUomComponent implements OnInit {
+  docForm: FormGroup;
   requestId: any;
-  portMaster: PortMaster;
+  edit : boolean=false;
+  uomMaster: UOMMaster;
 
 
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public portMasterService: PortMasterService,
+    public uomMasterService: UomMasterService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
@@ -35,15 +35,16 @@ export class AddPortMasterComponent implements OnInit {
     public snackBar: MatSnackBar) { 
 
     this.docForm = this.fb.group({
-      portCode: ["", [Validators.required]],
-      portName: ["", [Validators.required]],
-      portType: ["port"],
-      isActive:[true],
+      // first: ["", [Validators.required, Validators.pattern("[a-zA-Z]+")]],
+      uomCode: ["", [Validators.required]],
+      uomName: ["", [Validators.required]]
+   
     });
 
   }
 
   ngOnInit(): void {
+
     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ 
       this.requestId = params.id;
        this.edit=true;
@@ -53,11 +54,12 @@ export class AddPortMasterComponent implements OnInit {
      }); 
   }
 
+
   save(){
     if(this.docForm.valid){
-      this.portMaster = this.docForm.value;
+      this.uomMaster = this.docForm.value;
       // console.log(this.countryMaster);
-      this.portMasterService.addPort(this.portMaster,this.router,this.notificationService);
+      this.uomMasterService.addUom(this.uomMaster,this.router,this.notificationService);
     }
     else{
       this.showNotification(
@@ -68,32 +70,30 @@ export class AddPortMasterComponent implements OnInit {
       );
     }
   }
-  fetchDetails(portCode: any): void {
-    this.httpService.get(this.portMasterService.editPortMaster + "?id="+portCode).subscribe((res: any) => {
+  fetchDetails(uomCode: any): void {
+    this.httpService.get(this.uomMasterService.editUomMaster + "?id="+uomCode).subscribe((res: any) => {
       // console.log(countryCode);
 
       this.docForm.patchValue({
-        'portCode': res.list[0].portCode,
-        'portName': res.list[0].portName,
-        'portType': res.list[0].portType,
-        'isActive': res.list[0].isActive,
+        'uomCode': res.list[0].uomCode,
+        'uomName': res.list[0].uomName
       })
     },
       (err: HttpErrorResponse) => {
         // error code here
       }
     );
-
   }
   
   update() {
-    this.portMaster = this.docForm.value;
-    this.portMasterService.portUpdate(this.portMaster,this.router,this.notificationService);
+
+    this.uomMaster = this.docForm.value;
+    this.uomMasterService.UomUpdate(this.uomMaster,this.router,this.notificationService);
 
   }
 
   cancel(){
-    this.router.navigate(['/vessels/master/port-Master/list-port-master']);
+    this.router.navigate(['/vessels/master/uom-Master/add-uom']);
   }
 
   showNotification(colorName, text, placementFrom, placementAlign) {

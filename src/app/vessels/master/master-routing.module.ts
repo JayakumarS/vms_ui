@@ -14,9 +14,9 @@ const routes: Routes = [
       import("./port-master/port-master.module").then((m) => m.PortMasterModule),
   },
   {
-    path: "department-Master",
+    path: "uom-Master",
     loadChildren: () =>
-      import("./department-master/department-master.module").then((m) => m.DepartmentMasterModule),
+      import("./uom-master/uom-master.module").then((m) => m.UomMasterModule),
   }
 ];
 
