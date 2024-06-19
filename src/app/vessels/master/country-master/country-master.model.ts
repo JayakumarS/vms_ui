@@ -6,7 +6,7 @@ export class CountryMaster {
   currency: string;
   isActive: string;
   clientType:string;
-  Success:boolean;
+  success:boolean;
   constructor(countryMaster) {
     {
       this.id = countryMaster.id || this.getRandomID();
@@ -14,7 +14,7 @@ export class CountryMaster {
       this.countryName = countryMaster.countryName || "";
       this.currency = countryMaster.currency || "";
       this.isActive = countryMaster.isActive || "";
-      this.Success = countryMaster.Success || "";
+      this.success = countryMaster.Success || "";
     }
   }
   public getRandomID(): string {

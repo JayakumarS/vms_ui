@@ -1,20 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteComponent } from './delete.component';
+import { AddPortMasterComponent } from './add-port-master.component';
 
-describe('DeleteComponent', () => {
-  let component: DeleteComponent;
-  let fixture: ComponentFixture<DeleteComponent>;
+describe('AddPortMasterComponent', () => {
+  let component: AddPortMasterComponent;
+  let fixture: ComponentFixture<AddPortMasterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeleteComponent ]
+      declarations: [ AddPortMasterComponent ]
     })
     .compileComponents();
-  });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DeleteComponent);
+    fixture = TestBed.createComponent(AddPortMasterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

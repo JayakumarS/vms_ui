@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
-import { CountryMasterService } from 'src/app/master/country-master/country-master.service';
 import { CountryMaster } from '../country-master.model';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { CountryMasterResultBean } from '../country-master-result-bean';
@@ -11,6 +10,9 @@ import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSelect } from '@angular/material/select';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { CountryMasterService } from '../country-master.service';
 
 @Component({
   selector: 'app-add-country-master',
@@ -21,14 +23,22 @@ export class AddCountryMasterComponent implements OnInit {
 
   docForm: FormGroup;
   countryMaster: CountryMaster;
-  currencyList=[];
   edit:boolean=false;
-  // oldPwd: boolean=false;
+ 
+  public currencyFilterCtrl: FormControl = new FormControl();
+  currencyFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('contractscurrency', { static: true }) contractscurrency: MatSelect;
 
-  // For Encryption
+  public phoneFilterCtrl: FormControl = new FormControl();
+  phoneFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('phoneFilter', { static: true }) phoneFilter: MatSelect;
+  protected onDestroy = new Subject<void>();
+
   requestId: any;
   decryptRequestId: any;
   currtmpList: any[];
+  currencyList:any=[];
+  phoneList:any=[];
 
   constructor(private fb: FormBuilder,
     public router:Router,
@@ -45,34 +55,84 @@ export class AddCountryMasterComponent implements OnInit {
       // first: ["", [Validators.required, Validators.pattern("[a-zA-Z]+")]],
       countryCode: ["", [Validators.required]],
       countryName: ["", [Validators.required]],
-      currency: ["", [Validators.required]],
-      clientType:[""],
-      isActive:["true"],
+      currencyCode: ["", [Validators.required]],
+      phoneCode : [""],
+      nationality :[""],
+      isActive:[true],
     });
 
   }
   
    ngOnInit() {
     
-     // Currency list dropdown
-    this.httpService.get<CountryMasterResultBean>(this.countryMasterService.currencyListUrl).subscribe(
-       (data) => {
-         this.currencyList = data.currencyList;
-         this.currtmpList=data.currencyList;
-       },
-       (error: HttpErrorResponse) => {
-        //  console.log(error.name + " " + error.message);
-       }
-     );
-
-     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
-      this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
+     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ 
+      this.requestId = params.id;
        this.edit=true;
-       //For User login Editable mode
        this.fetchDetails(this.requestId) ;
 
       }
-     });
+     }); 
+
+    // Currency list dropdown
+    this.httpService.get<CountryMasterResultBean>(this.countryMasterService.currencyListUrl).subscribe(
+      (data) => {
+        this.currencyList = data.lCommonUtilityBean;
+        this.currencyFilteredOptions.next(this.currencyList.slice());
+      },);
+
+     this.currencyFilteredOptions.next(this.currencyList.slice());
+     this.currencyFilterCtrl.valueChanges
+       .pipe(takeUntil(this.onDestroy))
+       .subscribe(() => {
+         this.filterCurrency();
+       });
+
+    // Phone code list dropdown
+    this.httpService.get<CountryMasterResultBean>(this.countryMasterService.phoneCodeListUrl).subscribe(
+      (data) => {
+        this.phoneList = data.lCommonUtilityBean;
+        this.phoneFilteredOptions.next(this.phoneList.slice());
+      },);
+
+     this.phoneFilteredOptions.next(this.phoneList.slice());
+     this.phoneFilterCtrl.valueChanges
+       .pipe(takeUntil(this.onDestroy))
+       .subscribe(() => {
+         this.filterPhoneCode();
+       });
+   }
+
+
+   filterPhoneCode(){
+    if (!this.phoneList) {
+      return;
+    }
+    let search = this.phoneFilterCtrl.value;
+    if (!search) {
+      this.phoneFilteredOptions.next(this.phoneList.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.phoneFilteredOptions.next(
+      this.phoneList.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
+
+   filterCurrency(){
+    if (!this.currencyList) {
+      return;
+    }
+    let search = this.currencyFilterCtrl.value;
+    if (!search) {
+      this.currencyFilteredOptions.next(this.currencyList.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.currencyFilteredOptions.next(
+      this.currencyList.filter(title => title.text.toLowerCase().includes(search))
+    );
    }
 
   save(){
@@ -91,15 +151,16 @@ export class AddCountryMasterComponent implements OnInit {
     }
   }
   fetchDetails(countryCode: any): void {
-    this.httpService.get(this.countryMasterService.editCountryMaster + "?countryMaster="+encodeURIComponent(this.encryptionService.encryptAesToString(countryCode, this.serverUrl.secretKey).toString())).subscribe((res: any) => {
+    this.httpService.get(this.countryMasterService.editCountryMaster + "?id="+countryCode).subscribe((res: any) => {
       // console.log(countryCode);
 
       this.docForm.patchValue({
-        'countryCode': res.countryMasterBean.countryCode,
-        'countryName': res.countryMasterBean.countryName,
-        'currency': res.countryMasterBean.currency,
-        'clientType': res.countryMasterBean.clientType,
-        'isActive': res.countryMasterBean.isActive,
+        'countryCode': res.list[0].countryCode,
+        'countryName': res.list[0].countryName,
+        'currencyCode': res.list[0].currencyCode,
+        'phoneCode': res.list[0].phoneCode,
+        'nationality': res.list[0].nationality,
+        'isActive': res.list[0].isActive,
       })
     },
       (err: HttpErrorResponse) => {

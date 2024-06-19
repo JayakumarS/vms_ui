@@ -9,9 +9,9 @@ const routes: Routes = [
       import("./country-master/country-master.module").then((m) => m.CountryMasterModule),
   },
   {
-    path: "designation-Master",
+    path: "port-Master",
     loadChildren: () =>
-      import("./designation-master/designation-master.module").then((m) => m.DesignationMasterModule),
+      import("./port-master/port-master.module").then((m) => m.PortMasterModule),
   },
   {
     path: "department-Master",

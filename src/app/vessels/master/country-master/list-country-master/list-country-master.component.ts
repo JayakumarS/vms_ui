@@ -15,10 +15,10 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { DeleteComponent } from 'src/app/master/country-master/list-country-master/dialog/delete/delete.component';
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import { DeleteCountryMasterComponent } from '../delete-country-master/delete-country-master.component';
 @Component({
   selector: 'app-list-country-master',
   templateUrl: './list-country-master.component.html',
@@ -107,8 +107,8 @@ export class ListCountryMasterComponent extends UnsubscribeOnDestroyAdapter impl
 
 
   editCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/add-CountryMaster/', encrypted]);
+    //var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    this.router.navigate(['/vessels/master/country-Master/add-CountryMaster/', row.countryCode]);
   }
 
   viewCall(row) {
@@ -116,8 +116,7 @@ export class ListCountryMasterComponent extends UnsubscribeOnDestroyAdapter impl
     this.router.navigate(['/master/country-Master/viewCountryMaster/', encrypted]);
   }
 
-  // deleteItem(i: number, row) {
-  //   this.index = i;
+  // deleteItem(row) {
   //   this.id = row.countryCode;
   //   let tempDirection;
   //   if (localStorage.getItem("isRtl") === "true") {
@@ -125,7 +124,7 @@ export class ListCountryMasterComponent extends UnsubscribeOnDestroyAdapter impl
   //   } else {
   //     tempDirection = "ltr";
   //   }
-  //   const dialogRef = this.dialog.open(DeleteComponent, {
+  //   const dialogRef = this.dialog.open(DeleteCountryMasterComponent, {
   //     height: "270px",
   //     width: "400px",
   //     data: row,
@@ -145,7 +144,7 @@ export class ListCountryMasterComponent extends UnsubscribeOnDestroyAdapter impl
       tempDirection = "ltr";
     }
 
-    const dialogRef = this.dialog.open(DeleteComponent, {
+    const dialogRef = this.dialog.open(DeleteCountryMasterComponent, {
          height: "270px",
            width: "400px",
            data: row,

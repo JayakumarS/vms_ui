@@ -5,4 +5,6 @@ export class CountryMasterResultBean {
     currencyList: [];
     viewCountryMasterBean: [];
     currencyMasterDetails: [];
+    lCommonUtilityBean: [];
+    list: [];
 }

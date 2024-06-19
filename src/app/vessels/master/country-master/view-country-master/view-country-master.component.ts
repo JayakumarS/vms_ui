@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
-import { CountryMasterService } from 'src/app/master/country-master/country-master.service';
 import { CountryMaster } from '../country-master.model';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import {HttpErrorResponse} from "@angular/common/http";
@@ -10,6 +9,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { EncryptionService } from 'src/app/core/service/encrypt.service';
+import { CountryMasterService } from '../country-master.service';
 
 @Component({
   selector: 'app-view-country-master',

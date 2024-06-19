@@ -48,14 +48,14 @@
               
               <ng-container matColumnDef="countryCode">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Country Code</mat-header-cell>
-                <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.countrycode}}</mat-cell>
+                <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.countryCode}}</mat-cell>
               </ng-container>
               <ng-container matColumnDef="countryName">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Country Name</mat-header-cell>
                 <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.countryName}}</mat-cell>
               </ng-container>
               <ng-container matColumnDef="currencyCode">
-                <mat-header-cell *matHeaderCellDef mat-sort-header fxLayoutGap="5px">currency Code</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header fxLayoutGap="5px">Currency Code</mat-header-cell>
                 <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.currencyCode}}</mat-cell>
               </ng-container>
               <ng-container matColumnDef="phoneCode">
