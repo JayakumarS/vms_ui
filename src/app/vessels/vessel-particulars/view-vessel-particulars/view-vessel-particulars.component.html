@@ -1,0 +1,185 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Vessel Particulars'" [items]="['Vessel']" [active_item]="'View Vessel Particulars'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix ">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="box-shadow">
+                    <div class="card">
+                        <div class="body">
+                            <style>
+                                b{
+                                    font-size: 13px;
+                                }
+                            </style>
+                            <div class="container border"
+                                style=" border: 1px solid #b8a6dd!important; border-radius: 10px; background-color: #ecebf7;">
+                                <form class="m-4" autocomplete="off">
+                                    <br>
+                                    <h5>General</h5>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Code :</b>&nbsp;{{viewDtl?.hdrBean?.code}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Name :</b>&nbsp;{{viewDtl?.hdrBean?.name}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Short Name :</b>&nbsp;{{viewDtl?.hdrBean?.shortname}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Fleet :</b>&nbsp;{{viewDtl?.hdrBean?.fleetName}}</mat-label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Vessel Type :</b>&nbsp;{{viewDtl?.hdrBean?.vesselTypeName}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>P & I :</b>&nbsp;{{viewDtl?.hdrBean?.pandiName}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Hull & Machinery :</b>&nbsp;{{viewDtl?.hdrBean?.hullandmachinery}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Vessel Group :</b>&nbsp;{{viewDtl?.hdrBean?.vesselgroup}}</mat-label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>FD & D :</b>&nbsp;{{viewDtl?.hdrBean?.fdandd}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Wage Scale :</b>&nbsp;{{viewDtl?.hdrBean?.wageScaleName}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Reason :</b>&nbsp;{{viewDtl?.hdrBean?.reason}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Vessel Class :</b>&nbsp;{{viewDtl?.hdrBean?.vesselClassName}}</mat-label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Valied Until(Mga) :</b>&nbsp;{{viewDtl?.hdrBean?.valiedUntil}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Lead Vessel Id :</b>&nbsp;{{viewDtl?.hdrBean?.leadvesselid}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Fleet Vessel Idnt :</b>&nbsp;{{viewDtl?.hdrBean?.fleetvessel}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Date In Fleet Type :</b>&nbsp;{{viewDtl?.hdrBean?.dateinfleettype}}</mat-label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <h5>Main Details</h5>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Flag :</b>&nbsp;{{viewDtl?.mainDtlBean?.flagName}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Registry Port :</b>&nbsp;{{viewDtl?.mainDtlBean?.portName}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Registry No :</b>&nbsp;{{viewDtl?.mainDtlBean?.registryno}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Class No :</b>&nbsp;{{viewDtl?.mainDtlBean?.classno}}</mat-label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Build Date :</b>&nbsp;{{viewDtl?.mainDtlBean?.builtdate}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Place Build :</b>&nbsp;{{viewDtl?.mainDtlBean?.placeBuild}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Yard Build :</b>&nbsp;{{viewDtl?.mainDtlBean?.yardbuild}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>IMO No :</b>&nbsp;{{viewDtl?.mainDtlBean?.imono}}</mat-label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Hull No :</b>&nbsp;{{viewDtl?.mainDtlBean?.hullno}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Call Sign :</b>&nbsp;{{viewDtl?.mainDtlBean?.callsign}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Nat Number :</b>&nbsp;{{viewDtl?.mainDtlBean?.natnumber}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>MMIS :</b>&nbsp;{{viewDtl?.mainDtlBean?.mmis}}</mat-label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>ICE Class :</b>&nbsp;{{viewDtl?.mainDtlBean?.iceclass}}</mat-label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <h5>Commerical</h5>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Shipowner :</b>&nbsp;{{viewDtl?.commDtlBean?.vesselOwnerName}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Operator :</b>&nbsp;{{viewDtl?.commDtlBean?.operator}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Safety No :</b>&nbsp;{{viewDtl?.commDtlBean?.safteyno}}</mat-label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <h5>Crew</h5>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Official Manager :</b>&nbsp;{{viewDtl?.crewDtlBean?.offManagerName}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Ship Manager :</b>&nbsp;{{viewDtl?.crewDtlBean?.shipManagerName}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Crew Manager :</b>&nbsp;{{viewDtl?.crewDtlBean?.crewmanager}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Group Manager :</b>&nbsp;{{viewDtl?.crewDtlBean?.groupmanager}}</mat-label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3 center">
+                                            <button color="warn" (click)="onCancel()" type="button" mat-raised-button>Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

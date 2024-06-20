@@ -25,7 +25,11 @@ export class CommonService extends UnsubscribeOnDestroyAdapter {
     return moment(date).format('YYYY-MM-DD');
   }
 
-  getDateObj(string): any {
-    return moment(string, 'DD/MM/YYYY')
+  getDateObj(dateString: string): any {
+    if (!dateString) {
+      return null;
+    }
+    const date = moment(dateString, 'DD/MM/YYYY', true);
+    return date.isValid() ? date : null;
   }
 }

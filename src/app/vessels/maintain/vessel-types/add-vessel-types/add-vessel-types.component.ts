@@ -190,6 +190,7 @@ export class AddVesselTypesComponent implements OnInit {
         "right");
     }
   }
+  
   save(){
     if(this.docForm.valid){
       this.vesselTypesService.saveVesselType(this.docForm.value, this.router, this.notificationService);

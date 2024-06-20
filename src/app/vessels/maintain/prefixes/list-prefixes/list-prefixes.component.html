@@ -63,6 +63,10 @@
                         class="tbl-action-btn">
                         <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                       </button>
+                      <button mat-icon-button (click)="$event.stopPropagation()"
+                      (click)="viewCall(row)" class="tbl-action-btn">
+                  <i class="fa fa-eye" style="color:#33b91f;" aria-hidden="true"></i>
+                </button>
                       <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
                         (click)="deleteItem(row)" class="tbl-action-btn">
                         <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>

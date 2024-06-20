@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, forwardRef, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl, Validator, AbstractControl, ValidationErrors, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-searchable-select',
@@ -20,19 +20,20 @@ import { map, startWith } from 'rxjs/operators';
     }
   ]
 })
-export class SearchableSelectComponent implements OnInit, ControlValueAccessor, Validator {
+export class SearchableSelectComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor, Validator {
   @Input() options: { id: string, text: string }[] = [];
   @Input() placeholderLabel: string = 'Search';
-  @Input() noEntriesFoundLabel: string = 'no results found';
+  @Input() noEntriesFoundLabel: string = 'No results found';
   @Input() label: string = '';
   @Output() selectionChange = new EventEmitter<string>();
   @Input() control: FormControl;
   @Input() required: boolean = false;
   @Input() disabled: boolean = false;
-  @Input() errorMessage: string = '' || 'This field is required';
+  @Input() errorMessage: string = '';
 
   filterCtrl = new FormControl('', this.required ? Validators.required : null);
   filteredOptions: Observable<{ id: string, text: string }[]>;
+  private destroy$ = new Subject<void>();
 
   public _value: string | null = null;
   private onChange: (value: any) => void = () => {};
@@ -45,16 +46,23 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor, 
 
     this.filteredOptions = this.filterCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => this.filterOptions(value))
+      map(value => this.filterOptions(value)),
+      takeUntil(this.destroy$)
     );
 
-    this.control.valueChanges.subscribe(value => {
+    this.control.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(value => {
       this._value = value;
       const selectedOption = this.options.find(option => option.id === value);
       if (selectedOption) {
         this.filterCtrl.setValue(selectedOption.text, { emitEvent: false });
       }
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.options) {
+      this.filterCtrl.setValue(this.filterCtrl.value); // Trigger filter to update options
+    }
   }
 
   private filterOptions(value: string): { id: string, text: string }[] {
@@ -70,11 +78,9 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor, 
   }
 
   writeValue(value: any): void {
-    // this._value = value;
     if (this.options && value) {
       const selectedOption = this.options.find(option => option.id === value);
       if (selectedOption) {
-        //this.filterCtrl.setValue(selectedOption.text, { emitEvent: false });
         this.control.setValue(selectedOption.id, { emitEvent: false });
       }
     } else {
@@ -102,6 +108,11 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor, 
     if (this.control.hasError('required')) {
       return this.errorMessage;
     }
-    return this.errorMessage;
+    return '';
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

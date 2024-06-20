@@ -150,7 +150,7 @@ export class ListVesselTypesComponent extends UnsubscribeOnDestroyAdapter implem
           else{
             this.showNotification(
               "snackbar-danger",
-              "Error in save",
+              "Unable to delete",
               "bottom",
               "center"
             );

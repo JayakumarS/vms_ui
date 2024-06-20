@@ -32,9 +32,9 @@
                                   <mat-form-field class="example-full-width" appearance="outline">
                                     <mat-label>Code</mat-label>
                                     <input matInput formControlName="code" >
-                                    <!-- <mat-error *ngIf="docForm.get('code').hasError('required')">
+                                    <mat-error *ngIf="getControl(i,'code').hasError('required')">
                                       Code is required
-                                    </mat-error> -->
+                                  </mat-error>
                                   </mat-form-field>
             
                                 </td>
@@ -43,9 +43,9 @@
                                   <mat-form-field class="example-full-width" appearance="outline">
                                     <mat-label>Description</mat-label>
                                     <input matInput formControlName="description">
-                                    <!-- <mat-error *ngIf="docForm.get('description').hasError('required')">
-                                        Description is required
-                                    </mat-error> -->
+                                    <mat-error *ngIf="getControl(i,'description').hasError('required')">
+                                      Code is required
+                                  </mat-error>
                                     </mat-form-field>
             
                                 </td>
@@ -73,7 +73,8 @@
                 <br>
                 <br>
                 <div class="center">
-                  <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon>save</mat-icon>Save</button>
+                  <button *ngIf="!edit" class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                  <button *ngIf="edit" class="btn-space saveBtn" mat-raised-button (click)="update()"><mat-icon class="saveCancelIcon">save</mat-icon>Update</button>
                   <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon>cancel</mat-icon>Cancel</button>
                 </div>
                </form>

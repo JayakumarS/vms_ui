@@ -22,7 +22,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonService } from 'src/app/common-service/common.service';
-import { DecimalFormatDirective } from 'src/app/directives/decimal-format-directive/decimal-format.directive';
+// import { DecimalFormatDirective } from 'src/app/directives/decimal-format-directive1/decimal-format.directive';
 import { ECommerceSuppliersReferenceRoutingModule } from './e-commerce-suppliers-reference-routing.module';
 import { AddECommerceSuppliersReferenceComponent } from './add-e-commerce-suppliers-reference/add-e-commerce-suppliers-reference.component';
 import { ListECommerceSuppliersReferenceComponent } from './list-e-commerce-suppliers-reference/list-e-commerce-suppliers-reference.component';

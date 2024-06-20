@@ -13,6 +13,12 @@ export class PrefixesService extends UnsubscribeOnDestroyAdapter {
   isTblLoading = true;
   dataChange: BehaviorSubject<PrefixesModel[]> = new BehaviorSubject<PrefixesModel[]>([]);
 
+  public listUrl = `${this.serverUrl.apiServerAddress}api/master/vesselPrefix/list`;
+  public editUrl = `${this.serverUrl.apiServerAddress}api/master/vesselPrefix/edit`;
+  public saveUrl = `${this.serverUrl.apiServerAddress}api/master/vesselPrefix/save`;
+  public updateUrl = `${this.serverUrl.apiServerAddress}api/master/vesselPrefix/update`;
+  public deleteUrl = `${this.serverUrl.apiServerAddress}api/master/vesselPrefix/delete`;
+
   constructor(
     private httpClient: HttpClient,
     private serverUrl:serverLocations,
@@ -25,10 +31,60 @@ export class PrefixesService extends UnsubscribeOnDestroyAdapter {
   }
 
   
-getList(){
-  let value,url;
-    let list = [{code:"YTS",description:"test description"}]
-    this.isTblLoading = false;
-    this.dataChange.next(list);
-}
+  getList() {
+    this.isTblLoading = true; 
+    this.httpService.get<any>(this.listUrl).subscribe({next: (data: any) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data.list);
+      }, error: (err) => console.log(err)
+     });
+  }
+
+  saveVesselPrefix(prefixesModel: PrefixesModel, router, notificationService){
+    this.httpService.post<PrefixesModel>(this.saveUrl, prefixesModel).subscribe({next: (data: any) => {
+     if (data.success == true) {
+       notificationService.showNotification(
+         "snackbar-success",
+         "Record Added Successfully",
+         "bottom",
+         "center"
+       );
+       router.navigate(['/vessels/maintain/prefixes/list-prefixes']);
+     }else{
+       notificationService.showNotification(
+         "snackbar-danger",
+         "Not Updated",
+         "bottom",
+         "center"
+       );
+     }
+     }, error: (err) => console.log(err)
+    });
+ }
+
+ updateVesselPrefix(prefixesModel: PrefixesModel, router, notificationService){
+  this.httpService.post<PrefixesModel>(this.updateUrl, prefixesModel).subscribe({next: (data: any) => {
+    if (data.success == true) {
+      notificationService.showNotification(
+        "snackbar-success",
+        "Record Updated Successfully",
+        "bottom",
+        "center"
+      );
+      router.navigate(['/vessels/maintain/prefixes/list-prefixes']);
+    }else{
+      notificationService.showNotification(
+        "snackbar-danger",
+        "Not Updated",
+        "bottom",
+        "center"
+      );
+    }
+    }, error: (err) => console.log(err)
+   });
+  }
+
+  delete(id){
+    return this.httpClient.get<any>(this.deleteUrl + "?id=" + id);
+  }
 }

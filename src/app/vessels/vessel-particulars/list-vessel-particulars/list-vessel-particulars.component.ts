@@ -22,6 +22,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { VesselsParticularsService } from '../vessel-particulars.service';
 import { vesselsParticulars } from '../vessal-particulars.model';
+// import * as XLSX from 'xlsx';
 
 
 
@@ -118,40 +119,106 @@ export class ListVesselParticularsComponent extends UnsubscribeOnDestroyAdapter 
 
 
   editCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/add-CountryMaster/', encrypted]);
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    this.router.navigate(['/vessels/vessel-particulars/add-vessel-particulars/', row.code]);
   }
 
   viewCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/viewCountryMaster/', encrypted]);
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    this.router.navigate(['/vessels/vessel-particulars/view-vessel-particulars/', row.code]);
   }
 
-  // deleteItem(i: number, row) {
-  //   this.index = i;
-  //   this.id = row.countryCode;
-  //   let tempDirection;
-  //   if (localStorage.getItem("isRtl") === "true") {
-  //     tempDirection = "rtl";
-  //   } else {
-  //     tempDirection = "ltr";
-  //   }
-  //   const dialogRef = this.dialog.open(DeleteComponent, {
-  //     height: "270px",
-  //     width: "400px",
-  //     data: row,
-  //     direction: tempDirection,
+  deleteItem(row){
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      height: "270px",
+      width: "400px",
+      data: row.code,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+    if (data.data == true) {
+      this.spinner.show();
+      this.VessalParticularsService.delete(row.code).subscribe({
+        next: (data) => {
+          this.spinner.hide();
+          if (data.success) {
+            this.loadData();
+            this.showNotification(
+              "snackbar-success",
+              "Record Deleted",
+              "bottom",
+              "center"
+            );
+          }
+          else{
+            this.showNotification(
+              "snackbar-danger",
+              "Unable to delete",
+              "bottom",
+              "center"
+            );
+          }
+        },
+        error: (error) => {
+          this.spinner.hide();
+        }
+      });
+    }else{
+      //this.loadData();
+    }
+    })
+  }
+
+  // exportToExcel() {
+  //   const selectedColumns = this.dataSource.filteredData.map(item => ({
+  //     VesselCode: item.code,
+  //     VesselName: item.name,
+  //     Fleet: item.fleet,
+  //     VesselType: item.vesseltype,
+  //   }));
+
+  //   const ws = XLSX.utils.json_to_sheet(selectedColumns);
+
+  //   const colWidths = selectedColumns.reduce((widths, row) => {
+  //     return Object.keys(row).map((key, i) => {
+  //       const value = row[key] || '';
+  //       return Math.max(widths[i] || 10, value.toString().length);
+  //     });
+  //   }, []);
+    
+  //   ws['!cols'] = colWidths.map(w => ({ wch: w }));
+    
+  //   const wb = XLSX.utils.book_new();
+  //   XLSX.utils.book_append_sheet(wb, ws, 'Employee Data');
+    
+  //   const blob = new Blob([this.s2ab(XLSX.write(wb, { bookType: 'xlsx', type: 'binary' }))], {
+  //     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   //   });
-  //   this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
-  //     this.loadData();
-  //   });
+    
+  //   const downloadLink = document.createElement('a');
+  //   downloadLink.href = URL.createObjectURL(blob);
+  //   downloadLink.download = 'Referral-list.xlsx';
+  //   downloadLink.click();
+  //   URL.revokeObjectURL(downloadLink.href);
   // }
+
+  // private s2ab(s: string): ArrayBuffer {
+  //   const buf = new ArrayBuffer(s.length);
+  //   const view = new Uint8Array(buf);
+  //   for (let i = 0; i !== s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+  //   return buf;
+  // }
+
   search() {
 
   }
-  deleteItem(row) {
-
-  };
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
@@ -204,7 +271,7 @@ export class ExampleDataSource extends DataSource<vesselsParticulars> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllList();
+    this.exampleDatabase.getList();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data

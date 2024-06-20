@@ -1,12 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { CommonService } from 'src/app/common-service/common.service';
+import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
+import { EncryptionService } from 'src/app/core/service/encrypt.service';
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
+import { NotificationService } from 'src/app/core/service/notification.service';
+import { VesselTypesService } from '../../vessel-types/vessel-types.service';
+import { PrefixesService } from '../prefixes.service';
 
 @Component({
   selector: 'app-add-prefixes',
@@ -15,23 +21,28 @@ import { CommonService } from 'src/app/common-service/common.service';
 })
 export class AddPrefixesComponent implements OnInit {
   docForm: FormGroup;
+  edit:boolean=false;
+  decryptRequestId:any;
 
   constructor(
     private formbuilder: FormBuilder,
-    private commonService: CommonService,
-    public httpClient: HttpClient,
-    public dialog: MatDialog,
-    private snackBar: MatSnackBar,
+    public router:Router,
+    private notificationService: NotificationService,
+    public prefixesService: PrefixesService,
+    private httpService: HttpServiceService,
+    public route: ActivatedRoute,
+    public EncrDecr: EncrDecrService,
     private serverUrl:serverLocations,
-    private httpService:HttpServiceService,
-    public router: Router
+    private encryptionService:EncryptionService,
+    public snackBar: MatSnackBar,
+    public matError : MatErrorService
   ) { 
     this.docForm = this.formbuilder.group({
       firstDetailRow: this.formbuilder.array([
         this.formbuilder.group({
           select: [""],
-          code: [""],
-          description: [""]
+          code: ["", Validators.required],
+          description: ["", Validators.required]
         })
       ]),
     });
@@ -40,8 +51,38 @@ export class AddPrefixesComponent implements OnInit {
     
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
+      // this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
+        this.edit = true;
+        this.fetchDetails(this.decryptRequestId) ;
+      }
+     });
+  }
   
-    
+  fetchDetails(id){
+    this.httpService.get<any>(this.prefixesService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+      let dtlArray = this.docForm.controls.firstDetailRow as FormArray;
+      dtlArray.clear();
+      data.list.forEach((element, index) => {
+        let arraylen = dtlArray.length;
+        let newUsergroup: FormGroup = this.formbuilder.group({
+          select:[""],
+          code: [element.code],
+          description:[element.description + ""]
+        })
+        dtlArray.insert(arraylen, newUsergroup);
+        newUsergroup.get('code').disable();
+      });
+      }, error: (err) => console.log(err)
+     });
+  }
+
+  get rowDtls() {
+    return this.docForm.get('firstDetailRow') as FormArray;
+  }
+
+  getControl(index: number,name:any) {
+    return this.rowDtls.at(index).get([name]);
   }
 
   addRow() {
@@ -49,8 +90,8 @@ export class AddPrefixesComponent implements OnInit {
     let arraylen = firstDetailRow.length;
     let newUsergroup: FormGroup = this.formbuilder.group({
       select: [""],
-      code: [""],
-      description: [""]
+      code: ["", Validators.required],
+      description: ["", Validators.required]
     })
     firstDetailRow.insert(arraylen, newUsergroup);
   }
@@ -80,8 +121,35 @@ export class AddPrefixesComponent implements OnInit {
   }
 
   save(){
-
+    if(this.docForm.valid){
+      this.prefixesService.saveVesselPrefix(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
+
+  update() {
+    const dtlArray = this.docForm.get('firstDetailRow') as FormArray;
+    dtlArray.controls.forEach(control => {
+      control.get('code').enable();
+    });
+    if(this.docForm.valid){
+      this.prefixesService.updateVesselPrefix(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
+  }
+
   cancel(){
     this.router.navigate(['/vessels/maintain/prefixes/list-prefixes']);
 

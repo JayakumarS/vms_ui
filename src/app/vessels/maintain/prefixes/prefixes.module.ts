@@ -41,13 +41,15 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CountryMasterRoutingModule } from 'src/app/master/country-master/country-master-routing.module';
+import { ViewPrefixesComponent } from './view-prefixes/view-prefixes.component';
 
 
 
 @NgModule({
   declarations: [
     AddPrefixesComponent,
-    ListPrefixesComponent
+    ListPrefixesComponent,
+    ViewPrefixesComponent
   ],
   providers: [
     CommonService

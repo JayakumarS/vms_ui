@@ -48,7 +48,7 @@ import { CommonService } from 'src/app/common-service/common.service';
 import { UnitsPackingsRoutingModule } from './units-packings-routing.module';
 import { AddUnitsPackingsComponent } from './add-units-packings/add-units-packings.component';
 import { ListUnitsPackingsComponent } from './list-units-packings/list-units-packings.component';
-import { DecimalFormatDirective } from 'src/app/directives/decimal-format-directive/decimal-format.directive';
+// import { DecimalFormatDirective } from 'src/app/directives/decimal-format-directive1/decimal-format.directive';
 
 
 @NgModule({

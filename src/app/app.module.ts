@@ -45,6 +45,7 @@ import {
 } from "@angular/common/http";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatAutocomplete, MatAutocompleteModule } from "@angular/material/autocomplete";
+import { NumericFormatDirectiveDirective } from './directives/numeric-format-directive/numeric-format-directive.directive';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,

@@ -44,10 +44,10 @@
                         <li>
                           <div class="export-button m-l-10" matTooltip="XLSX">
                             <img src="assets/images/icons/xlsx.png" alt=""
-                              (click)="exporter.exportTable('xlsx', {fileName:'GRN-list', sheet: 'sheet1'})" />
+                              (click)="exporter.exportTable('xlsx', {fileName:'Vessel-Particulars', sheet: 'sheet1'})" />
                           </div>
                         </li>
-                        <li>
+                        <!-- <li>
                           <div class="export-button m-l-10" matTooltip="CSV">
                             <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv',{fileName:'GRN-list'})" />
                           </div>
@@ -61,7 +61,7 @@
                           <div class="export-button m-l-10" matTooltip="TXT">
                             <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt',{fileName:'GRN-list'})" />
                           </div>
-                        </li>
+                        </li> -->
                       </ul>
                     </div>
                   </div>
@@ -71,12 +71,12 @@
                   
                   <ng-container matColumnDef="vesselcode">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Vessel Code</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.vesselcode}} </a></mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.code}} </a></mat-cell>
                   </ng-container>
                 
                   <ng-container matColumnDef="vesselname">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Vessel Name </mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.vesselname}} </a></mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.name}} </a></mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="fleet">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Fleet</mat-header-cell>
@@ -95,14 +95,15 @@
                         class="tbl-action-btn">
                         <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                       </button>
-                      <button  matTooltip="DELETE" mat-icon-button color="accent" (click)="$event.stopPropagation()"
-                        (click)="deleteItem(row)" class="tbl-action-btn">
-                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
-                      </button>
                       <button  matTooltip="VIEW" mat-icon-button  (click)="$event.stopPropagation()" (click)="viewCall(row)"
                       class="tbl-action-btn">
                       <i class="fa fa-eye" style="color:#33b91f;"aria-hidden="true"></i> 
                     </button>
+                      <button  matTooltip="DELETE" mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                        (click)="deleteItem(row)" class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+ 
                     </mat-cell>
                   </ng-container>
   

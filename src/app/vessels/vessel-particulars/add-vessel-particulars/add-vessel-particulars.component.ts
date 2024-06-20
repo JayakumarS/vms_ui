@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
@@ -13,10 +13,25 @@ import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import * as moment from 'moment';
 import { vesselsParticulars } from '../vessal-particulars.model';
 import { VesselsParticularsService } from '../vessel-particulars.service';
+import { SelectableService } from 'ag-grid-community';
+import { SearchableSelectComponent } from 'src/app/shared/components/searchable-select/searchable-select.component';
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { CommonService } from 'src/app/common-service/common.service';
 @Component({
   selector: 'app-add-vessel-particulars',
   templateUrl: './add-vessel-particulars.component.html',
-  styleUrls: ['./add-vessel-particulars.component.sass']
+  styleUrls: ['./add-vessel-particulars.component.sass'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: {
+      display: {
+          dateInput: 'DD/MM/YYYY',
+          monthYearLabel: 'MMMM YYYY'
+      },
+  } },CommonService
+  ]
 })
 export class AddVesselParticularsComponent implements OnInit {
 
@@ -121,6 +136,8 @@ export class AddVesselParticularsComponent implements OnInit {
   superintendentFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
   @ViewChild('superintendent', { static: true }) superintendent: MatSelect;
 
+  @ViewChild('select', { static: true }) select: SearchableSelectComponent;
+
 
 
   protected onDestroy = new Subject<void>();
@@ -131,19 +148,20 @@ export class AddVesselParticularsComponent implements OnInit {
   vesselsParticulars: vesselsParticulars;
   currencyList=[];
   edit:boolean=false;
-  fleetlist:any;
+  fleetlist: any = [];
+  fleetlist1: { id: string, text: string }[] = [];
   typelist:any;
   vesseltypelist:any;
   prefixlist:any;
   requestId: any;
   decryptRequestId: any;
-  machinerylist: any;
+  machinerylist: any=[];
   vesselgrouplist: any;
   fdanddlist: any;
   wagescalelist: any;
   classificationlist: any;
   reasonlist: any;
-  vesselClasslist: any;
+  vesselClasslist: any=[]
   fleetvessellist: any;
   leadvesselidlist: any;
   flaglist: any;
@@ -157,7 +175,7 @@ export class AddVesselParticularsComponent implements OnInit {
   crewmanagerlist:any;
   superintendentlist:any;
   currtmpList: any[];
-  pandilist: any;
+  pandilist: any=[];
   active: boolean=false;
   constructor(private fb: FormBuilder,
     public router:Router,
@@ -168,7 +186,11 @@ export class AddVesselParticularsComponent implements OnInit {
     public EncrDecr: EncrDecrService,
     private serverUrl:serverLocations,
     private encryptionService:EncryptionService,
-    public snackBar: MatSnackBar) { 
+    public snackBar: MatSnackBar,
+    private cdRef: ChangeDetectorRef,
+    public matError : MatErrorService,
+    public commonService: CommonService
+  ) { 
 
     this.docForm = this.fb.group({
       code: [""],
@@ -190,7 +212,7 @@ export class AddVesselParticularsComponent implements OnInit {
       fdandd: [""],
       wagescale: [""],
       classification:[""],
-      isActive:[""],
+      vesselStatus:[false],
       reason: [""],
       vesselClass: [""],
       fleetvessel: [""],
@@ -223,12 +245,26 @@ export class AddVesselParticularsComponent implements OnInit {
       groupmanager:[""],
       dateinfleettypeObj:[""],
       valiedUntilObj:[""],
+      builtdateObj:[""]
     });
 
   }
   
    ngOnInit() {
-    
+      this.getFleetList();
+      this.getVesselClassList();
+      this.getVesselType();
+      this.getPIList();
+      this.getHullMachinery();
+      this.fdList();
+      this.getWageList();
+      this.getPortList();
+      this.flagList();
+      this.getVesselOwner();
+      this.getOfficialManager();
+      this.getShipManagers();
+      this.getCrewManagers();
+      this.generateCode();
      // Currency list dropdown
     this.httpService.get<any>(this.VesselsParticularsService.currencyListUrl).subscribe(
        (data) => {
@@ -243,9 +279,7 @@ export class AddVesselParticularsComponent implements OnInit {
      this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
       this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
        this.edit=true;
-       //For User login Editable mode
-       this.fetchDetails(this.requestId) ;
-
+       this.fetchDetails(this.decryptRequestId) ;
       }
      });
 
@@ -271,6 +305,7 @@ this.prefixFilterCtrl.valueChanges
   { id: "World Scale", text: "World Scale" },
   { id: "Chemical", text: "Chemical" },
   ];
+  console.log(this.typelist);
   
   this.typeFilteredOptions.next(this.typelist.slice());
 
@@ -283,49 +318,13 @@ this.typeFilterCtrl.valueChanges
 
 
 
-this.fleetlist = [
-  
-    
-];
-
-this.fleetFilteredOptions.next(this.fleetlist.slice());
-
-// listen for origin List  search field value changes
-this.fleetFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemfleetlist();
-});
 
 
-this.vesseltypelist = [
-  
-    
-];
-
-this.vesseltypeFilteredOptions.next(this.vesseltypelist.slice());
-
-// listen for origin List  search field value changes
-this.vesseltypeFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemvesseltypelist();
-});
 
 
-this.pandilist = [
-  
-    
-];
 
-this.pandiFilteredOptions.next(this.pandilist.slice());
 
-// listen for origin List  search field value changes
-this.pandiFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritempandilist();
-});
+
 
 
 
@@ -376,21 +375,7 @@ this.filteritemfdanddlist();
 });
 
 
-this.wagescalelist = [
-  
-  { id: "SAFEEN WAGES", text: "SAFEEN WAGES" },
-  { id: "SIMATECH-ITF", text: "SIMATECH-ITF" },
-  { id: "TEST WAGE SCALE", text: "TEST WAGE SCALE" },
-];
 
-this.wagescaleFilteredOptions.next(this.wagescalelist.slice());
-
-// listen for origin List  search field value changes
-this.wagescaleFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemwagescalelist();
-});
 
 
 
@@ -430,19 +415,7 @@ this.filteritemreasonlist();
 });
 
 
-this.vesselClasslist = [
-  
-    
-];
 
-this.vesselClassFilteredOptions.next(this.vesselClasslist.slice());
-
-// listen for origin List  search field value changes
-this.vesselClassFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemvesselClasslist();
-});
 
 
 this.fleetvessellist = [
@@ -479,22 +452,7 @@ this.filteritemleadvesselid();
 });
 
 
-this.flaglist = [
-  
-  { id: "BANGLADESH", text: "BANGLADESH" },
-  { id: "BRITISH", text: "BRITISH" },
-  { id: "BELGIAN", text: "BELGIAN" },
 
-];
-
-this.flagFilteredOptions.next(this.flaglist.slice());
-
-// listen for origin List  search field value changes
-this.flagFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemflaglist();
-});
 
 
 this.registryportlist = [
@@ -529,22 +487,7 @@ this.filteritemiceclasslist();
 });
 
 
-this.shipownerlist = [
-  { id: "ATTAR", text: "ATTAR" },
-  { id: "CME-MAN", text: "CME-MAN" },
-  { id: "SAFEEN", text: "SAFEEN" },
 
-    
-];
-
-this.shipownerFilteredOptions.next(this.shipownerlist.slice());
-
-// listen for origin List  search field value changes
-this.shipownerFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemshipownerlist();
-});
 
 
 this.shipownerplatformlist = [
@@ -579,54 +522,12 @@ this.filteritemoperatorlist();
 });
 
 
-this.officialManagerlist = [
-  
-  { id: "GFS-Safeen", text: "GFS-Safeen" },
-  { id: "SMITE", text: "SMITE" },
-  { id: "Simatech", text: "Simatech" },
-];
-
-this.officialManagerFilteredOptions.next(this.officialManagerlist.slice());
-
-// listen for origin List  search field value changes
-this.officialManagerFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemofficialManagerlist();
-});
-
-this.shipmanagerlist = [
-  { id: "GFS-Safeen", text: "GFS-Safeen" },
-  { id: "SMITE", text: "SMITE" },
-  { id: "Simatech", text: "Simatech" },
-    
-];
-
-this.shipmanagerFilteredOptions.next(this.shipmanagerlist.slice());
-
-// listen for origin List  search field value changes
-this.shipmanagerFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemshipmanagerlist();
-});
 
 
-this.crewmanagerlist = [
-  { id: "(1) ENGINEER", text: "(1) ENGINEER" },
-  { id: "(2) OFFICER", text: "(2) OFFICER" },
-  { id: "(3) COOK", text: "(3) COOK" },
-    
-];
 
-this.crewmanagerFilteredOptions.next(this.crewmanagerlist.slice());
 
-// listen for origin List  search field value changes
-this.crewmanagerFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemcrewmanagerlist();
-});
+
+
 
 
 this.superintendentlist = [
@@ -647,6 +548,172 @@ this.filteritemsuperintendentlist();
 
 
    }
+
+   ngAfterViewInit() {
+    // Now it's safe to access this.select
+  }
+
+   getFleetList(){
+      this.httpService.get(this.VesselsParticularsService.fleetUrl).subscribe({next: (res: any) => {
+        this.fleetlist = res.lCommonUtilityBean.map(item => ({ id: item.id, text: item.text }));
+        // console.log(this.fleetlist1);
+        // this.select.options = this.fleetlist;
+        this.fleetFilteredOptions = this.fleetlist;
+        // this.fleetFilteredOptions.next(this.fleetlist.slice());
+        // this.fleetFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+        //   this.filteritemfleetlist();
+        // });
+      }, error: (err) => console.log(err)
+     });
+   }
+
+   getVesselClassList(){
+    this.httpService.get(this.VesselsParticularsService.vesselClassUrl).subscribe({next: (res: any) => {
+        this.vesselClasslist = res.lCommonUtilityBean;
+        this.vesselClassFilteredOptions.next(this.vesselClasslist.slice());
+        this.vesselClassFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+          this.filteritemvesselClasslist();
+        });
+      }, error: (err) => console.log(err)
+    });
+   }
+
+   getVesselType(){
+    this.httpService.get(this.VesselsParticularsService.vesselTypeUrl).subscribe({next: (res: any) => {
+        this.vesseltypelist = res.lCommonUtilityBean;
+        this.vesseltypeFilteredOptions.next(this.vesseltypelist.slice());
+        this.vesseltypeFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+          this.filteritemvesseltypelist();
+        });
+      }, error: (err) => console.log(err)
+    });
+   }
+
+   getPIList(){
+    this.httpService.get(this.VesselsParticularsService.vesselInsuranceUrl).subscribe({next: (res: any) => {
+        this.pandilist = res.lCommonUtilityBean;
+        this.pandiFilteredOptions.next(this.pandilist.slice());
+        this.pandiFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+          this.filteritempandilist();
+        });
+      }, error: (err) => console.log(err)
+    });
+   }
+
+   getHullMachinery(){
+    this.httpService.get(this.VesselsParticularsService.vesselInsuranceUrl).subscribe({next: (res: any) => {
+        this.machinerylist = res.lCommonUtilityBean;
+        this.hullandmachineryFilteredOptions.next(this.machinerylist.slice());
+        this.hullandmachineryFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+          this.filteritemmachinerylist();
+        });
+      }, error: (err) => console.log(err)
+    });
+   }
+
+   fdList(){
+    this.httpService.get(this.VesselsParticularsService.vesselInsuranceUrl).subscribe({next: (res: any) => {
+        this.fdanddlist = res.lCommonUtilityBean;
+        this.fdanddFilteredOptions.next(this.fdanddlist.slice());
+        this.fdanddFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+          this.filteritemfdanddlist();
+        });
+      }, error: (err) => console.log(err)
+    });
+   }
+
+   getWageList(){
+    this.httpService.get(this.VesselsParticularsService.wageUrl).subscribe({next: (res: any) => {
+        this.wagescalelist = res.lCommonUtilityBean;
+        this.wagescaleFilteredOptions.next(this.wagescalelist.slice());
+        this.wagescaleFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+          this.filteritemwagescalelist();
+        });
+      }, error: (err) => console.log(err)
+    });
+   }
+
+   getPortList(){
+    this.httpService.get(this.VesselsParticularsService.portUrl).subscribe({next: (res: any) => {
+        this.registryportlist = res.lCommonUtilityBean;
+        this.registryportFilteredOptions.next(this.registryportlist.slice());
+        this.registryportFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+          this.filteritemregistryportlist();
+        });
+      }, error: (err) => console.log(err)
+    });
+   }
+
+   flagList(){
+    this.httpService.get(this.VesselsParticularsService.flagUrl).subscribe({next: (res: any) => {
+        this.flaglist = res.lCommonUtilityBean;
+        this.flagFilteredOptions.next(this.flaglist.slice());
+        this.flagFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+          this.filteritemflaglist();
+        });
+      }, error: (err) => console.log(err)
+    });
+   }
+
+   getVesselOwner(){
+    this.httpService.get(this.VesselsParticularsService.vesselOwnerUrl).subscribe({next: (res: any) => {
+        this.shipownerlist = res.lCommonUtilityBean;
+        this.shipownerFilteredOptions.next(this.shipownerlist.slice());
+        this.shipownerFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+          this.filteritemshipownerlist();
+        });
+      }, error: (err) => console.log(err)
+    });
+   }
+
+   getOfficialManager(){
+    this.httpService.get(this.VesselsParticularsService.officialMngrUrl).subscribe({next: (res: any) => {
+        this.officialManagerlist = res.lCommonUtilityBean;
+        this.officialManagerFilteredOptions.next(this.officialManagerlist.slice());
+        this.officialManagerFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+          this.filteritemofficialManagerlist();
+        });
+      }, error: (err) => console.log(err)
+    });
+   }
+
+   getShipManagers(){
+    this.httpService.get(this.VesselsParticularsService.shipMngrUrl).subscribe({next: (res: any) => {  
+        this.shipmanagerlist =   res.lCommonUtilityBean; 
+        this.shipmanagerFilteredOptions.next(this.shipmanagerlist.slice());
+        this.shipmanagerFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+           this.filteritemshipmanagerlist();
+        });
+        }, error: (err) => console.log(err)
+    });
+   }
+
+   getCrewManagers(){
+    this.httpService.get(this.VesselsParticularsService.shipMngrUrl).subscribe({next: (res: any) => {  
+        this.crewmanagerlist =   res.lCommonUtilityBean; 
+        this.crewmanagerFilteredOptions.next(this.shipmanagerlist.slice());
+        this.crewmanagerFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+          this.filteritemcrewmanagerlist();
+        });
+        }, error: (err) => console.log(err)
+    });
+   }
+
+   generateCode(){
+    if(!this.edit){
+      this.httpService.get(this.VesselsParticularsService.generateCodeUrl).subscribe({next: (res: any) => {
+        console.log(res);
+          this.docForm.patchValue({
+            'code':res.vesselCode
+          })
+      }, error: (err) => console.log(err)
+    });
+    }
+
+   }
+
+
+
    activeStatus(event: any) {
     this.active = event.checked;
   }
@@ -1119,8 +1186,11 @@ this.filteritemsuperintendentlist();
       let cdate = this.VesselsParticularsService.getDate(event.target.value);
       if (inputFlag == "dateinfleettype") {
         this.docForm.patchValue({ dateinfleettype: cdate });
+      }else if(inputFlag == "valiedUntil"){
+        this.docForm.patchValue({ valiedUntil: cdate });
+      }else if(inputFlag == "builtdate"){
+        this.docForm.patchValue({ builtdate: cdate });
       }
-    
     }
   
     // if(this.docForm.value.dueDate!=null){
@@ -1128,8 +1198,7 @@ this.filteritemsuperintendentlist();
     // }
   }
   onDateInput2(inputValue: any, inputFlag: any, index: number) {
-    // Check if the input value matches the expected date format
-    const dateFormat = /^\d{1,2}\/\d{1,2}\/\d{4}$/; // Example: dd/mm/yyyy or d/m/yyyy
+    const dateFormat = /^\d{1,2}\/\d{1,2}\/\d{4}$/; 
     if(inputValue!=""){
       if (dateFormat.test(inputValue)) {
         let fdate = this.VesselsParticularsService.getDateObj(inputValue);
@@ -1163,14 +1232,92 @@ this.filteritemsuperintendentlist();
 
 
   onSubmit(){
-
+    if(this.docForm.valid){
+      this.VesselsParticularsService.saveVesselParticulars(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
-  fetchDetails(countryCode: any): void {
-    
+  fetchDetails(id){
+    this.httpService.get<any>(this.VesselsParticularsService.editUrl+"?id="+id).subscribe({next: (res: any) => {
+      let fleetDate = this.commonService.getDateObj(res.hdrBean.dateinfleettype == null ? "" : res.hdrBean.dateinfleettype);
+      let fleetDateId = this.VesselsParticularsService.getDate(res.hdrBean.dateinfleettype == null ? "" : res.hdrBean.dateinfleettype);
+
+      let validUntil = this.commonService.getDateObj(res.hdrBean.valiedUntil == null ? "" : res.hdrBean.valiedUntil);
+      let validUntilId = this.VesselsParticularsService.getDate(res.hdrBean.valiedUntil == null ? "" : res.hdrBean.valiedUntil);
+
+      let buildDate = this.commonService.getDateObj(res.mainDtlBean.builtdate == null ? "" : res.mainDtlBean.builtdate);
+      let buildDateId = this.commonService.getDate(res.mainDtlBean.builtdate == null ? "" : res.mainDtlBean.builtdate);
+      // this.docForm.get('code').disable();
+      this.docForm.patchValue({
+        'code':res.hdrBean.code,
+        'name':res.hdrBean.name,
+        'shortname':res.hdrBean.shortname,
+        'fleet':res.hdrBean.fleet,
+        'vesseltype':res.hdrBean.vesseltype,
+        'pandi':res.hdrBean.pandi,
+        'hullandmachinery':res.hdrBean.hullandmachinery,
+        'vesselgroup':res.hdrBean.vesselgroup,
+        'fdandd':res.hdrBean.fdandd,
+        'wagescale':res.hdrBean.wagescale,
+        'reason':res.hdrBean.reason,
+        'valiedUntilObj':validUntil,
+        'valiedUntil':res.hdrBean.valiedUntil,
+        'leadvesselid':res.hdrBean.leadvesselid,
+        'fleetvessel':res.hdrBean.fleetvessel,
+        'dateinfleettypeObj':fleetDate,
+        'dateinfleettype':res.hdrBean.dateinfleettype,
+
+        //Main Dtls
+        'flag':res.mainDtlBean.flag,
+        'registryport':res.mainDtlBean.registryport,
+        'registryno':res.mainDtlBean.registryno,
+        'classno':res.mainDtlBean.classno,
+        'builtdateObj':buildDate,
+        'builtdate':res.mainDtlBean.builtdate,
+        'placeBuild':res.mainDtlBean.placeBuild,
+        'yardbuild':res.mainDtlBean.yardbuild,
+        'hullno':res.mainDtlBean.hullno,
+        'natnumber':res.mainDtlBean.natnumber,
+        'mmis':res.mainDtlBean.mmis,
+        'iceclass':res.mainDtlBean.iceclass,
+        'imono':res.mainDtlBean.imono,
+
+        //Comm Dtls
+        'shipowner':res.commDtlBean.shipowner,
+        'operator':res.commDtlBean.operator,
+        'safteyno':res.commDtlBean.safteyno,
+
+        //Crew Dtls
+        'officialManager':res.crewDtlBean.officialManager,
+        'shipmanager':res.crewDtlBean.shipmanager,
+        'crewmanager':res.crewDtlBean.crewmanager,
+        'groupmanager':res.crewDtlBean.groupmanager,
+      })
+
+      }, error: (err) => console.log(err)
+     });
   }
   
   update() {
-
+    if(this.docForm.valid){
+      let fleetDate = this.commonService.getDateObj(this.docForm.value.fleetDate == null ? "" : this.docForm.value.fleetDate);
+      // let validUntil = this.commonService.getDateObj(res.hdrBean.valiedUntil == null ? "" : res.hdrBean.valiedUntil);
+      // let buildDate = this.commonService.getDateObj(res.mainDtlBean.builtdate == null ? "" : res.mainDtlBean.builtdate);
+      this.VesselsParticularsService.updateVesselParticular(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
 
   onCancel(){

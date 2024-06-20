@@ -14,6 +14,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { PrefixesService } from '../prefixes.service';
 import { PrefixesModel } from '../prefixes.model';
+import { DeleteComponent } from 'src/app/master/country-master/list-country-master/dialog/delete/delete.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-list-prefixes',
@@ -38,7 +40,8 @@ export class ListPrefixesComponent extends UnsubscribeOnDestroyAdapter implement
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
-    public router: Router
+    public router: Router,
+    private spinner: NgxSpinnerService,
   ) { 
     super();
   }
@@ -67,6 +70,69 @@ export class ListPrefixesComponent extends UnsubscribeOnDestroyAdapter implement
         this.dataSource.filter = this.filter.nativeElement.value;
       }
     );
+  }
+
+  editCall(row) {
+    this.router.navigate(['/vessels/maintain/prefixes/add-prefixes/', row.code]);
+  }
+
+  viewCall(row){
+    this.router.navigate(['/vessels/maintain/prefixes/view-prefixes/', row.code]);
+  }
+
+  deleteItem(row){
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      height: "270px",
+      width: "400px",
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+    if (data.data == true) {
+      this.prefixeservice.delete(row.code).subscribe({
+        next: (data) => {
+          if (data.success) {
+            this.loadData();
+            this.showNotification(
+              "snackbar-success",
+              "Record Deleted",
+              "bottom",
+              "center"
+            );
+          }
+          else{
+            this.showNotification(
+              "snackbar-danger",
+              "Error in save",
+              "bottom",
+              "center"
+            );
+          }
+        },
+        error: (error) => {
+          this.spinner.hide();
+        }
+      });
+    }else{
+      //this.loadData();
+    }
+    })
+  }
+
+  showNotification(colorName, text, placementFrom, placementAlign) {
+    this.snackBar.open(text, "", {
+      duration: 2000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: colorName,
+    });
   }
 
 }
