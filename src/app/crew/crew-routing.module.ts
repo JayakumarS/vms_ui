@@ -42,6 +42,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./currency-master/currency-master.module").then((m) => m.CurrencyMasterModule),
   },
+  {
+    path:"department-master",
+    loadChildren: () =>
+      import("./department-master/department-master.module").then((m) => m.DepartmentMasterModule),
+  },
 ];
 
 @NgModule({
