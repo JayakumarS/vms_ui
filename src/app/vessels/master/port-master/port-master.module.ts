@@ -42,13 +42,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CountryMasterRoutingModule } from '../country-master/country-master-routing.module';
 import { ListPortMasterComponent } from './list-port-master/list-port-master.component';
 import { DeletePortMasterComponent } from './delete-port-master/delete-port-master.component';
+import { ViewPortMasterComponent } from './view-port-master/view-port-master.component';
 
 
 @NgModule({
   declarations: [
     AddPortMasterComponent,
     ListPortMasterComponent,
-    DeletePortMasterComponent
+    DeletePortMasterComponent,
+    ViewPortMasterComponent
   ],
   imports: [
     CommonModule,

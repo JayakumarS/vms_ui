@@ -88,8 +88,7 @@ export class ListPortMasterComponent extends UnsubscribeOnDestroyAdapter {
   }
 
   viewCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/viewCountryMaster/', encrypted]);
+    this.router.navigate(['/vessels/master/port-Master/view-port-master/', row.portCode]);
   }
 
   deleteItem(row){ 

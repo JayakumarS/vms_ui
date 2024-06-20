@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddPortMasterComponent } from './add-port-master/add-port-master.component';
 import { ListPortMasterComponent } from './list-port-master/list-port-master.component';
+import { ViewPortMasterComponent } from './view-port-master/view-port-master.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path : 'list-port-master',
     component : ListPortMasterComponent
+  },
+  {
+    path : 'view-port-master/:id',
+    component : ViewPortMasterComponent
   }
 ];
 

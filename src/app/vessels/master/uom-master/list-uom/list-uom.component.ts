@@ -89,8 +89,7 @@ export class ListUomComponent extends UnsubscribeOnDestroyAdapter {
   }
 
   viewCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/viewCountryMaster/', encrypted]);
+    this.router.navigate(['/vessels/master/uom-Master/view-uom', row.uomCode]);
   }
 
   deleteItem(row){ 

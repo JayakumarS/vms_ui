@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddUomComponent } from './add-uom/add-uom.component';
 import { ListUomComponent } from './list-uom/list-uom.component';
+import { ViewUomComponent } from './view-uom/view-uom.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path : 'list-uom',
     component : ListUomComponent
+  },
+  {
+    path : 'view-uom/:id',
+    component : ViewUomComponent
   }
 ];
 

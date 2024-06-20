@@ -42,13 +42,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CountryMasterRoutingModule } from '../country-master/country-master-routing.module';
 import { ListUomComponent } from './list-uom/list-uom.component';
 import { DeleteUomComponent } from './delete-uom/delete-uom.component';
+import { ViewUomComponent } from './view-uom/view-uom.component';
 
 
 @NgModule({
   declarations: [
     AddUomComponent,
     ListUomComponent,
-    DeleteUomComponent
+    DeleteUomComponent,
+    ViewUomComponent
   ],
   imports: [
     CommonModule,
