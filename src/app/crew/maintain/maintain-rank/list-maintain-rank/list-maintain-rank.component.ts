@@ -35,7 +35,7 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
     "groupage",
     "oAndt",
     "department",
-    "sno",
+    // "sno",
     "remarks",
     "actions"
   ];

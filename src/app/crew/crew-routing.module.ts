@@ -47,6 +47,12 @@ const routes: Routes = [
     loadChildren: () =>
       import("./department-master/department-master.module").then((m) => m.DepartmentMasterModule),
   },
+  {
+    path: "crew-vessel-assignment",
+    loadChildren: () =>
+      import("./crew-vessel-assignment/crew-vessel-assignment.module").then((m) => m.CrewVesselAssignmentModule),
+  },
+
 ];
 
 @NgModule({
