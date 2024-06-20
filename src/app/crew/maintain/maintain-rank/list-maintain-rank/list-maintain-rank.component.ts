@@ -16,12 +16,12 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { DeleteComponent } from 'src/app/master/country-master/list-country-master/dialog/delete/delete.component';
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { MaintainRankService } from '../maintain-rank.service';
 import { MaintainRank } from '../maintain-rank.model';
+import { DeleteComponent } from './delete/delete.component';
 @Component({
   selector: 'app-list-maintain-rank',
   templateUrl: './list-maintain-rank.component.html',
@@ -33,9 +33,9 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
     "code",
     "description",
     "groupage",
-    "ot",
+    "oAndt",
     "department",
-    "sno",
+    // "sno",
     "remarks",
     "actions"
   ];
@@ -50,7 +50,7 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public countryMasterService: MaintainRankService,
+    public MaintainRankService: MaintainRankService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
@@ -113,13 +113,11 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
 
 
   editCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/add-CountryMaster/', encrypted]);
+    this.router.navigate(['/crew/maintain/maintain-rank/add-maintain-rank/', row.code]);
   }
 
   viewCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/viewCountryMaster/', encrypted]);
+    this.router.navigate(['/crew/maintain/maintain-rank/view-maintain-rank/', row.code]);
   }
 
   // deleteItem(i: number, row) {
@@ -142,9 +140,53 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
   //   });
   // }
 
-  deleteItem(row){ 
-   
-    };
+  deleteItem(row){
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      height: "270px",
+      width: "400px",
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+    if (data.data == true) {
+      this.spinner.show();
+      this.MaintainRankService.delete(row.code).subscribe({
+        next: (data) => {
+          this.spinner.hide();
+          if (data.success) {
+            this.loadData();
+            this.showNotification(
+              "snackbar-success",
+              "Record Deleted",
+              "bottom",
+              "center"
+            );
+          }
+          else{
+            this.showNotification(
+              "snackbar-danger",
+              "Error in save",
+              "bottom",
+              "center"
+            );
+          }
+        },
+        error: (error) => {
+          this.spinner.hide();
+        }
+      });
+    }else{
+      //this.loadData();
+    }
+    })
+  }
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
@@ -208,10 +250,8 @@ export class ExampleDataSource extends DataSource<MaintainRank> {
               maintain.code +
               maintain.description +
               maintain.groupage +
-              maintain.ot +
-              maintain.sno +
-              maintain.department +
-              maintain.remarks 
+              maintain.oAndt +
+              maintain.department 
 
              
             ).toLowerCase();
@@ -251,18 +291,13 @@ export class ExampleDataSource extends DataSource<MaintainRank> {
         case "groupage":
           [propertyA, propertyB] = [a.groupage, b.groupage];
           break;
-          case "ot":
-          [propertyA, propertyB] = [a.ot, b.ot];
+          case "oAndt":
+          [propertyA, propertyB] = [a.oAndt, b.oAndt];
           break;
           case "department":
           [propertyA, propertyB] = [a.department, b.department];
           break;
-          case "sno":
-          [propertyA, propertyB] = [a.sno, b.sno];
-          break;
-          case "remarks":
-          [propertyA, propertyB] = [a.remarks, b.remarks];
-          break;
+        
 
         
       }

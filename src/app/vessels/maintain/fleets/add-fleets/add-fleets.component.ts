@@ -14,6 +14,7 @@ import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { Fleets } from '../fleets.model';
 import { FleetsService } from '../fleets.service';
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
 @Component({
   selector: 'app-add-fleets',
   templateUrl: './add-fleets.component.html',
@@ -52,7 +53,7 @@ export class AddFleetsComponent implements OnInit {
 
 
   docForm: FormGroup;
-  payItems: Fleets;
+  fleets: Fleets;
   currencyList=[];
   edit:boolean=false;
   // oldPwd: boolean=false;
@@ -70,9 +71,9 @@ export class AddFleetsComponent implements OnInit {
   contentsFilterslist:any;
   groupinglist:any;
   constructor(private fb: FormBuilder,
-    public router:Router,
+    public router:Router, public matError : MatErrorService,
     private notificationService: NotificationService,
-    public PayItemsService: FleetsService,
+    public FleetsService: FleetsService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
@@ -85,7 +86,7 @@ export class AddFleetsComponent implements OnInit {
   
 
 
-      payitemsDetails: this.fb.array([
+      fleetDtls: this.fb.array([
         this.fb.group({
        
           select:[""],
@@ -106,16 +107,16 @@ export class AddFleetsComponent implements OnInit {
       this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
        this.edit=true;
        //For User login Editable mode
-       this.fetchDetails(this.requestId) ;
+       this.fetchDetails(this.decryptRequestId) ;
 
       }
      });
 
     }
    addRow(){
-    let payitemsDetailsDtlArray=this.docForm.controls.payitemsDetails as FormArray;
+    let payitemsDetailsDtlArray=this.docForm.controls.fleetDtls as FormArray;
     let arraylen=payitemsDetailsDtlArray.length;
-    var len = this.docForm.controls["payitemsDetails"].value.length;
+    var len = this.docForm.controls["fleetDtls"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
       sort : 1 + len,
@@ -126,19 +127,12 @@ export class AddFleetsComponent implements OnInit {
     })
     payitemsDetailsDtlArray.insert(arraylen,newUsergroup);
   }
-  save(){}
-
+  
   cancel(){
     this.router.navigate(['/vessels/maintain/fleets/list-fleets/']);
   }
 
-  //  removeRow(index){
 
-  //   var value;
-  //   let dataarray1 = this.docForm.controls.payitemsDetails as FormArray;
-  //   dataarray1.removeAt(index);
-
-  // }
   removeRow(){
     let count = 0;
     const deleteRow = this.docForm.controls.payitemsDetails as FormArray;
@@ -162,16 +156,53 @@ export class AddFleetsComponent implements OnInit {
       );
     }
   }
-  onSubmit(){
-
-  }
-  fetchDetails(countryCode: any): void {
-   
-  }
   
+  fetchDetails(id: any): void {
+    this.httpService.get<any>(this.FleetsService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+      let dtlArray = this.docForm.controls.fleetDtls as FormArray;
+      dtlArray.clear();
+      data.list.forEach((element, index) => {
+        let arraylen = dtlArray.length;
+        let newUsergroup: FormGroup = this.fb.group({
+          select:[""],
+          code: [element.code],
+          description:[element.description + ""]
+        })
+        dtlArray.insert(arraylen, newUsergroup);
+        newUsergroup.get('code').disable();
+      });
+      }, error: (err) => console.log(err)
+     });
+
+  }
+  save(){
+    
+    if(this.docForm.valid){
+    this.FleetsService.savefleet(this.docForm.value, this.router, this.notificationService);
+  }else{
+    this.matError.markFormGroupTouched(this.docForm);
+    this.notificationService.showNotification(
+      "snackbar-danger",
+      "Please fill the required details",
+      "top",
+      "right");
+  }
+  }
   update() {
-
-
+    const dtlArray = this.docForm.get('fleetDtls') as FormArray;
+    dtlArray.controls.forEach(control => {
+      control.get('code').enable();
+    });
+    if(this.docForm.valid){
+      this.FleetsService.updatefleet(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
 
   onCancel(){

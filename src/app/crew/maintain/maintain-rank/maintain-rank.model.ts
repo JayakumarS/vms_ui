@@ -1,10 +1,14 @@
 export class  MaintainRank {
-  id:any;
-  code: string;
-  description: string;
-  groupage: string;
-  ot: string;
-  department: string;
   sno: string;
   remarks: string;
+
+  id:any;
+  description:any;
+  groupage:any;
+  department:any;
+  oAndt:any;
+  code:any;
+
+
+
 }

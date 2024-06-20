@@ -42,12 +42,14 @@ import { CountryMasterRoutingModule } from 'src/app/master/country-master/countr
 import { OfficialManagersRoutingModule } from './official-managers-routing.module';
 import { AddOfficialManagersComponent } from './add-official-managers/add-official-managers.component';
 import { ListOfficialManagersComponent } from './list-official-managers/list-official-managers.component';
+import { ViewOfficialManagersComponent } from './view-official-managers/view-official-managers.component';
 
 
 @NgModule({
   declarations: [
     AddOfficialManagersComponent,
-    ListOfficialManagersComponent
+    ListOfficialManagersComponent,
+    ViewOfficialManagersComponent
   ],
   providers:[
     CommonService

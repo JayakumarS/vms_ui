@@ -14,6 +14,11 @@ import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { NotificationService } from 'src/app/core/service/notification.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { OfficialManagersService } from '../official-managers.service';
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
+import { DeleteComponent } from '../../vessel-insurance/list-vessel-insurance/delete/delete.component';
+import { ExampleDataSource } from '../list-official-managers/list-official-managers.component';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-add-official-managers',
@@ -23,9 +28,16 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
 export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   docForm: FormGroup;
   acclist: any[];
+  edit:boolean=false;
+  requestId: any;
+  decryptRequestId: any;
+  exampleDatabase: any;
+  dataSource: any;
+  paginator: any;
+  sort: any;
+  filter: any;
 
-
-  constructor(
+  constructor(private fb: FormBuilder,
     private router: Router,
     private formbuilder: FormBuilder,
     private httpService: HttpServiceService,
@@ -36,6 +48,9 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
     private encryptionService: EncryptionService,
     private serverUrl: serverLocations,
     public notificationService: NotificationService,
+    public officialManagersService: OfficialManagersService,
+    public matError : MatErrorService,
+
     private cmnService: CommonService,
     private httpClient: HttpClient,
     private spinner: NgxSpinnerService,
@@ -44,23 +59,16 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
   ) {
     super();
     this.docForm = this.formbuilder.group({
-      firstDetailRow: this.formbuilder.array([
+      officialManagersBeanDtls: this.formbuilder.array([
         this.formbuilder.group({
           select: [""],
-          code: [1],
+          code: [""],
           description: [""],
           city: [""],
           address: [""],
           poscode: [""],
           phone: [""],
-          rem1: [""],
-          rem2: [""],
-          rem3: [""],
-          rem4: [""],
-          tax: [""],
-          type: [""],
-          vatreg: [""],
-          acc: [""],
+          remarks: [""],
           blogo: [""],
           plogo: [""]
 
@@ -72,45 +80,114 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
 
   }
 
-  ngOnInit(): void {
-    this.acclist = [{ id: 1, text: "Admin" }, { id: 3, text: "Officer" }];
+  ngOnInit() {
+    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
+     this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
+       this.edit=true;
+       this.fetchDetails(this.decryptRequestId) ;
+     }
+    });
+   }
+   viewCall(row) {
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    this.router.navigate(['/vessels/maintain/official-managers/view-official-managers/', row.code]);
   }
-  onCancel() {
+  editCall(row) {
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
+    this.router.navigate(['/vessels/maintain/official-managers/add-official-managers/', row.code]);
+  }
+  cancel(){
     this.router.navigate(['/vessels/maintain/official-managers/list-official-managers']);
 
   }
-  onSubmit() {
-
+  public loadData() {
+    this.exampleDatabase = new OfficialManagersService(this.httpClient,this.serverUrl,this.httpService);
+    this.dataSource = new ExampleDataSource(
+      this.exampleDatabase,
+      this.paginator,
+      this.sort
+    );
+    this.subs.sink = fromEvent(this.filter.nativeElement, "keyup").subscribe(
+      () => {
+        if (!this.dataSource) {
+          return;
+        }
+        this.dataSource.filter = this.filter.nativeElement.value;
+      }
+    );
+  }
+  update() {
+    const dtlArray = this.docForm.get('officialManagersBeanDtls') as FormArray;
+    dtlArray.controls.forEach(control => {
+      control.get('shipman').enable();
+    });
+    if(this.docForm.valid){
+      this.officialManagersService.updateShipModel(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
+  }
+  save(){
+    if(this.docForm.valid){
+      this.officialManagersService.saveOffManagerModel(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
+  }
+  fetchDetails(id){
+    this.httpService.get<any>(this.officialManagersService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+      let dtlArray = this.docForm.controls.officialManagersBeanDtls as FormArray;
+      dtlArray.clear();
+      data.list.forEach((element, index) => {
+        let arraylen = dtlArray.length;
+        let newUsergroup: FormGroup = this.fb.group({
+          select:[""],
+          code: [element.code],
+          description: [element.description],
+          city: [element.city],
+          address:[element.address],
+          poscode:[element.poscode],
+          phone:[element.phone ],
+          remarks:[element.remarks + " "],
+        })
+        dtlArray.insert(arraylen, newUsergroup);
+        newUsergroup.get('shipman').disable();
+      });
+      }, error: (err) => console.log(err)
+     });
   }
   addRow() {
-    let firstDetailRow = this.docForm.controls.firstDetailRow as FormArray;
-    let arraylen = firstDetailRow.length;
+    let officialManagersBeanDtls = this.docForm.controls.officialManagersBeanDtls as FormArray;
+    let arraylen = officialManagersBeanDtls.length;
     let newUsergroup: FormGroup = this.formbuilder.group({
       select: [""],
-      code: [arraylen+1],
-      description: [""],
-      city: [""],
-      address: [""],
-      poscode: [""],
-      phone: [""],
-      rem1: [""],
-      rem2: [""],
-      rem3: [""],
-      rem4: [""],
-      tax: [""],
-      type: [""],
-      vatreg: [""],
-      acc: [""],
-      blogo: [""],
-      plogo: [""]
+      code: [""],
+          description: [""],
+          city: [""],
+          address: [""],
+          poscode: [""],
+          phone: [""],
+          remarks: [""],
+          blogo: [""],
+          plogo: [""]
     })
-    firstDetailRow.insert(arraylen, newUsergroup);
+    officialManagersBeanDtls.insert(arraylen, newUsergroup);
 
 
   }
   removeRow() {
     let count = 0;
-    const deleteRow = this.docForm.controls.firstDetailRow as FormArray;
+    const deleteRow = this.docForm.controls.officialManagersBeanDtls as FormArray;
     let i = 0;
 
     while (i < deleteRow.length) {
@@ -133,6 +210,7 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
 
 
   }
+  
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, "", {
       duration: 3000,

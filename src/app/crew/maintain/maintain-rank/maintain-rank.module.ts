@@ -42,12 +42,16 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CountryMasterRoutingModule } from 'src/app/master/country-master/country-master-routing.module';
+import { ViewMaintainRankComponent } from './view-maintain-rank/view-maintain-rank.component';
+import { DeleteComponent } from './list-maintain-rank/delete/delete.component';
 
 
 @NgModule({
   declarations: [
     ListMaintainRankComponent,
-    AddMaintainRankComponent
+    AddMaintainRankComponent,
+    ViewMaintainRankComponent,
+    DeleteComponent
   ],
   providers: [
     NotificationService

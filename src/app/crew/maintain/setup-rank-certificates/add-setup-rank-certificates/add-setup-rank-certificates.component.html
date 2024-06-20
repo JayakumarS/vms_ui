@@ -1,0 +1,241 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Add Rank Certificate'" [items]="['Crew','Maintain']" [active_item]="'Add Rank Certificate'">
+        </app-breadcrumb>
+      </div>
+      <div class="row clearfix ">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="box-shadow">
+          <div class="card">
+            <div class="body" >
+
+         <form class="m-4" [formGroup]="docForm">
+
+         <div class="row" style="display: flex;justify-content: center;">   
+         
+         <div class="col-md-3">
+            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                <mat-label>select rank</mat-label>
+                <mat-select name="srank" formControlName="srank">
+                  <mat-option [value]="'A'">All Ranks</mat-option>
+                  <mat-option [value]="'M'">Master Rank</mat-option>
+                  <mat-option [value]="'BM'">Branch Master Rank</mat-option>
+                </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <br>
+        <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
+        #exporter="matTableExporter">
+        
+        <ng-container matColumnDef="categories">
+          <mat-header-cell *matHeaderCellDef mat-sort-header ><span><b>Categories</b></span><span style="margin-left: 224px;"><b>Ranks</b></span></mat-header-cell>
+          <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.categories}} </mat-cell>
+        </ng-container>
+   
+        <ng-container matColumnDef="master">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>MAS</mat-header-cell>
+          <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> 
+          <mat-checkbox [checked]="row.master"></mat-checkbox>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="bmaster">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>BMA</mat-header-cell>
+            <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> 
+                <mat-checkbox [checked]="row.bmaster"></mat-checkbox>
+            </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="cheifofc">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>C/O</mat-header-cell>
+            <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> 
+                <mat-checkbox [checked]="row.cheifofc"></mat-checkbox></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="scndofc">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>2/O</mat-header-cell>
+            <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> 
+                <mat-checkbox [checked]="row.scndofc"></mat-checkbox></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="thrdofc">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>3/O</mat-header-cell>
+            <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                <mat-checkbox [checked]="row.thrdofc"></mat-checkbox> </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="JO">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>J/O</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+            <mat-checkbox [checked]="row.JO"></mat-checkbox>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="TOF">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>TOF</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox [checked]="row.TOF"></mat-checkbox>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="DCT">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>DCT</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox [checked]="row.DCT"></mat-checkbox>
+           </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="chiefeng">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>C/E</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox [checked]="row.chiefeng"></mat-checkbox>
+                </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="scndEng">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>2/E</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox [checked]="row.scndEng"></mat-checkbox>
+                </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="thirdEng">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>3/E</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox [checked]="row.thirdEng"></mat-checkbox>
+                </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="fourthEng">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>4/E</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+            <mat-checkbox [checked]="row.fourthEng"></mat-checkbox>
+        </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="JE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>J/E</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+            <mat-checkbox [checked]="row.JE"></mat-checkbox>
+        </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="TEG">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>TEG</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+            <mat-checkbox [checked]="row.TEG"></mat-checkbox>
+        </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="ECT">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>ECT</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+            <mat-checkbox [checked]="row.ECT"></mat-checkbox>
+        </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="EE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>E/E</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox [checked]="row.EE"></mat-checkbox>
+                </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="ETO">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>ETO</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+            <mat-checkbox [checked]="row.ETO"></mat-checkbox>
+        </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="JEE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>JEE</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+            <mat-checkbox [checked]="row.JEE"></mat-checkbox>
+        </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="TEE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>TEE</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+            <mat-checkbox [checked]="row.TEE"></mat-checkbox>
+        </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="ELC">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>ELC</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+            <mat-checkbox [checked]="row.ELC"></mat-checkbox>
+        </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="BSN">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>BSN</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+            <mat-checkbox [checked]="row.BSN"></mat-checkbox>
+        </mat-cell>
+          </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+         <mat-row *matRowDef="let row; columns: displayedColumns;"
+                [style.cursor]="'pointer'" matRipple>
+         </mat-row>
+    </mat-table>
+       <!-- Loading spinner -->
+       <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
+        <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+        </mat-progress-spinner>
+      </div>
+      <!-- context menu start -->
+      <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
+        [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+      </div>
+      <mat-menu #contextMenu="matMenu">
+        <ng-template matMenuContent let-item="item">
+          <button mat-menu-item (click)="addNew()">
+            <mat-icon>add_box</mat-icon>
+            <span>Add Record</span>
+          </button>
+          <button mat-menu-item (click)="editCall(item)">
+            <mat-icon>create</mat-icon>
+            <span>Edit Record</span>
+          </button>
+          <button mat-menu-item (click)="deleteItem(item.id,item)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete Record</span>
+          </button>
+          <button mat-menu-item (click)="refresh()">
+            <mat-icon>refresh</mat-icon>
+            <span>Refresh Record</span>
+          </button>
+          <button mat-menu-item disabled>
+            <mat-icon>no_encryption</mat-icon>
+            <span>Disable</span>
+          </button>
+          <button mat-menu-item [matMenuTriggerFor]="nestedmenu">
+            <mat-icon>list_alt</mat-icon>
+            <span> Nested Menu</span>
+          </button>
+        </ng-template>
+      </mat-menu>
+      <mat-menu #nestedmenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>mail_outline</mat-icon>
+          <span>Item 1</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>call</mat-icon>
+          <span>Item 2</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>chat</mat-icon>
+          <span>Item 3</span>
+        </button>
+      </mat-menu>
+      <!-- context menu end -->
+      <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
+        [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+        No results
+      </div>
+      <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]">
+      </mat-paginator>
+    
+    
+<br>
+         <div class="center">
+              <button  class="btn-space saveBtn" mat-raised-button (click)="onSubmit()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+        </div>
+    </form>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>

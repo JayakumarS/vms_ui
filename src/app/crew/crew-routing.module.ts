@@ -32,6 +32,27 @@ const routes: Routes = [
     loadChildren: () =>
       import("./utilities/utilities.module").then((m) => m.UtilitiesModule),
   },
+  {
+    path: "admin",
+    loadChildren: () =>
+      import("./admin/admin.module").then((m) => m.AdminModule),
+  },
+  {
+    path:"currency-master",
+    loadChildren: () =>
+      import("./currency-master/currency-master.module").then((m) => m.CurrencyMasterModule),
+  },
+  {
+    path:"department-master",
+    loadChildren: () =>
+      import("./department-master/department-master.module").then((m) => m.DepartmentMasterModule),
+  },
+  {
+    path: "crew-vessel-assignment",
+    loadChildren: () =>
+      import("./crew-vessel-assignment/crew-vessel-assignment.module").then((m) => m.CrewVesselAssignmentModule),
+  },
+
 ];
 
 @NgModule({

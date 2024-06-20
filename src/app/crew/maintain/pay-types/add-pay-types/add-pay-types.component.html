@@ -1,0 +1,95 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Add PayTypes'" [items]="['Vessel','Maintain']" [active_item]="'Add PayTypes'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix ">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="box-shadow">
+                    <div class="card">
+                        <div class="body">
+                            <form class="m-4" [formGroup]="docForm">
+
+                                <div style="overflow-x: auto; max-width: 100%;">
+                                    <table id="dt_basic" class="table table-striped font-weight-bold " role="grid">
+                                        <thead class="">
+
+                                            <tr>
+                                                <th class="text-center table-heading padding-both-side-2 width_7"></th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7">Code</th>
+                                                <th class="text-center table-heading padding-both-side-2 width_7">Description</th>
+                                                <th style="width: 1%;"></th>
+                                        </thead>
+
+                                        <ng-container
+                                            *ngFor="let payTypesBeanDtls of docForm.get('payTypesBeanDtls')['controls']; let i = index">
+                                            <tbody [formGroup]="payTypesBeanDtls">
+
+                                                <tr>
+                                                    <td class="col-md-1">
+                                                        <mat-checkbox class="example-margin mb-13" name="select{{i}}" formControlName="select"></mat-checkbox>
+                                                    </td>
+
+                                                    <td class="col-md-4">
+                                                        <mat-form-field class="example-full-width form-control-sm"
+                                                            appearance="outline">
+                                                            <mat-label>Code</mat-label>
+                                                            <input matInput name="code{{i}}" formControlName="code">
+                                                            <mat-error *ngIf="getControl(i,'code').hasError('required')">
+                                                                Code is required
+                                                            </mat-error>
+                                                        </mat-form-field>
+
+                                                    </td>
+
+                                                    <td class="col-md-6">
+                                                        <mat-form-field class="example-full-width form-control-sm"
+                                                            appearance="outline">
+                                                            <mat-label>Description</mat-label>
+                                                            <input matInput name="description{{i}}"
+                                                                formControlName="description">
+
+                                                        </mat-form-field>
+
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                    </td>
+                                                </tr>
+
+
+                                            </tbody>
+                                        </ng-container>
+                                    </table>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div>
+                                    <button mat-mini-fab color="primary" (click)="addRow()">
+                                        <mat-icon class="col-white">add</mat-icon>
+                                    </button>
+            
+                                    <button mat-mini-fab color="warn" class="ml-15" (click)="removeRow()">
+                                        <mat-icon class="col-white">delete</mat-icon>
+                                    </button>
+                                    </div>
+                                </div>
+
+
+                                <br>
+                                <div class="center">
+                           <button *ngIf="!edit" class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                           <button *ngIf="edit" class="btn-space saveBtn" mat-raised-button (click)="update()"><mat-icon class="saveCancelIcon">save</mat-icon>Update</button>
+                           <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+                                 </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

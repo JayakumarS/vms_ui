@@ -13,6 +13,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { OfficialManagersService } from '../official-managers.service';
 import { OffManagerModel } from '../off-managers.model';
+import { DeleteComponent } from '../../vessel-insurance/list-vessel-insurance/delete/delete.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-list-official-managers',
@@ -39,6 +41,8 @@ export class ListOfficialManagersComponent extends UnsubscribeOnDestroyAdapter i
     public offmanagerservice: OfficialManagersService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
+    private spinner: NgxSpinnerService,
+
     private httpService:HttpServiceService,
     public router: Router
   ) { 
@@ -75,9 +79,71 @@ export class ListOfficialManagersComponent extends UnsubscribeOnDestroyAdapter i
   addNew(){
 
   }
+  viewCall(row) {
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    this.router.navigate(['/vessels/maintain/official-managers/view-official-managers/', row.code]);
+  }
+  editCall(row) {
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
+    this.router.navigate(['/vessels/maintain/official-managers/add-official-managers/', row.code]);
+  }
+  deleteItem(row){
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
 
-  editCall(item){
-
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      height: "270px",
+      width: "400px",
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+    if (data.data == true) {
+      this.spinner.show();
+      this.offmanagerservice.delete(row.code).subscribe({
+        next: (data) => {
+          this.spinner.hide();
+          if (data.success) {
+            this.loadData();
+            this.showNotification(
+              "snackbar-success",
+              "Record Deleted",
+              "bottom",
+              "center"
+            );
+          }
+          else{
+            this.showNotification(
+              "snackbar-danger",
+              "Error in save",
+              "bottom",
+              "center"
+            );
+          }
+        },
+        error: (error) => {
+          this.spinner.hide();
+        }
+      });
+    }else{
+      //this.loadData();
+    }
+    })
+  }
+  showNotification(colorName, text, placementFrom, placementAlign) {
+    this.snackBar.open(text, "", {
+      duration: 3000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: [colorName, 'snackbar-text'],
+      data: {
+        html: true
+      }
+    });
   }
 
 }

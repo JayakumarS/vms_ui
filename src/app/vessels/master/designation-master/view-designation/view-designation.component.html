@@ -1,0 +1,82 @@
+ <section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        
+        <app-breadcrumb [title]="' Designation'" [items]="['Master']" [active_item]="'View Designation'">
+        </app-breadcrumb>
+      </div>
+      <div class="row clearfix ">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="box-shadow">
+          <div class="card">
+            <div class="body">
+                <style>
+    .border1 {
+
+        border-collapse: collapse;
+    }
+    b{
+        font-size: 13px;
+    }
+
+    .bold {
+        font-weight: 600;
+    }
+</style>
+<form class="m-4" [formGroup]="docForm">
+    <div class="container border" id="salesOrderdview" style=" border: 1px solid #b8a6dd!important; border-radius: 10px; background-color: #ecebf7;">
+        <div style="margin-top: 45px; margin-left: 350px;">
+            <table style="width: 100% !important; margin-left: 60px;">
+                <tr>
+                    <table >
+                        <tr >
+                            <td style="text-align: right;" >
+                                <b>DESIGNATION NAME:</b>
+                            </td>&nbsp;
+                            <td >
+                                {{designationMaster?.designationName}}
+                            </td>
+                            </tr>
+                            <br>
+                            <tr>
+                            <td style="text-align: right;width: 93px;">
+                                <b>REMARKS :</b>
+                            </td>&nbsp;
+                            <td >
+                                {{designationMaster?.remarks}}
+                            </td>
+                        </tr>
+                        <br>
+                        <tr>
+                            <td style="text-align: right; width: 141px;" >
+                                <b>ACTIVE :</b>
+                            </td>&nbsp;
+                            <td >
+                                {{designationMaster?.active}}
+                            </td>
+                        </tr>
+                        <br>
+                        <tr>
+                        </tr>
+
+                    </table>
+                </tr>
+
+            </table>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                    <button color="warn" (click)="onCancel()" type="button"
+                        mat-raised-button style="margin-left:17%;">CANCEL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section> 
+

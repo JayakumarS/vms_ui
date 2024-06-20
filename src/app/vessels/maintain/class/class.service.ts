@@ -26,19 +26,12 @@ export class ClassService extends UnsubscribeOnDestroyAdapter{
   constructor(private httpClient: HttpClient, private serverUrl: serverLocations, private httpService: HttpServiceService) {
     super();
   }
-  private getAllMasters = `${this.serverUrl.apiServerAddress}app/countryMaster/getList`;
-  private saveCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/save`;
-  public deleteCountryUrl = `${this.serverUrl.apiServerAddress}app/countryMaster/delete`;
-  public editCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/edit`;
-  public updateCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/update`;
-  public currencyListUrl = `${this.serverUrl.apiServerAddress}app/currencyMaster/getList`;
-  public editcountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/getCode`;
-  public validateCusShortNameUrl = `${this.serverUrl.apiServerAddress}app/common/commonServices/validateUnique`;
-  public viewCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/view`;
-  public savePrePlan = `${this.serverUrl.apiServerAddress}app/countryMaster/savePrePlan`;
-  public updatePreplanCal = `${this.serverUrl.apiServerAddress}app/countryMaster/updatePreplan`;
-  public deleteEventCal = `${this.serverUrl.apiServerAddress}app/countryMaster/deleteEventCal`;
-  public editEventDetail = `${this.serverUrl.apiServerAddress}app/countryMaster/editEventDetail`;
+  private list = `${this.serverUrl.apiServerAddress}api/vessels/class/list`;
+  private savevesselclass = `${this.serverUrl.apiServerAddress}api/vessels/class/saveclass`;
+  public deleteclass = `${this.serverUrl.apiServerAddress}api/vessels/class/delete`;
+  public editclass = `${this.serverUrl.apiServerAddress}api/vessels/class/editclass`;
+  public updatevesselclass = `${this.serverUrl.apiServerAddress}api/vessels/class/updateclass`;
+  
 
   get data(): Class[] {
     return this.dataChange.value;
@@ -46,85 +39,66 @@ export class ClassService extends UnsubscribeOnDestroyAdapter{
   getDialogData() {
     return this.dialogData;
   }
-  /** CRUD METHODS */
-  getAllList(): void {
-        
-  }
-  
-  getList() {
-    // Define the type for the list
-    let list: Class[] = [
-      {
-        code: "MAS",
-        description: "GFS Ship Management FZE",
-        getRandomID: function (): string {
-          throw new Error('Function not implemented.');
-        }
-      }
-    ];
-  
-    // Set loading to false initially
-    this.isTblLoading = false;
-  
-    // Update the dataChange subject with the list
-    this.dataChange.next(list);
-  
-    // Uncomment and define value and url for future API requests
-    // let value = {}; // Define the payload for the POST request
-    // let url = 'your-api-endpoint'; // Replace with the actual API endpoint
-  
-    // If you plan to fetch data from an API, uncomment the code below
-    /*
-    this.isTblLoading = true; // Set loading to true while fetching data
-    this.subs.sink = this.httpService.post<MaintainRank[]>(url, value).subscribe(
-      (data) => {
-        this.isTblLoading = false;
-        this.dataChange.next(data);
-      },
-      (error: HttpErrorResponse) => {
-        this.isTblLoading = false;
-        console.log(error.name + " " + error.message);
-      }
-    );
-    */
-  }
-
-  
  
+    
+    getList() {
+      this.isTblLoading = true; 
+      this.httpService.get<any>(this.list).subscribe({next: (data: any) => {
+          this.isTblLoading = false;
+          this.dataChange.next(data.list);
+        }, error: (err) => console.log(err)
+       });
+    }
   
+    saveclass(Class: Class, router, notificationService) {
+      this.httpService.post<Class>(this.savevesselclass, Class).subscribe({next: (data: any) => {
+        if (data.success == true) {
+          notificationService.showNotification(
+            "snackbar-success",
+            "Record Added Successfully",
+            "bottom",
+            "center"
+          );
+          router.navigate(['/vessels/maintain/class/list-class']);
+        }else{
+          notificationService.showNotification(
+            "snackbar-danger",
+            "Not Updated",
+            "bottom",
+            "center"
+          );
+        }
+        }, error: (err) => console.log(err)
+       });
+     
+    }
   
-  // deleteEmployees(countryCode : any,router,notificationService): void {
-  //    this.httpService.get<CountryMaster>(this.deleteCountryUrl+"?countryCode="+countryCode).subscribe(data => {
-  //     console.log(countryCode);
-  //     if(data.Success===true){
-  //       notificationService.showNotification(
-  //         "snackbar-success",
-  //         "Deleted Record Successfully...!!!",
-  //         "bottom",
-  //         "center"
-  //       );
-  //       router.navigate(['/master/country-Master/list-CountryMaster']);
-  //     }
-  //     else if(data.Success===false){
-  //       notificationService.showNotification(
-  //         "snackbar-danger",
-  //         "Error in delete...!!!",
-  //         "bottom",
-  //         "center"
-  //       );
-  //     }
-
-  //     },
-  //     (err: HttpErrorResponse) => {
-  //        // error code here
-  //     }
-  //   );
-  // }
-
-  getCurrencyList() {
+    updateclass(Class: Class, router, notificationService){
+      this.httpService.post<Class>(this.updatevesselclass, Class).subscribe({next: (data: any) => {
+        if (data.success == true) {
+          notificationService.showNotification(
+            "snackbar-success",
+            "Record Updated Successfully",
+            "bottom",
+            "center"
+          );
+          router.navigate(['/vessels/maintain/class/list-class']);
+        }else{
+          notificationService.showNotification(
+            "snackbar-danger",
+            "Not Updated",
+            "bottom",
+            "center"
+          );
+        }
+        }, error: (err) => console.log(err)
+       });
+    }
+  
+    delete(id){
+      return this.httpClient.get<any>(this.deleteclass + "?id=" + id);
+    }
    
-   
-  }
-
+  
  
 }

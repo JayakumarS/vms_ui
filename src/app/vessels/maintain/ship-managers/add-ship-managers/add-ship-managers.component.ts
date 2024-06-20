@@ -14,6 +14,8 @@ import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { NotificationService } from 'src/app/core/service/notification.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { ShipManagersService } from '../ship-managers.service';
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
 
 @Component({
   selector: 'app-add-ship-managers',
@@ -22,8 +24,13 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
 })
 export class AddShipManagersComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   docForm: FormGroup;
+  edit:boolean=false;
+  requestId: any;
+  decryptRequestId: any;
 
-  constructor(
+
+
+  constructor(private fb: FormBuilder,
     private router: Router,
     private formbuilder: FormBuilder,
     private httpService: HttpServiceService,
@@ -36,60 +43,119 @@ export class AddShipManagersComponent extends UnsubscribeOnDestroyAdapter implem
     public notificationService: NotificationService,
     private cmnService: CommonService,
     private httpClient: HttpClient,
+    public shipManagersService: ShipManagersService,
+
     private spinner: NgxSpinnerService,
     private authService: AuthService,
     private EncrDecr: EncrDecrService,
+    public matError : MatErrorService
   ) {
     super();
     this.docForm=this.formbuilder.group({
-      firstDetailRow:this.formbuilder.array([
+      shipManagersBeanDtls:this.formbuilder.array([
         this.formbuilder.group({
           select:[''],
           shipman:['',Validators.required],
           name:['',Validators.required],
-          det1:[""],
-          det2:[""],
-          det3:[""],
-          det4:[""],
-          det5:[""],
-          det6:[""],
+          remarks:[""],
           vatreg:[""]
         })
       ]),
     })
    }
 
-  ngOnInit(): void {
+   ngOnInit() {
+    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
+     this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
+       this.edit=true;
+       this.fetchDetails(this.decryptRequestId) ;
+     }
+    });
+   }
+  save(){
+    if(this.docForm.valid){
+      this.shipManagersService.saveShipModel(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
-
-  onSubmit(){
-
-  }
-  onCancel(){
+  cancel(){
     this.router.navigate(['/vessels/maintain/ship-managers/list-ship-managers']);
 
   }
+  update() {
+    const dtlArray = this.docForm.get('shipManagersBeanDtls') as FormArray;
+    dtlArray.controls.forEach(control => {
+      control.get('shipman').enable();
+    });
+    if(this.docForm.valid){
+      this.shipManagersService.updateShipModel(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
+  }
   addRow() {
-    let firstDetailRow = this.docForm.controls.firstDetailRow as FormArray;
-    let arraylen = firstDetailRow.length;
+    let shipManagersBeanDtls = this.docForm.controls.shipManagersBeanDtls as FormArray;
+    let arraylen = shipManagersBeanDtls.length;
     let newUsergroup: FormGroup = this.formbuilder.group({
           select:[""],
           shipman:['',Validators.required],
           name:['',Validators.required],
-          det1:[""],
-          det2:[""],
-          det3:[""],
-          det4:[""],
-          det5:[""],
-          det6:[""],
+          remarks:[""],
           vatreg:[""]
     })
-    firstDetailRow.insert(arraylen, newUsergroup);
+    shipManagersBeanDtls.insert(arraylen, newUsergroup);
   }
-  
+  fetchDetails(id){
+    this.httpService.get<any>(this.shipManagersService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+      let dtlArray = this.docForm.controls.shipManagersBeanDtls as FormArray;
+      dtlArray.clear();
+      data.list.forEach((element, index) => {
+        let arraylen = dtlArray.length;
+        let newUsergroup: FormGroup = this.fb.group({
+          select:[""],
+          shipman: [element.shipman],
+          name: [element.name],
+          remarks: [element.remarks],
+          vatreg:[element.vatreg + ""]
+        })
+        dtlArray.insert(arraylen, newUsergroup);
+        newUsergroup.get('shipman').disable();
+      });
+      }, error: (err) => console.log(err)
+     });
+  }
+  reset(){
+    if(!this.edit){
+      this.docForm = this.fb.group({
+        shipManagersBeanDtls: this.fb.array([
+          this.fb.group({
+            sort : 1,
+            shipman:[""],
+          name:[""],
+          remarks:[""],
+          vatreg:[""]
+            
+          })
+        ]),
+      });
+    }else{
+      this.fetchDetails(this.docForm.value.countryCode);
+    }
+  }
   removeRow() {
     let count = 0;
-    const deleteRow = this.docForm.controls.firstDetailRow as FormArray;
+    const deleteRow = this.docForm.controls.shipManagersBeanDtls as FormArray;
     let i = 0;
 
     while (i < deleteRow.length) {

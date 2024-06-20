@@ -33,7 +33,7 @@ export class ListFleetsComponent extends UnsubscribeOnDestroyAdapter implements 
    // "select",
     "code",
     "description",
-    
+    "actions"
   ];
 
   dataSource: ExampleDataSource | null;
@@ -46,7 +46,7 @@ export class ListFleetsComponent extends UnsubscribeOnDestroyAdapter implements 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public countryMasterService: FleetsService,
+    public fleetsService: FleetsService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
@@ -109,37 +109,62 @@ export class ListFleetsComponent extends UnsubscribeOnDestroyAdapter implements 
 
 
   editCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/add-CountryMaster/', encrypted]);
+    this.router.navigate(['/vessels/maintain/fleets/add-fleets/',row.code ]);
   }
 
   viewCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/viewCountryMaster/', encrypted]);
+    this.router.navigate(['/vessels/maintain/fleets/view-fleets/',row.code]);
   }
 
-  // deleteItem(i: number, row) {
-  //   this.index = i;
-  //   this.id = row.countryCode;
-  //   let tempDirection;
-  //   if (localStorage.getItem("isRtl") === "true") {
-  //     tempDirection = "rtl";
-  //   } else {
-  //     tempDirection = "ltr";
-  //   }
-  //   const dialogRef = this.dialog.open(DeleteComponent, {
-  //     height: "270px",
-  //     width: "400px",
-  //     data: row,
-  //     direction: tempDirection,
-  //   });
-  //   this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
-  //     this.loadData();
-  //   });
-  // }
+  
 
   deleteItem(row){ 
    
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      height: "270px",
+      width: "400px",
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+    if (data.data == true) {
+      this.spinner.show();
+      this.fleetsService.delete(row.code).subscribe({
+        next: (data) => {
+          this.spinner.hide();
+          if (data.success) {
+            this.loadData();
+            this.showNotification(
+              "snackbar-success",
+              "Record Deleted",
+              "bottom",
+              "center"
+            );
+          }
+          else{
+            this.showNotification(
+              "snackbar-danger",
+              "Error in save",
+              "bottom",
+              "center"
+            );
+          }
+        },
+        error: (error) => {
+          this.spinner.hide();
+        }
+      });
+    }else{
+      //this.loadData();
+    }
+    })
     };
 
   private refreshTable() {
