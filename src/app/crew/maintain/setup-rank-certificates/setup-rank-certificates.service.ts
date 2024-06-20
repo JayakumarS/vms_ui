@@ -25,13 +25,24 @@ export class SetupRankCertificatesService extends UnsubscribeOnDestroyAdapter{
     super();
   }
 
-  private save = `${this.serverUrl.apiServerAddress}api/`;
-  private getList = `${this.serverUrl.apiServerAddress}api/`;
-  private deleteURL = `${this.serverUrl.apiServerAddress}api/`;
-  public editURL = `${this.serverUrl.apiServerAddress}api/`;
-  public updateURL= `${this.serverUrl.apiServerAddress}api/`;
+  private save = `${this.serverUrl.apiServerAddress}api/crew/maintain/save`;
+  private list = `${this.serverUrl.apiServerAddress}api/crew/maintain/rankcertificate/list`;
+  // private deleteURL = `${this.serverUrl.apiServerAddress}api/`;
+  // public editURL = `${this.serverUrl.apiServerAddress}api/`;
+  // public updateURL= `${this.serverUrl.apiServerAddress}api/`;
   
 
+
+  //list
+
+  getList(){
+    this.isTblLoading = true; 
+    this.httpService.get<any>(this.list).subscribe({next: (data: any) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data.list);
+      }, error: (err) => console.log(err)
+     });
+  }
   //save
   addrank(setuprank:setuprank, router, notificationService, spinner): void {
     this.dialogData = setuprank;
@@ -63,29 +74,29 @@ export class SetupRankCertificatesService extends UnsubscribeOnDestroyAdapter{
   }
   
   
-  //Update
-  Updaterank(setuprank: setuprank,router,notificationService): void {
-    this.dialogData = setuprank;
-    this.httpService.post<setuprank>(this.updateURL, setuprank).subscribe(data => {
-      console.log(data);
-      if(data){
-        notificationService.showNotification(
-          "snackbar-success",
-          "Updated Record Successfully...!!!",
-          "bottom",
-          "center"
-        );
-        router.navigate(['crew/maintain/setup-rank/add-setuprank']);
-      }
-      else {
-        notificationService.showNotification(
-          "snackbar-danger",
-          "Not Updated ...!!!",
-          "bottom",
-          "center"
-          );
-        }
-    });
-  }
+  // //Update
+  // Updaterank(setuprank: setuprank,router,notificationService): void {
+  //   this.dialogData = setuprank;
+  //   this.httpService.post<setuprank>(this.updateURL, setuprank).subscribe(data => {
+  //     console.log(data);
+  //     if(data){
+  //       notificationService.showNotification(
+  //         "snackbar-success",
+  //         "Updated Record Successfully...!!!",
+  //         "bottom",
+  //         "center"
+  //       );
+  //       router.navigate(['crew/maintain/setup-rank/add-setuprank']);
+  //     }
+  //     else {
+  //       notificationService.showNotification(
+  //         "snackbar-danger",
+  //         "Not Updated ...!!!",
+  //         "bottom",
+  //         "center"
+  //         );
+  //       }
+  //   });
+  // }
   
 }

@@ -58,8 +58,7 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
   edit:boolean=false;
   requestId: number;
   setuprank:setuprank;
-  //  dataSource: ExampleDataSource | null;
-   dataSource: MatTableDataSource<setuprank>;
+  dataSource: ExampleDataSource | null;
 
  exampleDatabase: SetupRankCertificatesService | null;
   selection = new SelectionModel<setuprank>(true, []);
@@ -91,58 +90,6 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
  
   ngOnInit(): void {
 
-    const setupRanks: setuprank[] = [
-      {
-        categories: 'PRE JOINING MEDICALS',
-        master: true,
-        bmaster: true,
-        cheifofc: true,
-        scndofc: false,
-        thrdofc: false,
-        JO: false,
-        TOF: true,
-        DCT: false,
-        chiefeng: true,
-        scndEng: false,
-        thirdEng: false,
-        fourthEng: false,
-        JE: false,
-        TEG: true,
-        ECT: false,
-        EE: true,
-        ETO: true,
-        JEE: false,
-        TEE: false,
-        ELC: true,
-        BSN: true
-      },
-      {
-        categories: 'FIRE PREVENTION-BASIC/ADVANCED  FIRE FIGHTING',
-        master: true,
-        bmaster: true,
-        cheifofc: true,
-        scndofc: true,
-        thrdofc: true,
-        JO: false,
-        TOF: true,
-        DCT: false,
-        chiefeng: true,
-        scndEng: true,
-        thirdEng: true,
-        fourthEng: false,
-        JE: false,
-        TEG: true,
-        ECT: false,
-        EE: true,
-        ETO: true,
-        JEE: false,
-        TEE: false,
-        ELC: true,
-        BSN: true
-      },
-      // Add more sample data as needed
-    ];
-    this.dataSource = new MatTableDataSource(setupRanks);
     this.docForm = this.fb.group({
 
       srank : ["A"],
@@ -160,6 +107,7 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
     this.docForm.get("srank")?.valueChanges.subscribe((selectedRank: string) => {
       this.updateDisplayedColumns(selectedRank);
     });
+    this.loadData();
   }
 
   updateDisplayedColumns(selectedRank: string): void {
@@ -267,11 +215,11 @@ onCancel(){
 }
 public loadData() {
   this.exampleDatabase = new SetupRankCertificatesService(this.httpClient,this.serverUrl,this.httpService);
-  // this.dataSource = new ExampleDataSource(
-  //   this.exampleDatabase,
-  //   this.paginator,
-  //   this.sort
-  // );
+  this.dataSource = new ExampleDataSource(
+    this.exampleDatabase,
+    this.paginator,
+    this.sort
+  );
   this.subs.sink = fromEvent(this.filter.nativeElement, "keyup").subscribe(
     () => {
       if (!this.dataSource) {
@@ -310,12 +258,32 @@ export class ExampleDataSource extends DataSource<setuprank> {
       this.paginator.page,
     ];
 
-    // this.exampleDatabase.getList();
+    this.exampleDatabase.getList();
     return merge(...displayDataChanges).pipe(map(() => {
         this.filteredData = this.exampleDatabase.data.slice().filter((setuprank: setuprank) => {
             const searchStr = (
               setuprank.categories +
-              setuprank.master 
+              setuprank.master +
+              setuprank.bmaster +
+              setuprank.cheifofc +
+              setuprank.scndofc +
+              setuprank.thrdofc +
+              setuprank.JO +
+              setuprank.TOF +
+              setuprank.DCT +
+              setuprank.chiefeng +
+              setuprank.scndEng +
+              setuprank.thirdEng +
+              setuprank.fourthEng +
+              setuprank.JE +
+              setuprank.TEG +
+              setuprank.ECT +
+              setuprank.EE +
+              setuprank.ETO +
+              setuprank.JEE +
+              setuprank.TEE +
+              setuprank.ELC +
+              setuprank.BSN 
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -346,7 +314,62 @@ export class ExampleDataSource extends DataSource<setuprank> {
         case "master":
           [propertyA, propertyB] = [a.master, b.master];
           break;
-      }
+          case "categories":
+            [propertyA, propertyB] = [a.categories, b.categories];
+            break;
+          case "bmaster":
+            [propertyA, propertyB] = [a.bmaster, b.bmaster];
+            break;
+          case "cheifofc":
+           [propertyA, propertyB] = [a.cheifofc, b.cheifofc];
+            break;
+            case "scndofc":
+            [propertyA, propertyB] = [a.scndofc, b.scndofc];
+            break;
+           case "thrdofc":
+             [propertyA, propertyB] = [a.thrdofc, b.thrdofc];
+            break;
+           case "JO":
+              [propertyA, propertyB] = [a.JO, b.JO];
+            break;
+            case "TOF":
+              [propertyA, propertyB] = [a.TOF, b.TOF];
+              break;
+            case "DCT":
+              [propertyA, propertyB] = [a.DCT, b.DCT];
+              break;
+              case "chiefeng":
+                [propertyA, propertyB] = [a.chiefeng, b.chiefeng];
+                break;
+              case "scndEng":
+                [propertyA, propertyB] = [a.scndEng, b.scndEng];
+                break;       
+              case "thirdEng":
+               [propertyA, propertyB] = [a.thirdEng, b.thirdEng];
+               break;  
+           case "fourthEng":
+             [propertyA, propertyB] = [a.fourthEng, b.fourthEng];
+               break;  
+             case "JE":
+             [propertyA, propertyB] = [a.JE, b.JE];
+            break;
+            case "ETO":
+              [propertyA, propertyB] = [a.ETO, b.ETO];
+             break;
+             case "JEE":
+              [propertyA, propertyB] = [a.JEE, b.JEE];
+             break;
+             case "TEE":
+              [propertyA, propertyB] = [a.TEE, b.TEE];
+             break;  
+             case "ELC":
+              [propertyA, propertyB] = [a.ELC, b.ELC];
+             break;
+             case "BSN":
+              [propertyA, propertyB] = [a.BSN, b.BSN];
+             break;
+
+      }                             
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
       return (
