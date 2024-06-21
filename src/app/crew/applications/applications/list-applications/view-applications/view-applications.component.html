@@ -15,19 +15,32 @@
                                 style=" border: 1px solid #b8a6dd!important; border-radius: 10px; background-color: #ecebf7;">
 
                                 <form class="m-4" [formGroup]="docForm">
+                                    <h4>Main Details</h4>
+                                    <hr style="margin-top: 10px; border: 1px solid #000;">
                                     <br>
                                     <div class="row">
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
                                             <label><b>Surname:</b>&nbsp;{{viewDtl?.surname}}</label>
                                         </div>
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b> Name :</b> &nbsp;{{viewDtl?.name}}</label>
+                                            <label><b> Name:</b> &nbsp;{{viewDtl?.name}}</label>
                                         </div> 
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Middle Name :</b> &nbsp;{{viewDtl?.midname}}</label>
+                                            <label><b>Middle Name:</b> &nbsp;{{viewDtl?.midname}}</label>
                                         </div>
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
                                             <label><b>Nationality:</b>&nbsp;{{viewDtl?.nation}}</label>
+                                        </div>
+</div>
+<br>
+<div class="row">
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Applicant:</b>&nbsp; {{viewDtl?.cvOperationsfileName}}</label>
+                                        </div>
+
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>C.V.Operations:</b>&nbsp;{{viewDtl?.cvOperationsfileName}}</label>
+
                                         </div>
                                     </div>
                                     <br>
@@ -41,126 +54,146 @@
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
                                             <label><b>Father:</b>&nbsp;{{viewDtl?.father}}</label>
                                         </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Mother:</b>&nbsp;{{viewDtl?.mother}}</label>
+                                        </div>
                                     </div>
                                     <br>
                                 
                                     <div class="row">
 
-                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                            <label><b>Mother</b>&nbsp;{{viewDtl?.mother}}</label>
-                                        </div>
+                                       
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Birth Place</b> &nbsp;{{viewDtl?.birthplace}}</label>
+                                            <label><b>Birth Place:</b> &nbsp;{{viewDtl?.birthplace}}</label>
                                         </div> 
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                            <label><b>Exp.Vessels</b>&nbsp;{{viewDtl?.vessel}}</label>
+                                            <label><b>Exp.Vessels:</b>&nbsp;{{viewDtl?.vessel}}</label>
                                         </div>
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>prior Exp.Months</b> &nbsp;{{viewDtl?.priormonth}}</label>
+                                            <label><b>prior Exp.Months:</b> &nbsp;{{viewDtl?.priormonth}}</label>
                                         </div> 
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Decision Code:</b>&nbsp;{{viewDtl?.decisioncode}}</label>
+                                        </div>
                                     </div> 
                                     <br>
                                     <div class="row">
-                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                            <label><b>Decision Code</b>&nbsp;{{viewDtl?.decisioncode}}</label>
-                                        </div>
+                                      
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Exp.Engine</b> &nbsp;{{viewDtl?.engine}}</label>
+                                            <label><b>Exp.Engine:</b> &nbsp;{{viewDtl?.engine}}</label>
                                         </div> 
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                            <label><b>Last Sign Off Date</b>&nbsp;{{viewDtl?.signOffDate}}</label>
+                                            <label><b>Last Sign Off Date:</b>&nbsp;{{viewDtl?.signOffDate}}</label>
                                         </div>
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Agent</b> &nbsp;{{viewDtl?.agent}}</label>
+                                            <label><b>Agent:</b> &nbsp;{{viewDtl?.agent}}</label>
                                         </div> 
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Remarks:</b>&nbsp;{{viewDtl?.remarks}}</label>
+                                        </div>
                                     </div> 
                                     <br>
                                     <div class="row">
-                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                            <label><b>Remarks</b>&nbsp;{{viewDtl?.remarks}}</label>
-                                        </div>
+                                     
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Application Date</b> &nbsp;{{viewDtl?.appDate}}</label>
+                                            <label><b>Application Date:</b> &nbsp;{{viewDtl?.appDate}}</label>
                                         </div> 
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                            <label><b>Recom.By</b>&nbsp;{{viewDtl?.recom}}</label>
+                                            <label><b>Recom.By:</b>&nbsp;{{viewDtl?.recom}}</label>
                                         </div>
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Avail.From Date</b> &nbsp;{{viewDtl?.availfromDate}}</label>
+                                            <label><b>Avail.From Date:</b> &nbsp;{{viewDtl?.availfromDate}}</label>
                                         </div> 
 </div>
                                         <br>
+                                        <br>   <br>   <br>
+                                        <h4>Documents</h4>
+                                        <hr style="margin-top: 10px; border: 1px solid #000;">
+                                        <br>
                                         <div class="row">
                                             <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                                <label><b>S.Book</b>&nbsp;{{viewDtl?.book}}</label>
+                                                <label><b>S.Book:</b>&nbsp;{{viewDtl?.book}}</label>
                                             </div>
                                             <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                                <label><b>Issue</b> &nbsp;{{viewDtl?.issue}}</label>
+                                                <label><b>Issue:</b> &nbsp;{{viewDtl?.issue}}</label>
                                             </div> 
                                             <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                                <label><b>Expiry</b>&nbsp;{{viewDtl?.expiryDate}}</label>
+                                                <label><b>Expiry:</b>&nbsp;{{viewDtl?.expiryDate}}</label>
                                             </div>
-                                            <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                                <label><b>Passport</b> &nbsp;{{viewDtl?.passport}}</label>
-                                            </div> 
+                                          
 
-</div>
+                                             </div>
                                             <br>
                                             <div class="row">
-                                                <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                                    <label><b>Issue</b>&nbsp;{{viewDtl?.passportissue}}</label>
-                                                </div>
                                                 <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                                    <label><b>Expiry</b> &nbsp;{{viewDtl?.passportExpiryDate}}</label>
+                                                    <label><b>Passport:</b> &nbsp;{{viewDtl?.passport}}</label>
                                                 </div> 
                                                 <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                                    <label><b>Licence</b>&nbsp;{{viewDtl?.licence}}</label>
+                                                    <label><b>Issue:</b>&nbsp;{{viewDtl?.passportissue}}</label>
                                                 </div>
                                                 <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                                    <label><b>Issue</b> &nbsp;{{viewDtl?.licenceissue}}</label>
+                                                    <label><b>Expiry:</b> &nbsp;{{viewDtl?.passportExpiryDate}}</label>
                                                 </div> 
+                                               
+                                          
 </div>
                                                 <br>
                                                 <div class="row">
                                                     <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                                        <label><b>Expiry</b>&nbsp;{{viewDtl?.licenceExpiryDate}}</label>
+                                                        <label><b>Licence:</b>&nbsp;{{viewDtl?.licence}}</label>
                                                     </div>
                                                     <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                                        <label><b>Grade</b> &nbsp;{{viewDtl?.grade}}</label>
-                                                    </div> 
-                                                    <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                                        <label><b>Licence No</b> &nbsp;{{viewDtl?.licenceno}}</label>
+                                                        <label><b>Issue:</b> &nbsp;{{viewDtl?.licenceissue}}</label>
                                                     </div> 
                                                     <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                                        <label><b> Next of Kin</b>&nbsp;{{viewDtl?.kin}}</label>
+                                                        <label><b>Expiry:</b>&nbsp;{{viewDtl?.licenceExpiryDate}}</label>
                                                     </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                    <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                                        <label><b>Grade:</b> &nbsp;{{viewDtl?.grade}}</label>
+                                                    </div> 
+                                                    <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                                        <label><b>Licence No:</b> &nbsp;{{viewDtl?.licenceno}}</label>
+                                                    </div> 
+                                                   
                                                 
 
                                     </div>
 
                                     <br>
+                                    <br>  <br>
+                                    <br>
+                                    <h4>Address</h4>
+                                    <hr style="margin-top: 10px; border: 1px solid #000;">
                                     <div class="row">
-
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b> Next of Kin:</b>&nbsp;{{viewDtl?.kin}}</label>
+                                        </div>
                                         
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>City</b> &nbsp;{{viewDtl?.city}}</label>
+                                            <label><b>City:</b> &nbsp;{{viewDtl?.city}}</label>
                                         </div> 
+                                        </div>
+                                        <br>
+                                        <div class="row">
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                            <label><b>Address 1</b>&nbsp;{{viewDtl?.address1}}</label>
+                                            <label><b>Address 1:</b>&nbsp;{{viewDtl?.address1}}</label>
                                         </div>
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b> Tel 1</b> &nbsp;{{viewDtl?.tel1}}</label>
+                                            <label><b> Tel 1:</b> &nbsp;{{viewDtl?.tel1}}</label>
                                         </div> 
-                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
-                                            <label><b>Address 2</b>&nbsp;{{viewDtl?.address2}}</label>
-                                        </div>
+                                     
 
                         </div>
                         <br>
                                     <div class="row">
-                                 
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Address 2:</b>&nbsp;{{viewDtl?.address2}}</label>
+                                        </div>
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b> Tel 2</b> &nbsp;{{viewDtl?.tel2}}</label>
+                                            <label><b> Tel 2:</b> &nbsp;{{viewDtl?.tel2}}</label>
                                         </div> 
                                 </div>
 

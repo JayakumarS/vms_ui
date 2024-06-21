@@ -17,7 +17,7 @@ export class ViewApplicationsComponent implements OnInit {
   constructor(
     public router:Router,
     public route:ActivatedRoute, 
-    private httpService: HttpServiceService,
+    private httpService: HttpServiceService,  private serverUrl: serverLocations,
     private fb: FormBuilder,
     public ApplicationsService : ApplicationsService
   ) { 
@@ -48,6 +48,7 @@ export class ViewApplicationsComponent implements OnInit {
   fetchDetails(id){
     this.httpService.get<any>(this.ApplicationsService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.viewDtl = data.list[0];
+      console.log(this.viewDtl);
       }, error: (err) => console.log(err)
      });
   }
@@ -55,5 +56,25 @@ export class ViewApplicationsComponent implements OnInit {
   onCancel(){
     this.router.navigate(['/crew/applications/applications/list-applications']);
 
+}
+
+downloadcvOperations(filename){
+ 
+    const fileURL = this.serverUrl.apiServerAddress + "FileUpload/CustomerList/" + filename;
+  
+    // Creating an anchor element
+    const a = document.createElement('a');
+    
+    a.href = fileURL;
+    
+    a.target = '_blank';
+    
+    a.download = filename;
+  
+    document.body.appendChild(a);
+  
+    a.click();
+  
+    document.body.removeChild(a);
 }
 }

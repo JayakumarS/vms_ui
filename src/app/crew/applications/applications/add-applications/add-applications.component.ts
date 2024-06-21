@@ -264,6 +264,15 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
         'tel1' : data.list[0].tel1,
         'address2' : data.list[0].address2,
         'tel2' :data.list[0].tel2,
+
+        'cvOperationsfilePath':data.list[0].cvOperationsfilePath,
+        'cvOperationsfileName':data.list[0].cvOperationsfileName,
+        'passBookfilePath':data.list[0].passBookfilePath,
+        'passBookfileName':data.list[0].passBookfileName,
+        'sBookfilePath':data.list[0].sBookfilePath,
+        'sBookfileName':data.list[0].sBookfileName,
+        'applicantimagePath':data.list[0].applicantimagePath,
+        'applicantimageFileName':data.list[0].applicantimageFileName,
       });
       }, error: (err) => console.log(err)
      });
@@ -579,6 +588,9 @@ uploadFileDoc1(event) {
   onCancel(){
     this.router.navigate(['/crew/applications/applications/list-applications']);
 
+  }
+  checkList(){
+    
   }
 }
 
