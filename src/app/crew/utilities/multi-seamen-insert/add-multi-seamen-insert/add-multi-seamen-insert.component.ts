@@ -16,6 +16,7 @@ import { MultiSeamenInsertService } from '../multi-seamen-insert.service';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { PersonDetailsPopupComponent } from '../person-details-popup/person-details-popup.component';
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
 @Component({
   selector: 'app-add-multi-seamen-insert',
   templateUrl: './add-multi-seamen-insert.component.html',
@@ -31,9 +32,9 @@ export class AddMultiSeamenInsertComponent implements OnInit {
   vessaltypeFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
   @ViewChild('vessaltype', { static: true }) vessaltype: MatSelect;
 
-  public nationalityFilterCtrl: FormControl = new FormControl();
-  nationalityFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('nationality', { static: true }) nationality: MatSelect;
+  public joiningPortFilterCtrl: FormControl = new FormControl();
+  joiningPortFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('joiningPort', { static: true }) joiningPort: MatSelect;
 
   public rankFilterCtrl: FormControl = new FormControl();
   rankFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
@@ -57,15 +58,17 @@ export class AddMultiSeamenInsertComponent implements OnInit {
 
   docForm: FormGroup;
   miultiSeamenInsert: miultiSeamenInsert;
-  currencyList=[];
+  currencyList: any =[];
+  vesselList :  any =[];
   edit:boolean=false;
   // oldPwd: boolean=false;
-  vessaltypelist: any;
-  nationalitylist: any;
-  ranklist: any;
+  vessaltypelist: any=[];
+  joiningPortList: any =[];
+  portList: any =[];
+  rankList: any = [];
   paylist: any;
   currencylist: any;
-  namelist: any;
+  nameList: any =[];
   registryportlist: any;
   // For Encryption
   requestId: any;
@@ -75,9 +78,9 @@ export class AddMultiSeamenInsertComponent implements OnInit {
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public MultiSeamenInsertService: MultiSeamenInsertService,
+    public multiSeamenInsertService: MultiSeamenInsertService,
     private httpService: HttpServiceService,
-    public route: ActivatedRoute,
+    public route: ActivatedRoute,public matError : MatErrorService,
     public EncrDecr: EncrDecrService,
     private serverUrl:serverLocations,
     private encryptionService:EncryptionService, public dialog: MatDialog,
@@ -87,20 +90,19 @@ export class AddMultiSeamenInsertComponent implements OnInit {
     this.docForm = this.fb.group({
       startdateObj: [""],
       startdate: [""],
-      vessal: [""],
-      port: [""],
+      vessel: [""],
+      joinPort: [""],
       multiseamendetail: this.fb.array([
         this.fb.group({
           select: [""],
-          code:[""],
           rank:[""],
           pay: [""],
           currency: [""],
           name: [""],
           joiningdateObj: [""],
-          joiningdate: [""],
-          estSigndateObj: [""],
-          estSigndate: [""],
+          joiningDate: [""],
+          estSignOffObj: [""],
+          estSignOff: [""],
         })
       ]),
     });
@@ -121,75 +123,19 @@ export class AddMultiSeamenInsertComponent implements OnInit {
       }
      });
 
-     this.vessaltypelist = [
-      { id: "RO RO VESSAL", text: "RO RO VESSAL" },
-      { id: "TANKER", text: "TANKER" },
-    
-    ];
-    
-    this.vessaltypeFilteredOptions.next(this.vessaltypelist.slice());
 
-// listen for origin List  search field value changes
-this.vessaltypeFilterCtrl.valueChanges
-  .pipe(takeUntil(this.onDestroy))
-  .subscribe(() => {
-    this.filteritemvessaltypelist();
-  });
+  this.getVesselList();
 
+  this.getJoiningList();
 
-  this.nationalitylist = [
-    { id: "BANGLADESH", text: "BANGLADESH" },
-    { id: "BRITISH", text: "BRITISH" },
-    { id: "BELGIAN", text: "BELGIAN" },
+  this.getCurrencyList();
 
-  
-  ];
-  
-  this.nationalityFilteredOptions.next(this.nationalitylist.slice());
+  this.getPortList();
 
-// listen for origin List  search field value changes
-this.nationalityFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-  this.filteritemnationalitylist();
-});
+  this.getRankList();
 
+  this.getNameList();
 
-
-
-this.ranklist = [
-  { id: "ENGINEER", text: "ENGINEER" },
-  { id: "OFFICER", text: "OFFICER" },
-  { id: "COOK", text: "COOK" },
-
-
-];
-
-this.rankFilteredOptions.next(this.ranklist.slice());
-
-// listen for origin List  search field value changes
-this.rankFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemranklist();
-});
-
-this.registryportlist = [
-  
-  { id: "BANGLADESH", text: "BANGLADESH" },
-  { id: "BRITISH", text: "BRITISH" },
-  { id: "BELGIAN", text: "BELGIAN" },
-
-];
-
-this.registryportFilteredOptions.next(this.registryportlist.slice());
-
-// listen for origin List  search field value changes
-this.registryportFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemregistryportlist();
-});
 
 
 this.paylist = [
@@ -208,69 +154,52 @@ this.payFilterCtrl.valueChanges
 this.filteritempaylist();
 });
 
-
-this.currencylist = [
-  
-  { id: "USD", text: "USD" },
-  { id: "INR", text: "INR" },
-  { id: "AUD", text: "AUD" },
-  { id: "CAD", text: "CAD" },
-
-];
-
-this.currencyFilteredOptions.next(this.currencylist.slice());
-
-// listen for origin List  search field value changes
-this.currencyFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemcurrencylist();
-});
-
-
-
-
-this.namelist = [
-  
-  { Code: "34575", FullName: "Rinkoo",Rank:"Cook",Nationality:"Indian" },
-
-  { Code: "34576", FullName: "Naing",Rank:"Engineer",Nationality:"Indian" },
-
-  { Code: "34579", FullName: "Vasim",Rank:"Officer",Nationality:"Indian" },
-
-];
-
-this.nameFilteredOptions.next(this.namelist.slice());
-
-// listen for origin List  search field value changes
-this.nameFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemnamelist();
-});
-
-
-
-
    }
 
-   filteritemnamelist(){
-    if (!this.namelist) {
-      return;
-    }
-    // get the search keyword
-    let search = this.nameFilterCtrl.value;
-    if (!search) {
-      this.nameFilteredOptions.next(this.namelist.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    // filter the banks
-    this.nameFilteredOptions.next(
-      this.namelist.filter(title => title.text.toLowerCase().includes(search))
-    );
+
+   getVesselList(){
+    this.httpService.get(this.multiSeamenInsertService.getVesselUrl).subscribe({next: (res: any) => {
+      this.vesselList = res.lCommonUtilityBean;
+    }, error: (err) => console.log(err)
+   });
    }
+
+    getJoiningList(){
+    this.httpService.get(this.multiSeamenInsertService.getJoiningPortUrl).subscribe({next: (res: any) => {
+      this.joiningPortList = res.lCommonUtilityBean;
+    }, error: (err) => console.log(err)
+    });
+    }
+
+    getCurrencyList(){
+      this.httpService.get(this.multiSeamenInsertService.getCurrencyListUrl).subscribe({next: (res: any) => {
+        this.currencyList = res.lCommonUtilityBean;
+      }, error: (err) => console.log(err)
+      });
+      }
+
+      getPortList(){
+        this.httpService.get(this.multiSeamenInsertService.getport).subscribe({next: (res: any) => {
+          this.portList = res.lCommonUtilityBean;
+        }, error: (err) => console.log(err)
+        });
+      }
+
+      getRankList(){
+        this.httpService.get(this.multiSeamenInsertService.getRankUrl).subscribe({next: (res: any) => {
+          this.rankList = res.lCommonUtilityBean;
+        }, error: (err) => console.log(err)
+        });
+      }
+
+      getNameList(){
+        this.httpService.get(this.multiSeamenInsertService.getNameUrl).subscribe({next: (res: any) => {
+          this.nameList = res.lCommonUtilityBean;
+        }, error: (err) => console.log(err)
+        });
+      }
+
+
 
    filteritemcurrencylist(){
     if (!this.currencylist) {
@@ -323,40 +252,8 @@ this.filteritemnamelist();
       this.registryportlist.filter(title => title.text.toLowerCase().includes(search))
     );
    }
-   filteritemranklist(){
-    if (!this.ranklist) {
-      return;
-    }
-    // get the search keyword
-    let search = this.rankFilterCtrl.value;
-    if (!search) {
-      this.rankFilteredOptions.next(this.ranklist.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    // filter the banks
-    this.rankFilteredOptions.next(
-      this.ranklist.filter(title => title.text.toLowerCase().includes(search))
-    );
-   }
-   filteritemnationalitylist(){
-    if (!this.nationalitylist) {
-      return;
-    }
-    // get the search keyword
-    let search = this.nationalityFilterCtrl.value;
-    if (!search) {
-      this.nationalityFilteredOptions.next(this.nationalitylist.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    // filter the banks
-    this.nationalityFilteredOptions.next(
-      this.nationalitylist.filter(title => title.text.toLowerCase().includes(search))
-    );
-   }
+
+
    filteritemvessaltypelist(){
     if (!this.vessaltypelist) {
       return;
@@ -377,7 +274,7 @@ this.filteritemnamelist();
 
    onDateChange2(event: any, inputFlag: any, index: number) {
     if(event.target.value!=null){
-      let cdate = this.MultiSeamenInsertService.getDate(event.target.value);
+      let cdate = this.multiSeamenInsertService.getDate(event.target.value);
       if (inputFlag == "startdate") {
         this.docForm.patchValue({ startdate: cdate });
       }
@@ -393,7 +290,7 @@ this.filteritemnamelist();
     const dateFormat = /^\d{1,2}\/\d{1,2}\/\d{4}$/; // Example: dd/mm/yyyy or d/m/yyyy
     if(inputValue!=""){
       if (dateFormat.test(inputValue)) {
-        let fdate = this.MultiSeamenInsertService.getDateObj(inputValue);
+        let fdate = this.multiSeamenInsertService.getDateObj(inputValue);
         if (inputFlag == "startdate") {
           this.docForm.patchValue({
             'startdate': inputValue,
@@ -426,33 +323,32 @@ this.filteritemnamelist();
   
   onDateChange3(event: any, inputFlag: any, index: number) {
     if(event.target.value!=null){
-      let cdate = this.MultiSeamenInsertService.getDate(event.target.value);
-      if (inputFlag == "joiningdate") {
-        this.docForm.patchValue({ joiningdate: cdate });
+      let cdate = this.multiSeamenInsertService.getDate(event.target.value);
+      if (inputFlag == "joiningDate") {
+        // this.docForm.patchValue({ joiningDate: cdate });
+        let multiSeamenArray = this.docForm.controls.multiseamendetail as FormArray;
+        multiSeamenArray.at(index).patchValue({joiningDate:cdate});
       }
     
     }
-  
-    // if(this.docForm.value.dueDate!=null){
-    //   this.check(this.docForm.value.dueDate);
-    // }
+
   }
   onDateInput3(inputValue: any, inputFlag: any, index: number) {
     // Check if the input value matches the expected date format
     const dateFormat = /^\d{1,2}\/\d{1,2}\/\d{4}$/; // Example: dd/mm/yyyy or d/m/yyyy
     if(inputValue!=""){
       if (dateFormat.test(inputValue)) {
-        let fdate = this.MultiSeamenInsertService.getDateObj(inputValue);
-        if (inputFlag == "joiningdate") {
+        let fdate = this.multiSeamenInsertService.getDateObj(inputValue);
+        if (inputFlag == "joiningDate") {
           this.docForm.patchValue({
-            'joiningdate': inputValue,
+            'joiningDate': inputValue,
             'joiningdateObj':fdate
            });
         }
       }
     }else{
       this.docForm.patchValue({
-        'joiningdate': "",
+        'joiningDate': "",
         'joiningdateObj':""
        });
     }
@@ -465,7 +361,7 @@ this.filteritemnamelist();
         if (parts.length === 3) {
             const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
             const parsedDate = moment(formattedDate, 'YYYY/MM/DD');
-            this.docForm.get('joiningdate').setValue(parsedDate);
+            this.docForm.get('joiningDate').setValue(parsedDate);
         }
     }
   }
@@ -476,10 +372,10 @@ this.filteritemnamelist();
   
   onDateChange4(event: any, inputFlag: any, index: number) {
     if(event.target.value!=null){
-      let cdate = this.MultiSeamenInsertService.getDate(event.target.value);
-      if (inputFlag == "estSigndate") {
-        this.docForm.patchValue({ startdate: cdate });
-      }
+      let cdate = this.multiSeamenInsertService.getDate(event.target.value);
+      if (inputFlag == "estSignOff") {
+        let multiSeamenArray = this.docForm.controls.multiseamendetail as FormArray;
+        multiSeamenArray.at(index).patchValue({estSignOff:cdate});      }
     
     }
   
@@ -492,18 +388,18 @@ this.filteritemnamelist();
     const dateFormat = /^\d{1,2}\/\d{1,2}\/\d{4}$/; // Example: dd/mm/yyyy or d/m/yyyy
     if(inputValue!=""){
       if (dateFormat.test(inputValue)) {
-        let fdate = this.MultiSeamenInsertService.getDateObj(inputValue);
-        if (inputFlag == "estSigndate") {
+        let fdate = this.multiSeamenInsertService.getDateObj(inputValue);
+        if (inputFlag == "estSignOff") {
           this.docForm.patchValue({
-            'estSigndate': inputValue,
-            'estSigndateObj':fdate
+            'estSignOff': inputValue,
+            'estSignOffObj':fdate
            });
         }
       }
     }else{
       this.docForm.patchValue({
-        'estSigndate': "",
-        'estSigndateObj':""
+        'estSignOff': "",
+        'estSignOffObj':""
        });
     }
     
@@ -515,7 +411,7 @@ this.filteritemnamelist();
         if (parts.length === 3) {
             const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
             const parsedDate = moment(formattedDate, 'YYYY/MM/DD');
-            this.docForm.get('estSigndate').setValue(parsedDate);
+            this.docForm.get('estSignOff').setValue(parsedDate);
         }
     }
   }
@@ -548,15 +444,14 @@ this.filteritemnamelist();
     let arraylen=multiseamendetailDtlArray.length;
     let newUsergroup:FormGroup = this.fb.group({
       select: [""],
-      code:[""],
       rank:[""],
       pay: [""],
       currency: [""],
       name: [""],
       joiningdateObj: [""],
-      joiningdate: [""],
-      estSigndateObj: [""],
-      estSigndate: [""],
+      joiningDate: [""],
+      estSignOffObj: [""],
+      estSignOff: [""],
     })
     multiseamendetailDtlArray.insert(arraylen,newUsergroup);
   }
@@ -586,6 +481,17 @@ this.filteritemnamelist();
 
   }
   onSubmit(){
+
+    if(this.docForm.valid){
+      this.multiSeamenInsertService.saveMultiSeamenUrl(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
 
   }
   fetchDetails(countryCode: any): void {

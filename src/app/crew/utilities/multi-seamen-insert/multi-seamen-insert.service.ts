@@ -32,19 +32,18 @@ export class MultiSeamenInsertService extends UnsubscribeOnDestroyAdapter{
   constructor(private httpClient: HttpClient, private serverUrl: serverLocations, private httpService: HttpServiceService) {
     super();
   }
-  private getAllMasters = `${this.serverUrl.apiServerAddress}app/countryMaster/getList`;
-  private saveCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/save`;
-  public deleteCountryUrl = `${this.serverUrl.apiServerAddress}app/countryMaster/delete`;
-  public editCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/edit`;
-  public updateCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/update`;
-  public currencyListUrl = `${this.serverUrl.apiServerAddress}app/currencyMaster/getList`;
-  public editcountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/getCode`;
-  public validateCusShortNameUrl = `${this.serverUrl.apiServerAddress}app/common/commonServices/validateUnique`;
-  public viewCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/view`;
-  public savePrePlan = `${this.serverUrl.apiServerAddress}app/countryMaster/savePrePlan`;
-  public updatePreplanCal = `${this.serverUrl.apiServerAddress}app/countryMaster/updatePreplan`;
-  public deleteEventCal = `${this.serverUrl.apiServerAddress}app/countryMaster/deleteEventCal`;
-  public editEventDetail = `${this.serverUrl.apiServerAddress}app/countryMaster/editEventDetail`;
+  public getVesselUrl = `${this.serverUrl.apiServerAddress}api/common/getVessel`;
+  // public getVesselUrl = `${this.serverUrl.apiServerAddress}api/crew/CrewVesselAssignment/getvessel`
+  public getJoiningPortUrl = `${this.serverUrl.apiServerAddress}api/common/getjoinport`;
+  public getCurrencyListUrl = `${this.serverUrl.apiServerAddress}api/common/getCurrency`;
+  public getnameListUrl = `${this.serverUrl.apiServerAddress}api/common/getCurrency`;
+  public getport = `${this.serverUrl.apiServerAddress}api/common/getPort`;
+  public getRankUrl = `${this.serverUrl.apiServerAddress}api/common/getRankMasters`;
+  public getNameUrl = `${this.serverUrl.apiServerAddress}api/common/getSeamenName`;
+  public saveUrl = `${this.serverUrl.apiServerAddress}api/crew/utilities/multiseamen/saveMultiSeamen`;
+
+
+
 
   get data(): miultiSeamenInsert[] {
     return this.dataChange.value;
@@ -54,49 +53,29 @@ export class MultiSeamenInsertService extends UnsubscribeOnDestroyAdapter{
   }
   /** CRUD METHODS */
   getAllList(): void {
-    // const hardcodedData: offSign[] = [
-    //   {
-    //     vessaltype: 'RORO',
-    //     id: 0,
-    //     Success: false,
-    //     nationality: undefined,
-    //     rank: undefined,
-    //     months: undefined
-    //   },
-    //   {
-    //     vessaltype: 'TANKER',
-    //     id: 0,
-    //     Success: false,
-    //     nationality: undefined,
-    //     rank: undefined,
-    //     months: undefined
-    //   },
-    //   {
-    //     vessaltype: 'CONTAINER',
-    //     id: 0,
-    //     Success: false,
-    //     nationality: undefined,
-    //     rank: undefined,
-    //     months: undefined
-    //   },
-    //   {
-    //     vessaltype: 'BULK CARRIER',
-    //     id: 0,
-    //     Success: false,
-    //     nationality: undefined,
-    //     rank: undefined,
-    //     months: undefined
-    //   },
-    //   // Add more items as needed
-    // ];
-    
-
-    // // Update the dataChange observable with the hardcoded data
-    // this.dataChange.next(hardcodedData);
+   
   }
-  
 
-
-
- 
+  saveMultiSeamenUrl(miultiSeamenInsert: miultiSeamenInsert, router, notificationService){
+    this.httpService.post<miultiSeamenInsert>(this.saveUrl, miultiSeamenInsert).subscribe({next: (data: any) => {
+     if (data.success == true) {
+       notificationService.showNotification(
+         "snackbar-success",
+         "Record Added Successfully",
+         "bottom",
+         "center"
+       );
+       location.reload();
+       //router.navigate(['/crew/application-properties/define-preferences-for-working-hours/define-rank-shift/list-define-rank-shift']);
+     }else{
+       notificationService.showNotification(
+         "snackbar-danger",
+         "Not Updated",
+         "bottom",
+         "center"
+       );
+     }
+     }, error: (err) => console.log(err)
+    });
+ }
 }

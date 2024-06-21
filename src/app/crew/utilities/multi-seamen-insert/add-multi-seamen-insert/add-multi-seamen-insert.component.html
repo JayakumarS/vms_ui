@@ -18,29 +18,15 @@
                                     </div>
 
                                     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-
-
-
-                                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                            <mat-label>Vessal</mat-label>
-
-
-
-                                            <mat-select formControlName="vessal" #vessaltype>
-                                                <mat-option>
-                                                    <ngx-mat-select-search [placeholderLabel]="'Search'"
-                                                        [noEntriesFoundLabel]="'no results found'"
-                                                        [formControl]="vessaltypeFilterCtrl"></ngx-mat-select-search>
-                                                </mat-option>
-                                                <mat-option *ngFor="let title of vessaltypeFilteredOptions | async"
-                                                    [value]="title.id">
-                                                    {{title.text}}
-                                                </mat-option>
-                                            </mat-select>
-
-
-
-                                        </mat-form-field>
+                                        <app-searchable-select 
+                                        [options]="vesselList" 
+                                        placeholderLabel="Search"
+                                        noEntriesFoundLabel="No results found"
+                                        [label]="'Vessel'"
+                                        formControlName="vessel"
+                                        [required]="true"
+                                        [errorMessage]="'vessel is required'">
+                                      </app-searchable-select>
                                     </div>
 
                                     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
@@ -51,7 +37,7 @@
 
 
                                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                            <mat-label>Sarting Date </mat-label>
+                                            <mat-label>Starting Date </mat-label>
                                             <input matInput [matDatepicker]="datepicker2" formControlName="startdateObj"
                                                 id="startdate" (dateChange)="onDateChange2($event,'startdate',0)"
                                                 (input)="onDateInput2($event.target.value,'startdate',0)"
@@ -68,29 +54,15 @@
 
 
                                     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-
-
-
-                                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                            <mat-label>Joining Port</mat-label>
-
-
-
-                                            <mat-select formControlName="port" #registryport>
-                                                <mat-option>
-                                                    <ngx-mat-select-search [placeholderLabel]="'Search'"
-                                                        [noEntriesFoundLabel]="'no results found'"
-                                                        [formControl]="registryportFilterCtrl"></ngx-mat-select-search>
-                                                </mat-option>
-                                                <mat-option *ngFor="let title of registryportFilteredOptions | async"
-                                                    [value]="title.id">
-                                                    {{title.text}}
-                                                </mat-option>
-                                            </mat-select>
-
-
-
-                                        </mat-form-field>
+                                        <app-searchable-select 
+                                        [options]="portList" 
+                                        placeholderLabel="Search"
+                                        noEntriesFoundLabel="No results found"  
+                                        [label]="'Joining Port'"
+                                        formControlName="joinPort"
+                                        [required]="true"
+                                        [errorMessage]="'Joining Port is required'">
+                                      </app-searchable-select>
                                     </div>
                                 </div>
 
@@ -103,8 +75,6 @@
                                             <tr>
                                                 <th class="text-center table-heading padding-both-side-2 width_7" style="
                             width: 2%; border-radius: 0.05rem; "></th>
-                                                <th class="text-center table-heading padding-both-side-2 width_7" style=" 
-                            width: 4%; border-radius: 0.05rem;">Code</th>
                                                 <th class="text-center table-heading padding-both-side-2 width_7" style=" 
                     width: 4%; border-radius: 0.05rem;">Name</th>
                                                 <th class="text-center table-heading padding-both-side-2 width_7" style=" 
@@ -136,71 +106,27 @@
                                                             formControlName="select"></mat-checkbox>
                                                     </td>
                                                     <td class="padding-both-side-2">
-                                                        <mat-form-field class="example-full-width form-control-sm"
-                                                            appearance="outline">
-                                                            <mat-label>Code</mat-label>
-                                                            <input matInput name="code{{i}}" formControlName="code">
-
-                                                        </mat-form-field>
-
-                                                    </td>
-                                                    <td class="padding-both-side-2">
-                                                        <mat-form-field class="example-full-width form-control-sm"
-                                                            appearance="outline">
-                                                            <mat-label>Name</mat-label>
-
-
-
-                                                            <mat-select name="name{{i}}"
-                                                                formControlName="name" #name>
-                                                                <mat-option>
-                                                                    <ngx-mat-select-search [placeholderLabel]="'Search'"
-                                                                        [noEntriesFoundLabel]="'no results found'"
-                                                                        [formControl]="nameFilterCtrl"></ngx-mat-select-search>
-                                                                </mat-option>
-                                                                <!-- <mat-option
-                                                                    *ngFor="let title of nameFilteredOptions | async"
-                                                                    [value]="title.id">
-                                                                    {{title.text}}
-                                                                </mat-option> -->
-
-                                                                <mat-option *ngFor="let item of nameFilteredOptions | async"
-                                                                [value]="item.Code">
-                                                                {{ item.Code }} - {{ item.FullName }}  - {{ item.Rank }} - {{ item.Nationality }}
-                                                    </mat-option>
-
-
-                                                            </mat-select>
-
-
-
-                                                        </mat-form-field>
-
+                                                        <app-searchable-select 
+                                                        [options]="nameList" 
+                                                        placeholderLabel="Search"
+                                                        noEntriesFoundLabel="No results found"  
+                                                        [label]="'Name'"
+                                                        formControlName="name"
+                                                        [required]="true"
+                                                        [errorMessage]="'Name is required'">
+                                                      </app-searchable-select>
                                                     </td>
 
                                                     <td class="padding-both-side-2">
-                                                        <mat-form-field class="example-full-width form-control-sm"
-                                                            appearance="outline">
-                                                            <mat-label>Rank</mat-label>
-
-
-
-                                                            <mat-select name="rank{{i}}" formControlName="rank" #rank>
-                                                                <mat-option>
-                                                                    <ngx-mat-select-search [placeholderLabel]="'Search'"
-                                                                        [noEntriesFoundLabel]="'no results found'"
-                                                                        [formControl]="rankFilterCtrl"></ngx-mat-select-search>
-                                                                </mat-option>
-                                                                <mat-option
-                                                                    *ngFor="let title of rankFilteredOptions | async"
-                                                                    [value]="title.id">
-                                                                    {{title.text}}
-                                                                </mat-option>
-                                                            </mat-select>
-
-
-                                                        </mat-form-field>
-
+                                                        <app-searchable-select 
+                                                        [options]="rankList" 
+                                                        placeholderLabel="Search"
+                                                        noEntriesFoundLabel="No results found"  
+                                                        [label]="'Rank'"
+                                                        formControlName="rank"
+                                                        [required]="true"
+                                                        [errorMessage]="'Rank is required'">
+                                                      </app-searchable-select>
                                                     </td>
 
                                                     <td class="padding-both-side-2">
@@ -228,35 +154,22 @@
 
                                                     </td>
                                                     <td class="padding-both-side-2">
-                                                        <mat-form-field class="example-full-width form-control-sm"
-                                                            appearance="outline">
-                                                            <mat-label>Currency</mat-label>
-
-
-
-                                                            <mat-select name="currency{{i}}" formControlName="currency" #currency>
-                                                                <mat-option>
-                                                                    <ngx-mat-select-search [placeholderLabel]="'Search'"
-                                                                        [noEntriesFoundLabel]="'no results found'"
-                                                                        [formControl]="currencyFilterCtrl"></ngx-mat-select-search>
-                                                                </mat-option>
-                                                                <mat-option
-                                                                    *ngFor="let title of currencyFilteredOptions | async"
-                                                                    [value]="title.id">
-                                                                    {{title.text}}
-                                                                </mat-option>
-                                                            </mat-select>
-
-
-                                                        </mat-form-field>
-
+                                                        <app-searchable-select 
+                                                        [options]="currencyList" 
+                                                        placeholderLabel="Search"
+                                                        noEntriesFoundLabel="No results found"
+                                                        [label]="'Currency'"
+                                                        formControlName="currency"
+                                                        [required]="true"
+                                                        [errorMessage]="'currency is required'">
+                                                      </app-searchable-select>
                                                     </td>
                                                     <td class="padding-both-side-2">
                                                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                                             <mat-label>Joining Date </mat-label>
                                                             <input matInput [matDatepicker]="datepicker3" formControlName="joiningdateObj"
-                                                                id="joiningdate" (dateChange)="onDateChange3($event,'joiningdate',0)"
-                                                                (input)="onDateInput3($event.target.value,'joiningdate',0)"
+                                                                id="joiningDate" (dateChange)="onDateChange3($event,'joiningDate',0)"
+                                                                (input)="onDateInput3($event.target.value,'joiningDate',0)"
                                                                 placeholder="dd/mm/yyyy">
                                                             <mat-datepicker-toggle matSuffix
                                                                 [for]="datepicker3"></mat-datepicker-toggle>
@@ -268,9 +181,9 @@
                                                     <td class="padding-both-side-2">
                                                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                                             <mat-label>Est Sign Off </mat-label>
-                                                            <input matInput [matDatepicker]="datepicker4" formControlName="estSigndateObj"
-                                                                id="estSigndate" (dateChange)="onDateChange4($event,'estSigndate',0)"
-                                                                (input)="onDateInput4($event.target.value,'estSigndate',0)"
+                                                            <input matInput [matDatepicker]="datepicker4" formControlName="estSignOffObj"
+                                                                id="estSignOff" (dateChange)="onDateChange4($event,'estSignOff',0)"
+                                                                (input)="onDateInput4($event.target.value,'estSignOff',0)"
                                                                 placeholder="dd/mm/yyyy">
                                                             <mat-datepicker-toggle matSuffix
                                                                 [for]="datepicker4"></mat-datepicker-toggle>
