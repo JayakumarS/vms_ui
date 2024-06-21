@@ -115,12 +115,12 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
     super();
     this.docForm = this.fb.group({
       code:[""],
-      surname : [""],
-      name : [""],
+      surname : ["",[Validators.required]],
+      name : ["",[Validators.required]],
       midname : [""],
-      nation : [""],
-      rank : [""],
-      dobObj : [""],
+      nation : ["",[Validators.required]],
+      rank :["",[Validators.required]],
+      dobObj :["",[Validators.required]],
       dob : [""],
       father : [""],
       mother : [""],
@@ -131,7 +131,7 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
       engine : [""],
       signOffDate : [""],
       signOffDateObj:[""],
-      agent : [""],
+      agent :["",[Validators.required]],
       remarks : [""],
       appDate : [""],
       appDateObj: [""],
@@ -329,9 +329,9 @@ licencelist(){
 
   });
 }
-uploadFileDoc2(event) {
+uploadFileDoc2(event, fileInput: HTMLInputElement) {
   // Check if the 'S.Book' field has a value
-  if (this.docForm.get('book')?.value) {
+  if (this.docForm.get('passport')?.value) {
     var excelfile = event.target.files[0];
   var blob = excelfile.slice(0, excelfile.size, ''); 
   excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
@@ -347,6 +347,10 @@ uploadFileDoc2(event) {
       console.log(data);
       this.docForm.value.passBookfileName=fileExtension
       this.docForm.value.passBookfilePath=data.path
+      this.docForm.patchValue({
+        'passBookfileName':fileExtension,
+        'passBookfilePath':data.path
+      })
     });
  
 
@@ -355,17 +359,18 @@ uploadFileDoc2(event) {
   } else {
     this.showNotification(
       "snackbar-danger",
-      "Please enter a value in the S.Book field before uploading a file",
+      "Please enter a value in the Passport field before uploading a file",
       "bottom",
       "center"
     );
+    fileInput.value = '';
+
   }
 
     
 }
 
-uploadFileDoc1(event) {
-  // Check if the 'S.Book' field has a value
+uploadFileDoc1(event, fileInputDoc: HTMLInputElement) {
   if (this.docForm.get('book')?.value) {
     var excelfile = event.target.files[0];
   var blob = excelfile.slice(0, excelfile.size, ''); 
@@ -382,6 +387,11 @@ uploadFileDoc1(event) {
       console.log(data);
       this.docForm.value.sBookfileName=fileExtension
       this.docForm.value.sBookfilePath=data.path
+
+      this.docForm.patchValue({
+        'sBookfileName':fileExtension,
+        'sBookfilePath':data.path
+      })
     });
  
 
@@ -394,13 +404,14 @@ uploadFileDoc1(event) {
       "bottom",
       "center"
     );
+    fileInputDoc.value = '';
+
   }
 
     
 }
   uploadFile(event) {
-    // Check if the 'S.Book' field has a value
-    if (this.docForm.get('book')?.value) {
+
       var excelfile = event.target.files[0];
     var blob = excelfile.slice(0, excelfile.size, ''); 
     excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
@@ -416,19 +427,17 @@ uploadFileDoc1(event) {
         console.log(data);
         this.docForm.value.cvOperationsfileName=fileExtension
         this.docForm.value.cvOperationsfilePath=data.path
+
+        this.docForm.patchValue({
+          'cvOperationsfileName':fileExtension,
+          'cvOperationsfilePath':data.path
+        })
       });
    
 
       console.log(frmData);
       this.tempForm.push(frmData);
-    } else {
-      this.showNotification(
-        "snackbar-danger",
-        "Please enter a value in the S.Book field before uploading a file",
-        "bottom",
-        "center"
-      );
-    }
+
   
       
   }
@@ -564,6 +573,10 @@ uploadFileDoc1(event) {
         console.log(data);
         this.docForm.value.applicantimageFileName=fileExtension
         this.docForm.value.applicantimagePath=data.path
+        this.docForm.patchValue({
+          'applicantimageFileName':fileExtension,
+          'applicantimagePath':data.path
+        })
       });
    
 
@@ -601,7 +614,23 @@ uploadFileDoc1(event) {
 
   }
   checkList(){
-
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+    const obj = {
+      // jspId
+  }
+    // const dialogRef = this.dialog.open(ApplicationPopupComponent, {
+    //   height: "300px",
+    //   width: "50%",
+    //   data: {
+    //     action: obj,
+    //   },
+    //   direction: tempDirection,
+    // });
   }
 }
 
