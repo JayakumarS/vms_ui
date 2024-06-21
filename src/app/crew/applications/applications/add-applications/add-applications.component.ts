@@ -76,6 +76,7 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
   decisioncodelist: any = [];
   agentlist: any = [];
   licencedata: any = [];
+  enginelist: any = [];
   decryptRequestId:any;
 
   application:application;
@@ -186,6 +187,9 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
 
     this.licencelist();
 
+    this.licencelist();
+
+   this.enginelistdata()
 
     this.toDay = new Date();
 
@@ -308,6 +312,13 @@ filteragentlist(){
   this.httpService.get<any>(this.applicationsService.getagent).subscribe((res: any) => {
 
     this.agentlist = res;
+
+  });
+}
+enginelistdata(){
+  this.httpService.get<any>(this.applicationsService.getenginelist).subscribe((res: any) => {
+
+    this.enginelist = res;
 
   });
 }
@@ -590,7 +601,7 @@ uploadFileDoc1(event) {
 
   }
   checkList(){
-    
+
   }
 }
 

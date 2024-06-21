@@ -160,6 +160,13 @@
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
+
+                        <app-searchable-select [options]="enginelist" placeholderLabel="Search for Exp.Engine"
+                        noEntriesFoundLabel="No results found" [label]="'Exp.Engine'" formControlName="engine"
+                        [required]="false" [errorMessage]="'Exp.Engine is required'">
+                      </app-searchable-select>
+
+
                       </div>
 
                       <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">

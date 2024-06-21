@@ -41,8 +41,9 @@ export class ApplicationsService extends UnsubscribeOnDestroyAdapter{
   public getlicence = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/getlicence`;
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/delete`;
   public uploadFilePI = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/uploadfile`;
+  public getenginelist = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/getenginelist`;
 
-
+  
   
   
   getList(){
