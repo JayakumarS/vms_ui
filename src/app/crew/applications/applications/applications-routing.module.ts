@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListApplicationsComponent } from './list-applications/list-applications.component';
 import { AddApplicationsComponent } from './add-applications/add-applications.component';
+import { ViewApplicationsComponent } from './list-applications/view-applications/view-applications.component';
 
 const routes: Routes = [
 
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: "add-applications/:id",
     component: AddApplicationsComponent,
+  },
+  {
+    path: "view-applications/:id",
+    component: ViewApplicationsComponent,
   },
 ];
 

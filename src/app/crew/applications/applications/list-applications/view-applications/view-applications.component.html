@@ -1,0 +1,186 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'View Rank Group'" [items]="['Crew','Maintain']"
+                [active_item]="'View Rank Group'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix ">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="box-shadow">
+                    <div class="card">
+                        <div class="body">
+                            <div class="container border" id="salesOrderdview"
+                                style=" border: 1px solid #b8a6dd!important; border-radius: 10px; background-color: #ecebf7;">
+
+                                <form class="m-4" [formGroup]="docForm">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Surname:</b>&nbsp;{{viewDtl?.surname}}</label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b> Name :</b> &nbsp;{{viewDtl?.name}}</label>
+                                        </div> 
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Middle Name :</b> &nbsp;{{viewDtl?.midname}}</label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Nationality:</b>&nbsp;{{viewDtl?.nation}}</label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Rank :</b> &nbsp;{{viewDtl?.rank}}</label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Birth Date:</b>&nbsp;{{viewDtl?.dob}}</label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Father:</b>&nbsp;{{viewDtl?.father}}</label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                
+                                    <div class="row">
+
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Mother</b>&nbsp;{{viewDtl?.mother}}</label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Birth Place</b> &nbsp;{{viewDtl?.birthplace}}</label>
+                                        </div> 
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Exp.Vessels</b>&nbsp;{{viewDtl?.vessel}}</label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>prior Exp.Months</b> &nbsp;{{viewDtl?.priormonth}}</label>
+                                        </div> 
+                                    </div> 
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Decision Code</b>&nbsp;{{viewDtl?.decisioncode}}</label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Exp.Engine</b> &nbsp;{{viewDtl?.engine}}</label>
+                                        </div> 
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Last Sign Off Date</b>&nbsp;{{viewDtl?.signOffDate}}</label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Agent</b> &nbsp;{{viewDtl?.agent}}</label>
+                                        </div> 
+                                    </div> 
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Remarks</b>&nbsp;{{viewDtl?.remarks}}</label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Application Date</b> &nbsp;{{viewDtl?.appDate}}</label>
+                                        </div> 
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Recom.By</b>&nbsp;{{viewDtl?.recom}}</label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Avail.From Date</b> &nbsp;{{viewDtl?.availfromDate}}</label>
+                                        </div> 
+</div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                                <label><b>S.Book</b>&nbsp;{{viewDtl?.book}}</label>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                                <label><b>Issue</b> &nbsp;{{viewDtl?.issue}}</label>
+                                            </div> 
+                                            <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                                <label><b>Expiry</b>&nbsp;{{viewDtl?.expiryDate}}</label>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                                <label><b>Passport</b> &nbsp;{{viewDtl?.passport}}</label>
+                                            </div> 
+
+</div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                                    <label><b>Issue</b>&nbsp;{{viewDtl?.passportissue}}</label>
+                                                </div>
+                                                <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Expiry</b> &nbsp;{{viewDtl?.passportExpiryDate}}</label>
+                                                </div> 
+                                                <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                                    <label><b>Licence</b>&nbsp;{{viewDtl?.licence}}</label>
+                                                </div>
+                                                <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Issue</b> &nbsp;{{viewDtl?.licenceissue}}</label>
+                                                </div> 
+</div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                                        <label><b>Expiry</b>&nbsp;{{viewDtl?.licenceExpiryDate}}</label>
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                                        <label><b>Grade</b> &nbsp;{{viewDtl?.grade}}</label>
+                                                    </div> 
+                                                    <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                                        <label><b>Licence No</b> &nbsp;{{viewDtl?.licenceno}}</label>
+                                                    </div> 
+                                                    <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                                        <label><b> Next of Kin</b>&nbsp;{{viewDtl?.kin}}</label>
+                                                    </div>
+                                                
+
+                                    </div>
+
+                                    <br>
+                                    <div class="row">
+
+                                        
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>City</b> &nbsp;{{viewDtl?.city}}</label>
+                                        </div> 
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Address 1</b>&nbsp;{{viewDtl?.address1}}</label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b> Tel 1</b> &nbsp;{{viewDtl?.tel1}}</label>
+                                        </div> 
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Address 2</b>&nbsp;{{viewDtl?.address2}}</label>
+                                        </div>
+
+                        </div>
+                        <br>
+                                    <div class="row">
+                                 
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b> Tel 2</b> &nbsp;{{viewDtl?.tel2}}</label>
+                                        </div> 
+                                </div>
+
+                                    <br>
+                                    <div class="row" >
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3" >
+                                            <button style="margin-left: 530px;" class="cancelBtn" type="button" mat-button (click)="onCancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+
+                                        </div>
+                                    </div>
+                                </form>
+
+
+
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

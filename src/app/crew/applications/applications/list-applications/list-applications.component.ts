@@ -26,6 +26,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatSort } from '@angular/material/sort';
 import { application } from '../applications.model';
+import { DeleteComponent } from './delete/delete.component';
 
 @Component({
   selector: 'app-list-applications',
@@ -54,7 +55,7 @@ export class ListApplicationsComponent extends UnsubscribeOnDestroyAdapter imple
    private snackBar: MatSnackBar,
    private serverUrl:serverLocations,
    private httpService:HttpServiceService,
-   public router: Router
+   public router: Router, private spinner: NgxSpinnerService,
  ) {
    super();
  }
@@ -70,14 +71,70 @@ export class ListApplicationsComponent extends UnsubscribeOnDestroyAdapter imple
    this.loadData();
  }
 
- editCall(id){
+ editCall(row){
+  this.router.navigate(['/crew/applications/applications/add-applications/', row.code]);
 
  }
+ viewCall(row) {
+  this.router.navigate(['/crew/applications/applications/view-applications/', row.code]);
 
- deleteItem(id){
+}
+deleteItem(row){
+  let tempDirection;
+  if (localStorage.getItem("isRtl") == "true") {
+    tempDirection = "rtl";
+  } else {
+    tempDirection = "ltr";
+  }
 
- }
-
+  const dialogRef = this.dialog.open(DeleteComponent, {
+    height: "270px",
+    width: "400px",
+    data: row,
+    direction: tempDirection,
+  });
+  this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+  if (data.data == true) {
+    this.spinner.show();
+    this.applicationsService.delete(row.code).subscribe({
+      next: (data) => {
+        this.spinner.hide();
+        if (data.success) {
+          this.loadData();
+          this.showNotification(
+            "snackbar-success",
+            "Record Deleted",
+            "bottom",
+            "center"
+          );
+        }
+        else{
+          this.showNotification(
+            "snackbar-danger",
+            "Error in Deleted",
+            "bottom",
+            "center"
+          );
+        }
+      },
+      error: (error) => {
+        this.spinner.hide();
+      }
+    });
+  }else{
+    //this.loadData();
+  }
+  })
+}
+  
+showNotification(colorName, text, placementFrom, placementAlign) {
+  this.snackBar.open(text, "", {
+    duration: 2000,
+    verticalPosition: placementFrom,
+    horizontalPosition: placementAlign,
+    panelClass: colorName,
+  });
+}
  public loadData() {
    this.exampleDatabase = new ApplicationsService(this.httpClient,this.serverUrl,this.httpService);
    this.dataSource = new ExampleDataSource(

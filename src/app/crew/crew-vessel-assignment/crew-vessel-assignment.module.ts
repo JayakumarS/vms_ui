@@ -41,11 +41,13 @@ import { CountryMasterRoutingModule } from 'src/app/master/country-master/countr
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ListCrewVesselAssignmentComponent } from './list-crew-vessel-assignment/list-crew-vessel-assignment.component';
 
 
 @NgModule({
   declarations: [
-    AddCrewVesselAssignmentComponent
+    AddCrewVesselAssignmentComponent,
+    ListCrewVesselAssignmentComponent
   ],
   imports: [
     CommonModule,

@@ -70,6 +70,14 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
   protected onDestroy = new Subject<void>();
   
   docForm: FormGroup;
+  vessellist: any = [];
+  rankdrop: any = [];
+  nationalitylist: any = [];
+  decisioncodelist: any = [];
+  agentlist: any = [];
+  licencedata: any = [];
+  decryptRequestId:any;
+
   application:application;
   creditFile: any;
   isReset: boolean = false;
@@ -81,7 +89,6 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
   toDay:any;
   tempForm:any = [];
   tempfiles:any = [];
-  nationalityList:any;
   agentList:any;
   selectedFiles?: FileList;
   progressInfos: any[] = [];
@@ -106,88 +113,271 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
   ) {
     super();
     this.docForm = this.fb.group({
-
+      code:[""],
       surname : [""],
       name : [""],
       midname : [""],
       nation : [""],
       rank : [""],
-      DOBObj : [""],
-      DOB : [""],
+      dobObj : [""],
+      dob : [""],
       father : [""],
       mother : [""],
-      birthplace : [""],
+      birthplace: [""],
       vessel : [""],
+      priormonth : [""],
       decisioncode : [""],
       engine : [""],
-      SignOffDate : [""],
+      signOffDate : [""],
+      signOffDateObj:[""],
       agent : [""],
       remarks : [""],
-      AppDate : [""],
+      appDate : [""],
+      appDateObj: [""],
       recom : [""],
       availfromDate : [""],
-      SignOffDateObj:[""],
-      AppDateObj:[""],
-      ExpiryDateObj:[""],
-      PassportExpiryDateObj:[""],
+      availfromDateObj:[""],
       book : [""],
       issue : [""],
-      ExpiryDate : [""],
+      expiryDateObj : [""],
+      expiryDate: [""],
       passport : [""],
       passportissue : [""],
-      PassportExpiryDate : [""],
-      availfromDateObj:[""],
-      city:[""],
-      licenceExpiryDateObj:[""],
+      passportExpiryDateObj : [""],
+      passportExpiryDate : [""],
       licence : [""],
       licenceissue : [""],
       licenceExpiryDate : [""],
+      licenceExpiryDateObj:[""],
       grade : [""],
       licenceno : [""],
       kin : [""],
+      city:[""],
       address1 : [""],
       tel1 : [""],
       address2 : [""],
       tel2 : [""],
+
+      cvOperationsfilePath: [""],
+      cvOperationsfileName: [""],
+      passBookfilePath: [""],
+      passBookfileName: [""],
+      sBookfilePath: [""],
+      sBookfileName: [""],
+
+      applicantimagePath: [""],
+      applicantimageFileName: [""],
     })
   
 
    }
 
-  ngOnInit(): void {
-    this.toDay = new Date();
-    this.nationalityList = [{id:1,text:"Indian"},{id:2,text:"Others"}];
-    this.nationalityListFilteredOptions.next(this.nationalityList.slice());
+   
 
-    this.route.params.subscribe(params => {
-      if(params.id!=undefined && params.id!=0){
-       this.requestId = params.id;
-       this.edit=true;
+  ngOnInit(): void {
+
+    this.rankdropdown();
+
+    this.vessellistdown();
+
+    this.filternationality();
+
+    this.filteragentlist();
+
+    this.licencelist();
+
+
+    this.toDay = new Date();
+
+    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
+      this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
+        this.edit=true;
+        this.fetchDetails(this.decryptRequestId) ;
       }
      });
 
 
-     this.agentList = [{id:1,text:"INTERNATIONAL AGENCIES CO LTD"},{id:2,text:"UNICON LOGISTICS"}];
-     this.agentListNoFilteredOptions.next(this.agentList.slice());
+
+     this.decisioncodelist = [{id:"SEAFARER",text:"SEAFARER APPROVED FOR PROMOTION"},{id:'EMPLOYED',text:"TO BE RE EMPLOYED"},{id:'NOT EMPLOYED',text:"NOT TO BE RE EMPLOYED"}];
+ 
+ 
+  
+  }
+  fetchDetails(id: any): void {
+    this.httpService.get<any>(this.applicationsService.editUrl+"?id="+parseInt(id)).subscribe({next: (data: any) => {
+      
+       let dobnew = this.cmnService.getDateObj( data.list[0].dob);
+      
+      let signOffDatenew = this.cmnService.getDateObj(data.list[0].signOffDate);
+
+      let appDatenew = this.cmnService.getDateObj(data.list[0].appDate);
+
+      let availfromDatenew = this.cmnService.getDateObj(data.list[0].availfromDate);
+
+      let passportExpiryDatenew = this.cmnService.getDateObj(data.list[0].passportExpiryDate);
+
+      let licenceExpiryDatenew = this.cmnService.getDateObj(data.list[0].licenceExpiryDate);
+
+      let expiryDatenew = this.cmnService.getDateObj(data.list[0].expiryDate);
+      this.docForm.patchValue({
+        'code': data.list[0].code,
+        'surname' :  data.list[0].surname,
+        'name' :  data.list[0].name,
+        'midname' : data.list[0].midname,
+        'nation' :  data.list[0].nation,
+        'rank' : data.list[0].rank,
+        'dobObj' :dobnew,
+        'dob' : data.list[0].dob,
+        'father' : data.list[0].father,
+        'mother' : data.list[0].mother,
+        'birthplace': data.list[0].birthplace,
+        'vessel' : data.list[0].vessel,
+        'priormonth' : data.list[0].priormonth,
+        'decisioncode' : data.list[0].decisioncode,
+        'engine' : data.list[0].engine,
+        'signOffDate' : data.list[0].signOffDate,
+        'signOffDateObj':signOffDatenew,
+        'agent' : data.list[0].agent,
+        'remarks' : data.list[0].remarks,
+        'appDate' : data.list[0].appDate,
+        'appDateObj': appDatenew,
+        'recom' : data.list[0].recom,
+        'availfromDate' : data.list[0].availfromDate,
+        'availfromDateObj':availfromDatenew,
+        'book' : data.list[0].book,
+        'issue' : data.list[0].issue,
+        'expiryDateObj' : expiryDatenew,
+        'expiryDate': data.list[0].expiryDate,
+        'passport' : data.list[0].passport,
+        'passportissue' : data.list[0].passportissue,
+        'passportExpiryDateObj' :passportExpiryDatenew,
+        'passportExpiryDate' : data.list[0].passportExpiryDate,
+        'licence' : data.list[0].licence,
+        'licenceissue' : data.list[0].licenceissue,
+        'licenceExpiryDate' : data.list[0].licenceExpiryDate,
+        'licenceExpiryDateObj':licenceExpiryDatenew,
+        'grade' : data.list[0].grade,
+        'licenceno' : data.list[0].licenceno,
+        'kin' : data.list[0].kin,
+        'city':data.list[0].city,
+        'address1' : data.list[0].address1,
+        'tel1' : data.list[0].tel1,
+        'address2' : data.list[0].address2,
+        'tel2' :data.list[0].tel2,
+      });
+      }, error: (err) => console.log(err)
+     });
+  
+  }
+  
+
+  rankdropdown(){
+  this.httpService.get<any>(this.applicationsService.getrank).subscribe((res: any) => {
+
+    this.rankdrop = res;
+    // this.rankListFilteredOptions.next(this.ranklist.slice());
+
+      });
+ }
+ 
+ vessellistdown(){  
+  this.httpService.get<any>(this.applicationsService.getvessel).subscribe((res: any) => {
+
+ this.vessellist = res;
+
+
+});
+ }
+filternationality(){
+  this.httpService.get<any>(this.applicationsService.getnationality).subscribe((res: any) => {
+
+    this.nationalitylist = res;
+
+  });
+}
+filteragentlist(){
+  this.httpService.get<any>(this.applicationsService.getagent).subscribe((res: any) => {
+
+    this.agentlist = res;
+
+  });
+}
+licencelist(){
+  this.httpService.get<any>(this.applicationsService.getlicence).subscribe((res: any) => {
+
+    this.licencedata = res;
+
+  });
+}
+uploadFileDoc2(event) {
+  // Check if the 'S.Book' field has a value
+  if (this.docForm.get('book')?.value) {
+    var excelfile = event.target.files[0];
+  var blob = excelfile.slice(0, excelfile.size, ''); 
+  excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
+  console.log(excelfile);
+
+  this.excel = excelfile;
+
+    var fileExtension = excelfile.name;
+    var frmData: FormData = new FormData();
+    frmData.append("file", excelfile);
+    frmData.append("fileName", fileExtension);
+    this.httpService.post<any>(this.applicationsService.uploadFilePI,frmData).subscribe((data) => {
+      console.log(data);
+      this.docForm.value.passBookfileName=fileExtension
+      this.docForm.value.passBookfilePath=data.path
+    });
  
 
-
-     this.nationalityListFilterCtrl.valueChanges
-    .pipe(takeUntil(this.onDestroy))
-    .subscribe(() => {
-      this.filternationality();
-    });
-
-    this.agentFilterCtrl.valueChanges
-    .pipe(takeUntil(this.onDestroy))
-    .subscribe(() => {
-      this.filteragent();
-    });
+    console.log(frmData);
+    this.tempForm.push(frmData);
+  } else {
+    this.showNotification(
+      "snackbar-danger",
+      "Please enter a value in the S.Book field before uploading a file",
+      "bottom",
+      "center"
+    );
   }
 
+    
+}
 
+uploadFileDoc1(event) {
+  // Check if the 'S.Book' field has a value
+  if (this.docForm.get('book')?.value) {
+    var excelfile = event.target.files[0];
+  var blob = excelfile.slice(0, excelfile.size, ''); 
+  excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
+  console.log(excelfile);
+
+  this.excel = excelfile;
+
+    var fileExtension = excelfile.name;
+    var frmData: FormData = new FormData();
+    frmData.append("file", excelfile);
+    frmData.append("fileName", fileExtension);
+    this.httpService.post<any>(this.applicationsService.uploadFilePI,frmData).subscribe((data) => {
+      console.log(data);
+      this.docForm.value.sBookfileName=fileExtension
+      this.docForm.value.sBookfilePath=data.path
+    });
  
 
+    console.log(frmData);
+    this.tempForm.push(frmData);
+  } else {
+    this.showNotification(
+      "snackbar-danger",
+      "Please enter a value in the S.Book field before uploading a file",
+      "bottom",
+      "center"
+    );
+  }
+
+    
+}
   uploadFile(event) {
     // Check if the 'S.Book' field has a value
     if (this.docForm.get('book')?.value) {
@@ -202,6 +392,13 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
       var frmData: FormData = new FormData();
       frmData.append("file", excelfile);
       frmData.append("fileName", fileExtension);
+      this.httpService.post<any>(this.applicationsService.uploadFilePI,frmData).subscribe((data) => {
+        console.log(data);
+        this.docForm.value.cvOperationsfileName=fileExtension
+        this.docForm.value.cvOperationsfilePath=data.path
+      });
+   
+
       console.log(frmData);
       this.tempForm.push(frmData);
     } else {
@@ -216,47 +413,10 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
       
   }
 
-  filternationality(){
-    if (!this.nationalityList || !this.nationalityListFilterCtrl) {
-      return;
-    }
-  
-    // get the search keyword
-    let search = this.nationalityListFilterCtrl.value;
-    if (!search) {
-      this.nationalityListFilteredOptions.next(this.nationalityList.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-  
-    // filter the banks
-    this.nationalityListFilteredOptions.next(
-      this.nationalityList.filter(title => title.text && title.text.toLowerCase().includes(search))
-    );
-  }
 
 
-  filteragent(){
 
-    if (!this.agentList || !this.agentFilterCtrl) {
-      return;
-    }
-  
-    // get the search keyword
-    let search = this.agentFilterCtrl.value;
-    if (!search) {
-      this.agentListNoFilteredOptions.next(this.agentList.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-  
-    // filter the banks
-    this.agentListNoFilteredOptions.next(
-      this.agentList.filter(title => title.text && title.text.toLowerCase().includes(search))
-    );
-  }
+
 
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, "", {
@@ -275,8 +435,26 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
     return invalid;
   
   }
+  update(){
+    if(this.docForm.valid){
+      this.applicationsService.update(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }  }
   onSubmit(){
-    
+    if(this.docForm.valid){
+      this.applicationsService.save(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
   addFile(){
   
@@ -350,27 +528,50 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
         reader.readAsDataURL(this.selectedFiles[i]);
       }
     }
+
+    var excelfile = event.target.files[0];
+    var blob = excelfile.slice(0, excelfile.size, ''); 
+    excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
+    console.log(excelfile);
+  
+    this.excel = excelfile;
+  
+      var fileExtension = excelfile.name;
+      var frmData: FormData = new FormData();
+      frmData.append("file", excelfile);
+      frmData.append("fileName", fileExtension);
+      this.httpService.post<any>(this.applicationsService.uploadFilePI,frmData).subscribe((data) => {
+        console.log(data);
+        this.docForm.value.applicantimageFileName=fileExtension
+        this.docForm.value.applicantimagePath=data.path
+      });
+   
+
+
   }
 
   getDateString(event, inputFlag, index) {
-    let cdate = this.cmnService.getDateObj(event.target.value);
-    if (inputFlag == "PassportExpiryDate") {
-      this.docForm.patchValue({ PassportExpiryDate: cdate });
+    let cdate = this.cmnService.getDate(event.target.value);
+    if (inputFlag == "passportExpiryDate") {
+      this.docForm.patchValue({ passportExpiryDate: cdate });
     }
-    if (inputFlag == "ExpiryDate") {
-      this.docForm.patchValue({ ExpiryDate: cdate });
+    if (inputFlag == "expiryDate") {
+      this.docForm.patchValue({ expiryDate: cdate });
     }
     if (inputFlag == "availfromDate") {
       this.docForm.patchValue({ availfromDate: cdate });
     }
-    if (inputFlag == "AppDate") {
-      this.docForm.patchValue({ AppDate: cdate });
+    if (inputFlag == "appDate") {
+      this.docForm.patchValue({ appDate: cdate });
     }
-    if (inputFlag == "SignOffDate") {
-      this.docForm.patchValue({ SignOffDate: cdate });
+    if (inputFlag == "signOffDate") {
+      this.docForm.patchValue({ signOffDate: cdate });
     }
-    if (inputFlag == "DOB") {
-      this.docForm.patchValue({ DOB: cdate });
+    if (inputFlag == "dob") {
+      this.docForm.patchValue({ dob: cdate });
+    }
+    if (inputFlag == "licenceExpiryDate") {
+      this.docForm.patchValue({ licenceExpiryDate: cdate });
     }
     
   }
