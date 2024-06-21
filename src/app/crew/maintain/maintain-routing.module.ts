@@ -65,6 +65,11 @@ const routes: Routes = [
       import("./health-status/health-status.module").then((m) => m.HealthStatusModule),
   },
   {
+    path: "exp-engine",
+    loadChildren: () =>
+      import("./exp-engine/exp-engine.module").then((m) => m.ExpEngineModule),
+  },
+  {
     path: "certificates",
     loadChildren: () =>
       import("./certificates/certificates.module").then((m) => m.CertificatesModule),
