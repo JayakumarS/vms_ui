@@ -70,7 +70,6 @@ export class AddPortMasterComponent implements OnInit {
   }
   fetchDetails(portCode: any): void {
     this.httpService.get(this.portMasterService.editPortMaster + "?id="+portCode).subscribe((res: any) => {
-      // console.log(countryCode);
 
       this.docForm.patchValue({
         'portCode': res.list[0].portCode,
@@ -78,6 +77,7 @@ export class AddPortMasterComponent implements OnInit {
         'portType': res.list[0].portType,
         'isActive': res.list[0].isActive,
       })
+          this.docForm.get('portCode').disable();
     },
       (err: HttpErrorResponse) => {
         // error code here

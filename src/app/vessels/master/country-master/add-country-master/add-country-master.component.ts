@@ -162,6 +162,8 @@ export class AddCountryMasterComponent implements OnInit {
         'nationality': res.list[0].nationality,
         'isActive': res.list[0].isActive,
       })
+      
+      this.docForm.get('countryCode').disable();
     },
       (err: HttpErrorResponse) => {
         // error code here

@@ -168,7 +168,7 @@
                                                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                                             <mat-label>Joining Date </mat-label>
                                                             <input matInput [matDatepicker]="datepicker3" formControlName="joiningdateObj"
-                                                                id="joiningDate" (dateChange)="onDateChange3($event,'joiningDate',0)"
+                                                                id="joiningDate" (dateChange)="onDateChange3($event,'joiningDate',i)"
                                                                 (input)="onDateInput3($event.target.value,'joiningDate',0)"
                                                                 placeholder="dd/mm/yyyy">
                                                             <mat-datepicker-toggle matSuffix
@@ -182,7 +182,7 @@
                                                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                                             <mat-label>Est Sign Off </mat-label>
                                                             <input matInput [matDatepicker]="datepicker4" formControlName="estSignOffObj"
-                                                                id="estSignOff" (dateChange)="onDateChange4($event,'estSignOff',0)"
+                                                                id="estSignOff" (dateChange)="onDateChange4($event,'estSignOff',i)"
                                                                 (input)="onDateInput4($event.target.value,'estSignOff',0)"
                                                                 placeholder="dd/mm/yyyy">
                                                             <mat-datepicker-toggle matSuffix

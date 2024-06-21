@@ -78,6 +78,7 @@ export class AddUomComponent implements OnInit {
         'uomCode': res.list[0].uomCode,
         'uomName': res.list[0].uomName
       })
+      this.docForm.get('uomCode').disable();
     },
       (err: HttpErrorResponse) => {
         // error code here
