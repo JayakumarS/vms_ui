@@ -42,4 +42,6 @@ export class PersonMaintenanceService extends UnsubscribeOnDestroyAdapter{
     //   }
     // );
   }
+
+  public detailsUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/getdetails`;
 }

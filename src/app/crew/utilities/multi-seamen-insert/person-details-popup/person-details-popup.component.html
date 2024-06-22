@@ -5,92 +5,60 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="box-shadow">
                     <div class="card">
-                        <div class="body">
-                            <div class="container border">
-                                <div class="row">
-                                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12"style="margin-top: 22px;">
-                                    <mat-label>Select Tab</mat-label>
-
-
-                                </div>
-                                <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
-
-
-
-                                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-
-
-
-                                        <mat-select formControlName="vessal" #vessaltype>
-                                            <mat-option>
-                                                <ngx-mat-select-search [placeholderLabel]="'Search'"
-                                                    [noEntriesFoundLabel]="'no results found'"
-                                                    [formControl]="vessaltypeFilterCtrl"></ngx-mat-select-search>
-                                            </mat-option>
-                                            <mat-option *ngFor="let title of vessaltypeFilteredOptions | async"
-                                                [value]="title.id">
-                                                {{title.text}}
-                                            </mat-option>
-                                        </mat-select>
-
-
-
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                                </div>
-                            <div class="container border">
+                        <div class="body" style="height: 73vh;">
+                                         
                                 <form class="m-4" [formGroup]="docForm">
-
-                                    <h2 style="border: 2px solid black;padding: 10px;">Seaman's record card</h2>
+                                    <h5>For [{{persondtls.code}}] {{persondtls.surname}} {{persondtls.name}}</h5>
+                                    <h3>Seaman's Record Card</h3>
+                                    <br>
                                     <div class="row">
                                     <div class="col">
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Surname:</b> {{ cashbankReceipts?.voucherNo }}</label>
+                                            <label><b>Surname:</b> {{ persondtls?.surname }}</label>
                                         </div>
                                         <br>
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Natioality:</b> {{ cashbankReceipts?.acctCurrency }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Father:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                            <label><b>Nationality:</b> {{ persondtls?.nationality }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Licence:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                            <label><b>Father:</b> {{ persondtls?.father }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Passport:</b> {{ cashbankReceipts?.acctCurrency }}</label>
+                                            <label><b>Licence:</b> {{ persondtls?.licence }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>S.Book:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                            <label><b>Passport:</b> {{ persondtls?.passport }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>US.Visa:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                            <label><b>S.Book:</b> {{ persondtls?.chequeNO }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Decision Code:</b> {{ cashbankReceipts?.acctCurrency }}</label>
+                                            <label><b>US.Visa:</b> {{ persondtls?.chequeNO }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Status:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                            <label><b>Decision Code:</b> {{ persondtls?.acctCurrency }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Remarks:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                            <label><b>Status:</b> {{ persondtls?.workStatus }}</label>
+                                        </div>
+                                        <br>
+
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Remarks:</b> {{ persondtls?.remarksOne }}</label>
                                         </div>
                                         <br>
 
@@ -98,99 +66,100 @@
                                     <br>
                                     <div class="col">
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Name:</b> {{ cashbankReceipts?.voucherNo }}</label>
+                                            <label><b>Name:</b> {{ persondtls?.name }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Rank:</b> {{ cashbankReceipts?.acctCurrency }}</label>
+                                            <label><b>Rank:</b> {{ persondtls?.rank }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Mother:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                            <label><b>Mother:</b> {{ persondtls?.mother }}</label>
                                         </div>
                                         
                                         <br>
                                         
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Born Place:</b> {{ cashbankReceipts?.voucherNo }}</label>
+                                            <label><b>Born Place:</b> {{ persondtls?.voucherNo }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Expiry:</b> {{ cashbankReceipts?.acctCurrency }}</label>
+                                            <label><b>Expiry:</b> {{ persondtls?.voucherNo }}</label>
                                         </div>
                                         <br>
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Expiry:</b> {{ cashbankReceipts?.chequeNO }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Number:</b> {{ cashbankReceipts?.chequeNO }}</label>
-
+                                            <label><b>Expiry:</b> {{ persondtls?.chequeNO }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Agents:</b> {{ cashbankReceipts?.chequeNO }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Health Status:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                            <label><b>Number:</b> {{ persondtls?.chequeNO }}</label>
 
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Religion:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                            <label><b>Agents:</b> {{ persondtls?.agent }}</label>
+                                        </div>
+                                        <br>
+
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Health Status:</b> {{ persondtls?.health }}</label>
 
                                         </div>
+                                        <br>
+
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Religion:</b> {{ persondtls?.religion }}</label>
+
+                                        </div>
+                                        <br>
                                     </div>
                                 
                                     <br>
                                     <div class="col">
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Middle:</b> {{ cashbankReceipts?.voucherNo }}</label>
+                                            <label><b>Middle:</b> {{ persondtls?.middle }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Gender:</b> {{ cashbankReceipts?.acctCurrency }}</label>
+                                            <label><b>Gender:</b> {{ persondtls?.gender }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Active:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                            <label><b>Active:</b> {{ persondtls?.active }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Birth.D.:</b> {{ cashbankReceipts?.voucherNo }}</label>
+                                            <label><b>Birth Date:</b> {{ persondtls?.birthDate }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Pr.Exp Voy:</b> {{ cashbankReceipts?.acctCurrency }}</label>
-                                        </div>
-                                        <br>
-
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Pr.Exp M.:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                            <label><b>Pr.Exp Voy:</b> {{ persondtls?.expMonth }}</label>
                                         </div>
                                         <br>
 
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Last Sign Off:</b> {{ cashbankReceipts?.voucherNo }}</label>
+                                            <label><b>Pr.Exp M:</b> {{ persondtls?.noVoyage }}</label>
+                                        </div>
+                                        <br>
+
+
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Last Sign Off:</b> {{ persondtls?.signedOff }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                           <label><b>Available From:</b> {{ cashbankReceipts?.acctCurrency }}</label>
+                                           <label><b>Available From:</b> {{ persondtls?.availableFrom }}</label>
                                         </div>
                                         <br>
 
@@ -199,53 +168,51 @@
                                     <br>
                                     <div class="col">
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Code:</b> {{ cashbankReceipts?.voucherNo }}</label>
+                                            <label><b>Code:</b> {{ persondtls?.code }}</label>
                                         </div>
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <img src="https://i.pinimg.com/564x/51/b4/a5/51b4a5a2706ac94045bf999de728ba82.jpg" jsaction="VQAsE" class="sFlh5c pT0Scc iPVvYb" style="max-width: 100px; height: 126px; margin: 0px; width: 126px; border: 2px solid black;" alt="Camera free vector icons designed by DinosoftLabs | Free icons, Vector icon design, Camera icon" jsname="kn3ccd" aria-hidden="false">                                    
+                                            <img src="/assets/images/defaultimage.png" jsaction="VQAsE" class="sFlh5c pT0Scc iPVvYb" style="max-width: 100px; height: 126px; margin: 0px; width: 126px; border: 2px solid black;" alt="defaultimage" jsname="kn3ccd" aria-hidden="false">                                    
                                         </div>
                                         <br>
 
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Age:</b> {{ cashbankReceipts?.chequeNO }}</label>
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12"style="display: flex;justify-content: space-between;">
+                                            <label><b>Age:</b> {{ persondtls?.chequeNO }}</label>
+                                            <p>years</p>
                                         </div>
                                         <br>
 
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Company Service:</b> {{ cashbankReceipts?.acctCurrency }}</label>
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
+                                            <label><b>Company Service:</b> {{ persondtls?.acctCurrency }}</label>
+                                            <p>years</p>
 
                                         </div>
                                         <br>
 
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Total S.Service:</b> {{ cashbankReceipts?.acctCurrency }}</label>
-
-                                           
-
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
+                                            <label><b>Total S.Service:</b> {{ persondtls?.acctCurrency }}</label>
+                                            <p>years</p>
                                         </div>
                                         <br>
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Years in Rank:</b> {{ cashbankReceipts?.acctCurrency }}</label>
+
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
+                                            <label><b>Years in Rank:</b> {{ persondtls?.acctCurrency }}</label>
+                                            <p>years</p>
 
                                         </div>
                                     </div>
                                     <br>
                                 </div>
-                               
-                                    <br>
-
-                               
-                                    <br>
                                     <div class="row">
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3 text-right">
-                                            <button class="cancelBtn" style="margin-left: 450px;" type="button" mat-button (click)="onCancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3 center">
+                                            <button class="cancelBtn" type="button" mat-button (click)="onCancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
                                         </div>
                                     </div>
                                 </form>
-                            </div>
+                            
                         </div>
+
                     </div>
                 </div>
             </div>

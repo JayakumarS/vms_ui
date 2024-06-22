@@ -428,8 +428,8 @@ this.filteritempaylist();
 
     const dialogRef = this.dialog.open(PersonDetailsPopupComponent, {
       data: row,
-      height: "80%",
-      width: "100%",
+      height: "85%",
+      width: "80%",
       direction: tempDirection,
       disableClose: true
     });
