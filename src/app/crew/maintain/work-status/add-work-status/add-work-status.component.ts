@@ -84,15 +84,11 @@ export class AddWorkStatusComponent implements OnInit {
     this.docForm = this.fb.group({
   
 
-
-      workStatusBeanDtls: this.fb.array([
-        this.fb.group({
-          sort : 1,
-          select:[""],
+    
+        
           code: ["", Validators.required],
-          description:[""],
-        })
-      ]),
+          description:[""]
+       
     });
 
 
@@ -155,28 +151,21 @@ export class AddWorkStatusComponent implements OnInit {
   }
 
   fetchDetails(id){
-    this.httpService.get<any>(this.WorkStatusService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      let dtlArray = this.docForm.controls.workStatusBeanDtls as FormArray;
-      dtlArray.clear();
-      data.list.forEach((element, index) => {
-        let arraylen = dtlArray.length;
-        let newUsergroup: FormGroup = this.fb.group({
-          select:[""],
-          code: [element.code],
-          description:[element.description + ""]
-        })
-        dtlArray.insert(arraylen, newUsergroup);
-        newUsergroup.get('code').disable();
+    this.httpService.get<any>(this.WorkStatusService.editUrl+"?id="+id).subscribe({    next: (data: any) => {
+      this.docForm.patchValue({
+        'code': data.list[0].code,
+        'description': data.list[0].description
       });
-      }, error: (err) => console.log(err)
-     });
-  }
+      this.docForm.get('code').disable();
+
+    }
+  });
+}
   
   update() {
-    const dtlArray = this.docForm.get('workStatusBeanDtls') as FormArray;
-    dtlArray.controls.forEach(control => {
-      control.get('code').enable();
-    });
+  
+      this.docForm.get('code').enable();
+    
     if(this.docForm.valid){
       this.WorkStatusService.updateworkstatus(this.docForm.value, this.router, this.notificationService);
     }else{

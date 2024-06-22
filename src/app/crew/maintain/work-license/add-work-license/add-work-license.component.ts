@@ -85,14 +85,11 @@ export class AddWorkLicenseComponent implements OnInit {
   
 
 
-      workLicenseBeanDtls: this.fb.array([
-        this.fb.group({
-          sort : 1,
-          select:[""],
+
           code: ["", Validators.required],
           description:[""],
-        })
-      ]),
+      
+      
     });
 
 
@@ -156,27 +153,20 @@ export class AddWorkLicenseComponent implements OnInit {
 
   fetchDetails(id){
     this.httpService.get<any>(this.WorkLicenseService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      let dtlArray = this.docForm.controls.workLicenseBeanDtls as FormArray;
-      dtlArray.clear();
-      data.list.forEach((element, index) => {
-        let arraylen = dtlArray.length;
-        let newUsergroup: FormGroup = this.fb.group({
-          select:[""],
-          code: [element.code],
-          description:[element.description + ""]
-        })
-        dtlArray.insert(arraylen, newUsergroup);
-        newUsergroup.get('code').disable();
+      this.docForm.patchValue({
+        'code': data.list[0].code,
+        'description': data.list[0].description
       });
-      }, error: (err) => console.log(err)
-     });
+      this.docForm.get('code').disable();
+
+    }
+  });
   }
   
   update() {
-    const dtlArray = this.docForm.get('workLicenseBeanDtls') as FormArray;
-    dtlArray.controls.forEach(control => {
-      control.get('code').enable();
-    });
+
+      this.docForm.get('code').enable();
+    
     if(this.docForm.valid){
       this.WorkLicenseService.updateworkLicense(this.docForm.value, this.router, this.notificationService);
     }else{
