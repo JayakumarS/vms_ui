@@ -60,8 +60,6 @@ export class AddMaintainRankComponent implements OnInit {
 
     this.docForm = this.fb.group({
 
-      maintainRankBeanDtls: this.fb.array([
-        this.fb.group({
       select: [""],
       code: [""],
       description: [""],
@@ -70,8 +68,7 @@ export class AddMaintainRankComponent implements OnInit {
       department: [""],
       sno: 1,
       remarks:[""],
-    })
-  ]),
+  
     });
 
   }
@@ -125,10 +122,9 @@ export class AddMaintainRankComponent implements OnInit {
    }
    update() {
 
-    const dtlArray = this.docForm.get('maintainRankBeanDtls') as FormArray;
-    dtlArray.controls.forEach(control => {
-      control.get('code').enable();
-    });
+  
+    this.docForm.get('code').enable();
+    
     if(this.docForm.valid){
       this.MaintainRankService.updateRank(this.docForm.value, this.router, this.notificationService);
     }else{
@@ -240,26 +236,27 @@ export class AddMaintainRankComponent implements OnInit {
    }
   fetchDetails(id: any): void {
     this.httpService.get<any>(this.MaintainRankService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      let dtlArray = this.docForm.controls.maintainRankBeanDtls as FormArray;
-      dtlArray.clear();
-      data.list.forEach((element, index) => {
-        let arraylen = dtlArray.length;
-        let newUsergroup: FormGroup = this.fb.group({
-          select:[""],
-          code: [element.code],
-          description:[element.description + ""],
-          groupage: [element.groupage],
-          department:[element.department],
-          oAndt: [element.oAndt.toString()],
-          sno:[element.sno],
-          remarks:[element.remarks]
-        })
-        dtlArray.insert(arraylen, newUsergroup);
-        newUsergroup.get('code').disable();
+
+      this.docForm.patchValue({
+    
+
+        'code':  data.list[0].code,
+        'description':data.list[0].description ,
+        'groupage': data.list[0].groupage,
+        'department':data.list[0].department,
+        'oAndt': data.list[0].oAndt.toString(),
+        'sno':data.list[0].sno,
+        'remarks':data.list[0].remarks
+
+
       });
-      }, error: (err) => console.log(err)
-     });
-  
+      this.docForm.get('code').disable();
+
+    }
+  });
+
+
+    
   }
   
 

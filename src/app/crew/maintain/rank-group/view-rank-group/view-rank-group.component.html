@@ -23,6 +23,9 @@
                                         <th>
                                             Description
                                         </th>
+                                        <th>
+                                            Remarks
+                                        </th>
                                     </tr>
                                     <tr *ngFor="let item of viewDtl; let i = index"
                                         style=" padding: 7px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; vertical-align: middle;
@@ -32,6 +35,9 @@
                                         </td>
                                         <td>
                                             {{item.description}}
+                                        </td>
+                                        <td>
+                                            {{item.remarks}}
                                         </td>
                                     </tr>
                                 </table>
