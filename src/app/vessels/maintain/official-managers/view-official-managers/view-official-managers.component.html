@@ -30,7 +30,14 @@
                                             Address
                                         </th>
                                         <th>
+                                            Postal Code
+                                        </th>
+
+                                        <th>
                                             Phone
+                                        </th>
+                                        <th>
+                                            Remarks
                                         </th>
                                     </tr>
                                     <tr *ngFor="let item of officialManagersBeanDtls; let i = index"
@@ -49,7 +56,13 @@
                                             {{item.address}}
                                         </td>
                                         <td>
+                                            {{item.poscode}}
+                                        </td>
+                                        <td>
                                             {{item.phone}}
+                                        </td>
+                                        <td>
+                                            {{item.remarks}}
                                         </td>
                                     </tr>
                                 </table>

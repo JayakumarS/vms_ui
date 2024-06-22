@@ -28,6 +28,11 @@ import { fromEvent } from 'rxjs';
 export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   docForm: FormGroup;
   acclist: any[];
+  excel:any = [];
+  files:any = [];
+  excelfile:[];
+  tempForm:any = [];
+  tempfiles:any = [];
   edit:boolean=false;
   requestId: any;
   decryptRequestId: any;
@@ -69,9 +74,13 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
           poscode: [""],
           phone: [""],
           remarks: [""],
-          blogo: [""],
-          plogo: [""]
-
+          plogo:[""],
+         
+          blogofileName: [""],
+          blogofilePath: [""],
+          plogofileName: [""],
+          plogofilePath: [""],
+     
 
         })
       ]),
@@ -178,12 +187,84 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
           poscode: [""],
           phone: [""],
           remarks: [""],
-          blogo: [""],
-          plogo: [""]
+          blogofileName: [""],
+          blogofilePath: [""],
+          plogofileName: [""],
+          plogofilePath: [""],
     })
     officialManagersBeanDtls.insert(arraylen, newUsergroup);
 
 
+  }
+
+  uploadFileDoc1(event) {
+    // Check if the 'S.Book' field has a value
+  
+    var excelfile = event.target.files[0];
+    var blob = excelfile.slice(0, excelfile.size, ''); 
+    excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
+    console.log(excelfile);
+  
+    this.excel = excelfile;
+  
+      var fileExtension = excelfile.name;
+      var frmData: FormData = new FormData();
+      frmData.append("file", excelfile);
+      frmData.append("fileName", fileExtension);
+      this.httpService.post<any>(this.officialManagersService.uploadFilePI,frmData).subscribe((data) => {
+        console.log(data);
+        let multiSeamenArray = this.docForm.controls.officialManagersBeanDtls as FormArray;
+        multiSeamenArray.controls.forEach(control => {
+          control.patchValue({
+            blogofileName: fileExtension, 
+            blogofilePath: data.path
+          });
+        });
+       
+      });
+   
+  
+      console.log(frmData);
+      this.tempForm.push(frmData);
+
+  
+      
+  }
+
+  uploadFileDoc2(event,index) {
+  
+     var excelfile = event.target.files[0];
+    var blob = excelfile.slice(0, excelfile.size, ''); 
+    excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
+    console.log(excelfile);
+  
+    this.excel = excelfile;
+  
+      var fileExtension = excelfile.name;
+      var frmData: FormData = new FormData();
+      frmData.append("file", excelfile);
+      frmData.append("fileName", fileExtension);
+      this.httpService.post<any>(this.officialManagersService.uploadFilePI,frmData).subscribe((data) => {
+        console.log(data);
+        let multiSeamenArray = this.docForm.controls.officialManagersBeanDtls as FormArray;
+        multiSeamenArray.controls.forEach(control => {
+          control.patchValue({
+            plogofileName: fileExtension, 
+            plogofilePath: data.path
+          });
+        });
+        // multiSeamenArray.at(index).patchValue({
+        //     plogofileName: 'fileExtension',
+        //     plogofilePath: data.path
+        //   });    
+             });
+   
+  
+      console.log(frmData);
+      this.tempForm.push(frmData);
+
+  
+      
   }
   removeRow() {
     let count = 0;

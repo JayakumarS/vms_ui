@@ -34,7 +34,7 @@ export class ViewOfficialManagersComponent implements OnInit {
           address: [""],
           poscode: [""],
           phone: [""],
-          // remarks: [""],
+          remarks: [""],
           // blogo: [""],
           // plogo: [""]
         })

@@ -32,6 +32,7 @@ export class OfficialManagersService extends UnsubscribeOnDestroyAdapter{
   public editUrl = `${this.serverUrl.apiServerAddress}api/vessels/officialManagers/edit`;
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/vessels/officialManagers/delete`;
   public updateUrl = `${this.serverUrl.apiServerAddress}api/vessels/officialManagers/update`;
+  public uploadFilePI = `${this.serverUrl.apiServerAddress}api/vessels/officialManagers/uploadfile`;
 
 
   get data(): OffManagerModel[] {
