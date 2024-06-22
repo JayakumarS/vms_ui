@@ -149,7 +149,7 @@ export class ListRankGroupComponent extends UnsubscribeOnDestroyAdapter implemen
           else{
             this.showNotification(
               "snackbar-danger",
-              "Error in save",
+              "Error in Deleted",
               "bottom",
               "center"
             );

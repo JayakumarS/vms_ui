@@ -84,15 +84,9 @@ export class AddCertificatesComponent implements OnInit {
     this.docForm = this.fb.group({
   
 
-
-      certificatesBeanDtls: this.fb.array([
-        this.fb.group({
-          sort : 1,
-          select:[""],
           code: ["", Validators.required],
           description:[""],
-        })
-      ]),
+       
     });
 
 
@@ -156,27 +150,20 @@ export class AddCertificatesComponent implements OnInit {
 
   fetchDetails(id){
     this.httpService.get<any>(this.CertificatesService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      let dtlArray = this.docForm.controls.certificatesBeanDtls as FormArray;
-      dtlArray.clear();
-      data.list.forEach((element, index) => {
-        let arraylen = dtlArray.length;
-        let newUsergroup: FormGroup = this.fb.group({
-          select:[""],
-          code: [element.code],
-          description:[element.description + ""]
-        })
-        dtlArray.insert(arraylen, newUsergroup);
-        newUsergroup.get('code').disable();
+      this.docForm.patchValue({
+        'code': data.list[0].code,
+        'description': data.list[0].description
       });
-      }, error: (err) => console.log(err)
-     });
+      this.docForm.get('code').disable();
+
+    }
+  });
   }
   
   update() {
-    const dtlArray = this.docForm.get('certificatesBeanDtls') as FormArray;
-    dtlArray.controls.forEach(control => {
-      control.get('code').enable();
-    });
+
+      this.docForm.get('code').enable();
+    
     if(this.docForm.valid){
       this.CertificatesService.updateCertificates(this.docForm.value, this.router, this.notificationService);
     }else{

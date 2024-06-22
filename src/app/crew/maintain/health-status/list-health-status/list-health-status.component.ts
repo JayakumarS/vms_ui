@@ -149,7 +149,7 @@ export class ListHealthStatusComponent extends UnsubscribeOnDestroyAdapter imple
           else{
             this.showNotification(
               "snackbar-danger",
-              "Error in save",
+              "Error in Deleted",
               "bottom",
               "center"
             );

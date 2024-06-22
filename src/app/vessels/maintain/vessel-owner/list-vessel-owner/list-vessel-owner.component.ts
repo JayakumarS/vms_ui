@@ -148,7 +148,7 @@ export class ListVesselOwnerComponent extends UnsubscribeOnDestroyAdapter implem
           else{
             this.showNotification(
               "snackbar-danger",
-              "Error in save",
+              "Error in Deleted",
               "bottom",
               "center"
             );

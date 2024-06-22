@@ -149,7 +149,7 @@ export class ListWorkStatusComponent extends UnsubscribeOnDestroyAdapter impleme
           else{
             this.showNotification(
               "snackbar-danger",
-              "Error in save",
+              "Error in Deleted",
               "bottom",
               "center"
             );
