@@ -26,12 +26,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonService } from 'src/app/common-service/common.service';
+import { ApplicantListPopupComponent } from './applicant-list-popup/applicant-list-popup.component';
 
 
 @NgModule({
   declarations: [
     ListPersonMaintenanceComponent,
-    AddPersonMaintenanceComponent
+    AddPersonMaintenanceComponent,
+    ApplicantListPopupComponent
   ],
   providers:[
     CommonService

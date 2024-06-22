@@ -10,6 +10,9 @@
           <div class="box-shadow">
             <div class="card">
               <div class="body">
+                <div>
+                  <button *ngIf="!edit" class="btn-space selectBtn" mat-raised-button (click)="openApplicantOpenUp()"><mat-icon class="saveCancelIcon">apps</mat-icon>Applicant</button>
+                </div>
                <form class="m-4" autocomplete="off" [formGroup]="docForm">
                   <mat-tab-group backgroundColor="light" animationDuration="1000ms">
                    <mat-tab label="Main Details">
@@ -47,21 +50,9 @@
 
                       <div class="row w-100">
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <!-- <mat-form-field class="example-full-width" appearance="outline">
-                            <mat-label>Nationality</mat-label>
-                            <mat-select  formControlName="nationality" required>
-                              <mat-option *ngFor="let title of nationalityList" [value]="title.id">
-                                {{title.text}}
-                              </mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="docForm.get('nationality').hasError('required')">
-                                Nationality is required
-                            </mat-error>
-                          </mat-form-field> -->
-
                           <app-searchable-select 
                             [options]="nationalityList" 
-                            placeholderLabel="Search for a nationality"
+                            placeholderLabel="Search"
                             noEntriesFoundLabel="No results found"
                             [label]="'Nationality'"
                             formControlName="nationality"
@@ -71,17 +62,9 @@
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                            <!-- <mat-form-field class="example-full-width" appearance="outline">
-                              <mat-label>Rank</mat-label>
-                              <mat-select  formControlName="rank">
-                                <mat-option *ngFor="let title of rankList" [value]="title.id1">
-                                  {{title.text}}
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field> -->
                             <app-searchable-select 
                               [options]="rankList" 
-                              placeholderLabel="Search for a rank"
+                              placeholderLabel="Search"
                               noEntriesFoundLabel="No results found"
                               [label]="'Rank'"
                               formControlName="rank"
@@ -109,10 +92,10 @@
                             <mat-form-field class="example-full-width" appearance="outline">
                                 <mat-label>Gender</mat-label>
                                 <mat-select formControlName="gender" placeholder="Gender">
-                                    <mat-option [value]="'male'">
+                                    <mat-option [value]="'M'">
                                         Male
                                     </mat-option>
-                                    <mat-option [value]="'female'">
+                                    <mat-option [value]="'F'">
                                        Female
                                     </mat-option>
                                  </mat-select>
@@ -154,7 +137,7 @@
 
                           <app-searchable-select 
                               [options]="licenceList" 
-                              placeholderLabel="Search for a licence"
+                              placeholderLabel="Search"
                               noEntriesFoundLabel="No results found"
                               [label]="'Licence'"
                               formControlName="licence"
@@ -175,7 +158,7 @@
 
                           <app-searchable-select 
                               [options]="healthList" 
-                              placeholderLabel="Search for a Health ST"
+                              placeholderLabel="Search"
                               noEntriesFoundLabel="No results found"
                               [label]="'Health St'"
                               formControlName="health"
@@ -198,7 +181,7 @@
 
                           <app-searchable-select 
                               [options]="cList" 
-                              placeholderLabel="Search for a Decision C"
+                              placeholderLabel="Search"
                               noEntriesFoundLabel="No results found"
                               [label]="'Decision C'"
                               formControlName="decision"
@@ -210,39 +193,21 @@
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <!-- <mat-form-field class="example-full-width" appearance="outline">
-                            <mat-label>Status</mat-label>
-                            <mat-select  formControlName="status">
-                              <mat-option *ngFor="let title of statusList" [value]="title.id">
-                                {{title.text}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field> -->
-
                           <app-searchable-select 
                               [options]="statusList" 
-                              placeholderLabel="Search for status"
+                              placeholderLabel="Search"
                               noEntriesFoundLabel="No results found"
                               [label]="'Status'"
-                              formControlName="status"
+                              formControlName="workStatus"
                               [required]="false"
                               [errorMessage]="''">
                           </app-searchable-select>
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <!-- <mat-form-field class="example-full-width" appearance="outline">
-                            <mat-label>Religion</mat-label>
-                            <mat-select  formControlName="religion">
-                              <mat-option *ngFor="let title of religionList" [value]="title.id">
-                                {{title.text}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field> -->
-
                           <app-searchable-select 
                               [options]="religionList" 
-                              placeholderLabel="Search for religion"
+                              placeholderLabel="Search"
                               noEntriesFoundLabel="No results found"
                               [label]="'Religion'"
                               formControlName="religion"
@@ -254,61 +219,40 @@
 
                       <div class="row w-100">
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <!-- <mat-form-field class="example-full-width" appearance="outline">
-                            <mat-label>Agent</mat-label>
-                            <mat-select  formControlName="agent" requuired>
-                              <mat-option *ngFor="let title of agentList" [value]="title.id">
-                                {{title.text}}
-                              </mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="docForm.get('agent').hasError('required')">
-                              Agent is required
-                          </mat-error>
-                          </mat-form-field> -->
-
                           <app-searchable-select 
                               [options]="agentList" 
-                              placeholderLabel="Search for agent"
+                              placeholderLabel="Search"
                               noEntriesFoundLabel="No results found"
                               [label]="'Agent'"
                               formControlName="agent"
-                              [required]="false"
-                              [errorMessage]="''">
+                              [required]="true"
+                              [errorMessage]="'Agent is required'">
                           </app-searchable-select>
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                           <mat-form-field class="example-full-width" appearance="outline">
                           <mat-label>Exp Months</mat-label>
-                          <input matInput formControlName="expMonth">
+                          <input matInput formControlName="expMonth" appNumericFormatDirective (blur)="calculateSeaService()">
                           </mat-form-field>
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                           <mat-form-field class="example-full-width" appearance="outline">
                           <mat-label>No Voyages</mat-label>
-                          <input matInput formControlName="noVoyage">
+                          <input matInput formControlName="noVoyage" appNumericFormatDirective>
                           </mat-form-field>
                         </div>
                       </div>
 
                       <div class="row w-100">
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <!-- <mat-form-field class="example-full-width" appearance="outline">
-                            <mat-label>Proposed Vsl Type</mat-label>
-                            <mat-select  formControlName="ProposedType">
-                              <mat-option *ngFor="let title of proposeTypeList" [value]="title.id">
-                                {{title.text}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field> -->
-
                           <app-searchable-select 
                               [options]="proposeTypeList" 
-                              placeholderLabel="Search for vessel type"
+                              placeholderLabel="Search"
                               noEntriesFoundLabel="No results found"
                               [label]="'Proposed Vsl Type'"
-                              formControlName="ProposedType"
+                              formControlName="proposedType"
                               [required]="false"
                               [errorMessage]="''">
                           </app-searchable-select>
@@ -317,7 +261,7 @@
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                           <mat-form-field class="example-full-width" appearance="outline">
                               <mat-label>Last Signed Off</mat-label>
-                              <input matInput [matDatepicker]="picker" formControlName="signedOff" (dateInput)="$event.value.format('YYYY/MM/DD')" id="birthDateObj" (dateChange)="getDateString($event, 'birthDateObj')" autocomplete="off">
+                              <input matInput [matDatepicker]="picker" formControlName="signedOffObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="signedOff" (dateChange)="getDateString($event, 'signedOff')" autocomplete="off">
                               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                               <mat-datepicker #picker></mat-datepicker>
                           </mat-form-field>
@@ -326,7 +270,7 @@
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                           <mat-form-field class="example-full-width" appearance="outline">
                               <mat-label>Available From</mat-label>
-                              <input matInput [matDatepicker]="afPicker" formControlName="availableFrom" (dateInput)="$event.value.format('YYYY/MM/DD')" id="birthDateObj" (dateChange)="getDateString($event, 'birthDateObj')" autocomplete="off">
+                              <input matInput [matDatepicker]="afPicker" formControlName="availableFromObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="availableFrom" (dateChange)="getDateString($event, 'availableFrom')" autocomplete="off">
                               <mat-datepicker-toggle matSuffix [for]="afPicker"></mat-datepicker-toggle>
                               <mat-datepicker #afPicker></mat-datepicker>
                           </mat-form-field>
@@ -335,18 +279,9 @@
 
                       <div class="row w-100">
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <!-- <mat-form-field class="example-full-width" appearance="outline">
-                            <mat-label>Remarks 1</mat-label>
-                            <mat-select  formControlName="remarksOne">
-                              <mat-option *ngFor="let title of remarksList" [value]="title.id">
-                                {{title.text}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field> -->
-
                           <app-searchable-select 
                               [options]="remarksList" 
-                              placeholderLabel="Search for remarks"
+                              placeholderLabel="Search"
                               noEntriesFoundLabel="No results found"
                               [label]="'Remarks 1'"
                               formControlName="remarksOne"
@@ -356,18 +291,9 @@
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <!-- <mat-form-field class="example-full-width" appearance="outline">
-                            <mat-label>Remarks 2</mat-label>
-                            <mat-select  formControlName="remarksTwo">
-                              <mat-option *ngFor="let title of remarksList" [value]="title.id">
-                                {{title.text}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field> -->
-
                           <app-searchable-select 
                               [options]="remarksList" 
-                              placeholderLabel="Search for remarks"
+                              placeholderLabel="Search"
                               noEntriesFoundLabel="No results found"
                               [label]="'Remarks 2'"
                               formControlName="remarksTwo"
@@ -399,7 +325,7 @@
   
                       <div style="display: flex;justify-content: space-between;">
                           <mat-label><b>Total Sea Service:</b></mat-label>
-                          <p>Years</p>
+                          <p><span>{{seaServiceYear}}</span> Years</p>
                       </div>
   
                       <div style="display: flex;justify-content: space-between;">
@@ -416,7 +342,7 @@
                       <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                           <mat-form-field class="example-full-width" appearance="outline">
                               <mat-label>Active</mat-label>
-                              <mat-select formControlName="active" placeholder="Gender">
+                              <mat-select formControlName="active">
                                   <mat-option [value]="'yes'">
                                       Yes
                                   </mat-option>
@@ -436,16 +362,17 @@
                       <div class="row">
                         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
                           <app-file-upload (change)="uploadFile($event)"></app-file-upload>
+                          <!-- <a href="{{filePath}}{{creditFile}}" target="_blank">{{creditFile}}</a> -->
                         </div>
-                        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                        <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                           <button (click)="addFile()" type="button" mat-mini-fab color="primary"
                             style="margin-left: -14px;margin-top: 18px;">
                             <mat-icon class="col-white">add</mat-icon>
                           </button>
-                        </div>
+                        </div> -->
                       </div>
   
-                      <div>
+                      <!-- <div>
                         <div *ngFor="let link of this.docForm.value.files; let index = index">
                           <a style="display: none" [href]="filePathdata + '/' + link.filename"
                             download="{{link.name}}"></a>
@@ -456,7 +383,7 @@
                             </button>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                    </div> 
                    </mat-tab>
@@ -474,7 +401,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                             <mat-form-field class="example-full-width" appearance="outline">
                                 <mat-label>Issue</mat-label>
-                                <input matInput [matDatepicker]="issuePickerOne" formControlName="issueOne" (dateInput)="$event.value.format('YYYY/MM/DD')" id="birthDateObj" (dateChange)="getDateString($event, 'birthDateObj')" autocomplete="off">
+                                <input matInput [matDatepicker]="issuePickerOne" formControlName="pIssueObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="pIssue" (dateChange)="getDateString($event, 'pIssue')" autocomplete="off">
                                 <mat-datepicker-toggle matSuffix [for]="issuePickerOne"></mat-datepicker-toggle>
                                 <mat-datepicker #issuePickerOne></mat-datepicker>
                             </mat-form-field>
@@ -483,7 +410,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                             <mat-form-field class="example-full-width" appearance="outline">
                                 <mat-label>Expiry</mat-label>
-                                <input matInput [matDatepicker]="expiryPickerOne" formControlName="expiryOne" (dateInput)="$event.value.format('YYYY/MM/DD')" id="birthDateObj" (dateChange)="getDateString($event, 'birthDateObj')" autocomplete="off">
+                                <input matInput [matDatepicker]="expiryPickerOne" formControlName="pExpiryObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="pExpiry" (dateChange)="getDateString($event, 'pExpiry')" autocomplete="off">
                                 <mat-datepicker-toggle matSuffix [for]="expiryPickerOne"></mat-datepicker-toggle>
                                 <mat-datepicker #expiryPickerOne></mat-datepicker>
                             </mat-form-field>
@@ -492,7 +419,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                             <mat-form-field class="example-full-width" appearance="outline">
                             <mat-label>Issue Place</mat-label>
-                            <input matInput formControlName="issuePlaceOne">
+                            <input matInput formControlName="pIssuePlace">
                             </mat-form-field>
                         </div>
                       </div>
@@ -508,7 +435,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                             <mat-form-field class="example-full-width" appearance="outline">
                                 <mat-label>Issue</mat-label>
-                                <input matInput [matDatepicker]="issuePickerTwo" formControlName="issueTwo" (dateInput)="$event.value.format('YYYY/MM/DD')" id="birthDateObj" (dateChange)="getDateString($event, 'birthDateObj')" autocomplete="off">
+                                <input matInput [matDatepicker]="issuePickerTwo" formControlName="sIssueObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="sIssue" (dateChange)="getDateString($event, 'sIssue')" autocomplete="off">
                                 <mat-datepicker-toggle matSuffix [for]="issuePickerTwo"></mat-datepicker-toggle>
                                 <mat-datepicker #issuePickerTwo></mat-datepicker>
                             </mat-form-field>
@@ -517,7 +444,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                             <mat-form-field class="example-full-width" appearance="outline">
                                 <mat-label>Expiry</mat-label>
-                                <input matInput [matDatepicker]="expiryPickerTwo" formControlName="expiryTwo" (dateInput)="$event.value.format('YYYY/MM/DD')" id="birthDateObj" (dateChange)="getDateString($event, 'birthDateObj')" autocomplete="off">
+                                <input matInput [matDatepicker]="expiryPickerTwo" formControlName="sExpiryObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="sExpiry" (dateChange)="getDateString($event, 'sExpiry')" autocomplete="off">
                                 <mat-datepicker-toggle matSuffix [for]="expiryPickerTwo"></mat-datepicker-toggle>
                                 <mat-datepicker #expiryPickerTwo></mat-datepicker>
                             </mat-form-field>
@@ -526,7 +453,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                             <mat-form-field class="example-full-width" appearance="outline">
                             <mat-label>Issue Place</mat-label>
-                            <input matInput formControlName="issuePlaceTwo">
+                            <input matInput formControlName="sIssuePlace">
                             </mat-form-field>
                         </div>
                       </div>
@@ -540,8 +467,17 @@
   
                         <div *ngIf="docForm.value.usVisa" class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                           <mat-form-field class="example-full-width" appearance="outline">
-                          <mat-label>Passport</mat-label>
-                          <input matInput formControlName="usPassport">
+                          <mat-label>Visa No</mat-label>
+                          <input matInput formControlName="usVisaNo">
+                          </mat-form-field>
+                        </div>
+
+                        <div *ngIf="docForm.value.usVisa" class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width" appearance="outline">
+                              <mat-label>Expiry</mat-label>
+                              <input matInput [matDatepicker]="usExpiry" formControlName="usExpiryObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="usExpiry" (dateChange)="getDateString($event, 'usExpiry')" autocomplete="off">
+                              <mat-datepicker-toggle matSuffix [for]="usExpiry"></mat-datepicker-toggle>
+                              <mat-datepicker #usExpiry></mat-datepicker>
                           </mat-form-field>
                         </div>
                       </div>
@@ -557,7 +493,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                             <mat-form-field class="example-full-width" appearance="outline">
                                 <mat-label>Issue</mat-label>
-                                <input matInput [matDatepicker]="issuePickerThree" formControlName="issueThree" (dateInput)="$event.value.format('YYYY/MM/DD')" id="birthDateObj" (dateChange)="getDateString($event, 'birthDateObj')" autocomplete="off">
+                                <input matInput [matDatepicker]="issuePickerThree" formControlName="sidIssueObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="sidIssue" (dateChange)="getDateString($event, 'sidIssue')" autocomplete="off">
                                 <mat-datepicker-toggle matSuffix [for]="issuePickerThree"></mat-datepicker-toggle>
                                 <mat-datepicker #issuePickerThree></mat-datepicker>
                             </mat-form-field>
@@ -566,7 +502,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                             <mat-form-field class="example-full-width" appearance="outline">
                                 <mat-label>Expiry</mat-label>
-                                <input matInput [matDatepicker]="expiryPickerThree" formControlName="expiryThree" (dateInput)="$event.value.format('YYYY/MM/DD')" id="birthDateObj" (dateChange)="getDateString($event, 'birthDateObj')" autocomplete="off">
+                                <input matInput [matDatepicker]="expiryPickerThree" formControlName="sidExpiryObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="sidExpiry" (dateChange)="getDateString($event, 'sidExpiry')" autocomplete="off">
                                 <mat-datepicker-toggle matSuffix [for]="expiryPickerThree"></mat-datepicker-toggle>
                                 <mat-datepicker #expiryPickerThree></mat-datepicker>
                             </mat-form-field>
@@ -598,7 +534,14 @@
                         </div>
                       </div>
                       <br>
-                      <div *ngIf="docForm.value.nationality == 1" class="row">
+                      <div *ngIf="docForm.value.nationality == 'IN'" class="row">
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>INDOS</mat-label>
+                          <input matInput formControlName="indos">
+                          </mat-form-field>
+                        </div>
+
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                           <mat-form-field class="example-full-width" appearance="outline">
                           <mat-label>Pan</mat-label>
@@ -618,7 +561,8 @@
                   </mat-tab-group>
                   <br>
                   <div class="center">
-                    <button class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                    <button *ngIf="!edit" class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                    <button *ngIf="edit" class="btn-space saveBtn" mat-raised-button (click)="update()"><mat-icon class="saveCancelIcon">save</mat-icon>Update</button>
                     <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
                   </div>
                </form>

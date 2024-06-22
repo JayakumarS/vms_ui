@@ -13,6 +13,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { Router } from '@angular/router';
+import { DeleteComponent } from 'src/app/master/country-master/list-country-master/dialog/delete/delete.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { NotificationService } from 'src/app/core/service/notification.service';
 
 @Component({
   selector: 'app-list-person-maintenance',
@@ -45,7 +48,9 @@ export class ListPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter 
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
-    public router: Router
+    public router: Router,
+    private spinner: NgxSpinnerService,
+    public notificationService:NotificationService
   ) {
     super();
   }
@@ -62,11 +67,54 @@ export class ListPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter 
   }
 
   editCall(id){
-
+    this.router.navigate(['/crew/applications/person-maintenance/add-person-maintenance/'+id])
   }
 
-  deleteItem(id){
+  deleteItem(row){
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
 
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      height: "270px",
+      width: "400px",
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+    if (data.data == true) {
+      this.personMaintenanceService.delete(row.code).subscribe({
+        next: (data) => {
+          this.spinner.hide();
+          if (data.success) {
+            this.loadData();
+            this.notificationService.showNotification(
+              "snackbar-success",
+              "Record Deleted",
+              "bottom",
+              "center"
+            );
+          }
+          else{
+            this.notificationService.showNotification(
+              "snackbar-danger",
+              "Unable to delete",
+              "bottom",
+              "center"
+            );
+          }
+        },
+        error: (error) => {
+          this.spinner.hide();
+        }
+      });
+    }else{
+      //this.loadData();
+    }
+    })
   }
 
   public loadData() {

@@ -1,0 +1,59 @@
+<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="width: 100%;padding: 19px;">
+    <div class="card">
+        <div class="header" >
+            <h2 style="color: white;">Select Applicant</h2>
+        </div>
+        <style>
+          .header{
+            height: 42px;
+            background-color: #276777;
+            color: white;
+          }
+          .center{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .tableHeader{
+              padding: 7px;
+          }
+        </style>
+        <div class="tableBody">
+            <div class="table-responsive">
+                <table class="table table-hover" style="margin-top: 5px;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="tableHeader">Surname</th>
+                            <th class="tableHeader">Name</th>
+                            <th class="tableHeader">Available</th>
+                            <th class="tableHeader">Rank</th>
+                            <th class="tableHeader">Birth Date</th>
+                            <th class="tableHeader">Evaluation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of applicantList;let i = index;">
+                            <td><mat-checkbox (change)="select($event,data,i)"></mat-checkbox></td>
+                            <td>{{data.surname}}</td>
+                            <td>{{data.name}}</td>
+                            <td>{{data.availableFrom}}</td>
+                            <td>{{data.rankName}}</td>
+                            <td>{{data.birthDate}}</td>
+                            <td>{{data.eval}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <div class="example-button-row" align="end">
+                <button mat-raised-button color="primary" [mat-dialog-close]="1" (click)="onSubmit()">Submit</button>
+                <button mat-raised-button color="warn" (click)="onClick()" tabindex="-1">Cancel</button>
+            </div>
+        </div>
+    </div>
+  </div>

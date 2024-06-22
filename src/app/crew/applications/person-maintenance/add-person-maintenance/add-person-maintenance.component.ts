@@ -3,8 +3,14 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/common-service/common.service';
+import { PersonMaintenanceService } from '../person-maintenance.service';
+import { HttpServiceService } from 'src/app/auth/http-service.service';
+import { NotificationService } from 'src/app/core/service/notification.service';
+import { ApplicantListPopupComponent } from '../applicant-list-popup/applicant-list-popup.component';
+import { MatDialog } from '@angular/material/dialog';
+import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
   selector: 'app-add-person-maintenance',
@@ -20,7 +26,7 @@ import { CommonService } from 'src/app/common-service/common.service';
   } },CommonService
   ]
 })
-export class AddPersonMaintenanceComponent implements OnInit {
+export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   docForm: FormGroup;
   nationalityList:any=[];
   rankList:any=[];
@@ -41,14 +47,23 @@ export class AddPersonMaintenanceComponent implements OnInit {
   statusList:any=[];
   agentList:any=[];
   proposeTypeList:any=[];
+  seaServiceYear:any;
+  edit:boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private commonService: CommonService,
-    public router: Router
+    public router: Router,
+    private httpService: HttpServiceService,
+    private personMaintenanceService : PersonMaintenanceService,
+    private notificationService: NotificationService,
+    public route: ActivatedRoute,
+    public dialog: MatDialog,
   ) { 
+    super();
     this.docForm = this.fb.group({
+      code: [""],
       surname: [""],
       name: [""],
       middle: [""],
@@ -63,33 +78,45 @@ export class AddPersonMaintenanceComponent implements OnInit {
       licence: [""],
       health: [""],
       decision: [""],
-      status:[""],
+      workStatus:[""],
       religion :[""],
       agent: [""],
       expMonth: [""],
       noVoyage: [""],
-      ProposedType: [""],
+      proposedType: [""],
       signedOff: [""],
+      signedOffObj: [""],
       availableFrom: [""],
+      availableFromObj: [""],
       remarksOne: [""],
       remarksTwo: [""],
       reCom: [""],
       passport: [""],
-      issueOne: [""],
-      expiryOne: [""],
-      issuePlaceOne: [""],
+      pIssue: [""],
+      pIssueObj: [""],
+      pExpiryObj: [""],
+      pExpiry: [""],
+      pIssuePlace: [""],
       sBook: [""],
-      issueTwo: [""],
-      expiryTwo: [""],
-      issuePlaceTwo: [""],
-      usVisa: [""],
+      sIssueObj: [""],
+      sIssue: [""],
+      sExpiryObj: [""],
+      sExpiry: [""],
+      sIssuePlace: [""],
+      usVisa: [false],
+      usVisaNo: [""],
+      usExpiry: [""],
+      usExpiryObj: [""],
       sid: [""],
-      issueThree: [""],
-      expiryThree: [""],
+      sidIssueObj: [""],
+      sidIssue: [""],
+      sidExpiryObj: [""],
+      sidExpiry: [""],
       active: ["yes"],
       usPassport: [""],
       pan: [""],
       adhar: [""],
+      indos:[""],
       files: [[]],
       sidFiles: [[]]
 
@@ -98,12 +125,16 @@ export class AddPersonMaintenanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.toDay = new Date();
-    this.nationalityList = [{id:1,text:"Indian"},{id:2,text:"Others"}];
-    this.rankList = [{id:1,text:"Master"},{id:2,text:"Chief Officer"},{id:3,text:"Second Officer"}];
-    this.licenceList = [{id:1,text:"License-1"},{id:2,text:"License-2"},{id:3,text:"License-3"}];
+    this.getCountryList();
+    this.getRankList();
+    this.getAgentList();
+    this.getReligionList();
+    this.getLicenseList();
+    this.getHealthStatusList();
+    this.getWorkStatusList();
+    this.getVesselTypeList();
+
     this.cList = [{id:1,text:"Decision-1"},{id:2,text:"Decision-1"},{id:3,text:"Decision-1"}];
-    this.agentList = [{id:1,text:"Agent-1"},{id:2,text:"Agent-2"},{id:3,text:"Agent-3"}];
-    this.proposeTypeList = [{id:1,text:"Type-1"},{id:2,text:"Type-2"},{id:3,text:"Type-3"}];
     this.remarksList = [
       {id:1,text:"BLACK LIST"},
       {id:2,text:"DEPORTED"},
@@ -113,31 +144,211 @@ export class AddPersonMaintenanceComponent implements OnInit {
       {id:6,text:"STAND BY"}
     ];
 
-    this.religionList = [
-      {id:1,text:"ATHEIST"},
-      {id:2,text:"BUDDHIST"},
-      {id:3,text:"CHRISTIAN"},
-      {id:4,text:"HINDU"},
-      {id:5,text:"ZOROASTRAN"}
-    ]
+    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ 
+       this.edit=true;
+       this.fetchDetails(params.id) ;
+      }
+     });
+  }
 
-    this.healthList = [
-      {id:1,text:"FIT FOR SEA SERVICES"},
-      {id:2,text:"MEDICAL UNFIT"},
-    ]
+  getCountryList(){
+      this.httpService.get(this.personMaintenanceService.countryUrl).subscribe({next: (res: any) => {
+        this.nationalityList = res.lCommonUtilityBean;
+      }, error: (err) => console.log(err)
+    });
+  }
+
+  getRankList(){
+    this.httpService.get(this.personMaintenanceService.rankListUrl).subscribe({next: (res: any) => {
+        this.rankList = res.lCommonUtilityBean;
+      }, error: (err) => console.log(err)
+    });
+  }
+
+  getAgentList(){
+    this.httpService.get(this.personMaintenanceService.agentListUrl).subscribe({next: (res: any) => {
+        this.agentList = res.lCommonUtilityBean;
+      }, error: (err) => console.log(err)
+    });
+  }
+
+  getReligionList(){
+    this.httpService.get(this.personMaintenanceService.religionListUrl).subscribe({next: (res: any) => {
+        this.religionList = res.lCommonUtilityBean;
+      }, error: (err) => console.log(err)
+    });
+  }
+
+  getLicenseList(){
+    this.httpService.get(this.personMaintenanceService.licenseUrl).subscribe({next: (res: any) => {
+        this.licenceList = res.lCommonUtilityBean;
+      }, error: (err) => console.log(err)
+    });
+  }
+
+  getWorkStatusList(){
+    this.httpService.get(this.personMaintenanceService.workStatusUrl).subscribe({next: (res: any) => {
+      this.statusList = res.lCommonUtilityBean;
+    }, error: (err) => console.log(err)
+  });
+  }
+
+  getHealthStatusList(){
+    this.httpService.get(this.personMaintenanceService.healthStatusUrl).subscribe({next: (res: any) => {
+        this.healthList = res.lCommonUtilityBean;
+      }, error: (err) => console.log(err)
+    });
+  }
+
+  getVesselTypeList(){
+    this.httpService.get(this.personMaintenanceService.vesselTypeUrl).subscribe({next: (res: any) => {
+        this.proposeTypeList = res.lCommonUtilityBean;
+      }, error: (err) => console.log(err)
+    });
+  }
+
+  fetchDetails(id){
+    this.httpService.get<any>(this.personMaintenanceService.editUrl+"?id="+id).subscribe({next: (res: any) => {
+      let bDate = this.commonService.getDateObj(res.crewMasterDtls.birthDate == null ? "" : res.crewMasterDtls.birthDate);
+      let avail = this.commonService.getDateObj(res.crewMasterDtls.availableFrom == null ? "" : res.crewMasterDtls.availableFrom);
+      let signedOff = this.commonService.getDateObj(res.crewMasterDtls.signedOff == null ? "" : res.crewMasterDtls.signedOff);
+
+      let pIssue = this.commonService.getDateObj(res.crewMasterDocDtls.pIssue == null ? "" : res.crewMasterDocDtls.pIssue);
+      let pExpiry = this.commonService.getDateObj(res.crewMasterDocDtls.pExpiry == null ? "" : res.crewMasterDocDtls.pExpiry);
+
+      let sIssue = this.commonService.getDateObj(res.crewMasterDocDtls.sIssue == null ? "" : res.crewMasterDocDtls.sIssue);
+      let sExpiry = this.commonService.getDateObj(res.crewMasterDocDtls.sExpiry == null ? "" : res.crewMasterDocDtls.sExpiry);
+
+      let sidIssue = this.commonService.getDateObj(res.crewMasterDocDtls.sidIssue == null ? "" : res.crewMasterDocDtls.sidIssue);
+      let sidExpiry = this.commonService.getDateObj(res.crewMasterDocDtls.sidExpiry == null ? "" : res.crewMasterDocDtls.sidExpiry);
+
+      let usExpiry = this.commonService.getDateObj(res.crewMasterDocDtls.usExpiry == null ? "" : res.crewMasterDocDtls.usExpiry);
+
+      this.docForm.patchValue({
+        'code':res.crewMasterDtls.code,
+        'surname':res.crewMasterDtls.surname,
+        'name':res.crewMasterDtls.name,
+        'middle':res.crewMasterDtls.middle,
+        'nationality':res.crewMasterDtls.nationality,
+        'rank':res.crewMasterDtls.rank,
+        'birthDate':res.crewMasterDtls.birthDate,
+        'birthDateObj':bDate,
+        'gender':res.crewMasterDtls.gender,
+        'father':res.crewMasterDtls.father,
+        'mother':res.crewMasterDtls.mother,
+        'place':res.crewMasterDtls.place,
+        'licence':res.crewMasterDtls.licence,
+        'health':res.crewMasterDtls.health,
+        'decision':parseInt(res.crewMasterDtls.decision),
+        'workStatus':res.crewMasterDtls.workStatus,
+        'religion':res.crewMasterDtls.religion,
+        'agent':res.crewMasterDtls.agent,
+        'expMonth':res.crewMasterDtls.expMonth,
+        'noVoyage':res.crewMasterDtls.noVoyage,
+        'proposedType':res.crewMasterDtls.proposedType,
+        'signedOff':res.crewMasterDtls.signedOff,
+        'signedOffObj':signedOff,
+        'availableFrom':res.crewMasterDtls.availableFrom,
+        'availableFromObj':avail,
+        'remarksOne':parseInt(res.crewMasterDtls.remarksOne),
+        'remarksTwo':parseInt(res.crewMasterDtls.remarksTwo),
+        'reCom':res.crewMasterDtls.reCom,
+        'active':res.crewMasterDtls.active == "Y" ? 'yes' : 'no',
+
+        'passport':res.crewMasterDocDtls.passport,
+        'pIssue':res.crewMasterDocDtls.pIssue,
+        'pIssueObj':pIssue,
+        'pExpiry':res.crewMasterDocDtls.pExpiry,
+        'pExpiryObj':pExpiry,
+        'pIssuePlace':res.crewMasterDocDtls.pIssuePlace,
+        'sBook':res.crewMasterDocDtls.sBook,
+        'sIssue':res.crewMasterDocDtls.sIssue,
+        'sIssueObj':sIssue,
+        'sExpiry':res.crewMasterDocDtls.sExpiry,
+        'sExpiryObj':sExpiry,
+        'sIssuePlace':res.crewMasterDocDtls.sIssuePlace,
+        'usVisa':res.crewMasterDocDtls.usVisa,
+        'sid':res.crewMasterDocDtls.sid,
+        'sidIssue':res.crewMasterDocDtls.sidIssue,
+        'sidIssueObj':sidIssue,
+        'sidExpiry':res.crewMasterDocDtls.sidExpiry, 
+        'sidExpiryObj':sidExpiry,
+        'usPassport':res.crewMasterDocDtls.usPassport,
+        'pan':res.crewMasterDocDtls.pan,
+        'adhar':res.crewMasterDocDtls.adhar,
+        'indos':res.crewMasterDocDtls.indos,
+        'usVisaNo':res.crewMasterDocDtls.usVisaNo,
+        'usExpiry':res.crewMasterDocDtls.usExpiry,
+        'usExpiryObj':usExpiry
+      })
+
+      this.calculateSeaService();
+      let currentYear = new Date().getFullYear();  
+      let birthyear = this.commonService.getYear(this.docForm.value.birthDateObj);
+      this.age = currentYear - parseInt(birthyear);
+      }, error: (err) => console.log(err)
+     });
+  }
+
+  save(){
+    if(this.docForm.valid){
+      this.personMaintenanceService.save(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right"
+      );
+    }
+  }
+
+  update(){
+    if(this.docForm.valid){
+      this.personMaintenanceService.update(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right"
+      );
+    }
+  }
+
+  calculateSeaService(){
+      const years = this.docForm.value.expMonth / 12;
+      this.seaServiceYear = years.toFixed(1);
+      console.log(years);
   }
 
   getDateString(event,id){
     let cdate = this.commonService.getDate(event.target.value);
 
     if(id == 'birthDate'){
-      this.docForm.patchValue({
-        birthDate : cdate
-      })
-     
+     this.docForm.patchValue({birthDate : cdate});
      let currentYear = new Date().getFullYear();  
      let birthyear = this.commonService.getYear(event.target.value);
      this.age = currentYear - parseInt(birthyear);
+
+    }else if(id == 'signedOff'){
+      this.docForm.patchValue({signedOff : cdate});
+    }else if(id == 'availableFrom'){
+      this.docForm.patchValue({availableFrom : cdate});
+    }else if(id == 'pIssue'){
+      this.docForm.patchValue({pIssue : cdate});
+    }else if(id == 'pExpiry'){
+      this.docForm.patchValue({pExpiry : cdate});
+    }else if(id == 'sIssue'){
+      this.docForm.patchValue({sIssue : cdate});
+    }else if(id == 'sExpiry'){
+      this.docForm.patchValue({sExpiry : cdate});
+    }else if(id == 'usExpiry'){
+      this.docForm.patchValue({usExpiry : cdate});
+    }else if(id == 'sidIssue'){
+      this.docForm.patchValue({sidIssue : cdate});
+    }else if(id == 'sidExpiry'){
+      this.docForm.patchValue({sidExpiry : cdate});
     }
   }
 
@@ -151,6 +362,106 @@ export class AddPersonMaintenanceComponent implements OnInit {
       frmData.append("file", excelfile);
       frmData.append("fileName", fileExtension);
     }
+
+    this.httpService.post<any>(this.personMaintenanceService.uploadFileUrl,frmData).subscribe({next: (res: any) => {
+
+      }, error: (err) => console.log(err)
+    });
+  }
+
+  openApplicantOpenUp(){
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ApplicantListPopupComponent, {
+      data: "",
+      height:"80%",
+      width: "100%",
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((res) => {
+    if (res.data.length > 0) {
+      let bDate = this.commonService.getDateObj(res.data[0].birthDate == null ? "" : res.data[0].birthDate);
+      let avail = this.commonService.getDateObj(res.data[0].availableFrom == null ? "" : res.data[0].availableFrom);
+      let signedOff = this.commonService.getDateObj(res.data[0].signedOff == null ? "" : res.data[0].signedOff);
+
+      let pIssue = this.commonService.getDateObj(res.data[0].pIssue == null ? "" : res.data[0].pIssue);
+      let pExpiry = this.commonService.getDateObj(res.data[0].pExpiry == null ? "" : res.data[0].pExpiry);
+
+      let sIssue = this.commonService.getDateObj(res.data[0].sIssue == null ? "" : res.data[0].sIssue);
+      let sExpiry = this.commonService.getDateObj(res.data[0].sExpiry == null ? "" : res.data[0].sExpiry);
+
+      let sidIssue = this.commonService.getDateObj(res.data[0].sidIssue == null ? "" : res.data[0].sidIssue);
+      let sidExpiry = this.commonService.getDateObj(res.data[0].sidExpiry == null ? "" : res.data[0].sidExpiry);
+
+      let usExpiry = this.commonService.getDateObj(res.data[0].usExpiry == null ? "" : res.data[0].usExpiry);
+      this.docForm.patchValue({
+        'code':res.data[0].code,
+        'surname':res.data[0].surname,
+        'name':res.data[0].name,
+        'middle':res.data[0].middle,
+        'nationality':res.data[0].nationality,
+        'rank':res.data[0].rank,
+        'birthDate':res.data[0].birthDate,
+        'birthDateObj':bDate,
+        'gender':res.data[0].gender,
+        'father':res.data[0].father,
+        'mother':res.data[0].mother,
+        'place':res.data[0].place,
+        'licence':res.data[0].licence,
+        'health':res.data[0].health,
+        'decision':parseInt(res.data[0].decision),
+        'workStatus':res.data[0].workStatus,
+        'religion':res.data[0].religion,
+        'agent':res.data[0].agent,
+        'expMonth':res.data[0].expMonth,
+        'noVoyage':res.data[0].noVoyage,
+        'proposedType':res.data[0].proposedType,
+        'signedOff':res.data[0].signedOff,
+        'signedOffObj':signedOff,
+        'availableFrom':res.data[0].availableFrom,
+        'availableFromObj':avail,
+        'remarksOne':parseInt(res.data[0].remarksOne),
+        'remarksTwo':parseInt(res.data[0].remarksTwo),
+        'reCom':res.data[0].reCom,
+        'active':res.data[0].active == "Y" ? 'yes' : 'no',
+
+        'passport':res.data[0].passport,
+        'pIssue':res.data[0].pIssue,
+        'pIssueObj':pIssue,
+        'pExpiry':res.data[0].pExpiry,
+        'pExpiryObj':pExpiry,
+        'pIssuePlace':res.data[0].pIssuePlace,
+        'sBook':res.data[0].sBook,
+        'sIssue':res.data[0].sIssue,
+        'sIssueObj':sIssue,
+        'sExpiry':res.data[0].sExpiry,
+        'sExpiryObj':sExpiry,
+        'sIssuePlace':res.data[0].sIssuePlace,
+        'usVisa':res.data[0].usVisa,
+        'sid':res.data[0].sid,
+        'sidIssue':res.data[0].sidIssue,
+        'sidIssueObj':sidIssue,
+        'sidExpiry':res.data[0].sidExpiry, 
+        'sidExpiryObj':sidExpiry,
+        'usPassport':res.data[0].usPassport,
+        'pan':res.data[0].pan,
+        'adhar':res.data[0].adhar,
+        'indos':res.data[0].indos,
+        'usVisaNo':res.data[0].usVisaNo,
+        'usExpiry':res.data[0].usExpiry,
+        'usExpiryObj':usExpiry
+      })
+
+      let currentYear = new Date().getFullYear();  
+      let birthyear = this.commonService.getYear(this.docForm.value.birthDateObj);
+      this.age = currentYear - parseInt(birthyear);
+    }
+    })
   }
 
   addFile() {
@@ -248,8 +559,6 @@ export class AddPersonMaintenanceComponent implements OnInit {
   deleteSidFile(i){
     this.docForm.value.sidFiles.splice(i, 1);
   }
-
-  save(){}
 
   cancel(){
     this.router.navigate(['/crew/applications/person-maintenance/list-person-maintenance']);

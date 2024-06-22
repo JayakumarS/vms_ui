@@ -11,7 +11,7 @@ export class NumericFormatDirectiveDirective {
   @HostListener('blur') onBlur() {
     let value: string = this.el.nativeElement.value;
     if (value) {
-      value = parseFloat(value).toFixed(2);
+      value = value;
       this.control.control.setValue(value);
     }
   }
