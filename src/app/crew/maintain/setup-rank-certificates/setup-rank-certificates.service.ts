@@ -25,13 +25,14 @@ export class SetupRankCertificatesService extends UnsubscribeOnDestroyAdapter{
     super();
   }
 
-  private save = `${this.serverUrl.apiServerAddress}api/crew/maintain/save`;
-  private list = `${this.serverUrl.apiServerAddress}api/crew/maintain/rankcertificate/list`;
-  // private deleteURL = `${this.serverUrl.apiServerAddress}api/`;
-  // public editURL = `${this.serverUrl.apiServerAddress}api/`;
+  private save = `${this.serverUrl.apiServerAddress}api/crew/maintain/rankcertificate/save`;
+  public list = `${this.serverUrl.apiServerAddress}api/crew/maintain/rankcertificate/list`;
+  public ranklist = `${this.serverUrl.apiServerAddress}api/crew/maintain/rankcertificate/getrank`;
+  public getsaveList = `${this.serverUrl.apiServerAddress}api/crew/maintain/rankcertificate/savelist`;
   // public updateURL= `${this.serverUrl.apiServerAddress}api/`;
   
 
+  
 
   //list
 
@@ -44,12 +45,12 @@ export class SetupRankCertificatesService extends UnsubscribeOnDestroyAdapter{
      });
   }
   //save
-  addrank(setuprank:setuprank, router, notificationService, spinner): void {
+  addrank(setuprank:setuprank, router, notificationService): void {
     this.dialogData = setuprank;
     this.httpService.post<setuprank>(this.save, setuprank).subscribe(data => {
       console.log(data);
       if (data) {
-        spinner.hide();
+       
         notificationService.showNotification(
           "snackbar-success",
           "Record Added successfully...",
@@ -59,7 +60,7 @@ export class SetupRankCertificatesService extends UnsubscribeOnDestroyAdapter{
         router.navigate(['/crew/maintain/setup-rank/add-setuprank']);
       }
       else {
-        spinner.hide();
+        
         notificationService.showNotification(
           "snackbar-danger",
           "Not Updated...!!!",
@@ -73,30 +74,6 @@ export class SetupRankCertificatesService extends UnsubscribeOnDestroyAdapter{
       });
   }
   
-  
-  // //Update
-  // Updaterank(setuprank: setuprank,router,notificationService): void {
-  //   this.dialogData = setuprank;
-  //   this.httpService.post<setuprank>(this.updateURL, setuprank).subscribe(data => {
-  //     console.log(data);
-  //     if(data){
-  //       notificationService.showNotification(
-  //         "snackbar-success",
-  //         "Updated Record Successfully...!!!",
-  //         "bottom",
-  //         "center"
-  //       );
-  //       router.navigate(['crew/maintain/setup-rank/add-setuprank']);
-  //     }
-  //     else {
-  //       notificationService.showNotification(
-  //         "snackbar-danger",
-  //         "Not Updated ...!!!",
-  //         "bottom",
-  //         "center"
-  //         );
-  //       }
-  //   });
-  // }
+ 
   
 }

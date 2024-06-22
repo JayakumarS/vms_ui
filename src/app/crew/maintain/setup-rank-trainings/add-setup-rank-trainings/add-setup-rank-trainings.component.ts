@@ -14,12 +14,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { serverLocations } from 'src/app/auth/serverLocations';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, ReplaySubject, Subject, fromEvent, map, merge, takeUntil } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { SetupRankTrainingsService } from '../setup-rank-trainings.service';
 import { setuptraining } from '../setup-rank-trainings.model';
-import { SetupRankCertificatesService } from '../../setup-rank-certificates/setup-rank-certificates.service';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-add-setup-rank-trainings',
@@ -28,49 +28,28 @@ import { SetupRankCertificatesService } from '../../setup-rank-certificates/setu
 })
 export class AddSetupRankTrainingsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
-  displayedColumns = [
-    
-    "categories",
-    "master",
-    "bmaster",   
-    "cheifofc",
-   "scndofc",
-   "thrdofc",
-   "JO",
-    "TOF",
-    "DCT",
-    "chiefeng",
-    "scndEng",
-    "thirdEng",
-    "fourthEng",
-    "JE",
-    "TEG",
-    "ECT",
-    "EE",
-    "ETO",
-    "JEE",
-    "TEE",
-    "ELC",
-    "BSN"
-
-  ];
   docForm: FormGroup;
   edit:boolean=false;
   requestId: number;
   setuptraining:setuptraining;
-  //  dataSource: ExampleDataSource | null;
-   dataSource: MatTableDataSource<setuptraining>;
-
+   displayedColumns: any;
  exampleDatabase: SetupRankTrainingsService | null;
   selection = new SelectionModel<setuptraining>(true, []);
   showTable: boolean = false;
   showMasterColumns = false;
   showBMasterColumns = false;
+  public srankcodeFilterCtrl: FormControl = new FormControl();
+  srankcodeFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('srank', { static: true }) srank: MatSelect;
+  protected onDestroy = new Subject<void>();
+  ranklist: any = [];
+  traininglist:any=[];
+  filteredColumns: string[] = [];
 
   constructor( private fb: FormBuilder,
     private httpService: HttpServiceService,
     private snackBar: MatSnackBar,
-    private setupRankCertificatesService: SetupRankCertificatesService,
+    private setupRankTrainingsService: SetupRankTrainingsService,
     private router: Router,
     private serverUrl: serverLocations,
     public route: ActivatedRoute,
@@ -91,169 +70,144 @@ export class AddSetupRankTrainingsComponent extends UnsubscribeOnDestroyAdapter 
  
   ngOnInit(): void {
   
-  const setuptraining: setuptraining[] = [
-    {
-      categories: 'PRE JOINING MEDICALS',
-      master: true,
-      bmaster: true,
-      cheifofc: true,
-      scndofc: false,
-      thrdofc: false,
-      JO: false,
-      TOF: true,
-      DCT: false,
-      chiefeng: true,
-      scndEng: false,
-      thirdEng: false,
-      fourthEng: false,
-      JE: false,
-      TEG: true,
-      ECT: false,
-      EE: true,
-      ETO: true,
-      JEE: false,
-      TEE: false,
-      ELC: true,
-      BSN: true
-    },
-    {
-      categories: 'FIRE PREVENTION-BASIC/ADVANCED  FIRE FIGHTING',
-      master: true,
-      bmaster: true,
-      cheifofc: true,
-      scndofc: true,
-      thrdofc: true,
-      JO: false,
-      TOF: true,
-      DCT: false,
-      chiefeng: true,
-      scndEng: true,
-      thirdEng: true,
-      fourthEng: false,
-      JE: false,
-      TEG: true,
-      ECT: false,
-      EE: true,
-      ETO: true,
-      JEE: false,
-      TEE: false,
-      ELC: true,
-      BSN: true
-    },
-    // Add more sample data as needed
-  ];
-  this.dataSource = new MatTableDataSource(setuptraining);
+  
   this.docForm = this.fb.group({
 
     srank : ["A"],
-    master:[""],
-    bmaster:[""],
+    trainingcode: [""],
+    rankcode: [""],
   });
-  // this.removeRow(0);
-  this.route.params.subscribe(params => {
+ 
+
+   this.httpService.get<any>(this.setupRankTrainingsService.ranklist).subscribe((res: any) => {
+    this.ranklist = res;
+    this.displayedColumns = this.ranklist.map(rank => rank.id); // Assuming ranklist contains rank ids
+    this.filteredColumns = [...this.displayedColumns];
+    this.srankcodeFilteredOptions.next(this.ranklist.slice());
+  }, (error: HttpErrorResponse) => {
+    console.log(error.name + " " + error.message);
+  });
+
+
+  this.httpService.get<any>(this.setupRankTrainingsService.list).subscribe((res: any) => {
+    this.traininglist = res.list;
+    this.updateDisplayedColumns('A');  // Initially display all columns
+    this.fetchAndCheckSavedCertificates();
+  }, (error: HttpErrorResponse) => {
+    console.log(error.name + " " + error.message);
+  });
+
+  
+  this.srankcodeFilterCtrl.valueChanges
+  .pipe(takeUntil(this.onDestroy))
+  .subscribe(() => {
+    this.filterrank();
+  });
+
+  this.docForm.get("srank")?.valueChanges.subscribe((selectedRank: string) => {
+    this.updateDisplayedColumns(selectedRank);
+    this.fetchAndCheckSavedCertificates();
+  });
+
+   // this.removeRow(0);
+   this.route.params.subscribe(params => {
     if(params.id!=undefined && params.id!=0){
      this.requestId = params.id;
      this.edit=true;
 
     }
    });
-  this.docForm.get("srank")?.valueChanges.subscribe((selectedRank: string) => {
-    this.updateDisplayedColumns(selectedRank);
-  });
+}
+
+filterrank() {
+  if (!this.ranklist) {
+    return;
+  }
+  let search = this.srankcodeFilterCtrl.value;
+  if (!search) {
+    this.srankcodeFilteredOptions.next(this.ranklist.slice());
+    return;
+  } else {
+    search = search.toLowerCase();
+  }
+  this.srankcodeFilteredOptions.next(
+    this.ranklist.filter(title => title.text.toLowerCase().includes(search))
+  );
 }
 
 updateDisplayedColumns(selectedRank: string): void {
-  if (!selectedRank) {
-    this.displayedColumns = [
-      "categories",
-      "master",
-      "bmaster",
-      "cheifofc",
-      "scndofc",
-      "thrdofc",
-      "JO",
-      "TOF",
-      "DCT",
-      "chiefeng",
-      "scndEng",
-      "thirdEng",
-      "fourthEng",
-      "JE",
-      "TEG",
-      "ECT",
-      "EE",
-      "ETO",
-      "JEE",
-      "TEE",
-      "ELC",
-      "BSN"
-    ];
-    return;
-  }
-
-  // Update displayed columns based on selected rank
-  if (selectedRank === "A") {
-    this.displayedColumns = [
-      "categories",
-      "master",
-      "bmaster",
-      "cheifofc",
-      "scndofc",
-      "thrdofc",
-      "JO",
-      "TOF",
-      "DCT",
-      "chiefeng",
-      "scndEng",
-      "thirdEng",
-      "fourthEng",
-      "JE",
-      "TEG",
-      "ECT",
-      "EE",
-      "ETO",
-      "JEE",
-      "TEE",
-      "ELC",
-      "BSN"
-    ];
-  } else if (selectedRank === "M") {
-    // Master Rank selected, show only Master column and Categories
-    this.displayedColumns = ["categories", "master"];
-  } else if (selectedRank === "BM") {
-    // Branch Master Rank selected, show only Branch Master column and Categories
-    this.displayedColumns = ["categories", "bmaster"];
+  if (selectedRank === 'A') {
+    this.displayedColumns = this.ranklist.filter(rank => rank.id !== 'A').map(rank => rank.id);
+  } else {
+    this.displayedColumns = ['Certificates', selectedRank];
   }
 }
 
+
+
+ onRankChange(selectedRank: string) {
+    if (selectedRank === 'A') {
+      this.filteredColumns = [...this.displayedColumns];
+    } else {
+      this.filteredColumns = [selectedRank];
+    }
+  }
+  
+fetchAndCheckSavedCertificates(): void {
+  this.httpService.get<any>(this.setupRankTrainingsService.getsaveList).subscribe((savedData: any) => {
+      this.updateCheckboxes(savedData.list);
+    },
+    (error: HttpErrorResponse) => {
+      console.error('Error fetching saved certificates:', error);
+    }
+  );
+}
+updateCheckboxes(savedData: any[]): void {
+  // Reset all checkboxes
+  this.traininglist.forEach(row => {
+    this.displayedColumns.forEach(column => {
+      row[column] = false;
+    });
+  });
+
+  // Set the checkboxes based on the saved data
+  savedData.forEach(item => {
+    const row = this.traininglist.find(r => r.trainingcode === item.trainingcode);
+    if (row) {
+      row[item.rankcode] = true;
+    }
+  });
+
+  // Refresh the table to show updated checkboxes
+  this.traininglist = [...this.traininglist];
+}
 //save 
 onSubmit() {
-if (this.docForm.valid) {
-  this.setuptraining = this.docForm.value;
-  // this.setupRankCertificatesService.addrank(this.setuprank, this.router,this.notificationService, this.spinner);
-} else {
-this.showNotification(
-  "snackbar-danger",
-  "Please fill all details",
-  "bottom",
-  "center"
-);
+  if (this.docForm.valid) {
+    let selectedCertificates: any = [];
+    for (let row of this.traininglist) {
+      for (let column of this.filteredColumns) {
+        if (row[column]) {
+          selectedCertificates.push({ trainingcode: row.trainingcode, rankcode: column });
+        }
+      }
+    }
+    this.setupRankTrainingsService.addtraining(selectedCertificates, this.router, this.notificationService);
+  } else {
+    this.notificationService.showNotification(
+      'snackbar-danger',
+      'Please fill all details',
+      'bottom',
+      'center'
+    );
+  }
 }
-}
-onUpdate(){
-if (this.docForm.valid) {
-  this.setuptraining = this.docForm.value;
-  // this.setupRankCertificatesService.Updaterank(this.setuprank, this.router, this.notificationService);
-}
-else {
-  this.showNotification(
-    "snackbar-danger",
-    "Please fill all the required details!",
-    "top",
-    "right");
+onCheckboxChange(checked: boolean, row: any, column: string) {
+  row[column] = checked;
 }
 
-}
+
+
 showNotification(colorName, text, placementFrom, placementAlign) {
 this.snackBar.open(text, "", {
   duration: 3000,
@@ -262,96 +216,7 @@ this.snackBar.open(text, "", {
   panelClass: colorName,
 });
 }
-onCancel(){
-this.router.navigate(['/crew/maintain/libraryfile/list-library']);
-}
-public loadData() {
-this.exampleDatabase = new SetupRankTrainingsService(this.httpClient,this.serverUrl,this.httpService);
-// this.dataSource = new ExampleDataSource(
-//   this.exampleDatabase,
-//   this.paginator,
-//   this.sort
-// );
-this.subs.sink = fromEvent(this.filter.nativeElement, "keyup").subscribe(
-  () => {
-    if (!this.dataSource) {
-      return;
-    }
-    this.dataSource.filter = this.filter.nativeElement.value;
-  }
-);
-}
+
 }
 
-export class ExampleDataSource extends DataSource<setuptraining> {
-filterChange = new BehaviorSubject("");
-get filter(): string {
-  return this.filterChange.value;
-}
-set filter(filter: string) {
-  this.filterChange.next(filter);
-}
-filteredData: setuptraining[] = [];
-renderedData: setuptraining[] = [];
-constructor(
-  public exampleDatabase: SetupRankTrainingsService,
-  public paginator: MatPaginator,
-  public _sort: MatSort
-) {
-  super();
-  this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
-}
 
-connect(): Observable<setuptraining[]> {
-  const displayDataChanges = [
-    this.exampleDatabase.dataChange,
-    this._sort.sortChange,
-    this.filterChange,
-    this.paginator.page,
-  ];
-
-  // this.exampleDatabase.getList();
-  return merge(...displayDataChanges).pipe(map(() => {
-      this.filteredData = this.exampleDatabase.data.slice().filter((setuptraining: setuptraining) => {
-          const searchStr = (
-            setuptraining.categories +
-            setuptraining.master 
-          ).toLowerCase();
-          return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-        });
-
-      const sortedData = this.sortData(this.filteredData.slice());
-      const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-      this.renderedData = sortedData.splice(
-        startIndex,
-        this.paginator.pageSize
-      );
-      return this.renderedData;
-    })
-  );
-}
-disconnect() {}
-
-sortData(data: setuptraining[]): setuptraining[] {
-  if (!this._sort.active || this._sort.direction === "") {
-    return data;
-  }
-  return data.sort((a, b) => {
-    let propertyA: number | string = "";
-    let propertyB: number | string = "";
-    switch (this._sort.active) {
-      case "categories":
-        [propertyA, propertyB] = [a.categories, b.categories];
-        break;
-      case "master":
-        [propertyA, propertyB] = [a.master, b.master];
-        break;
-    }
-    const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-    const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
-    return (
-      (valueA < valueB ? -1 : 1) * (this._sort.direction === "asc" ? 1 : -1)
-    );
-  });
-}
-}

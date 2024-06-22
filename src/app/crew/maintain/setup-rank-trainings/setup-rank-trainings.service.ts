@@ -24,19 +24,21 @@ export class SetupRankTrainingsService extends UnsubscribeOnDestroyAdapter{
     super();
   }
 
-  private save = `${this.serverUrl.apiServerAddress}api/`;
-  private getList = `${this.serverUrl.apiServerAddress}api/`;
-  private deleteURL = `${this.serverUrl.apiServerAddress}api/`;
-  public editURL = `${this.serverUrl.apiServerAddress}api/`;
-  public updateURL= `${this.serverUrl.apiServerAddress}api/`;
+  private save = `${this.serverUrl.apiServerAddress}api/crew/maintain/ranktrainings/save`;
+  public list = `${this.serverUrl.apiServerAddress}api/crew/maintain/ranktrainings/list`;
+  public ranklist = `${this.serverUrl.apiServerAddress}api/crew/maintain/ranktrainings/getrank`;
+  public getsaveList = `${this.serverUrl.apiServerAddress}api/crew/maintain/ranktrainings/savelist`;
+  
+
+
   
  //save
- addrank(setuptraining:setuptraining, router, notificationService, spinner): void {
+ addtraining(setuptraining:setuptraining, router, notificationService): void {
   this.dialogData = setuptraining;
   this.httpService.post<setuptraining>(this.save, setuptraining).subscribe(data => {
     console.log(data);
     if (data) {
-      spinner.hide();
+      
       notificationService.showNotification(
         "snackbar-success",
         "Record Added successfully...",
@@ -46,7 +48,7 @@ export class SetupRankTrainingsService extends UnsubscribeOnDestroyAdapter{
       router.navigate(['/crew/maintain/setup-ranktraining/add-setuptraining']);
     }
     else {
-      spinner.hide();
+      
       notificationService.showNotification(
         "snackbar-danger",
         "Not Updated...!!!",
@@ -61,29 +63,5 @@ export class SetupRankTrainingsService extends UnsubscribeOnDestroyAdapter{
 }
 
 
-//Update
-Updaterank(setuptraining: setuptraining,router,notificationService): void {
-  this.dialogData = setuptraining;
-  this.httpService.post<setuptraining>(this.updateURL, setuptraining).subscribe(data => {
-    console.log(data);
-    if(data){
-      notificationService.showNotification(
-        "snackbar-success",
-        "Updated Record Successfully...!!!",
-        "bottom",
-        "center"
-      );
-      router.navigate(['/crew/maintain/setup-ranktraining/add-setuptraining']);
-    }
-    else {
-      notificationService.showNotification(
-        "snackbar-danger",
-        "Not Updated ...!!!",
-        "bottom",
-        "center"
-        );
-      }
-  });
-}
 
 }
