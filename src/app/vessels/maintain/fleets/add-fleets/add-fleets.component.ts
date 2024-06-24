@@ -42,9 +42,9 @@ export class AddFleetsComponent implements OnInit {
 
     this.docForm = this.fb.group({
   
-          code:[""],
-          description:[""],
-          
+          code:["",Validators.required],
+          description:["",Validators.required],
+          fleetid:[""]
         });
       
   }
@@ -110,7 +110,8 @@ export class AddFleetsComponent implements OnInit {
     this.httpService.get<any>(this.FleetsService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.docForm.patchValue({
           'code': data.list[0].code,
-          'description': data.list[0].description
+          'description': data.list[0].description,
+          'fleetid':data.list[0].fleetid,
         })
         this.docForm.get('code').disable();
 
@@ -132,7 +133,6 @@ export class AddFleetsComponent implements OnInit {
   }
   }
   update() {
-    this.docForm.get('code').enable();
 
     if(this.docForm.valid){
       this.FleetsService.updatefleet(this.docForm.value, this.router, this.notificationService);

@@ -25,18 +25,11 @@ export class ViewFleetsComponent implements OnInit {
   ) { 
     this.docForm = this.fb.group({
   
-
-
-      fleetDtls: this.fb.array([
-        this.fb.group({
-       
-          select:[""],
           code:[""],
           description:[""],
-          
+          fleetid:[""]
         })
-      ]),
-    });
+      
   }
 
   ngOnInit(): void {

@@ -57,7 +57,10 @@
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.description}}</mat-cell>
                   </ng-container>
                   
-                 
+                  <ng-container matColumnDef="languageid">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>LANGUAGE ID</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.languageid}}</mat-cell>
+                  </ng-container>
                  
                  
                   <!-- actions -->

@@ -56,9 +56,13 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header>AGENT DESCRIPTION</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.description}}</mat-cell>
                   </ng-container>
+                  <ng-container matColumnDef="agentid">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>AGENT ID</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.agentid}}</mat-cell>
+                  </ng-container>
                   
                  
-                 
+                  
                  
                   <!-- actions -->
                   <ng-container matColumnDef="actions">

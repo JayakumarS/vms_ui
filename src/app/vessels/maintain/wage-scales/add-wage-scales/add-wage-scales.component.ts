@@ -43,9 +43,9 @@ export class AddWageScalesComponent implements OnInit {
 
     this.docForm = this.fb.group({
   
-          code:[""],
-          description:[""],
-          
+          code:["",Validators.required],
+          description:["",Validators.required],
+          wagescaleid:[""]
         });
   }
   
@@ -112,9 +112,9 @@ export class AddWageScalesComponent implements OnInit {
     this.httpService.get<any>(this.wageScalesService.editwage+"?id="+id).subscribe({next: (data: any) => {
       this.docForm.patchValue({
         'code': data.list[0].code,
-        'description': data.list[0].description
+        'description': data.list[0].description,
+        'wagescaleid':data.list[0].wagescaleid,
       });
-      this.docForm.get('code').disable();
       }
      });
 
@@ -134,7 +134,6 @@ export class AddWageScalesComponent implements OnInit {
   }
   update() {
 
-    this.docForm.get('code').enable();
     if(this.docForm.valid){
       this.wageScalesService.updatescale(this.docForm.value, this.router, this.notificationService);
     }else{

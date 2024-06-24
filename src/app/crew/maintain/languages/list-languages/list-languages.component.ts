@@ -19,6 +19,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { language } from '../languages.model';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { LanguagesService } from '../languages.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-list-languages',
@@ -33,7 +34,7 @@ export class ListLanguagesComponent extends UnsubscribeOnDestroyAdapter implemen
      "description",
      "actions"
    ];
-
+   docForm: FormGroup;
    dataSource: ExampleDataSource | null;
   exampleDatabase: LanguagesService | null;
   selection = new SelectionModel<language>(true, []);
@@ -41,7 +42,7 @@ export class ListLanguagesComponent extends UnsubscribeOnDestroyAdapter implemen
   id: number;
   language: language | null;
 
-  constructor(public httpClient: HttpClient,
+  constructor(public httpClient: HttpClient,private fb: FormBuilder,
     public dialog: MatDialog,
     public languagesService: LanguagesService,
     private snackBar: MatSnackBar,
@@ -68,6 +69,7 @@ export class ListLanguagesComponent extends UnsubscribeOnDestroyAdapter implemen
       formCode: 'F9001',
       userId: this.tokenStorageService.getUserId()
     }
+
     this.loadData();
   }
   
@@ -110,7 +112,7 @@ export class ListLanguagesComponent extends UnsubscribeOnDestroyAdapter implemen
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.languagesService.delete(row.code).subscribe({
+      this.languagesService.delete(row.languageid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {
@@ -141,11 +143,11 @@ export class ListLanguagesComponent extends UnsubscribeOnDestroyAdapter implemen
     })
     };
   editCall(row) {
-    this.router.navigate(['/crew/maintain/language/add-language/',row.code]);
+    this.router.navigate(['/crew/maintain/language/add-language/',row.languageid]);
   }
 
   viewCall(row) {
-    this.router.navigate(['/crew/maintain/language/view-language/',row.code]);
+    this.router.navigate(['/crew/maintain/language/view-language/',row.languageid]);
   }
 
   private refreshTable() {

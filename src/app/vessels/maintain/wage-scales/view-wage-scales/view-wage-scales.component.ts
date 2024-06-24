@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { WageScalesService } from '../wage-scales.service';
+import { wagescale } from '../wage-scale.model';
 
 @Component({
   selector: 'app-view-wage-scales',
@@ -25,16 +26,11 @@ export class ViewWageScalesComponent implements OnInit {
   ) { 
     this.docForm = this.fb.group({
   
-      wageScaleDetails: this.fb.array([
-        this.fb.group({
-       
-          select:[""],
           code:[""],
           description:[""],
-          
+          wagescaleid:[""]
         })
-      ]),
-    });
+   
   }
 
   ngOnInit(): void {
@@ -47,7 +43,7 @@ export class ViewWageScalesComponent implements OnInit {
   }
   fetchDetails(id){
     this.httpService.get<any>(this.wageScalesService.editwage+"?id="+id).subscribe({next: (data: any) => {
-      this.viewDtl = data.list;
+      this.viewDtl = data.list[0];
       }, error: (err) => console.log(err)
      });
   }

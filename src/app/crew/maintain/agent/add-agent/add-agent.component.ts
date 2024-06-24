@@ -40,10 +40,10 @@ export class AddAgentComponent implements OnInit {
 
       this.docForm = this.fb.group({
   
-            select:[""],
-            code:[""],
-            description:[""],
             
+            code:["", Validators.required],
+            description:["", Validators.required],
+            agentid:[""],
           })
        
     } 
@@ -112,9 +112,10 @@ export class AddAgentComponent implements OnInit {
     this.httpService.get<any>(this.agentService.edit+"?id="+id).subscribe({next: (data: any) => {
       this.docForm.patchValue({
         'code': data.list[0].code,
-        'description': data.list[0].description
+        'description': data.list[0].description,
+        'agentid': data.list[0].agentid,
       });
-      this.docForm.get('code').disable();
+      // this.docForm.get('code').disable();
 
     }
   });
@@ -134,7 +135,6 @@ export class AddAgentComponent implements OnInit {
   }
   }
   update() {
-    this.docForm.get('code').enable();
 
     if(this.docForm.valid){
       this.agentService.update(this.docForm.value, this.router, this.notificationService);

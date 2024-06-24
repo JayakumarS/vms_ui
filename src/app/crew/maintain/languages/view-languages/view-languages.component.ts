@@ -22,10 +22,11 @@ export class ViewLanguagesComponent implements OnInit {
     public languagesService: LanguagesService,
   ) { 
     this.docForm = this.fb.group({
-          select:[""],
+         languageid:[""],
           code:[""],
           description:[""],
     });
+
   }
 
   ngOnInit(): void {
@@ -37,8 +38,8 @@ export class ViewLanguagesComponent implements OnInit {
   }
 
   fetchDetails(id){
-    this.httpService.get<any>(this.languagesService.editlanguage+"?id="+id).subscribe({next: (data: any) => {
-      this.viewDtl = data.languagesBean;
+    this.httpService.get<any>(this.languagesService.editlanguage+"?id="+id).subscribe({next: (data: any) => {  this.viewDtl = data.languagesBean;
+      this.viewDtl = data.list[0];
       }, error: (err) => console.log(err)
      });
   }

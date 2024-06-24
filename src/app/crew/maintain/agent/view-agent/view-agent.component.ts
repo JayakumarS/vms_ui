@@ -26,16 +26,11 @@ export class ViewAgentComponent implements OnInit {
 ) { 
   this.docForm = this.fb.group({
 
-    agentDetails: this.fb.array([
-      this.fb.group({
-     
-        select:[""],
         code:[""],
         description:[""],
-        
+        agentid:[""],
       })
-    ]),
-  });
+    
 }
 
 ngOnInit(): void {
@@ -48,7 +43,7 @@ ngOnInit(): void {
 }
 fetchDetails(id){
   this.httpService.get<any>(this.agentService.edit+"?id="+id).subscribe({next: (data: any) => {
-    this.viewDtl = data.list;
+    this.viewDtl = data.list[0];
     }, error: (err) => console.log(err)
    });
 }

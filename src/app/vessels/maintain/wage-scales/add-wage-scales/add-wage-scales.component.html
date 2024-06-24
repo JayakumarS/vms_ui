@@ -34,7 +34,9 @@
                                     <mat-label>Wage Scale Description</mat-label>
                                     <input matInput
                                         formControlName="description">
-
+                                        <mat-error *ngIf="docForm.get('description').hasError('required')">
+                                            Description is required
+                                          </mat-error>
                                 </mat-form-field>
                                    </div>
                                 </div> 

@@ -123,7 +123,7 @@ export class ListWageScalesComponent extends UnsubscribeOnDestroyAdapter impleme
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.wageScalesService.delete(row.code).subscribe({
+      this.wageScalesService.delete(row.wagescaleid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {
@@ -138,7 +138,7 @@ export class ListWageScalesComponent extends UnsubscribeOnDestroyAdapter impleme
           else{
             this.showNotification(
               "snackbar-danger",
-              "Error in save",
+              "Error in delete",
               "bottom",
               "center"
             );
@@ -154,11 +154,11 @@ export class ListWageScalesComponent extends UnsubscribeOnDestroyAdapter impleme
     })
     };
   editCall(row) {
-    this.router.navigate(['/vessels/maintain/wage-scale/add-wageScale/',row.code]);
+    this.router.navigate(['/vessels/maintain/wage-scale/add-wageScale/',row.wagescaleid]);
   }
 
   viewCall(row) {
-    this.router.navigate(['/vessels/maintain/wage-scale/view-wageScale/',row.code]);
+    this.router.navigate(['/vessels/maintain/wage-scale/view-wageScale/',row.wagescaleid]);
   }
 
  

@@ -111,7 +111,7 @@ export class ListAgentComponent extends UnsubscribeOnDestroyAdapter implements O
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.agentService.delete(row.code).subscribe({
+      this.agentService.delete(row.agentid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {
@@ -142,11 +142,11 @@ export class ListAgentComponent extends UnsubscribeOnDestroyAdapter implements O
     })
     };
   editCall(row) {
-    this.router.navigate(['/crew/maintain/agent/add-agent/',row.code]);
+    this.router.navigate(['/crew/maintain/agent/add-agent/',row.agentid]);
   }
 
   viewCall(row) {
-    this.router.navigate(['/crew/maintain/agent/view-agent/',row.code]);
+    this.router.navigate(['/crew/maintain/agent/view-agent/',row.agentid]);
   }
 
   private refreshTable() {

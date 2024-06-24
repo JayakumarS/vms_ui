@@ -39,11 +39,12 @@ export class AddLanguagesComponent implements OnInit {
     public snackBar: MatSnackBar) {
 
       this.docForm = this.fb.group({
-            code:[""],
-            description:[""],
-            active: [true]
+        code:["", Validators.required],
+        description:["", Validators.required],
+        languageid:[""],
+        active: [true]
       });
-  
+
   
     }
      
@@ -81,15 +82,16 @@ export class AddLanguagesComponent implements OnInit {
       }
 
       this.docForm.patchValue({
-
-
-        'code': res.languagesBean.code,
-        'description': res.languagesBean.description,
-        
-
+        'code': res.list[0].code,
+        'description': res.list[0].description,
+        'languageid': res.list[0].languageid,
       });
-    });
+      // this.docForm.get('code').disable();
+
+    })
   }
+
+
 
   save(){
     
@@ -104,25 +106,8 @@ export class AddLanguagesComponent implements OnInit {
       "right");
   }
   }
-  // update() {
-  //   const dtlArray = this.docForm.get('languageDetails') as FormArray;
-  //   dtlArray.controls.forEach(control => {
-  //     control.get('code').enable();
-  //   });
-  //   if(this.docForm.valid){
-  //     this.languagesService.updatelanguage(this.docForm.value, this.router, this.notificationService);
-  //   }else{
-  //     this.matError.markFormGroupTouched(this.docForm);
-  //     this.notificationService.showNotification(
-  //       "snackbar-danger",
-  //       "Please fill the required details",
-  //       "top",
-  //       "right");
-  //   }
-  // }
 
-
-  update(){
+  update() {
     if(this.docForm.valid){
       this.languagesService.updatelanguage(this.docForm.value, this.router, this.notificationService);
     }else{

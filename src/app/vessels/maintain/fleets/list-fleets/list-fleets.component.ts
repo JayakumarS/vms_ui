@@ -109,11 +109,11 @@ export class ListFleetsComponent extends UnsubscribeOnDestroyAdapter implements 
 
 
   editCall(row) {
-    this.router.navigate(['/vessels/maintain/fleets/add-fleets/',row.code ]);
+    this.router.navigate(['/vessels/maintain/fleets/add-fleets/',row.fleetid ]);
   }
 
   viewCall(row) {
-    this.router.navigate(['/vessels/maintain/fleets/view-fleets/',row.code]);
+    this.router.navigate(['/vessels/maintain/fleets/view-fleets/',row.fleetid]);
   }
 
   
@@ -136,7 +136,7 @@ export class ListFleetsComponent extends UnsubscribeOnDestroyAdapter implements 
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.fleetsService.delete(row.code).subscribe({
+      this.fleetsService.delete(row.fleetid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {
