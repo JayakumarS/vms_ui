@@ -12,9 +12,8 @@ import { LanguagesService } from '../languages.service';
 })
 export class ViewLanguagesComponent implements OnInit {
 
-  requestId:any;
+  
   docForm:FormGroup;
-  decryptRequestId:any;
   viewDtl:any=[];
   constructor(public router:Router,
     public route:ActivatedRoute, 
@@ -23,30 +22,23 @@ export class ViewLanguagesComponent implements OnInit {
     public languagesService: LanguagesService,
   ) { 
     this.docForm = this.fb.group({
-  
-      languageDetails: this.fb.array([
-        this.fb.group({
-       
           select:[""],
           code:[""],
           description:[""],
-          
-        })
-      ]),
     });
   }
 
   ngOnInit(): void {
-
-    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
-      // this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
-       this.fetchDetails(this.decryptRequestId) ;
+    this.route.params.subscribe(params => {
+      if(params.id!=undefined && params.id!=0){ 
+        this.fetchDetails(params.id) ;
       }
      });
   }
+
   fetchDetails(id){
     this.httpService.get<any>(this.languagesService.editlanguage+"?id="+id).subscribe({next: (data: any) => {
-      this.viewDtl = data.list;
+      this.viewDtl = data.languagesBean;
       }, error: (err) => console.log(err)
      });
   }

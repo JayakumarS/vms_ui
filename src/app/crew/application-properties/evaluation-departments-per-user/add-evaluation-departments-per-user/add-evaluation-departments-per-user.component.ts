@@ -18,9 +18,9 @@ export class AddEvaluationDepartmentsPerUserComponent implements OnInit {
   userIDList:any=[];
  
 
-  public userIDFilterCtrl: FormControl = new FormControl();
-  userIDFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('contractsuserID', { static: true }) contractsuserID: MatSelect;
+  // public userIDFilterCtrl: FormControl = new FormControl();
+  // userIDFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  // @ViewChild('contractsuserID', { static: true }) contractsuserID: MatSelect;
 
  
 

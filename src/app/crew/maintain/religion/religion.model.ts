@@ -1,6 +1,7 @@
-export class language{
-    code: string;
-    description: string;
+export class Religion {
+    code:string;
+    name:string;
+
     constructor(commodity) {
       
     }

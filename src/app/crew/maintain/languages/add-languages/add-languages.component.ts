@@ -24,7 +24,7 @@ export class AddLanguagesComponent implements OnInit {
   docForm: FormGroup;
   language: language;
   edit:boolean=false;
-  isChecked: boolean = false;
+  
   requestId: any;
   decryptRequestId: any;
   constructor(private fb: FormBuilder,
@@ -39,12 +39,10 @@ export class AddLanguagesComponent implements OnInit {
     public snackBar: MatSnackBar) {
 
       this.docForm = this.fb.group({
-  
             code:[""],
             description:[""],
-            
-          })
-        
+            active: [true]
+      });
   
   
     }
@@ -61,64 +59,38 @@ export class AddLanguagesComponent implements OnInit {
      });
   }
 
-  addRow(){
-    let LanguageDetailsDtlArray=this.docForm.controls.languageDetails as FormArray;
-    let arraylen=LanguageDetailsDtlArray.length;
-    var len = this.docForm.controls["languageDetails"].value.length;
-
-    let newUsergroup:FormGroup = this.fb.group({
-      sort : 1 + len,
-      select: [""],
-      code:[""],
-      description:[""],
-      
-    })
-    LanguageDetailsDtlArray.insert(arraylen,newUsergroup);
-  }
-
 
   cancel(){
     this.router.navigate(['/crew/maintain/language/list-language/']);
   }
 
 
-  removeRow(){
-    let count = 0;
-    const deleteRow = this.docForm.controls.languageDetails as FormArray;
-    let i = 0;
-    
-    while (i < deleteRow.length) {
-      if (deleteRow.at(i).value.select) {
-        deleteRow.removeAt(i);
-        count++;
-      } else {
-        i++;
-      }
-    }
-
-    if(count == 0){
-      this.showNotification(
-        "snackbar-danger",
-        "Please select atleast one row",
-        "top",
-        "right"
-      );
-    }
-  }
   
 
-  fetchDetails(id: any): void {
-    this.httpService.get<any>(this.languagesService.editlanguage+"?id="+id).subscribe({next: (data: any) => {
+  
+
+  fetchDetails(id: any) {
+
+    this.httpService.get(this.languagesService.editlanguage + "?id=" + id).subscribe((res: any) => {
+      console.log(res);
+      if (res.languagesBean.active == 'Y') {
+        this.docForm.patchValue({ 'active': true })
+      }
+      else {
+        this.docForm.patchValue({ 'active': false })
+      }
+
       this.docForm.patchValue({
-        'code': data.list[0].code,
-        'description': data.list[0].description
+
+
+        'code': res.languagesBean.code,
+        'description': res.languagesBean.description,
+        
+
       });
-      this.docForm.get('code').disable();
-
-    }
-  });
-
+    });
   }
+
   save(){
     
     if(this.docForm.valid){
@@ -132,19 +104,37 @@ export class AddLanguagesComponent implements OnInit {
       "right");
   }
   }
-  update() {
-    this.docForm.get('code').enable();
+  // update() {
+  //   const dtlArray = this.docForm.get('languageDetails') as FormArray;
+  //   dtlArray.controls.forEach(control => {
+  //     control.get('code').enable();
+  //   });
+  //   if(this.docForm.valid){
+  //     this.languagesService.updatelanguage(this.docForm.value, this.router, this.notificationService);
+  //   }else{
+  //     this.matError.markFormGroupTouched(this.docForm);
+  //     this.notificationService.showNotification(
+  //       "snackbar-danger",
+  //       "Please fill the required details",
+  //       "top",
+  //       "right");
+  //   }
+  // }
+
+
+  update(){
     if(this.docForm.valid){
       this.languagesService.updatelanguage(this.docForm.value, this.router, this.notificationService);
     }else{
-      this.matError.markFormGroupTouched(this.docForm);
-      this.notificationService.showNotification(
+      this.showNotification(
         "snackbar-danger",
         "Please fill the required details",
         "top",
-        "right");
+        "right"
+      );
     }
   }
+
   reset(){
     if(!this.edit){
       this.docForm = this.fb.group({

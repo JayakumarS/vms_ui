@@ -96,6 +96,18 @@ const routes: Routes = [
   loadChildren: () =>
     import("./setup-rank-trainings/setup-rank-trainings.module").then((m) => m.SetupRankTrainingsModule),
 }, 
+
+{
+  path: "religion",
+  loadChildren: () =>
+    import("./religion/religion.module").then((m) => m.ReligionModule),
+}, 
+
+{
+  path: "blood-group",
+  loadChildren: () =>
+    import("./blood-group/blood-group.module").then((m) => m.BloodGroupModule),
+}, 
 ];
 
 @NgModule({

@@ -1,6 +1,7 @@
-export class language{
-    code: string;
-    description: string;
+export class BloodGroup {
+    bloodGroupCode:string;
+    name:string;
+
     constructor(commodity) {
       
     }
