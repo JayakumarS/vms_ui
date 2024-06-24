@@ -26,12 +26,14 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonService } from 'src/app/common-service/common.service';
+import { ViewRankShiftComponent } from './view-rank-shift/view-rank-shift.component';
 
 
 @NgModule({
   declarations: [
     ListRankShiftComponent,
-    AddRankShiftComponent
+    AddRankShiftComponent,
+    ViewRankShiftComponent
   ],
   providers: [
     CommonService

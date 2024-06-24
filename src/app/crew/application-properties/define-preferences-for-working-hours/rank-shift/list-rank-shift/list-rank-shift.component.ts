@@ -13,6 +13,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
+import { DeleteComponent } from 'src/app/master/country-master/list-country-master/dialog/delete/delete.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-list-rank-shift',
@@ -41,6 +43,8 @@ export class ListRankShiftComponent extends UnsubscribeOnDestroyAdapter implemen
    public rankShiftService: RankShiftService,
    private snackBar: MatSnackBar,
    private serverUrl:serverLocations,
+   private spinner: NgxSpinnerService,
+
    private httpService:HttpServiceService,
    public router: Router
  ) {
@@ -58,13 +62,11 @@ export class ListRankShiftComponent extends UnsubscribeOnDestroyAdapter implemen
    this.loadData();
  }
 
- editCall(id){
+ editCall(row) {
+  // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
+  this.router.navigate(['/crew/application-properties/define-preferences-for-working-hours/define-rank-shift/add-define-rank-shift/', row.code]);
+}
 
- }
-
- deleteItem(id){
-
- }
 
  public loadData() {
    this.exampleDatabase = new RankShiftService(this.httpClient,this.serverUrl,this.httpService);
@@ -82,6 +84,65 @@ export class ListRankShiftComponent extends UnsubscribeOnDestroyAdapter implemen
      }
    );
  }
+ showNotification(colorName, text, placementFrom, placementAlign) {
+  this.snackBar.open(text, "", {
+    duration: 2000,
+    verticalPosition: placementFrom,
+    horizontalPosition: placementAlign,
+    panelClass: colorName,
+  });
+}
+viewCall(row) {
+  // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+  this.router.navigate(['/crew/application-properties/define-preferences-for-working-hours/define-rank-shift/view-define-rank-shift/', row.code]);
+}
+deleteItem(row){
+  let tempDirection;
+  if (localStorage.getItem("isRtl") == "true") {
+    tempDirection = "rtl";
+  } else {
+    tempDirection = "ltr";
+  }
+
+  const dialogRef = this.dialog.open(DeleteComponent, {
+    height: "270px",
+    width: "400px",
+    data: row,
+    direction: tempDirection,
+  });
+  this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+  if (data.data == true) {
+    this.spinner.show();
+    this.rankShiftService.delete(row.code).subscribe({
+      next: (data) => {
+        this.spinner.hide();
+        if (data.success) {
+          this.loadData();
+          this.showNotification(
+            "snackbar-success",
+            "Record Deleted",
+            "bottom",
+            "center"
+          );
+        }
+        else{
+          this.showNotification(
+            "snackbar-danger",
+            "Error in delete",
+            "bottom",
+            "center"
+          );
+        }
+      },
+      error: (error) => {
+        this.spinner.hide();
+      }
+    });
+  }else{
+    //this.loadData();
+  }
+  })
+}
 
 }
 
