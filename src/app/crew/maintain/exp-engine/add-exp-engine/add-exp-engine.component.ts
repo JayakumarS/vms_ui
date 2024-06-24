@@ -20,7 +20,12 @@ import { ExpEngineService } from '../exp-engine.service';
   styleUrls: ['./add-exp-engine.component.sass']
 })
 export class AddExpEngineComponent implements OnInit {
-
+  displayedColumns = [
+    // "select",
+     "code",
+     "description",
+     "actions"
+   ];
   
   public itemRevenueExpFilterCtrl: FormControl = new FormControl();
   itemRevenueExpFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
@@ -83,17 +88,12 @@ export class AddExpEngineComponent implements OnInit {
 
 
     this.docForm = this.fb.group({
-  
-
-
-      expEngineBeanBeanDtls: this.fb.array([
-        this.fb.group({
           sort : 1,
           select:[""],
           code: ["", Validators.required],
-          description:[""],
-        })
-      ]),
+          description:["", Validators.required],
+       
+      
     });
 
 
@@ -155,29 +155,22 @@ export class AddExpEngineComponent implements OnInit {
     }
   }
 
+  
   fetchDetails(id){
     this.httpService.get<any>(this.ExpEngineService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      let dtlArray = this.docForm.controls.expEngineBeanBeanDtls as FormArray;
-      dtlArray.clear();
-      data.list.forEach((element, index) => {
-        let arraylen = dtlArray.length;
-        let newUsergroup: FormGroup = this.fb.group({
-          select:[""],
-          code: [element.code],
-          description:[element.description + ""]
-        })
-        dtlArray.insert(arraylen, newUsergroup);
-        newUsergroup.get('code').disable();
+      this.docForm.patchValue({
+        'code': data.list[0].code,
+        'description': data.list[0].description
       });
-      }, error: (err) => console.log(err)
-     });
+      this.docForm.get('code').disable();
+
+    }
+  });
   }
   
   update() {
-    const dtlArray = this.docForm.get('expEngineBeanBeanDtls') as FormArray;
-    dtlArray.controls.forEach(control => {
-      control.get('code').enable();
-    });
+    this.docForm.get('code').enable();
+
     if(this.docForm.valid){
       this.ExpEngineService.updateExpEngine(this.docForm.value, this.router, this.notificationService);
     }else{
