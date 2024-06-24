@@ -22,6 +22,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { application } from '../applications.model';
 import { ApplicationsService } from '../applications.service';
+import { ApplicationPopupComponent } from '../application-popup/application-popup.component';
 
 @Component({
   selector: 'app-add-applications',
@@ -623,14 +624,14 @@ uploadFileDoc1(event, fileInputDoc: HTMLInputElement) {
     const obj = {
       // jspId
   }
-    // const dialogRef = this.dialog.open(ApplicationPopupComponent, {
-    //   height: "300px",
-    //   width: "50%",
-    //   data: {
-    //     action: obj,
-    //   },
-    //   direction: tempDirection,
-    // });
+    const dialogRef = this.dialog.open(ApplicationPopupComponent, {
+      height: "300px",
+      width: "50%",
+      data: {
+        action: obj,
+      },
+      direction: tempDirection,
+    });
   }
 }
 

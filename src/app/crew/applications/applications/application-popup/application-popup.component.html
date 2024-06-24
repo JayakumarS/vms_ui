@@ -1,0 +1,46 @@
+<h6 style="margin-left: 39%;color: #4694c6;font-size: 19px;">Application Popup</h6>
+<br><br>
+<div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="margin-top: -4%;">
+        <mat-label><b>Certificate Upload</b></mat-label>
+        <app-file-upload >
+        </app-file-upload>
+
+      </div>
+      <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+        <label class="checkbox-container mandatory-valid" style="font-size: 16px;">
+            <input type="checkbox" id="mandatoryValidCheckbox">
+            <span class="checkmark"></span>
+            Mandatory Valid
+        </label>
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+
+        <label class="checkbox-container mandatory-invalid" style="font-size: 14px;">
+            <input type="checkbox" id="mandatoryInvalidCheckbox">
+            <span class="checkmark"></span>
+            Mandatory Invalid
+        </label>
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+
+        <label class="checkbox-container optional-invalid" style="font-size: 14px;">
+            <input type="checkbox" id="optionalInvalidCheckbox">
+            <span class="checkmark"></span>
+            Optional Invalid
+        </label>
+        
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th style="text-align: center;">Cerificates</th>
+            </tr>
+        </thead>
+        <tbody  *ngFor="let data of certificateList; let i = index">
+            <tr>
+                <td>{{data.certificateName}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

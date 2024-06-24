@@ -53,6 +53,7 @@ import { ListApplicationsComponent } from './list-applications/list-applications
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DeleteComponent } from './list-applications/delete/delete.component';
 import { ViewApplicationsComponent } from './list-applications/view-applications/view-applications.component';
+import { ApplicationPopupComponent } from './application-popup/application-popup.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { ViewApplicationsComponent } from './list-applications/view-applications
     AddApplicationsComponent,
     ListApplicationsComponent,
     DeleteComponent,
-    ViewApplicationsComponent
+    ViewApplicationsComponent,
+    ApplicationPopupComponent
   ],
   imports: [
     CommonModule,
