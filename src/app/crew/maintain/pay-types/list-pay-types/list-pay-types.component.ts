@@ -108,12 +108,12 @@ export class ListPayTypesComponent extends UnsubscribeOnDestroyAdapter implement
 
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/crew/maintain/paytypes/add-paytypes/', row.code]);
+    this.router.navigate(['/crew/maintain/paytypes/add-paytypes/', row.paytypeid]);
   }
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/paytypes/view-paytypes/', row.code]);
+    this.router.navigate(['/crew/maintain/paytypes/view-paytypes/', row.paytypeid]);
   }
 
   deleteItem(row){
@@ -133,7 +133,7 @@ export class ListPayTypesComponent extends UnsubscribeOnDestroyAdapter implement
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.PayTypesService.delete(row.code).subscribe({
+      this.PayTypesService.delete(row.paytypeid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {

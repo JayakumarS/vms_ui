@@ -83,17 +83,13 @@ export class AddPayTypesComponent implements OnInit {
 
 
     this.docForm = this.fb.group({
-  
-
-
-      payTypesBeanDtls: this.fb.array([
-        this.fb.group({
           sort : 1,
           select:[""],
+          paytypeid:[""],
           code: ["", Validators.required],
-          description:[""],
-        })
-      ]),
+          description:["", Validators.required],
+     
+    
     });
 
 
@@ -155,29 +151,37 @@ export class AddPayTypesComponent implements OnInit {
     }
   }
 
+  // fetchDetails(id){
+  //   this.httpService.get<any>(this.PayTypesService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+  //     let dtlArray = this.docForm.controls.payTypesBeanDtls as FormArray;
+  //     dtlArray.clear();
+  //     data.list.forEach((element, index) => {
+  //       let arraylen = dtlArray.length;
+  //       let newUsergroup: FormGroup = this.fb.group({
+  //         select:[""],
+  //         code: [element.code],
+  //         description:[element.description + ""]
+  //       })
+  //       dtlArray.insert(arraylen, newUsergroup);
+  //       newUsergroup.get('code').disable();
+  //     });
+  //     }, error: (err) => console.log(err)
+  //    });
+  // }
   fetchDetails(id){
     this.httpService.get<any>(this.PayTypesService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      let dtlArray = this.docForm.controls.payTypesBeanDtls as FormArray;
-      dtlArray.clear();
-      data.list.forEach((element, index) => {
-        let arraylen = dtlArray.length;
-        let newUsergroup: FormGroup = this.fb.group({
-          select:[""],
-          code: [element.code],
-          description:[element.description + ""]
-        })
-        dtlArray.insert(arraylen, newUsergroup);
-        newUsergroup.get('code').disable();
+      this.docForm.patchValue({
+        'code': data.list[0].code,
+        'description': data.list[0].description,
+        'paytypeid': data.list[0].paytypeid
+
       });
-      }, error: (err) => console.log(err)
-     });
+
+    }
+  });
   }
-  
   update() {
-    const dtlArray = this.docForm.get('payTypesBeanDtls') as FormArray;
-    dtlArray.controls.forEach(control => {
-      control.get('code').enable();
-    });
+   
     if(this.docForm.valid){
       this.PayTypesService.updatePayTypes(this.docForm.value, this.router, this.notificationService);
     }else{
