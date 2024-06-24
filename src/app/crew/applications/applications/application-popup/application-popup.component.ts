@@ -21,6 +21,9 @@ import { ApplicationsService } from '../applications.service';
 })
 export class ApplicationPopupComponent implements OnInit {
   certificateList : any =[];
+  mandatoryFlag : boolean = false;
+  mandatoryInvalidFlag : boolean = false;
+  optionalFlag : boolean = false;
   constructor(
     private fb: FormBuilder,
     private httpService: HttpServiceService,
@@ -44,6 +47,34 @@ export class ApplicationPopupComponent implements OnInit {
         this.certificateList = res.list;
     
       });
+
   }
+
+  check(value){
+       if (value == 'mandatoryValidCheckbox'){
+        this.mandatoryFlag = true;
+       }else{
+        this.mandatoryInvalidFlag = false;
+        this.optionalFlag = false;
+       }
+       
+
+       if (value == 'mandatoryInvalidCheckbox'){
+        this.mandatoryInvalidFlag = true;
+       }else{
+        this.mandatoryFlag = false;
+        this.optionalFlag = false;
+       }
+
+       if (value == 'optionalInvalidCheckbox'){
+        this.optionalFlag = true;
+       }else{
+        this.mandatoryFlag = false;
+        this.mandatoryInvalidFlag = false;
+       }
+  }
+
+
+  
 
 }

@@ -8,26 +8,39 @@
 
       </div>
       <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-        <label class="checkbox-container mandatory-valid" style="font-size: 16px;">
-            <input type="checkbox" id="mandatoryValidCheckbox">
+        <label class="checkbox-container mandatory-valid" style="font-size: 16px;" *ngIf="!mandatoryInvalidFlag">
+            <input type="checkbox"  (click)="check('mandatoryValidCheckbox')" >
             <span class="checkmark"></span>
             Mandatory Valid
         </label>
-        </div>
-        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-
-        <label class="checkbox-container mandatory-invalid" style="font-size: 14px;">
-            <input type="checkbox" id="mandatoryInvalidCheckbox">
+        <label class="checkbox-container mandatory-valid" style="font-size: 16px;" disabled="true" *ngIf="mandatoryInvalidFlag">
+            <input type="checkbox"  (click)="check('mandatoryValidCheckbox')" >
             <span class="checkmark"></span>
-            Mandatory Invalid
+            Mandatory Valid1
         </label>
         </div>
         <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-
-        <label class="checkbox-container optional-invalid" style="font-size: 14px;">
-            <input type="checkbox" id="optionalInvalidCheckbox">
+        <label class="checkbox-container mandatory-invalid" style="font-size: 14px;" *ngIf="!mandatoryInvalidFlag">
+            <input type="checkbox" (click)="check('mandatoryInvalidCheckbox')">
+            <span class="checkmark"></span>
+            Mandatory Invalid
+        </label>
+        <label class="checkbox-container mandatory-invalid" style="font-size: 14px;" disabled="true" *ngIf="mandatoryInvalidFlag">
+            <input type="checkbox" (click)="check('mandatoryInvalidCheckbox')">
+            <span class="checkmark"></span>
+            Mandatory Invalid1
+        </label>
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+        <label class="checkbox-container optional-invalid" style="font-size: 14px;" *ngIf="!optionalFlag">
+            <input type="checkbox"  (click)="check('optionalInvalidCheckbox')">
             <span class="checkmark"></span>
             Optional Invalid
+        </label>
+        <label class="checkbox-container optional-invalid" style="font-size: 14px;" disabled="true" *ngIf="optionalFlag">
+            <input type="checkbox"  (click)="check('optionalInvalidCheckbox')">
+            <span class="checkmark"></span>
+            Optional Invalid1
         </label>
         
     </div>

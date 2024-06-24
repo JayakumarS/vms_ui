@@ -42,7 +42,7 @@ export class ApplicationsService extends UnsubscribeOnDestroyAdapter{
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/delete`;
   public uploadFilePI = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/uploadfile`;
   public getenginelist = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/getenginelist`;
-
+  public getCertificate = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/certificateList`;
   
   
   
