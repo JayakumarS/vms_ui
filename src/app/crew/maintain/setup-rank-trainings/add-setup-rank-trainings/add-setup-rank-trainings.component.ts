@@ -31,7 +31,7 @@ export class AddSetupRankTrainingsComponent extends UnsubscribeOnDestroyAdapter 
   edit: boolean = false;
   requestId: number;
   setuptraining: setuptraining;
-  displayedColumns: string[];
+  displayedColumns: any[];
   exampleDatabase: SetupRankTrainingsService | null;
   selection = new SelectionModel<setuptraining>(true, []);
   showTable: boolean = false;
