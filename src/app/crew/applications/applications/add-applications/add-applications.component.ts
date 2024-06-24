@@ -615,6 +615,8 @@ uploadFileDoc1(event, fileInputDoc: HTMLInputElement) {
 
   }
   checkList(){
+    if(this.docForm.valid){
+      let rankCode = this.docForm.value.rank;
     let tempDirection;
     if (localStorage.getItem("isRtl") === "true") {
       tempDirection = "rtl";
@@ -622,7 +624,7 @@ uploadFileDoc1(event, fileInputDoc: HTMLInputElement) {
       tempDirection = "ltr";
     }
     const obj = {
-      // jspId
+      rankCode
   }
     const dialogRef = this.dialog.open(ApplicationPopupComponent, {
       height: "300px",
@@ -633,6 +635,7 @@ uploadFileDoc1(event, fileInputDoc: HTMLInputElement) {
       direction: tempDirection,
     });
   }
+}
 }
 
 

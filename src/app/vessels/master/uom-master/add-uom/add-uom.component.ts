@@ -94,7 +94,7 @@ export class AddUomComponent implements OnInit {
   }
 
   cancel(){
-    this.router.navigate(['/vessels/master/uom-Master/add-uom']);
+    this.router.navigate(['/vessels/master/uom-Master/list-uom']);
   }
 
   showNotification(colorName, text, placementFrom, placementAlign) {

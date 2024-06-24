@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -21,16 +21,17 @@ import { ApplicationsService } from '../applications.service';
 })
 export class ApplicationPopupComponent implements OnInit {
   certificateList : any =[];
-  mandatoryFlag : boolean = false;
-  mandatoryInvalidFlag : boolean = false;
-  optionalFlag : boolean = false;
+  mandatoryFlag = false;
+  mandatoryInvalidFlag = false;
+  optionalFlag = false;
+  rankCode: any;
   constructor(
     private fb: FormBuilder,
     private httpService: HttpServiceService,
     private snackBar: MatSnackBar,
     private router: Router,
     private applicationsService: ApplicationsService,
-    public route: ActivatedRoute,
+    public route: ActivatedRoute,@Inject(MAT_DIALOG_DATA) public data: any,
     public dialog: MatDialog,
     private tokenStorage: TokenStorageService,
     private encryptionService: EncryptionService,
@@ -42,38 +43,37 @@ export class ApplicationPopupComponent implements OnInit {
 
   ngOnInit(): void {
 
-      this.httpService.get<any>(this.applicationsService.getCertificate).subscribe((res: any) => {
+    this.rankCode = this.data.action.rankCode;
+
+      // this.httpService.get<any>(this.applicationsService.getCertificate).subscribe((res: any) => {
     
-        this.certificateList = res.list;
+      //   this.certificateList = res.list;
     
+      // });
+
+
+      this.httpService.get<any>(this.applicationsService.getCertificate + "?rankCode=" + this.rankCode).subscribe({
+        next: (data) => {
+          this.certificateList = data.list;
+        },
       });
-
   }
 
-  check(value){
-       if (value == 'mandatoryValidCheckbox'){
+  check(value: string) {
+    if (value === 'mandatoryValidCheckbox') {
         this.mandatoryFlag = true;
-       }else{
         this.mandatoryInvalidFlag = false;
         this.optionalFlag = false;
-       }
-       
-
-       if (value == 'mandatoryInvalidCheckbox'){
+    } else if (value === 'mandatoryInvalidCheckbox') {
         this.mandatoryInvalidFlag = true;
-       }else{
         this.mandatoryFlag = false;
         this.optionalFlag = false;
-       }
-
-       if (value == 'optionalInvalidCheckbox'){
+    } else if (value === 'optionalInvalidCheckbox') {
         this.optionalFlag = true;
-       }else{
         this.mandatoryFlag = false;
         this.mandatoryInvalidFlag = false;
-       }
-  }
-
+    }
+}
 
   
 

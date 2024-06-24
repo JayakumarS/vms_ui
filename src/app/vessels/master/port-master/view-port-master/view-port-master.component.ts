@@ -65,6 +65,6 @@ export class ViewPortMasterComponent implements OnInit {
   
  
   onCancel(){
-    this.router.navigate(['/vessels/master/country-Master/list-CountryMaster']);
+    this.router.navigate(['/vessels/master/port-Master/list-port-master']);
   }
 }
