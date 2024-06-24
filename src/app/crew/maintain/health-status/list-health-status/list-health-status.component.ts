@@ -109,12 +109,12 @@ export class ListHealthStatusComponent extends UnsubscribeOnDestroyAdapter imple
 
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/crew/maintain/health-status/add-health-status/', row.code]);
+    this.router.navigate(['/crew/maintain/health-status/add-health-status/', row.healthstatusid]);
   }
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/health-status/view-health-status/', row.code]);
+    this.router.navigate(['/crew/maintain/health-status/view-health-status/', row.healthstatusid]);
   }
 
   deleteItem(row){
@@ -134,7 +134,7 @@ export class ListHealthStatusComponent extends UnsubscribeOnDestroyAdapter imple
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.HealthStatusService.delete(row.code).subscribe({
+      this.HealthStatusService.delete(row.healthstatusid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {

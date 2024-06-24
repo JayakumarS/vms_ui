@@ -86,10 +86,9 @@ export class AddHealthStatusComponent implements OnInit {
 
 
     
-          sort : 1,
-          select:[""],
+          healthstatusid:[""],
           code: ["", Validators.required],
-          description:[""],
+          description: ["", Validators.required],
       
     });
 
@@ -156,9 +155,10 @@ export class AddHealthStatusComponent implements OnInit {
     this.httpService.get<any>(this.HealthStatusService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.docForm.patchValue({
         'code': data.list[0].code,
-        'description': data.list[0].description
+        'description': data.list[0].description,
+        'healthstatusid': data.list[0].healthstatusid
+
       });
-      this.docForm.get('code').disable();
 
     }
   });
@@ -166,7 +166,6 @@ export class AddHealthStatusComponent implements OnInit {
   
   update() {
 
-    this.docForm.get('code').enable();
   
     if(this.docForm.valid){
       this.HealthStatusService.updateHealthStatus(this.docForm.value, this.router, this.notificationService);
