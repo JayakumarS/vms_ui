@@ -85,9 +85,9 @@ export class AddWorkStatusComponent implements OnInit {
   
 
     
-        
+          workstatusid:[""],
           code: ["", Validators.required],
-          description:[""]
+          description:["", Validators.required],
        
     });
 
@@ -154,18 +154,16 @@ export class AddWorkStatusComponent implements OnInit {
     this.httpService.get<any>(this.WorkStatusService.editUrl+"?id="+id).subscribe({    next: (data: any) => {
       this.docForm.patchValue({
         'code': data.list[0].code,
-        'description': data.list[0].description
+        'description': data.list[0].description,
+        'workstatusid': data.list[0].workstatusid
       });
-      this.docForm.get('code').disable();
 
     }
   });
 }
   
   update() {
-  
-      this.docForm.get('code').enable();
-    
+      
     if(this.docForm.valid){
       this.WorkStatusService.updateworkstatus(this.docForm.value, this.router, this.notificationService);
     }else{

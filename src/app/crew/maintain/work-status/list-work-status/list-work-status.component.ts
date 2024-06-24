@@ -109,12 +109,12 @@ export class ListWorkStatusComponent extends UnsubscribeOnDestroyAdapter impleme
 
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/crew/maintain/work-status/add-Work-Status/', row.code]);
+    this.router.navigate(['/crew/maintain/work-status/add-Work-Status/', row.workstatusid]);
   }
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/work-status/view-Work-Status/', row.code]);
+    this.router.navigate(['/crew/maintain/work-status/view-Work-Status/', row.workstatusid]);
   }
 
   deleteItem(row){
@@ -134,7 +134,7 @@ export class ListWorkStatusComponent extends UnsubscribeOnDestroyAdapter impleme
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.WorkStatusService.delete(row.code).subscribe({
+      this.WorkStatusService.delete(row.workstatusid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {
