@@ -87,7 +87,7 @@ export class AddUomComponent implements OnInit {
   }
   
   update() {
-
+    this.docForm.value.uomCode = this.requestId;
     this.uomMaster = this.docForm.value;
     this.uomMasterService.UomUpdate(this.uomMaster,this.router,this.notificationService);
 

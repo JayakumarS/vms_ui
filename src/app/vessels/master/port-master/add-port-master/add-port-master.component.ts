@@ -87,6 +87,7 @@ export class AddPortMasterComponent implements OnInit {
   }
   
   update() {
+    this.docForm.value.portCode = this.requestId;
     this.portMaster = this.docForm.value;
     this.portMasterService.portUpdate(this.portMaster,this.router,this.notificationService);
 
