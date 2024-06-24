@@ -19,7 +19,7 @@
             <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                 <mat-label>select rank</mat-label>
                 <mat-select name="srank" formControlName="srank" #srank  (selectionChange)="onRankChange($event.value)"> 
-                  <mat-option [value]="'A'">All Ranks</mat-option>
+                
                   <mat-option>
                     <ngx-mat-select-search [placeholderLabel]="'Search'" 
                         [noEntriesFoundLabel]="'no results found'"

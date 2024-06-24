@@ -175,13 +175,13 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
 
 
  
-  onRankChange(selectedRank: string) {
-    if (selectedRank === 'A') {
-      this.filteredColumns = [...this.displayedColumns];
-    } else {
-      this.filteredColumns = [selectedRank];
-    }
-  }
+  // onRankChange(selectedRank: string) {
+  //   if (selectedRank === 'A') {
+  //     this.filteredColumns = [...this.displayedColumns];
+  //   } else {
+  //     this.filteredColumns = [selectedRank];
+  //   }
+  // }
 
 
 showNotification(colorName, text, placementFrom, placementAlign) {

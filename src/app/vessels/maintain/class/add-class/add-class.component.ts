@@ -22,54 +22,12 @@ import { MatErrorService } from 'src/app/core/service/mat-error.service';
 })
 export class AddClassComponent implements OnInit {
 
-  
-  public itemRevenueExpFilterCtrl: FormControl = new FormControl();
-  itemRevenueExpFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('supplieritemRevenueExp', { static: true }) supplieritemRevenueExp: MatSelect;
- 
-  public onboardFilterCtrl: FormControl = new FormControl();
-  onboardFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('onboard', { static: true }) onboard: MatSelect;
- 
-  public itemTypeFilterCtrl: FormControl = new FormControl();
-  itemTypeFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('itemType', { static: true }) itemType: MatSelect;
- 
-
-  public contentsFilterslistFilterCtrl: FormControl = new FormControl();
-  contentsFilterslistFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('contentsFilters', { static: true }) contentsFilters: MatSelect;
- 
-  public quantityCalculationFilterCtrl: FormControl = new FormControl();
-  quantityCalculationFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('quantityCalculation', { static: true }) quantityCalculation: MatSelect;
- 
-
-  public groupingFilterCtrl: FormControl = new FormControl();
-  groupingFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
-  @ViewChild('grouping', { static: true }) grouping: MatSelect;
- 
-  protected onDestroy = new Subject<void>();
-
-
   docForm: FormGroup;
-  payItems: Class;
-  currencyList=[];
+  class: Class;
   edit:boolean=false;
-  // oldPwd: boolean=false;
-
-  // For Encryption
-  isChecked: boolean = false;
-
   requestId: any;
   decryptRequestId: any;
-  currtmpList: any[];
-  itemRevenueExplist:any;
-  itemTypelist:any;
-  onboardlist:any;
-  quantityCalculationlist:any;
-  contentsFilterslist:any;
-  groupinglist:any;
+
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
@@ -84,20 +42,11 @@ export class AddClassComponent implements OnInit {
 
     this.docForm = this.fb.group({
   
-
-
-      classDetails: this.fb.array([
-        this.fb.group({
-          sort : 1,
-          select: [""],
           code:[""],
           description:[""],
           
-        })
-      ]),
-    });
-
-
+        });
+     
   }
   
    ngOnInit() {
@@ -165,10 +114,8 @@ export class AddClassComponent implements OnInit {
   }
   }
   update() {
-    const dtlArray = this.docForm.get('classDetails') as FormArray;
-    dtlArray.controls.forEach(control => {
-      control.get('code').enable();
-    });
+    this.docForm.get('code').enable();
+
     if(this.docForm.valid){
       this.classService.updateclass(this.docForm.value, this.router, this.notificationService);
     }else{
@@ -183,59 +130,22 @@ export class AddClassComponent implements OnInit {
 
   fetchDetails(id: any): void {
     this.httpService.get<any>(this.classService.editclass+"?id="+id).subscribe({next: (data: any) => {
-      let dtlArray = this.docForm.controls.classDetails as FormArray;
-      dtlArray.clear();
-      data.list.forEach((element, index) => {
-        let arraylen = dtlArray.length;
-        let newUsergroup: FormGroup = this.fb.group({
-          select:[""],
-          code: [element.code],
-          description:[element.description + ""]
-        })
-        dtlArray.insert(arraylen, newUsergroup);
-        newUsergroup.get('code').disable();
+      this.docForm.patchValue({
+        'code': data.list.code,
+        'description': data.list.description
       });
-      }, error: (err) => console.log(err)
-     });
-
+      this.docForm.get('code').disable();
+    }
+  });
   }
+
   cancel(){
     this.router.navigate(['/vessels/maintain/class/list-class']);
   }
 
 
-  getmastrcurr(){
+  
 
-  }
-  
-  
-  getmastrcurr1(currid) {
-  var value;
-  var value1;
-  this.currencyList.forEach(element => {
-  if (element.id === currid) {
-    value = element.text;
-    value1 = element.id;
-  }
-  });
-  return value;
-  }
-
-  onKey(value) {
-    if (value == "") {
-      this.currencyList = this.currtmpList;
-    } else {
-      this.currencyList = this.currtmpList;
-      this.currencyList = this.search(value);
-    }
-  }
-  
-  search(value: string) {
-    let filter = value.toLowerCase();
-    return this.currencyList.filter(option =>
-      option.item.toLowerCase().startsWith(filter)
-    );
-  }
   
   reset(){
     if(!this.edit){
@@ -262,9 +172,6 @@ export class AddClassComponent implements OnInit {
       panelClass: colorName,
     });
   }
-  validateCountry(event){
-
-  }
-
+ 
 }
 

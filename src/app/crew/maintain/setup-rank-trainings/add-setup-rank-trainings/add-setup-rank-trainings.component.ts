@@ -146,11 +146,11 @@ updateDisplayedColumns(selectedRank: string): void {
 
 
  onRankChange(selectedRank: string) {
-    if (selectedRank === 'A') {
-      this.filteredColumns = [...this.displayedColumns];
-    } else {
-      this.filteredColumns = [selectedRank];
-    }
+    // if (selectedRank === 'A') {
+    //   this.filteredColumns = [...this.displayedColumns];
+    // } else {
+    //   this.filteredColumns = [selectedRank];
+    // }
   }
   
 fetchAndCheckSavedCertificates(): void {

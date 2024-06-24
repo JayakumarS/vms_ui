@@ -40,16 +40,11 @@ export class AddLanguagesComponent implements OnInit {
 
       this.docForm = this.fb.group({
   
-        languageDetails: this.fb.array([
-          this.fb.group({
-         
-            select:[""],
             code:[""],
             description:[""],
             
           })
-        ]),
-      });
+        
   
   
     }
@@ -114,20 +109,14 @@ export class AddLanguagesComponent implements OnInit {
 
   fetchDetails(id: any): void {
     this.httpService.get<any>(this.languagesService.editlanguage+"?id="+id).subscribe({next: (data: any) => {
-      let dtlArray = this.docForm.controls.languageDetails as FormArray;
-      dtlArray.clear();
-      data.list.forEach((element, index) => {
-        let arraylen = dtlArray.length;
-        let newUsergroup: FormGroup = this.fb.group({
-          select:[""],
-          code: [element.code],
-          description:[element.description + ""]
-        })
-        dtlArray.insert(arraylen, newUsergroup);
-        newUsergroup.get('code').disable();
+      this.docForm.patchValue({
+        'code': data.list[0].code,
+        'description': data.list[0].description
       });
-      }, error: (err) => console.log(err)
-     });
+      this.docForm.get('code').disable();
+
+    }
+  });
 
   }
   save(){
@@ -144,10 +133,7 @@ export class AddLanguagesComponent implements OnInit {
   }
   }
   update() {
-    const dtlArray = this.docForm.get('languageDetails') as FormArray;
-    dtlArray.controls.forEach(control => {
-      control.get('code').enable();
-    });
+    this.docForm.get('code').enable();
     if(this.docForm.valid){
       this.languagesService.updatelanguage(this.docForm.value, this.router, this.notificationService);
     }else{
