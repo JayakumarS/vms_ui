@@ -47,6 +47,7 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
   rankcode: string;
   filteredColumns: string[] = [];
   displayedColumns: any;
+
   constructor(
     private fb: FormBuilder,
     private httpService: HttpServiceService,
@@ -77,8 +78,6 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
 
     this.httpService.get<any>(this.setupRankCertificatesService.ranklist).subscribe((res: any) => {
       this.ranklist = res;
-      this.displayedColumns = this.ranklist.map(rank => rank.id); // Assuming ranklist contains rank ids
-      this.filteredColumns = [...this.displayedColumns];
       this.srankcodeFilteredOptions.next(this.ranklist.slice());
     }, (error: HttpErrorResponse) => {
       console.log(error.name + " " + error.message);
@@ -137,6 +136,7 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
     } else {
       this.displayedColumns = ['Certificates', selectedRank];
     }
+    this.filteredColumns = [...this.displayedColumns];
   }
   
   
@@ -174,14 +174,6 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
   }
 
 
- 
-  // onRankChange(selectedRank: string) {
-  //   if (selectedRank === 'A') {
-  //     this.filteredColumns = [...this.displayedColumns];
-  //   } else {
-  //     this.filteredColumns = [selectedRank];
-  //   }
-  // }
 
 
 showNotification(colorName, text, placementFrom, placementAlign) {
@@ -203,8 +195,6 @@ onCheckboxChange(checked: boolean, row: any, column: string) {
 
 
 
-
-  
 
 onSubmit() {
   if (this.docForm.valid) {
