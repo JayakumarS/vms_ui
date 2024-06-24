@@ -108,12 +108,12 @@ export class ListVesselOwnerComponent extends UnsubscribeOnDestroyAdapter implem
 
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/vessels/maintain/vessel-owner/add-vessel-owner/', row.code]);
+    this.router.navigate(['/vessels/maintain/vessel-owner/add-vessel-owner/', row.vesselownerid]);
   }
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/vessels/maintain/vessel-owner/view-vessel-owner/', row.code]);
+    this.router.navigate(['/vessels/maintain/vessel-owner/view-vessel-owner/', row.vesselownerid]);
   }
 
   deleteItem(row){
@@ -133,7 +133,7 @@ export class ListVesselOwnerComponent extends UnsubscribeOnDestroyAdapter implem
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.VesselOwnerService.delete(row.code).subscribe({
+      this.VesselOwnerService.delete(row.vesselownerid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {

@@ -43,7 +43,7 @@ export class ViewVesselOwnerComponent implements OnInit {
 
   fetchDetails(id){
     this.httpService.get<any>(this.VesselOwnerService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      this.viewDtl = data.list;
+      this.viewDtl = data.list[0];
       }, error: (err) => console.log(err)
      });
   }

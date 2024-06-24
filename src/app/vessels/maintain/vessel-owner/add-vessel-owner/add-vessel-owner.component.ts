@@ -84,9 +84,9 @@ export class AddVesselOwnerComponent implements OnInit {
     this.docForm = this.fb.group({
   
 
-
+          vesselownerid:[""],
           code: ["", Validators.required],
-          description:[""],
+          description: ["", Validators.required],
       
     });
 
@@ -153,9 +153,9 @@ export class AddVesselOwnerComponent implements OnInit {
     this.httpService.get<any>(this.VesselOwnerService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.docForm.patchValue({
         'code': data.list[0].code,
-        'description': data.list[0].description
+        'description': data.list[0].description,
+        'vesselownerid': data.list[0].vesselownerid
       });
-      this.docForm.get('code').disable();
 
     }
   });
@@ -163,7 +163,6 @@ export class AddVesselOwnerComponent implements OnInit {
   
   update() {
   
-    this.docForm.get('code').enable();
     
     if(this.docForm.valid){
       this.VesselOwnerService.updateVesselOwner(this.docForm.value, this.router, this.notificationService);
