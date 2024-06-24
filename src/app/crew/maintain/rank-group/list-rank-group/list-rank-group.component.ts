@@ -109,12 +109,12 @@ export class ListRankGroupComponent extends UnsubscribeOnDestroyAdapter implemen
 
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-   this.router.navigate(['/crew/maintain/rank-group/add-Rank-Group/', row.code]);
+   this.router.navigate(['/crew/maintain/rank-group/add-Rank-Group/', row.rankgroupid]);
   }
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-     this.router.navigate(['/crew/maintain/rank-group/view-Rank-Group/', row.code]);
+     this.router.navigate(['/crew/maintain/rank-group/view-Rank-Group/', row.rankgroupid]);
   }
 
   deleteItem(row){
@@ -134,7 +134,7 @@ export class ListRankGroupComponent extends UnsubscribeOnDestroyAdapter implemen
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.RankGroupService.delete(row.code).subscribe({
+      this.RankGroupService.delete(row.rankgroupid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {

@@ -83,9 +83,9 @@ export class AddRankGroupComponent implements OnInit {
 
     this.docForm = this.fb.group({
   
-
+          rankgroupid:[""],
           code: ["", Validators.required],
-          description:[""],
+          description:["", Validators.required],
           remarks:[""],
        
     });
@@ -156,8 +156,8 @@ export class AddRankGroupComponent implements OnInit {
         'code': data.list[0].code,
         'description': data.list[0].description,
         'remarks':data.list[0].remarks,
+        'rankgroupid':data.list[0].rankgroupid,
       });
-      this.docForm.get('code').disable();
 
     }
   });

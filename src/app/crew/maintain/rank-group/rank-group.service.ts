@@ -62,7 +62,7 @@ export class RankGroupService extends UnsubscribeOnDestroyAdapter{
       }else{
         notificationService.showNotification(
           "snackbar-danger",
-          "Not Updated",
+           data.message,
           "bottom",
           "center"
         );
@@ -84,7 +84,7 @@ export class RankGroupService extends UnsubscribeOnDestroyAdapter{
       }else{
         notificationService.showNotification(
           "snackbar-danger",
-          "Not Updated",
+          data.message,
           "bottom",
           "center"
         );
