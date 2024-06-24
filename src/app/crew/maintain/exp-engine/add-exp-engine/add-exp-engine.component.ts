@@ -90,6 +90,7 @@ export class AddExpEngineComponent implements OnInit {
     this.docForm = this.fb.group({
           sort : 1,
           select:[""],
+          engineid:[""],
           code: ["", Validators.required],
           description:["", Validators.required],
        
@@ -160,16 +161,17 @@ export class AddExpEngineComponent implements OnInit {
     this.httpService.get<any>(this.ExpEngineService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.docForm.patchValue({
         'code': data.list[0].code,
-        'description': data.list[0].description
+        'description': data.list[0].description,
+        'engineid': data.list[0].engineid
       });
-      this.docForm.get('code').disable();
+     
 
     }
   });
   }
   
   update() {
-    this.docForm.get('code').enable();
+   
 
     if(this.docForm.valid){
       this.ExpEngineService.updateExpEngine(this.docForm.value, this.router, this.notificationService);

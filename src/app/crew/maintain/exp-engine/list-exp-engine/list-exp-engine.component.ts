@@ -110,12 +110,12 @@ export class ListExpEngineComponent extends UnsubscribeOnDestroyAdapter implemen
 
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/crew/maintain/exp-engine/add-exp-engine/', row.code]);
+    this.router.navigate(['/crew/maintain/exp-engine/add-exp-engine/', row.engineid]);
   }
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/exp-engine/view-exp-engine/', row.code]);
+    this.router.navigate(['/crew/maintain/exp-engine/view-exp-engine/', row.engineid]);
   }
 
   deleteItem(row){
@@ -135,7 +135,7 @@ export class ListExpEngineComponent extends UnsubscribeOnDestroyAdapter implemen
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.ExpEngineService.delete(row.code).subscribe({
+      this.ExpEngineService.delete(row.engineid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {
