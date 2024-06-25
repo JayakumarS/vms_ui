@@ -57,7 +57,7 @@ export class CurrencyMasterService  extends UnsubscribeOnDestroyAdapter{
      }else{
        notificationService.showNotification(
          "snackbar-danger",
-         "Not Updated",
+         data.msg,
          "bottom",
          "center"
        );
@@ -79,7 +79,7 @@ export class CurrencyMasterService  extends UnsubscribeOnDestroyAdapter{
     }else{
       notificationService.showNotification(
         "snackbar-danger",
-        "Not Updated",
+        data.msg,
         "bottom",
         "center"
       );

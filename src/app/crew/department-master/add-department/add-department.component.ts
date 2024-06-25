@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
@@ -19,6 +19,7 @@ import { DepartmentMasterService } from '../department-master.service';
 export class AddDepartmentComponent implements OnInit {
   docForm: FormGroup;
   edit: boolean = false;
+  requestId: any;
 
   constructor(
     public router: Router,
@@ -34,10 +35,11 @@ export class AddDepartmentComponent implements OnInit {
     public matError: MatErrorService
   ) {
     this.docForm = this.formbuilder.group({
-      name: [""],
+      name: ["",Validators.required],
       head: [""],
-      code: [""],
+      code: ["",Validators.required],
       active: [true],
+      deptId:[""]
 
 
     })
@@ -47,9 +49,9 @@ export class AddDepartmentComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params.id != undefined && params.id != 0) {
         // this.decryptRequestId = params.id;
-        // this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
+        this.requestId = params.id;
         this.edit = true;
-        this.fetchDetails(params.id);
+        this.fetchDetails(this.requestId);
       }
     });
 
@@ -90,6 +92,7 @@ export class AddDepartmentComponent implements OnInit {
     }
   }
   update() {
+    this.docForm.value.deptId = this.requestId;
     if (this.docForm.valid) {
       this.departmentService.updateDepartment(this.docForm.value, this.router, this.notificationService);
     } else {

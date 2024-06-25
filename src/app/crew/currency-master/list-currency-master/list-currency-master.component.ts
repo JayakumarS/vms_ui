@@ -79,11 +79,11 @@ export class ListCurrencyMasterComponent extends UnsubscribeOnDestroyAdapter imp
     );
   }
   editCall(row){
-    this.router.navigate(['/crew/currency-master/add-currency-master/', row.code]);
+    this.router.navigate(['/crew/currency-master/add-currency-master/', row.currencyId]);
 
   }
   viewCall(row) {
-    this.router.navigate(['/crew/currency-master/view-currency-master/', row.code]);
+    this.router.navigate(['/crew/currency-master/view-currency-master/', row.currencyId]);
   }
   
   deleteItem(row){
@@ -103,7 +103,7 @@ export class ListCurrencyMasterComponent extends UnsubscribeOnDestroyAdapter imp
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.currencyService.delete(row.code).subscribe({
+      this.currencyService.delete(row.currencyId).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {

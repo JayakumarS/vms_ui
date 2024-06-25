@@ -78,11 +78,11 @@ export class ListDepartmentComponent extends UnsubscribeOnDestroyAdapter impleme
     );
   }
   editCall(row) {
-    this.router.navigate(['/crew/department-master/add-department/', row.code]);
+    this.router.navigate(['/crew/department-master/add-department/', row.deptId]);
 
   }
   viewCall(row){
-    this.router.navigate(['/crew/department-master/view-department/', row.code]);
+    this.router.navigate(['/crew/department-master/view-department/', row.deptId]);
 
 
   }
@@ -103,7 +103,7 @@ export class ListDepartmentComponent extends UnsubscribeOnDestroyAdapter impleme
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
       if (data.data == true) {
         this.spinner.show();
-        this.departmentService.delete(row.code).subscribe({
+        this.departmentService.delete(row.deptId).subscribe({
           next: (data) => {
             this.spinner.hide();
             if (data.success) {

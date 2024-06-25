@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatErrorService } from 'src/app/core/service/mat-error.service';
 import { CurrencyMasterService } from '../currency-master.service';
@@ -35,14 +35,15 @@ export class AddCurrencyMasterComponent implements OnInit {
     public matError : MatErrorService
   ) {
     this.docForm=this.formbuilder.group({
-      code:[""],
-      name:[""],
-      fromcurren:[""],
-      tocurren:[""],
-      dvalue:[""],
-      fractpart:[""],
+      code:["",Validators.required],
+      name:["",Validators.required],
+      fromcurren:["",Validators.required],
+      tocurren:["",Validators.required],
+      dvalue:["",Validators.required],
+      fractpart:["",Validators.required],
       active:[true],
-      currency:[""]
+      currency:[""],
+      currencyId:[""]
 
     })
   }
@@ -51,9 +52,9 @@ export class AddCurrencyMasterComponent implements OnInit {
     this.route.params.subscribe(params => {
       if(params.id!=undefined && params.id!=0){ 
        // this.decryptRequestId = params.id;
-      // this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
+       this.requestId = params.id;
         this.edit=true;
-        this.fetchDetails(params.id) ;
+        this.fetchDetails(this.requestId);
       }
      });
   }
@@ -108,6 +109,7 @@ export class AddCurrencyMasterComponent implements OnInit {
 
 
 update(){
+  this.docForm.value.currencyId = this.requestId;
   if(this.docForm.valid){
     this.currencyMasterService.updateCurrency(this.docForm.value, this.router, this.notificationService);
   }else{

@@ -2,67 +2,48 @@
     <div class="content-block">
         <div class="block-header">
             <!-- breadcrumb -->
-            <app-breadcrumb [title]="'View Currency Master'" [items]="['Crew','Currency Master']"
-                [active_item]="'View Currency Master'">
+            <app-breadcrumb [title]="'View Currency Master'" [items]="['Crew', 'Currency Master']" [active_item]="'View Currency Master'">
             </app-breadcrumb>
         </div>
-        <div class="row clearfix ">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="row clearfix">
+            <div class="col-12">
                 <div class="box-shadow">
                     <div class="card">
                         <div class="body">
-                            <div class="container border"
-                                style=" border: 1px solid #b8a6dd!important; border-radius: 10px; background-color: #ecebf7;">
+                            <div class="container border p-4" style="border: 1px solid #b8a6dd !important; border-radius: 10px; background-color: #ecebf7;">
                                 <form class="m-4" autocomplete="off" [formGroup]="docForm">
-                                    <br>
-                                    <table class="border1" style=" border: 1px solidrgb(157, 158, 163); width:100%; border-collapse: collapse; margin-top: 20px; text-align: right;">
-                                    <tr style="font-weight: 600; text-align: center;height: 30px; vertical-align: middle;  background-color: rgb(96 125 139 / 82%);  color: rgb(252, 248, 248); font-weight: bold;font-size:15px; font-style:normal; text-indent: 4px;">
-                                        <th>
-                                            Currency Code
-                                        </th>
-                                        <th>
-                                            Currency Name
-                                        </th>
-                                        <th>
-                                           From
-                                        </th>
-                                        <th>
-                                            To
-                                         </th>
-                                        <th>
-                                            Default Value
-                                        </th>
-                                        <th>
-                                            Fraction Part
-                                        </th>
-                                    </tr>
-                                    <tr style=" padding: 7px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; vertical-align: middle;
-            font-weight:normal; border-radius: 0.25rem; text-align: center;height: 50px;  background-color: rgb(203 226 235 / 82%);">
-                                        <td>
-                                            {{currencydtls.code}}
-                                        </td>
-                                        <td>
-                                            {{currencydtls.name}}
-                                        </td>
-                                        <td>
-                                            {{currencydtls.fromcurren}}
-                                        </td>
-                                        <td>
-                                            {{currencydtls.tocurren}}
-                                        </td>
-                                        <td>
-                                            {{currencydtls.dvalue}}
-                                        </td>
-                                        <td>
-                                            {{currencydtls.fractpart}}
-                                        </td>
-                                    </tr>
-                                </table>
-                                <br>
-                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Currency Code: </b>{{currencydtls.code}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Currency Name: </b>{{currencydtls.name}}</mat-label>
+                                        </div>
+                                    </div>
                                     <br>
                                     <div class="row">
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3 center">
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Exchange Rate to Base Currency</b></mat-label>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                            <mat-label><b>From: </b>{{currencydtls.fromcurren}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                            <mat-label><b>To: </b>{{currencydtls.tocurren}}</mat-label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Default Value: </b>{{currencydtls.dvalue}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Fraction Part: </b>{{currencydtls.fractpart}}</mat-label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center mb-3">
                                             <button color="warn" (click)="onCancel()" type="button" mat-raised-button>Cancel</button>
                                         </div>
                                     </div>

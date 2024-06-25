@@ -30,6 +30,7 @@ export class PersonMaintenanceService extends UnsubscribeOnDestroyAdapter{
   public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/update`;
   public uploadFileUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/fileUpload`;
   public applicantListUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/getApplicantList`;
+  public detailsUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/getdetails`;
   
   
   constructor(
@@ -101,5 +102,5 @@ export class PersonMaintenanceService extends UnsubscribeOnDestroyAdapter{
     return this.httpClient.get<any>(this.deleteUrl + "?id=" + id);
   }
 
-  public detailsUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/getdetails`;
+
 }

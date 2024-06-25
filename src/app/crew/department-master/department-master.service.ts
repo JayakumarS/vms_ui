@@ -55,7 +55,7 @@ export class DepartmentMasterService extends UnsubscribeOnDestroyAdapter {
      }else{
        notificationService.showNotification(
          "snackbar-danger",
-         "Save Failed",
+         data.msg,
          "bottom",
          "center"
        );
@@ -77,7 +77,7 @@ export class DepartmentMasterService extends UnsubscribeOnDestroyAdapter {
     }else{
       notificationService.showNotification(
         "snackbar-danger",
-        "Not Updated",
+        data.msg,
         "bottom",
         "center"
       );
