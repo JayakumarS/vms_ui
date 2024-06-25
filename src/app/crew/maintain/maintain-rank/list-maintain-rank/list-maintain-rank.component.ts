@@ -32,9 +32,9 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
    // "select",
     "code",
     "description",
-    "groupage",
+    "groupagename",
     "oAndt",
-    "department",
+    "departmentname",
     // "sno",
     "remarks",
     "isActive",
@@ -250,9 +250,9 @@ export class ExampleDataSource extends DataSource<MaintainRank> {
             const searchStr = (
               maintain.code +
               maintain.description +
-              maintain.groupage +
+              maintain.groupagename +
               maintain.oAndt +
-              maintain.department 
+              maintain.departmentname 
 
              
             ).toLowerCase();
@@ -289,14 +289,14 @@ export class ExampleDataSource extends DataSource<MaintainRank> {
         case "description":
           [propertyA, propertyB] = [a.description, b.description];
           break;
-        case "groupage":
-          [propertyA, propertyB] = [a.groupage, b.groupage];
+        case "groupagename":
+          [propertyA, propertyB] = [a.groupagename, b.groupagename];
           break;
           case "oAndt":
           [propertyA, propertyB] = [a.oAndt, b.oAndt];
           break;
-          case "department":
-          [propertyA, propertyB] = [a.department, b.department];
+          case "departmentname":
+          [propertyA, propertyB] = [a.departmentname, b.departmentname];
           break;
         
 

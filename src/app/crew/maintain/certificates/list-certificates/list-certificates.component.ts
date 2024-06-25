@@ -119,13 +119,11 @@ export class ListCertificatesComponent extends UnsubscribeOnDestroyAdapter imple
   }
 add(){
 
-  this.httpService.get<any>(this.CertificatesService.getSequenceCode).subscribe((res: any) => {
 
-    this.code = res.code;
 
-    this.router.navigate(['/crew/maintain/certificates/add-certificates/0'], { queryParams: { code: this.code } });
+    this.router.navigate(['/crew/maintain/certificates/add-certificates/0']);
 
-      });
+      
 
 
 

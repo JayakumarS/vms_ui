@@ -9,6 +9,6 @@ export class  MaintainRank {
   oAndt:any;
   code:any;
   isActive:any;
-
-
+  departmentname:any;
+  groupagename:any;
 }
