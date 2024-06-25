@@ -52,16 +52,16 @@ export class AddShipManagersComponent extends UnsubscribeOnDestroyAdapter implem
   ) {
     super();
     this.docForm=this.formbuilder.group({
-      shipManagersBeanDtls:this.formbuilder.array([
-        this.formbuilder.group({
           select:[''],
+          shipmanid:[""],
           shipman:['',Validators.required],
           name:['',Validators.required],
           remarks:[""],
-          vatreg:[""]
+          vatreg:[""],
+          
         })
-      ]),
-    })
+      
+    
    }
 
    ngOnInit() {
@@ -89,10 +89,7 @@ export class AddShipManagersComponent extends UnsubscribeOnDestroyAdapter implem
 
   }
   update() {
-    const dtlArray = this.docForm.get('shipManagersBeanDtls') as FormArray;
-    dtlArray.controls.forEach(control => {
-      control.get('shipman').enable();
-    });
+  
     if(this.docForm.valid){
       this.shipManagersService.updateShipModel(this.docForm.value, this.router, this.notificationService);
     }else{
@@ -116,24 +113,40 @@ export class AddShipManagersComponent extends UnsubscribeOnDestroyAdapter implem
     })
     shipManagersBeanDtls.insert(arraylen, newUsergroup);
   }
+  // fetchDetails(id){
+  //   this.httpService.get<any>(this.shipManagersService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+  //     let dtlArray = this.docForm.controls.shipManagersBeanDtls as FormArray;
+  //     dtlArray.clear();
+  //     data.list.forEach((element, index) => {
+  //       let arraylen = dtlArray.length;
+  //       let newUsergroup: FormGroup = this.fb.group({
+  //         select:[""],
+  //         shipman: [element.shipman],
+  //         name: [element.name],
+  //         remarks: [element.remarks],
+  //         vatreg:[element.vatreg + ""]
+  //       })
+  //       dtlArray.insert(arraylen, newUsergroup);
+  //       newUsergroup.get('shipman').disable();
+  //     });
+  //     }, error: (err) => console.log(err)
+  //    });
+  // }
   fetchDetails(id){
     this.httpService.get<any>(this.shipManagersService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      let dtlArray = this.docForm.controls.shipManagersBeanDtls as FormArray;
-      dtlArray.clear();
-      data.list.forEach((element, index) => {
-        let arraylen = dtlArray.length;
-        let newUsergroup: FormGroup = this.fb.group({
-          select:[""],
-          shipman: [element.shipman],
-          name: [element.name],
-          remarks: [element.remarks],
-          vatreg:[element.vatreg + ""]
-        })
-        dtlArray.insert(arraylen, newUsergroup);
-        newUsergroup.get('shipman').disable();
+      this.docForm.patchValue({
+        
+        'shipman': data.list[0].shipman,
+        'name': data.list[0].name,
+        'remarks': data.list[0].remarks,
+        'vatreg': data.list[0].vatreg,
+        'shipmanid': data.list[0].shipmanid
+
       });
-      }, error: (err) => console.log(err)
-     });
+     
+
+    }
+  });
   }
   reset(){
     if(!this.edit){

@@ -47,7 +47,7 @@ export class ViewShipManagersComponent implements OnInit {
 
   fetchDetails(id){
     this.httpService.get<any>(this.shipManagersService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      this.shipManagersBeanDtls = data.list;
+      this.shipManagersBeanDtls = data.list[0];
       }, error: (err) => console.log(err)
      });
   }

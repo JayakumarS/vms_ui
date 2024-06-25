@@ -85,7 +85,7 @@ export class ShipManagersService extends UnsubscribeOnDestroyAdapter{
       }else{
         notificationService.showNotification(
           "snackbar-danger",
-          "Not Updated",
+          data.message,
           "bottom",
           "center"
         );

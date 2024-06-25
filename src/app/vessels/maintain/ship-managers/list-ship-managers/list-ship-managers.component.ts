@@ -85,7 +85,7 @@ export class ListShipManagersComponent extends UnsubscribeOnDestroyAdapter imple
     );
   }
   viewCall(row) {
-    this.router.navigate(['/vessels/maintain/ship-managers/view-ship-managers/', row.shipman]);
+    this.router.navigate(['/vessels/maintain/ship-managers/view-ship-managers/', row.shipmanid]);
   }
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, "", {
@@ -115,7 +115,7 @@ export class ListShipManagersComponent extends UnsubscribeOnDestroyAdapter imple
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.shipmanagerservice.delete(row.shipman).subscribe({
+      this.shipmanagerservice.delete(row.shipmanid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {
@@ -148,7 +148,7 @@ export class ListShipManagersComponent extends UnsubscribeOnDestroyAdapter imple
   
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/vessels/maintain/ship-managers/add-ship-managers/', row.shipman]);
+    this.router.navigate(['/vessels/maintain/ship-managers/add-ship-managers/', row.shipmanid]);
   }
 
 }
