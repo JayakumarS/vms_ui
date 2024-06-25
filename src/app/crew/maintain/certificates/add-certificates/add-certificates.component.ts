@@ -83,9 +83,9 @@ export class AddCertificatesComponent implements OnInit {
 
     this.docForm = this.fb.group({
   
-      certificateId:[""],
+          certificateId:[""],
           code: ["", Validators.required],
-          description:[""],
+          description:["", Validators.required],
        
     });
 

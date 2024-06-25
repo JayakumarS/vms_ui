@@ -37,6 +37,7 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
     "department",
     // "sno",
     "remarks",
+    "isActive",
     "actions"
   ];
 
@@ -113,11 +114,11 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
 
 
   editCall(row) {
-    this.router.navigate(['/crew/maintain/maintain-rank/add-maintain-rank/', row.code]);
+    this.router.navigate(['/crew/maintain/maintain-rank/add-maintain-rank/', row.rankid]);
   }
 
   viewCall(row) {
-    this.router.navigate(['/crew/maintain/maintain-rank/view-maintain-rank/', row.code]);
+    this.router.navigate(['/crew/maintain/maintain-rank/view-maintain-rank/', row.rankid]);
   }
 
   // deleteItem(i: number, row) {
@@ -157,7 +158,7 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.MaintainRankService.delete(row.code).subscribe({
+      this.MaintainRankService.delete(row.rankid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {

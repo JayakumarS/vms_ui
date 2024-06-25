@@ -8,7 +8,7 @@ export class  MaintainRank {
   department:any;
   oAndt:any;
   code:any;
-
+  isActive:any;
 
 
 }

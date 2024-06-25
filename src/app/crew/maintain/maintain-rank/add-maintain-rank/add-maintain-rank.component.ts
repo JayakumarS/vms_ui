@@ -60,7 +60,7 @@ export class AddMaintainRankComponent implements OnInit {
 
     this.docForm = this.fb.group({
 
-      select: [""],
+      rankid: [""],
       code: [""],
       description: [""],
       groupage: [""],
@@ -68,13 +68,48 @@ export class AddMaintainRankComponent implements OnInit {
       department: [""],
       sno: 1,
       remarks:[""],
-  
+      isActive:[true],
     });
 
   }
   
    ngOnInit() {
+    this.groupageFilterCtrl.valueChanges
+    .pipe(takeUntil(this.onDestroy))
+    .subscribe(() => {
+      this.filtergroupage();
+    });
+  
+
+
+     
+    this.httpService.get<any>(this.MaintainRankService.getgrouppage).subscribe((res: any) => {
+
+     this.groupagelist = res;
+
+     this.groupageFilteredOptions.next(this.groupagelist.slice());
+       });
+
+
+       
     
+
+
+    this.departmentFilterCtrl.valueChanges
+    .pipe(takeUntil(this.onDestroy))
+    .subscribe(() => {
+      this.filterdepartment();
+    });
+  
+
+    this.httpService.get<any>(this.MaintainRankService.getdepartment).subscribe((res: any) => {
+
+     this.departmentlist = res;
+
+     this.departmentFilteredOptions.next(this.departmentlist.slice());
+   });
+
+
     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
       this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
         this.edit=true;
@@ -82,48 +117,12 @@ export class AddMaintainRankComponent implements OnInit {
       }
      });
 
-     this.groupageFilterCtrl.valueChanges
-     .pipe(takeUntil(this.onDestroy))
-     .subscribe(() => {
-       this.filtergroupage();
-     });
-   
-
-
-      
-     this.httpService.get<any>(this.MaintainRankService.getgrouppage).subscribe((res: any) => {
-
-      this.groupagelist = res;
-
-      this.groupageFilteredOptions.next(this.groupagelist.slice());
-        });
-
-
-        
-     
-
-
-     this.departmentFilterCtrl.valueChanges
-     .pipe(takeUntil(this.onDestroy))
-     .subscribe(() => {
-       this.filterdepartment();
-     });
-   
- 
-     this.httpService.get<any>(this.MaintainRankService.getdepartment).subscribe((res: any) => {
-
-      this.departmentlist = res;
-
-      this.departmentFilteredOptions.next(this.departmentlist.slice());
-    });
-
 
 
    }
    update() {
 
   
-    this.docForm.get('code').enable();
     
     if(this.docForm.valid){
       this.MaintainRankService.updateRank(this.docForm.value, this.router, this.notificationService);
@@ -242,15 +241,15 @@ export class AddMaintainRankComponent implements OnInit {
 
         'code':  data.list[0].code,
         'description':data.list[0].description ,
-        'groupage': data.list[0].groupage,
-        'department':data.list[0].department,
+        'groupage': data.list[0].groupage.toString(),
+        'department':data.list[0].department.toString(),
         'oAndt': data.list[0].oAndt.toString(),
         'sno':data.list[0].sno,
-        'remarks':data.list[0].remarks
-
+        'remarks':data.list[0].remarks,
+        'rankid':data.list[0].rankid,
+        'isActive':data.list[0].isActive,
 
       });
-      this.docForm.get('code').disable();
 
     }
   });

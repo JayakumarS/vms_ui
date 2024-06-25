@@ -2,7 +2,7 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Add Maintain Rank'" [items]="['Crew','Maintain']" [active_item]="'Add Maintain Rank'">
+      <app-breadcrumb [title]="'Add Rank'" [items]="['Crew','Maintain']" [active_item]="'Add Rank'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix ">
@@ -119,7 +119,19 @@
            </div>
         </div> 
 
+        <div class="row">
+          <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" style="margin-left: 50px;">
+            <mat-label><b></b></mat-label>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12"  style="margin-left: 10px;">
+          <mat-checkbox formControlName="isActive" ngInit="checked=true">Active</mat-checkbox>
+
          
+        </div>
+
+        
+      </div> 
+
 
               
           

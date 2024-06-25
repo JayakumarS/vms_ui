@@ -22,19 +22,18 @@ export class ViewMaintainRankComponent implements OnInit {
     public MaintainRankService : MaintainRankService
   ) { 
     this.docForm = this.fb.group({
-      maintainRankBeanDtls: this.fb.array([
-        this.fb.group({
-      select: [""],
-      code: [""],
-      description: [""],
-      groupage: [""],
-      oAndt: [""],
-      department: [""],
-      sno:[""],
-      remarks:[""],
-    })
-      ]),
-    });
+
+        rankid: [""],
+        code: [""],
+        description: [""],
+        groupage: [""],
+        oAndt: [""],
+        department: [""],
+        sno: 1,
+        remarks:[""],
+        isActive:[true],
+      });
+   
   }
 
   ngOnInit(): void {
@@ -47,7 +46,14 @@ export class ViewMaintainRankComponent implements OnInit {
 
   fetchDetails(id){
     this.httpService.get<any>(this.MaintainRankService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      this.viewDtl = data.list;
+      this.viewDtl = data.list[0];
+
+      this.docForm.patchValue({
+    
+
+        'isActive':data.list[0].isActive,
+
+      });
       }, error: (err) => console.log(err)
      });
   }
