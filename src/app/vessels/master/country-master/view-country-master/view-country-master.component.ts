@@ -22,7 +22,7 @@ export class ViewCountryMasterComponent implements OnInit {
   docForm: FormGroup;
   countryMaster: CountryMaster;
   currencyList:[];
-  countryDetailItemList:[];
+  countryDetailItemList: any = [];
   requestId: any;
   edit:boolean=false;
 
@@ -60,7 +60,7 @@ export class ViewCountryMasterComponent implements OnInit {
   fetchDetails(countryCode: any): void {
     this.httpService.get(this.countryMasterService.editCountryMaster + "?id="+countryCode).subscribe((res: any) => {
       // console.log(countryCode);
-      this.countryDetailItemList = res.list;
+      this.countryDetailItemList = res.list[0];
     },
       (err: HttpErrorResponse) => {
       }

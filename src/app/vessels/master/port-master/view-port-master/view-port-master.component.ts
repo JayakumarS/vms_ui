@@ -19,7 +19,7 @@ export class ViewPortMasterComponent implements OnInit {
   docForm: FormGroup;
   portMaster: PortMaster;
   currencyList:[];
-  portDetailItemList:[];
+  portDetailItemList: any=[];
   requestId: any;
   edit:boolean=false;
 
@@ -55,7 +55,7 @@ export class ViewPortMasterComponent implements OnInit {
   fetchDetails(portCode: any): void {
     this.httpService.get(this.portMasterService.editPortMaster + "?id="+portCode).subscribe((res: any) => {
       // console.log(countryCode);
-      this.portDetailItemList = res.list;
+      this.portDetailItemList = res.list[0];
     },
       (err: HttpErrorResponse) => {
       }

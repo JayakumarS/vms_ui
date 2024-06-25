@@ -20,7 +20,7 @@ export class ViewUomComponent implements OnInit {
   docForm: FormGroup;
   uOMMaster: UOMMaster;
   currencyList:[];
-  uomDetailItemList:[];
+  uomDetailItemList:any = [];
   requestId: any;
   edit:boolean=false;
 
@@ -56,7 +56,7 @@ export class ViewUomComponent implements OnInit {
   fetchDetails(portCode: any): void {
     this.httpService.get(this.uomMasterService.editUomMaster + "?id="+portCode).subscribe((res: any) => {
       // console.log(countryCode);
-      this.uomDetailItemList = res.list;
+      this.uomDetailItemList = res.list[0];
     },
       (err: HttpErrorResponse) => {
       }
