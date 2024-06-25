@@ -288,7 +288,7 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
   rankdropdown(){
   this.httpService.get<any>(this.applicationsService.getrank).subscribe((res: any) => {
 
-    this.rankdrop = res;
+    this.rankdrop = res.lCommonUtilityBean;
     // this.rankListFilteredOptions.next(this.ranklist.slice());
 
       });
@@ -297,36 +297,36 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
  vessellistdown(){  
   this.httpService.get<any>(this.applicationsService.getvessel).subscribe((res: any) => {
 
- this.vessellist = res;
+ this.vessellist = res.lCommonUtilityBean;
 
 
 });
  }
 filternationality(){
-  this.httpService.get<any>(this.applicationsService.getnationality).subscribe((res: any) => {
+  this.httpService.get<any>(this.applicationsService.getnation).subscribe((res: any) => {
 
-    this.nationalitylist = res;
+    this.nationalitylist = res.lCommonUtilityBean;
 
   });
 }
 filteragentlist(){
   this.httpService.get<any>(this.applicationsService.getagent).subscribe((res: any) => {
 
-    this.agentlist = res;
+    this.agentlist = res.lCommonUtilityBean;
 
   });
 }
 enginelistdata(){
   this.httpService.get<any>(this.applicationsService.getenginelist).subscribe((res: any) => {
 
-    this.enginelist = res;
+    this.enginelist = res.lCommonUtilityBean;
 
   });
 }
 licencelist(){
   this.httpService.get<any>(this.applicationsService.getlicence).subscribe((res: any) => {
 
-    this.licencedata = res;
+    this.licencedata = res.lCommonUtilityBean;
 
   });
 }

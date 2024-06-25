@@ -27,21 +27,19 @@ export class ApplicationsService extends UnsubscribeOnDestroyAdapter{
   }
    // Temporarily stores data from dialogs
    dialogData: any;
-   
-  private getAllList = `${this.serverUrl.apiServerAddress}api/`;
-  private deleteURL = `${this.serverUrl.apiServerAddress}api/`;
-  public getvessel = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/getvessel`;
-  public getrank = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/getrank`;
-  public getnationality = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/getnationality`;
-  public getagent = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/getagent`;
+  
+  public getvessel = `${this.serverUrl.apiServerAddress}api/common/getVessel`;
+  public getrank = `${this.serverUrl.apiServerAddress}api/common/getRankMasters`;
+  public getnation = `${this.serverUrl.apiServerAddress}api/common/getNationality`;
+  public getagent = `${this.serverUrl.apiServerAddress}api/common/getAgents`;
   public saveUrl = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/save`;
   public listUrl =`${this.serverUrl.apiServerAddress}api/crew/Crewapplications/list`;
   public editUrl = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/edit`;
   public updateUrl= `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/update`;
-  public getlicence = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/getlicence`;
+  public getlicence = `${this.serverUrl.apiServerAddress}api/common/getLicense`;
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/delete`;
   public uploadFilePI = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/uploadfile`;
-  public getenginelist = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/getenginelist`;
+  public getenginelist = `${this.serverUrl.apiServerAddress}api/common/getExpEngine`;
   public getCertificate = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/certificateList`;
   
   

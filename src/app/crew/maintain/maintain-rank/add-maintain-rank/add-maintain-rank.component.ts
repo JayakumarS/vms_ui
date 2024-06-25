@@ -85,7 +85,7 @@ export class AddMaintainRankComponent implements OnInit {
      
     this.httpService.get<any>(this.MaintainRankService.getgrouppage).subscribe((res: any) => {
 
-     this.groupagelist = res;
+     this.groupagelist = res.lCommonUtilityBean;
 
      this.groupageFilteredOptions.next(this.groupagelist.slice());
        });
@@ -104,7 +104,7 @@ export class AddMaintainRankComponent implements OnInit {
 
     this.httpService.get<any>(this.MaintainRankService.getdepartment).subscribe((res: any) => {
 
-     this.departmentlist = res;
+     this.departmentlist = res.lCommonUtilityBean;
 
      this.departmentFilteredOptions.next(this.departmentlist.slice());
    });

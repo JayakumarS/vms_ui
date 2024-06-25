@@ -34,8 +34,8 @@ export class MaintainRankService extends UnsubscribeOnDestroyAdapter{
   public editUrl = `${this.serverUrl.apiServerAddress}api/crew/maintainRank/edit`;
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/maintainRank/delete`;
   public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/maintainRank/update`;
-  public getdepartment = `${this.serverUrl.apiServerAddress}api/crew/maintainRank/getdepartment`;
-  public getgrouppage = `${this.serverUrl.apiServerAddress}api/crew/maintainRank/getgrouppage`;
+  public getdepartment = `${this.serverUrl.apiServerAddress}api/common/getdepartment`;
+  public getgrouppage = `${this.serverUrl.apiServerAddress}api/common/getgrouppage`;
 
   
   get data(): MaintainRank[] {
