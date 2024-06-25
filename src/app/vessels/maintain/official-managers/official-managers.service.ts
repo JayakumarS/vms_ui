@@ -73,7 +73,7 @@ export class OfficialManagersService extends UnsubscribeOnDestroyAdapter{
      });
   }
 
-  updateShipModel(OffManagerModel: OffManagerModel, router, notificationService){
+  updateOffManagerModel(OffManagerModel: OffManagerModel, router, notificationService){
     this.httpService.post<OffManagerModel>(this.updateUrl, OffManagerModel).subscribe({next: (data: any) => {
       if (data.success == true) {
         notificationService.showNotification(
@@ -82,7 +82,7 @@ export class OfficialManagersService extends UnsubscribeOnDestroyAdapter{
           "bottom",
           "center"
         );
-        router.navigate(['/vessels/maintain/ship-managers/list-ship-managers']);
+        router.navigate(['/vessels/maintain/official-managers/list-official-managers']);
       }else{
         notificationService.showNotification(
           "snackbar-danger",

@@ -81,11 +81,11 @@ export class ListOfficialManagersComponent extends UnsubscribeOnDestroyAdapter i
   }
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/vessels/maintain/official-managers/view-official-managers/', row.code]);
+    this.router.navigate(['/vessels/maintain/official-managers/view-official-managers/', row.offmanagerid]);
   }
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/vessels/maintain/official-managers/add-official-managers/', row.code]);
+    this.router.navigate(['/vessels/maintain/official-managers/add-official-managers/', row.offmanagerid]);
   }
   deleteItem(row){
     let tempDirection;
@@ -104,7 +104,7 @@ export class ListOfficialManagersComponent extends UnsubscribeOnDestroyAdapter i
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.offmanagerservice.delete(row.code).subscribe({
+      this.offmanagerservice.delete(row.offmanagerid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {

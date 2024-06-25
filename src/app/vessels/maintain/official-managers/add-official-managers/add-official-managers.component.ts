@@ -63,10 +63,9 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
     private EncrDecr: EncrDecrService,
   ) {
     super();
-    this.docForm = this.formbuilder.group({
-      officialManagersBeanDtls: this.formbuilder.array([
-        this.formbuilder.group({
+    this.docForm = this.fb.group({
           select: [""],
+          offmanagerid:[""],
           code: [""],
           description: [""],
           city: [""],
@@ -74,8 +73,6 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
           poscode: [""],
           phone: [""],
           remarks: [""],
-          plogo:[""],
-         
           blogofileName: [""],
           blogofilePath: [""],
           plogofileName: [""],
@@ -83,8 +80,8 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
      
 
         })
-      ]),
-    })
+   
+   
 
 
   }
@@ -103,7 +100,7 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
   }
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/vessels/maintain/official-managers/add-official-managers/', row.code]);
+    this.router.navigate(['/vessels/maintain/official-managers/add-official-managers/', row.offmanagerid]);
   }
   cancel(){
     this.router.navigate(['/vessels/maintain/official-managers/list-official-managers']);
@@ -126,12 +123,9 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
     );
   }
   update() {
-    const dtlArray = this.docForm.get('officialManagersBeanDtls') as FormArray;
-    dtlArray.controls.forEach(control => {
-      control.get('shipman').enable();
-    });
+   
     if(this.docForm.valid){
-      this.officialManagersService.updateShipModel(this.docForm.value, this.router, this.notificationService);
+      this.officialManagersService.updateOffManagerModel(this.docForm.value, this.router, this.notificationService);
     }else{
       this.matError.markFormGroupTouched(this.docForm);
       this.notificationService.showNotification(
@@ -153,27 +147,26 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
         "right");
     }
   }
+ 
+  
   fetchDetails(id){
-    this.httpService.get<any>(this.officialManagersService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      let dtlArray = this.docForm.controls.officialManagersBeanDtls as FormArray;
-      dtlArray.clear();
-      data.list.forEach((element, index) => {
-        let arraylen = dtlArray.length;
-        let newUsergroup: FormGroup = this.fb.group({
-          select:[""],
-          code: [element.code],
-          description: [element.description],
-          city: [element.city],
-          address:[element.address],
-          poscode:[element.poscode],
-          phone:[element.phone ],
-          remarks:[element.remarks + " "],
-        })
-        dtlArray.insert(arraylen, newUsergroup);
-        newUsergroup.get('shipman').disable();
+    this.httpService.get<any>(this.officialManagersService.editUrl+"?id="+parseInt(id)).subscribe({next: (data: any) => {
+        this.docForm.patchValue({
+        'offmanagerid' :data.list[0].offmanagerid,
+        'code': data.list[0].code,
+        'description' :  data.list[0].description,
+        'city' :  data.list[0].city,
+        'address' : data.list[0].address,
+        'poscode' :  data.list[0].poscode,
+        'phone' : data.list[0].phone,
+        'remarks' : data.list[0].remarks,
+       
+
+     
       });
-      }, error: (err) => console.log(err)
+    }
      });
+  
   }
   addRow() {
     let officialManagersBeanDtls = this.docForm.controls.officialManagersBeanDtls as FormArray;
@@ -197,10 +190,43 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
 
   }
 
+  // uploadFileDoc1(event) {
+  //   // Check if the 'S.Book' field has a value
+  
+  //   var excelfile = event.target.files[0];
+  //   var blob = excelfile.slice(0, excelfile.size, ''); 
+  //   excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
+  //   console.log(excelfile);
+  
+  //   this.excel = excelfile;
+  
+  //     var fileExtension = excelfile.name;
+  //     var frmData: FormData = new FormData();
+  //     frmData.append("file", excelfile);
+  //     frmData.append("fileName", fileExtension);
+  //     this.httpService.post<any>(this.officialManagersService.uploadFilePI,frmData).subscribe((data) => {
+  //       console.log(data);
+  //       let multiSeamenArray = this.docForm.controls.officialManagersBeanDtls as FormArray;
+  //       multiSeamenArray.controls.forEach(control => {
+  //         control.patchValue({
+  //           blogofileName: fileExtension, 
+  //           blogofilePath: data.path
+  //         });
+  //       });
+       
+  //     });
+   
+  
+  //     console.log(frmData);
+  //     this.tempForm.push(frmData);
+
+  
+      
+  // }
   uploadFileDoc1(event) {
     // Check if the 'S.Book' field has a value
-  
-    var excelfile = event.target.files[0];
+   
+      var excelfile = event.target.files[0];
     var blob = excelfile.slice(0, excelfile.size, ''); 
     excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
     console.log(excelfile);
@@ -213,27 +239,58 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
       frmData.append("fileName", fileExtension);
       this.httpService.post<any>(this.officialManagersService.uploadFilePI,frmData).subscribe((data) => {
         console.log(data);
-        let multiSeamenArray = this.docForm.controls.officialManagersBeanDtls as FormArray;
-        multiSeamenArray.controls.forEach(control => {
-          control.patchValue({
-            blogofileName: fileExtension, 
-            blogofilePath: data.path
-          });
-        });
-       
+        this.docForm.value.blogofileName=fileExtension
+        this.docForm.value.blogofilePath=data.path
+        this.docForm.patchValue({
+          'blogofileName':fileExtension,
+          'blogofilePath':data.path
+        })
       });
    
   
       console.log(frmData);
       this.tempForm.push(frmData);
+    } 
+
+  // uploadFileDoc2(event,index) {
+  
+  //    var excelfile = event.target.files[0];
+  //   var blob = excelfile.slice(0, excelfile.size, ''); 
+  //   excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
+  //   console.log(excelfile);
+  
+  //   this.excel = excelfile;
+  
+  //     var fileExtension = excelfile.name;
+  //     var frmData: FormData = new FormData();
+  //     frmData.append("file", excelfile);
+  //     frmData.append("fileName", fileExtension);
+  //     this.httpService.post<any>(this.officialManagersService.uploadFilePI,frmData).subscribe((data) => {
+  //       console.log(data);
+  //       let multiSeamenArray = this.docForm.controls.officialManagersBeanDtls as FormArray;
+  //       multiSeamenArray.controls.forEach(control => {
+  //         control.patchValue({
+  //           plogofileName: fileExtension, 
+  //           plogofilePath: data.path
+  //         });
+  //       });
+  //       // multiSeamenArray.at(index).patchValue({
+  //       //     plogofileName: 'fileExtension',
+  //       //     plogofilePath: data.path
+  //       //   });    
+  //            });
+   
+  
+  //     console.log(frmData);
+  //     this.tempForm.push(frmData);
 
   
       
-  }
-
-  uploadFileDoc2(event,index) {
-  
-     var excelfile = event.target.files[0];
+  // }
+  uploadFileDoc2(event) {
+    // Check if the 'S.Book' field has a value
+   
+      var excelfile = event.target.files[0];
     var blob = excelfile.slice(0, excelfile.size, ''); 
     excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
     console.log(excelfile);
@@ -246,26 +303,21 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
       frmData.append("fileName", fileExtension);
       this.httpService.post<any>(this.officialManagersService.uploadFilePI,frmData).subscribe((data) => {
         console.log(data);
-        let multiSeamenArray = this.docForm.controls.officialManagersBeanDtls as FormArray;
-        multiSeamenArray.controls.forEach(control => {
-          control.patchValue({
-            plogofileName: fileExtension, 
-            plogofilePath: data.path
-          });
-        });
-        // multiSeamenArray.at(index).patchValue({
-        //     plogofileName: 'fileExtension',
-        //     plogofilePath: data.path
-        //   });    
-             });
+        this.docForm.value.plogofileName=fileExtension
+        this.docForm.value.plogofilePath=data.path
+        this.docForm.patchValue({
+          'plogofileName':fileExtension,
+          'plogofilePath':data.path
+        })
+      });
    
   
       console.log(frmData);
       this.tempForm.push(frmData);
+    } 
+  
 
   
-      
-  }
   removeRow() {
     let count = 0;
     const deleteRow = this.docForm.controls.officialManagersBeanDtls as FormArray;

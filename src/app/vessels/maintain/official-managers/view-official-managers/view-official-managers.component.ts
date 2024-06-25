@@ -35,8 +35,8 @@ export class ViewOfficialManagersComponent implements OnInit {
           poscode: [""],
           phone: [""],
           remarks: [""],
-          // blogo: [""],
-          // plogo: [""]
+          blogofileName: [""],
+          plogofileName: [""]
         })
       ]),
     });
@@ -52,7 +52,7 @@ export class ViewOfficialManagersComponent implements OnInit {
 
   fetchDetails(id){
     this.httpService.get<any>(this.officialManagersService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      this.officialManagersBeanDtls = data.list;
+      this.officialManagersBeanDtls = data.list[0];
       }, error: (err) => console.log(err)
      });
   }

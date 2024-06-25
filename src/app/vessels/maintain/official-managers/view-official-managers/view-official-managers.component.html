@@ -2,8 +2,8 @@
     <div class="content-block">
         <div class="block-header">
             <!-- breadcrumb -->
-            <app-breadcrumb [title]="'View Sales Order'" [items]="['Marketing']"
-                [active_item]="'View Sales Order'">
+            <app-breadcrumb [title]="'View Official Managers'" [items]="['Crew','Maintain']"
+                [active_item]="'View Official Managers'">
             </app-breadcrumb>
         </div>
         <div class="row clearfix ">
@@ -13,68 +13,67 @@
                         <div class="body">
                             <div class="container border" id="salesOrderdview"
                                 style=" border: 1px solid #b8a6dd!important; border-radius: 10px; background-color: #ecebf7;">
-                                <form class="m-4" autocomplete="off" [formGroup]="docForm">
-                                    <br>
-                                    <table class="border1" style=" border: 1px solidrgb(157, 158, 163); width:100%; border-collapse: collapse; margin-top: 20px; text-align: right;">
-                                    <tr style="font-weight: 600; text-align: center;height: 30px; vertical-align: middle;  background-color: rgb(96 125 139 / 82%);  color: rgb(252, 248, 248); font-weight: bold;font-size:15px; font-style:normal; text-indent: 4px;">
-                                        <th>
-                                            Code
-                                        </th>
-                                        <th>
-                                            Description
-                                        </th>
-                                        <th>
-                                            City
-                                        </th>
-                                        <th>
-                                            Address
-                                        </th>
-                                        <th>
-                                            Postal Code
-                                        </th>
 
-                                        <th>
-                                            Phone
-                                        </th>
-                                        <th>
-                                            Remarks
-                                        </th>
-                                    </tr>
-                                    <tr *ngFor="let item of officialManagersBeanDtls; let i = index"
-                                        style=" padding: 7px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; vertical-align: middle;
-            font-weight:normal; border-radius: 0.25rem; text-align: center;height: 50px;  background-color: rgb(203 226 235 / 82%);">
-                                        <td>
-                                            {{ item.code}}
-                                        </td>
-                                        <td>
-                                            {{item.description}}
-                                        </td>
-                                        <td>
-                                            {{item.city}}
-                                        </td>
-                                        <td>
-                                            {{item.address}}
-                                        </td>
-                                        <td>
-                                            {{item.poscode}}
-                                        </td>
-                                        <td>
-                                            {{item.phone}}
-                                        </td>
-                                        <td>
-                                            {{item.remarks}}
-                                        </td>
-                                    </tr>
-                                </table>
-                                <br>
-                                    <br>
-                                    <br>
+                                <form class="m-4" [formGroup]="docForm">
+                              
                                     <div class="row">
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3 center">
-                                            <button color="warn" (click)="onCancel()" type="button" mat-raised-button>Cancel</button>
+                                        <!-- <div class="col-xl-2 col-lg-6 col-md-12 col-sm-12" >
+                                        </div> -->
+                                      
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12" >
+                                            <label><b>Code:</b>&nbsp;{{officialManagersBeanDtls?.code}}</label>
+                                        </div>
+                                        <br>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Description:</b> &nbsp;{{officialManagersBeanDtls?.description}}</label>
+                                        </div> 
+                                        <br>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>City:</b> &nbsp;{{officialManagersBeanDtls?.city}}</label>
+                                        </div> 
+                                        <br>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Address:</b> &nbsp;{{officialManagersBeanDtls?.address}}</label>
+                                        </div> 
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Postal Code:</b> &nbsp;{{officialManagersBeanDtls?.poscode}}</label>
+                                        </div> 
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Phone:</b> &nbsp;{{officialManagersBeanDtls?.phone}}</label>
+                                        </div> 
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Remarks:</b> &nbsp;{{officialManagersBeanDtls?.remarks}}</label>
+                                        </div> 
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Bank Letter logo:</b> &nbsp;{{officialManagersBeanDtls?.blogofileName}}</label>
+                                        </div> 
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+                                            <label><b>Payslip Logo:</b> &nbsp;{{officialManagersBeanDtls?.plogofileName}}</label>
+                                        </div> 
+                                        
+   
+
+
+                        </div>
+                        
+
+                                    <br>
+                                    <div class="row" >
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3" >
+                                            <button style="margin-left: 530px;" class="cancelBtn" type="button" mat-button (click)="onCancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+
                                         </div>
                                     </div>
                                 </form>
+
+
+
                             </div>
                         </div>
                     </div>
