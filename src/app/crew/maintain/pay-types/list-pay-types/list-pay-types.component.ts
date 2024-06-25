@@ -136,27 +136,32 @@ export class ListPayTypesComponent extends UnsubscribeOnDestroyAdapter implement
       this.PayTypesService.delete(row.paytypeid).subscribe({
         next: (data) => {
           this.spinner.hide();
-          if (data.success) {
-            this.loadData();
-            this.showNotification(
-              "snackbar-success",
-              "Record Deleted",
-              "bottom",
-              "center"
-            );
-          }
-          else{
-            this.showNotification(
-              "snackbar-danger",
-              "Error in save",
-              "bottom",
-              "center"
-            );
-          }
-        },
-        error: (error) => {
-          this.spinner.hide();
-        }
+    if (data.success) {
+      this.loadData();
+      this.showNotification(
+        "snackbar-success",
+        "Record Deleted",
+        "bottom",
+        "center"
+      );
+    } else {
+      this.showNotification(
+        "snackbar-danger",
+        data.message || "Error in save",
+        "bottom",
+        "center"
+      );
+    }
+  },
+  error: (error) => {
+    this.spinner.hide();
+    this.showNotification(
+      "snackbar-danger",
+      "An error occurred while deleting the record.",
+      "bottom",
+      "center"
+    );
+  }
       });
     }else{
       //this.loadData();

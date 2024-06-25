@@ -108,12 +108,12 @@ export class ListTrainingsComponent extends UnsubscribeOnDestroyAdapter implemen
 
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/crew/maintain/trainings/add-trainings/', row.code]);
+    this.router.navigate(['/crew/maintain/trainings/add-trainings/', row.trainingid]);
   }
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/trainings/view-trainings/', row.code]);
+    this.router.navigate(['/crew/maintain/trainings/view-trainings/', row.trainingid]);
   }
 
   deleteItem(row){
@@ -133,7 +133,7 @@ export class ListTrainingsComponent extends UnsubscribeOnDestroyAdapter implemen
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.trainingsService.delete(row.code).subscribe({
+      this.trainingsService.delete(row.trainingid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {
@@ -148,7 +148,7 @@ export class ListTrainingsComponent extends UnsubscribeOnDestroyAdapter implemen
           else{
             this.showNotification(
               "snackbar-danger",
-              "Error in save",
+              data.message || "Error in save",
               "bottom",
               "center"
             );
@@ -156,6 +156,12 @@ export class ListTrainingsComponent extends UnsubscribeOnDestroyAdapter implemen
         },
         error: (error) => {
           this.spinner.hide();
+          this.showNotification(
+            "snackbar-danger",
+            "An error occurred while deleting the record.",
+            "bottom",
+            "center"
+          );
         }
       });
     }else{

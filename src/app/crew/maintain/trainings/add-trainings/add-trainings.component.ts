@@ -83,17 +83,13 @@ export class AddTrainingsComponent implements OnInit {
 
 
     this.docForm = this.fb.group({
-  
-
-
-      trainingsBeanDtls: this.fb.array([
-        this.fb.group({
           sort : 1,
           select:[""],
+          trainingid:[""],
           code: ["", Validators.required],
-          description:[""],
-        })
-      ]),
+          description:["", Validators.required],
+      
+   
     });
 
 
@@ -125,7 +121,7 @@ export class AddTrainingsComponent implements OnInit {
       sort : 1 + len,
       select: [""],
       code: ["", Validators.required],
-      description:[""],
+      description:["", Validators.required],
       
     })
     trainingsBeanDtlsDtlArray.insert(arraylen,newUsergroup);
@@ -155,29 +151,37 @@ export class AddTrainingsComponent implements OnInit {
     }
   }
 
+  // fetchDetails(id){
+  //   this.httpService.get<any>(this.trainingsService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+  //     let dtlArray = this.docForm.controls.trainingsBeanDtls as FormArray;
+  //     dtlArray.clear();
+  //     data.list.forEach((element, index) => {
+  //       let arraylen = dtlArray.length;
+  //       let newUsergroup: FormGroup = this.fb.group({
+  //         select:[""],
+  //         code: [element.code],
+  //         description:[element.description + ""]
+  //       })
+  //       dtlArray.insert(arraylen, newUsergroup);
+  //       newUsergroup.get('code').disable();
+  //     });
+  //     }, error: (err) => console.log(err)
+  //    });
+  // }
   fetchDetails(id){
     this.httpService.get<any>(this.trainingsService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      let dtlArray = this.docForm.controls.trainingsBeanDtls as FormArray;
-      dtlArray.clear();
-      data.list.forEach((element, index) => {
-        let arraylen = dtlArray.length;
-        let newUsergroup: FormGroup = this.fb.group({
-          select:[""],
-          code: [element.code],
-          description:[element.description + ""]
-        })
-        dtlArray.insert(arraylen, newUsergroup);
-        newUsergroup.get('code').disable();
+      this.docForm.patchValue({
+        'code': data.list[0].code,
+        'description': data.list[0].description,
+        'trainingid': data.list[0].trainingid
+
       });
-      }, error: (err) => console.log(err)
-     });
+
+    }
+  });
   }
-  
   update() {
-    const dtlArray = this.docForm.get('trainingsBeanDtls') as FormArray;
-    dtlArray.controls.forEach(control => {
-      control.get('code').enable();
-    });
+
     if(this.docForm.valid){
       this.trainingsService.updateTrainings(this.docForm.value, this.router, this.notificationService);
     }else{

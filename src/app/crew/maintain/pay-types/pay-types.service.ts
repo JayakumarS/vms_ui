@@ -86,7 +86,7 @@ export class PayTypesService extends UnsubscribeOnDestroyAdapter{
       }else{
         notificationService.showNotification(
           "snackbar-danger",
-           data.message,
+          data.message,
           "bottom",
           "center"
         );
