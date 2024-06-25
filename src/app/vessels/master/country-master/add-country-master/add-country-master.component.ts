@@ -59,6 +59,7 @@ export class AddCountryMasterComponent implements OnInit {
       phoneCode : [""],
       nationality :[""],
       isActive:[true],
+      countryId:[""]
     });
 
   }
@@ -162,9 +163,7 @@ export class AddCountryMasterComponent implements OnInit {
         'nationality': res.list[0].nationality,
         'isActive': res.list[0].isActive,
       })
-      
-      this.docForm.get('countryCode').disable();
-    },
+          },
       (err: HttpErrorResponse) => {
         // error code here
       }
@@ -179,7 +178,7 @@ export class AddCountryMasterComponent implements OnInit {
   }
   
   update() {
-    this.docForm.value.countryCode = this.requestId;
+    this.docForm.value.countryId = this.requestId;
     this.countryMaster = this.docForm.value;
     this.countryMasterService.countryUpdate(this.countryMaster,this.router,this.notificationService);
 

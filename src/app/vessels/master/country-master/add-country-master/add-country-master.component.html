@@ -50,7 +50,7 @@
                         <mat-option
                             *ngFor="let title of currencyFilteredOptions | async"
                             [value]="title.id">
-                            {{title.id}}
+                            {{title.text}}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>

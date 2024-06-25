@@ -108,12 +108,12 @@ export class ListCountryMasterComponent extends UnsubscribeOnDestroyAdapter impl
 
   editCall(row) {
     //var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/vessels/master/country-Master/add-CountryMaster/', row.countryCode]);
+    this.router.navigate(['/vessels/master/country-Master/add-CountryMaster/', row.countryId]);
   }
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/vessels/master/country-Master/view-CountryMaster/', row.countryCode]);
+    this.router.navigate(['/vessels/master/country-Master/view-CountryMaster/', row.countryId]);
   }
 
   // deleteItem(row) {

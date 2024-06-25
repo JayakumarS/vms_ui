@@ -37,7 +37,7 @@ export class AddPortMasterComponent implements OnInit {
     this.docForm = this.fb.group({
       portCode: ["", [Validators.required]],
       portName: ["", [Validators.required]],
-      portType: ["port"],
+      portType: ["Port"],
       isActive:[true],
       portId : [""]
     });
