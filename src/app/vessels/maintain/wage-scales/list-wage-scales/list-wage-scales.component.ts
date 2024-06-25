@@ -138,7 +138,7 @@ export class ListWageScalesComponent extends UnsubscribeOnDestroyAdapter impleme
           else{
             this.showNotification(
               "snackbar-danger",
-              "Error in delete",
+              data.message ||"Error in delete",
               "bottom",
               "center"
             );
@@ -146,6 +146,12 @@ export class ListWageScalesComponent extends UnsubscribeOnDestroyAdapter impleme
         },
         error: (error) => {
           this.spinner.hide();
+          this.showNotification(
+            "snackbar-danger",
+            "An error occurred while deleting the record.",
+            "bottom",
+            "center"
+          );
         }
       });
     }else{

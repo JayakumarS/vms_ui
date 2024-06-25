@@ -126,7 +126,7 @@ export class ListAgentComponent extends UnsubscribeOnDestroyAdapter implements O
           else{
             this.showNotification(
               "snackbar-danger",
-              "Error in save",
+              data.message ||"Error in save",
               "bottom",
               "center"
             );
@@ -134,6 +134,12 @@ export class ListAgentComponent extends UnsubscribeOnDestroyAdapter implements O
         },
         error: (error) => {
           this.spinner.hide();
+          this.showNotification(
+            "snackbar-danger",
+            "An error occurred while deleting the record.",
+            "bottom",
+            "center"
+          );
         }
       });
     }else{

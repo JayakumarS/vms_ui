@@ -127,7 +127,7 @@ export class ListLanguagesComponent extends UnsubscribeOnDestroyAdapter implemen
           else{
             this.showNotification(
               "snackbar-danger",
-              "Error in save",
+              data.message ||"Error in delete",
               "bottom",
               "center"
             );
@@ -138,7 +138,12 @@ export class ListLanguagesComponent extends UnsubscribeOnDestroyAdapter implemen
         }
       });
     }else{
-      //this.loadData();
+      this.showNotification(
+        "snackbar-danger",
+        "An error occurred while deleting the record.",
+        "bottom",
+        "center"
+      );
     }
     })
     };

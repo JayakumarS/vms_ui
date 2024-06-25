@@ -150,7 +150,7 @@ export class ListFleetsComponent extends UnsubscribeOnDestroyAdapter implements 
       } else {
         this.showNotification(
           "snackbar-danger",
-          data.message || "Error in save",
+          data.message || "Error in delete",
           "bottom",
           "center"
         );
