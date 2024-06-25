@@ -109,7 +109,7 @@ export class ListFleetsComponent extends UnsubscribeOnDestroyAdapter implements 
 
 
   editCall(row) {
-    this.router.navigate(['/vessels/maintain/fleets/add-fleets/',row.fleetid ]);
+    this.router.navigate(['/vessels/maintain/fleets/add-fleets/',row.fleetid]);
   }
 
   viewCall(row) {

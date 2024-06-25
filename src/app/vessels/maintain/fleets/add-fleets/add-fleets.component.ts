@@ -113,7 +113,6 @@ export class AddFleetsComponent implements OnInit {
           'description': data.list[0].description,
           'fleetid':data.list[0].fleetid,
         })
-        this.docForm.get('code').disable();
 
       }
      });

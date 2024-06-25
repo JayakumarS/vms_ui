@@ -25,16 +25,11 @@ export class ViewClassComponent implements OnInit {
 
     this.docForm = this.fb.group({
   
-      classDetails: this.fb.array([
-        this.fb.group({
-          sort : 1,
-          select: [""],
           code:[""],
           description:[""],
-          
+          classid:[""],
         })
-      ]),
-    });
+      
    }
 
    ngOnInit(): void {
@@ -47,7 +42,7 @@ export class ViewClassComponent implements OnInit {
   }
   fetchDetails(id){
     this.httpService.get<any>(this.classService.editclass+"?id="+id).subscribe({next: (data: any) => {
-      this.viewDtl = data.list;
+      this.viewDtl = data.list[0];
       }, error: (err) => console.log(err)
      });
   }

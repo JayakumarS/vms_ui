@@ -42,9 +42,9 @@ export class AddClassComponent implements OnInit {
 
     this.docForm = this.fb.group({
   
-          code:[""],
-          description:[""],
-          
+          code:["",Validators.required],
+          description:["",Validators.required],
+          classid:[""],
         });
      
   }
@@ -114,7 +114,6 @@ export class AddClassComponent implements OnInit {
   }
   }
   update() {
-    this.docForm.get('code').enable();
 
     if(this.docForm.valid){
       this.classService.updateclass(this.docForm.value, this.router, this.notificationService);
@@ -131,10 +130,10 @@ export class AddClassComponent implements OnInit {
   fetchDetails(id: any): void {
     this.httpService.get<any>(this.classService.editclass+"?id="+id).subscribe({next: (data: any) => {
       this.docForm.patchValue({
-        'code': data.list.code,
-        'description': data.list.description
+        'code': data.list[0].code,
+        'description': data.list[0].description,
+        'classid':data.list[0].classid
       });
-      this.docForm.get('code').disable();
     }
   });
   }

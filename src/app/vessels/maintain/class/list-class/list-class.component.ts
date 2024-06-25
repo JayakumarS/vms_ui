@@ -107,11 +107,11 @@ export class ListClassComponent extends UnsubscribeOnDestroyAdapter implements O
 
 
   editCall(row) {
-    this.router.navigate(['/vessels/maintain/class/add-class/',row.code ]);
+    this.router.navigate(['/vessels/maintain/class/add-class/',row.classid ]);
   }
 
   viewCall(row) {
-    this.router.navigate(['/vessels/maintain/class/view-class/', row.code]);
+    this.router.navigate(['/vessels/maintain/class/view-class/', row.classid]);
   }
 
   
@@ -133,7 +133,7 @@ export class ListClassComponent extends UnsubscribeOnDestroyAdapter implements O
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.classService.delete(row.code).subscribe({
+      this.classService.delete(row.classid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {

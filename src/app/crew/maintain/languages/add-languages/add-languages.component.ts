@@ -82,9 +82,9 @@ export class AddLanguagesComponent implements OnInit {
       }
 
       this.docForm.patchValue({
-        'code': res.list[0].code,
-        'description': res.list[0].description,
-        'languageid': res.list[0].languageid,
+        'code': res.languagesBean.code,
+        'description': res.languagesBean.description,
+        'languageid': res.languagesBean.languageid,
       });
       // this.docForm.get('code').disable();
 
