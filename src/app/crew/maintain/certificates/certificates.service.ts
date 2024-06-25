@@ -31,7 +31,9 @@ export class CertificatesService extends UnsubscribeOnDestroyAdapter{
   public editUrl = `${this.serverUrl.apiServerAddress}api/crew/Certificates/edit`;
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/Certificates/delete`;
   public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/Certificates/update`;
+  public getSequenceCode = `${this.serverUrl.apiServerAddress}api/crew/Certificates/getSequenceCode`;
 
+  
 
   get data(): Certificates[] {
     return this.dataChange.value;
@@ -62,7 +64,7 @@ export class CertificatesService extends UnsubscribeOnDestroyAdapter{
       }else{
         notificationService.showNotification(
           "snackbar-danger",
-          "Not Updated",
+          data.message,
           "bottom",
           "center"
         );
@@ -84,7 +86,7 @@ export class CertificatesService extends UnsubscribeOnDestroyAdapter{
       }else{
         notificationService.showNotification(
           "snackbar-danger",
-          "Not Updated",
+          data.message,
           "bottom",
           "center"
         );

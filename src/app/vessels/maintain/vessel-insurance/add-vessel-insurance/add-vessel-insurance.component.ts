@@ -85,10 +85,10 @@ export class AddVesselInsuranceComponent implements OnInit {
     this.docForm = this.fb.group({
   
 
-
+          vesselinsuranceid:[""],
           code: ["", Validators.required],
-          description:[""],
-     
+          description: ["", Validators.required],
+          remarks:[""],
     });
 
 
@@ -154,9 +154,10 @@ export class AddVesselInsuranceComponent implements OnInit {
     this.httpService.get<any>(this.VesselInsuranceService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.docForm.patchValue({
         'code': data.list[0].code,
-        'description': data.list[0].description
+        'description': data.list[0].description,
+        'remarks': data.list[0].remarks,
+        'vesselinsuranceid': data.list[0].vesselinsuranceid,
       });
-      this.docForm.get('code').disable();
 
     }
   });
@@ -164,7 +165,6 @@ export class AddVesselInsuranceComponent implements OnInit {
   
   update() {
 
-    this.docForm.get('code').enable();
     
     if(this.docForm.valid){
       this.VesselInsuranceService.updateVesselInsurance(this.docForm.value, this.router, this.notificationService);

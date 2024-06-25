@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from "@angular/material/dialog";
@@ -28,9 +28,10 @@ import { DeleteComponent } from './delete/delete.component';
 })
 export class ListVesselInsuranceComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns = [
-   // "select",
+    // "select",
     "code",
     "description",
+    "remarks",
     "actions"
   ];
 
@@ -40,18 +41,18 @@ export class ListVesselInsuranceComponent extends UnsubscribeOnDestroyAdapter im
   index: number;
   id: number;
   customerMaster: VesselInsurance | null;
-  permissionList: any=[];
+  permissionList: any = [];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public VesselInsuranceService: VesselInsuranceService,
     private snackBar: MatSnackBar,
-    private serverUrl:serverLocations,
-    private httpService:HttpServiceService,
+    private serverUrl: serverLocations,
+    private httpService: HttpServiceService,
     public router: Router,
-    private EncrDecr:EncrDecrService,
+    private EncrDecr: EncrDecrService,
     private spinner: NgxSpinnerService,
-    private tokenStorageService : TokenStorageService
+    private tokenStorageService: TokenStorageService
   ) {
     super();
   }
@@ -84,12 +85,12 @@ export class ListVesselInsuranceComponent extends UnsubscribeOnDestroyAdapter im
     this.loadData();
   }
 
-  refresh(){
+  refresh() {
     this.loadData();
   }
 
   public loadData() {
-    this.exampleDatabase = new VesselInsuranceService(this.httpClient,this.serverUrl,this.httpService);
+    this.exampleDatabase = new VesselInsuranceService(this.httpClient, this.serverUrl, this.httpService);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -108,15 +109,15 @@ export class ListVesselInsuranceComponent extends UnsubscribeOnDestroyAdapter im
 
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/vessels/maintain/vessel-insurance/add-vessel-insurance/', row.code]);
+    this.router.navigate(['/vessels/maintain/vessel-insurance/add-vessel-insurance/', row.vesselinsuranceid]);
   }
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/vessels/maintain/vessel-insurance/view-vessel-insurance/', row.code]);
+    this.router.navigate(['/vessels/maintain/vessel-insurance/view-vessel-insurance/', row.vesselinsuranceid]);
   }
 
-  deleteItem(row){
+  deleteItem(row) {
     let tempDirection;
     if (localStorage.getItem("isRtl") == "true") {
       tempDirection = "rtl";
@@ -131,43 +132,43 @@ export class ListVesselInsuranceComponent extends UnsubscribeOnDestroyAdapter im
       direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
-    if (data.data == true) {
-      this.spinner.show();
-      this.VesselInsuranceService.delete(row.code).subscribe({
-        next: (data) => {
-          this.spinner.hide();
-          if (data.success) {
-            this.loadData();
-            this.showNotification(
-              "snackbar-success",
-              "Record Deleted",
-              "bottom",
-              "center"
-            );
+      if (data.data == true) {
+        this.spinner.show();
+        this.VesselInsuranceService.delete(row.vesselinsuranceid).subscribe({
+          next: (data) => {
+            this.spinner.hide();
+            if (data.success) {
+              this.loadData();
+              this.showNotification(
+                "snackbar-success",
+                "Record Deleted",
+                "bottom",
+                "center"
+              );
+            }
+            else {
+              this.showNotification(
+                "snackbar-danger",
+                "Error in Deleted",
+                "bottom",
+                "center"
+              );
+            }
+          },
+          error: (error) => {
+            this.spinner.hide();
           }
-          else{
-            this.showNotification(
-              "snackbar-danger",
-              "Error in Deleted",
-              "bottom",
-              "center"
-            );
-          }
-        },
-        error: (error) => {
-          this.spinner.hide();
-        }
-      });
-    }else{
-      //this.loadData();
-    }
+        });
+      } else {
+        //this.loadData();
+      }
     })
   }
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
-// context menu
+  // context menu
   onContextMenu(event: MouseEvent, item: VesselInsurance) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + "px";
@@ -176,7 +177,7 @@ export class ListVesselInsuranceComponent extends UnsubscribeOnDestroyAdapter im
     this.contextMenu.menu.focusFirstItem("mouse");
     this.contextMenu.openMenu();
   }
-  
+
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, "", {
       duration: 2000,
@@ -224,10 +225,10 @@ export class ExampleDataSource extends DataSource<VesselInsurance> {
           .filter((VesselInsurance: VesselInsurance) => {
             const searchStr = (
               VesselInsurance.code +
-              VesselInsurance.description 
-             
+              VesselInsurance.description +
+              VesselInsurance.remarks
 
-             
+
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -243,7 +244,7 @@ export class ExampleDataSource extends DataSource<VesselInsurance> {
       })
     );
   }
-  disconnect() {}
+  disconnect() { }
   /** Returns a sorted copy of the database data. */
   sortData(data: VesselInsurance[]): VesselInsurance[] {
     if (!this._sort.active || this._sort.direction === "") {
@@ -253,16 +254,18 @@ export class ExampleDataSource extends DataSource<VesselInsurance> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-        
+
         case "code":
           [propertyA, propertyB] = [a.code, b.code];
           break;
         case "description":
           [propertyA, propertyB] = [a.description, b.description];
           break;
-        
+        case "remarks":
+          [propertyA, propertyB] = [a.remarks, b.remarks];
+          break;
 
-        
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

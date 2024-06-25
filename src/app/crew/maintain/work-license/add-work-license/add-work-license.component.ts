@@ -85,9 +85,9 @@ export class AddWorkLicenseComponent implements OnInit {
   
 
 
-
+          worklicenseid:[""],
           code: ["", Validators.required],
-          description:[""],
+          description:["", Validators.required],
       
       
     });
@@ -155,9 +155,9 @@ export class AddWorkLicenseComponent implements OnInit {
     this.httpService.get<any>(this.WorkLicenseService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.docForm.patchValue({
         'code': data.list[0].code,
-        'description': data.list[0].description
+        'description': data.list[0].description,
+        'worklicenseid': data.list[0].worklicenseid,
       });
-      this.docForm.get('code').disable();
 
     }
   });
@@ -165,7 +165,6 @@ export class AddWorkLicenseComponent implements OnInit {
   
   update() {
 
-      this.docForm.get('code').enable();
     
     if(this.docForm.valid){
       this.WorkLicenseService.updateworkLicense(this.docForm.value, this.router, this.notificationService);

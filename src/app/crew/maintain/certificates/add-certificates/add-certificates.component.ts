@@ -83,7 +83,7 @@ export class AddCertificatesComponent implements OnInit {
 
     this.docForm = this.fb.group({
   
-
+      certificateId:[""],
           code: ["", Validators.required],
           description:[""],
        
@@ -99,6 +99,17 @@ export class AddCertificatesComponent implements OnInit {
         this.fetchDetails(this.decryptRequestId) ;
       }
      });
+
+     this.route.queryParams.subscribe(queryParams => {
+      if (queryParams.code !== undefined) {
+        this.docForm.patchValue({
+          'code':queryParams.code
+        })
+        this.docForm.value.code = queryParams.code;
+      }
+    });
+
+
     }
 
     get rowDtls() {
@@ -152,9 +163,9 @@ export class AddCertificatesComponent implements OnInit {
     this.httpService.get<any>(this.CertificatesService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.docForm.patchValue({
         'code': data.list[0].code,
-        'description': data.list[0].description
+        'description': data.list[0].description,
+        'certificateId': data.list[0].certificateId,
       });
-      this.docForm.get('code').disable();
 
     }
   });
@@ -162,7 +173,6 @@ export class AddCertificatesComponent implements OnInit {
   
   update() {
 
-      this.docForm.get('code').enable();
     
     if(this.docForm.valid){
       this.CertificatesService.updateCertificates(this.docForm.value, this.router, this.notificationService);

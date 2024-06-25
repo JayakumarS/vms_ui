@@ -2,7 +2,7 @@ export class VesselInsurance{
    
     code: string;
     description: string;
-    
+    remarks: string;
       constructor(commodity) {
       
       }

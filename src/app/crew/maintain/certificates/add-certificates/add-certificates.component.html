@@ -20,7 +20,7 @@
                                     <mat-form-field class="example-full-width form-control-sm"
                                     appearance="outline">
                                     <mat-label>Certificates Code</mat-label>
-                                    <input matInput  formControlName="code">
+                                    <input matInput  formControlName="code" readonly>
                
                                     <mat-error *ngIf="docForm.get('code').hasError('required')">
                                         Code is required

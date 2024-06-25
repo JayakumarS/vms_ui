@@ -42,6 +42,7 @@ export class ListCertificatesComponent extends UnsubscribeOnDestroyAdapter imple
   id: number;
   customerMaster: Certificates | null;
   permissionList: any=[];
+  code: any;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -109,14 +110,26 @@ export class ListCertificatesComponent extends UnsubscribeOnDestroyAdapter imple
 
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/crew/maintain/certificates/add-certificates/', row.code]);
+    this.router.navigate(['/crew/maintain/certificates/add-certificates/', row.certificateId]);
   }
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/certificates/view-certificates/', row.code]);
+    this.router.navigate(['/crew/maintain/certificates/view-certificates/', row.certificateId]);
   }
+add(){
 
+  this.httpService.get<any>(this.CertificatesService.getSequenceCode).subscribe((res: any) => {
+
+    this.code = res.code;
+
+    this.router.navigate(['/crew/maintain/certificates/add-certificates/0'], { queryParams: { code: this.code } });
+
+      });
+
+
+
+}
   deleteItem(row){
     let tempDirection;
     if (localStorage.getItem("isRtl") == "true") {
@@ -134,7 +147,7 @@ export class ListCertificatesComponent extends UnsubscribeOnDestroyAdapter imple
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.CertificatesService.delete(row.code).subscribe({
+      this.CertificatesService.delete(row.certificateId).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {

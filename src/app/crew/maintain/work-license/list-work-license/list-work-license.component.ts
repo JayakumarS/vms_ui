@@ -109,12 +109,12 @@ export class ListWorkLicenseComponent extends UnsubscribeOnDestroyAdapter implem
 
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/crew/maintain/work-license/add-Work-License/', row.code]);
+    this.router.navigate(['/crew/maintain/work-license/add-Work-License/', row.worklicenseid]);
   }
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/work-license/view-Work-License/', row.code]);
+    this.router.navigate(['/crew/maintain/work-license/view-Work-License/', row.worklicenseid]);
   }
 
   deleteItem(row){
@@ -134,7 +134,7 @@ export class ListWorkLicenseComponent extends UnsubscribeOnDestroyAdapter implem
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.WorkLicenseService.delete(row.code).subscribe({
+      this.WorkLicenseService.delete(row.worklicenseid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {
