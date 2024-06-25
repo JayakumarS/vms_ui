@@ -84,11 +84,11 @@ export class ListPortMasterComponent extends UnsubscribeOnDestroyAdapter {
 
   editCall(row) {
     //var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/vessels/master/port-Master/add-port-master', row.portCode]);
+    this.router.navigate(['/vessels/master/port-Master/add-port-master', row.portId]);
   }
 
   viewCall(row) {
-    this.router.navigate(['/vessels/master/port-Master/view-port-master/', row.portCode]);
+    this.router.navigate(['/vessels/master/port-Master/view-port-master/', row.portId]);
   }
 
   deleteItem(row){ 

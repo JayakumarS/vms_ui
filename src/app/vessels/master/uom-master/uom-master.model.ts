@@ -1,9 +1,11 @@
 import { formatDate } from "@angular/common";
 export class UOMMaster {
+
   id: number;
   uomCode: string;
   uomName: string;
   success : boolean;
+  message : string
 
   constructor(uomMaster) {
     {

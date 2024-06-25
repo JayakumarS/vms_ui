@@ -6,6 +6,7 @@ export class PortMaster {
   portType: string;
   isActive: string;
   success:boolean;
+  message:string;
   constructor(portMaster) {
     {
       this.id = portMaster.id || this.getRandomID();

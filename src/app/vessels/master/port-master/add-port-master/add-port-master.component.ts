@@ -39,6 +39,7 @@ export class AddPortMasterComponent implements OnInit {
       portName: ["", [Validators.required]],
       portType: ["port"],
       isActive:[true],
+      portId : [""]
     });
 
   }
@@ -77,7 +78,6 @@ export class AddPortMasterComponent implements OnInit {
         'portType': res.list[0].portType,
         'isActive': res.list[0].isActive,
       })
-          this.docForm.get('portCode').disable();
     },
       (err: HttpErrorResponse) => {
         // error code here
@@ -87,7 +87,7 @@ export class AddPortMasterComponent implements OnInit {
   }
   
   update() {
-    this.docForm.value.portCode = this.requestId;
+    this.docForm.value.portId = this.requestId;
     this.portMaster = this.docForm.value;
     this.portMasterService.portUpdate(this.portMaster,this.router,this.notificationService);
 

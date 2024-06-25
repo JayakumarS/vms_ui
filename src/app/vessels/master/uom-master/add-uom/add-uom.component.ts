@@ -35,7 +35,7 @@ export class AddUomComponent implements OnInit {
     public snackBar: MatSnackBar) { 
 
     this.docForm = this.fb.group({
-      // first: ["", [Validators.required, Validators.pattern("[a-zA-Z]+")]],
+      uomId: [""],
       uomCode: ["", [Validators.required]],
       uomName: ["", [Validators.required]]
    
@@ -70,15 +70,14 @@ export class AddUomComponent implements OnInit {
       );
     }
   }
-  fetchDetails(uomCode: any): void {
-    this.httpService.get(this.uomMasterService.editUomMaster + "?id="+uomCode).subscribe((res: any) => {
+  fetchDetails(uomId: any): void {
+    this.httpService.get(this.uomMasterService.editUomMaster + "?id="+uomId).subscribe((res: any) => {
       // console.log(countryCode);
 
       this.docForm.patchValue({
         'uomCode': res.list[0].uomCode,
-        'uomName': res.list[0].uomName
+        'uomName': res.list[0].uomName,
       })
-      this.docForm.get('uomCode').disable();
     },
       (err: HttpErrorResponse) => {
         // error code here
@@ -87,7 +86,7 @@ export class AddUomComponent implements OnInit {
   }
   
   update() {
-    this.docForm.value.uomCode = this.requestId;
+    this.docForm.value.uomId = this.requestId;
     this.uomMaster = this.docForm.value;
     this.uomMasterService.UomUpdate(this.uomMaster,this.router,this.notificationService);
 

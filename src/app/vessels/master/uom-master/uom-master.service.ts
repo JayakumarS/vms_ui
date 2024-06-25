@@ -92,7 +92,7 @@ export class UomMasterService extends UnsubscribeOnDestroyAdapter{
       else if(data.success===false){
         notificationService.showNotification(
           "snackbar-danger",
-          "Not Updated ...!!!",
+            data.message,
           "bottom",
           "center"
         );

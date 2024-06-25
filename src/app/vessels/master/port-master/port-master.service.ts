@@ -90,7 +90,7 @@ this.httpService.post<PortMaster>(this.updatePortMaster, portMaster).subscribe(d
   else if(data.success===false){
     notificationService.showNotification(
       "snackbar-danger",
-      "Not Updated ...!!!",
+      data.message,
       "bottom",
       "center"
     );

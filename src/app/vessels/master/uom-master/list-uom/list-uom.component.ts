@@ -85,11 +85,11 @@ export class ListUomComponent extends UnsubscribeOnDestroyAdapter {
 
   editCall(row) {
     //var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/vessels/master/uom-Master/add-uom', row.uomCode]);
+    this.router.navigate(['/vessels/master/uom-Master/add-uom', row.uomId]);
   }
 
   viewCall(row) {
-    this.router.navigate(['/vessels/master/uom-Master/view-uom', row.uomCode]);
+    this.router.navigate(['/vessels/master/uom-Master/view-uom', row.uomId]);
   }
 
   deleteItem(row){ 
