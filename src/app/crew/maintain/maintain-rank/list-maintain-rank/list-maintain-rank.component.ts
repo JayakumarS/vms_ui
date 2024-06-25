@@ -173,7 +173,7 @@ export class ListMaintainRankComponent extends UnsubscribeOnDestroyAdapter imple
           else{
             this.showNotification(
               "snackbar-danger",
-              "Error in Deleted",
+              data.message,
               "bottom",
               "center"
             );

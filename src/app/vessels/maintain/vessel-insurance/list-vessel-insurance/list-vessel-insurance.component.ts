@@ -149,7 +149,7 @@ export class ListVesselInsuranceComponent extends UnsubscribeOnDestroyAdapter im
             else {
               this.showNotification(
                 "snackbar-danger",
-                "Error in Deleted",
+                data.message,
                 "bottom",
                 "center"
               );
