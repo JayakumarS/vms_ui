@@ -70,7 +70,7 @@ export class AddSetupRankTrainingsComponent extends UnsubscribeOnDestroyAdapter 
 
   ngOnInit(): void {
     this.docForm = this.fb.group({
-      srank: ["A"], // Initial value set to 'A'
+      srank: ["0"], // Initial value set to '0'
       trainingcode: [""],
       rankcode: [""],
     });
@@ -84,7 +84,7 @@ export class AddSetupRankTrainingsComponent extends UnsubscribeOnDestroyAdapter 
 
     this.httpService.get<any>(this.setupRankTrainingsService.list).subscribe((res: any) => {
       this.traininglist = res.list;
-      this.updateDisplayedColumns('A');  // Initially display columns excluding 'A'
+      this.updateDisplayedColumns('0');  // Initially display columns excluding '0'
       this.fetchAndCheckSavedCertificates();
     }, (error: HttpErrorResponse) => {
       console.log(error.name + " " + error.message);
@@ -124,10 +124,11 @@ export class AddSetupRankTrainingsComponent extends UnsubscribeOnDestroyAdapter 
   }
 
   updateDisplayedColumns(selectedRank: string): void {
-    if (selectedRank === 'A') {
-      this.displayedColumns = this.ranklist.filter(rank => rank.id !== 'A').map(rank => rank.id);
+    if (selectedRank === '0') {
+      this.displayedColumns = this.ranklist.filter(rank => rank.id !== '0').map(rank => rank.text); // Display all header texts
     } else {
-      this.displayedColumns = ['Certificates', selectedRank];
+      const selectedRankText = this.ranklist.find(rank => rank.id === selectedRank)?.text ?? ''; // Get the text for the selectedRank
+      this.displayedColumns = ['Certificates', selectedRankText];
     }
     this.filteredColumns = [...this.displayedColumns];
   }
@@ -150,11 +151,12 @@ export class AddSetupRankTrainingsComponent extends UnsubscribeOnDestroyAdapter 
 
     // Set the checkboxes based on the saved data
     savedData.forEach(item => {
-      const row = this.traininglist.find(r => r.trainingcode === item.trainingcode);
+      const row = this.traininglist.find(r => r.trainingcode == item.trainingcode);
       if (row) {
-        row[item.rankcode] = true;
+          const rankText = this.ranklist.find(rank => rank.id == item.rankcode)?.text ?? '';
+          row[rankText] = true;
       }
-    });
+  });
 
     // Refresh the table to show updated checkboxes
     this.traininglist = [...this.traininglist];
@@ -166,8 +168,11 @@ export class AddSetupRankTrainingsComponent extends UnsubscribeOnDestroyAdapter 
       for (let row of this.traininglist) {
         for (let column of this.filteredColumns) {
           if (row[column]) {
-            selectedCertificates.push({ trainingcode: row.trainingcode, rankcode: column });
-          }
+            // Push the IDs instead of the text values
+          const selectedRankId = this.ranklist.find(rank => rank.text === column)?.id;
+          selectedCertificates.push({ trainingcode: row.trainingcode, rankcode: selectedRankId });
+        }
+          
         }
       }
       this.setupRankTrainingsService.addtraining(selectedCertificates, this.router, this.notificationService);

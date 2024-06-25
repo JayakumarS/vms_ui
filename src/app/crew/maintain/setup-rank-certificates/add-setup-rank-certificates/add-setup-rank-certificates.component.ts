@@ -71,7 +71,7 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
 
   ngOnInit(): void {
     this.docForm = this.fb.group({
-      srank: ["A"],
+      srank: ["0"],
       certificatecode: [""],
       rankcode: [""],
     });
@@ -86,7 +86,7 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
 
     this.httpService.get<any>(this.setupRankCertificatesService.list).subscribe((res: any) => {
       this.certificatelist = res.list;
-      this.updateDisplayedColumns('A');  // Initially display all columns
+      this.updateDisplayedColumns('0');  // Initially display all columns
       this.fetchAndCheckSavedCertificates();
     }, (error: HttpErrorResponse) => {
       console.log(error.name + " " + error.message);
@@ -130,18 +130,18 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
       this.ranklist.filter(title => title.text.toLowerCase().includes(search))
     );
   }
-  updateDisplayedColumns(selectedRank: string): void {
-    if (selectedRank === 'A') {
-      this.displayedColumns = this.ranklist.filter(rank => rank.id !== 'A').map(rank => rank.id);
-    } else {
-      this.displayedColumns = ['Certificates', selectedRank];
-    }
-    this.filteredColumns = [...this.displayedColumns];
-  }
-  
-  
-  
 
+updateDisplayedColumns(selectedRank: string): void {
+  if (selectedRank === '0') {
+      this.displayedColumns = this.ranklist.filter(rank => rank.id !== '0').map(rank => rank.text); // Display all header texts
+  } else {
+      const selectedRankText = this.ranklist.find(rank => rank.id === selectedRank)?.text ?? ''; // Get the text for the selectedRank
+      this.displayedColumns = ['Certificates', selectedRankText]; // Use the text as the column header
+  }
+  this.filteredColumns = [...this.displayedColumns];
+}
+
+  
   fetchAndCheckSavedCertificates(): void {
     this.httpService.get<any>(this.setupRankCertificatesService.getsaveList).subscribe((savedData: any) => {
         this.updateCheckboxes(savedData.list);
@@ -162,13 +162,19 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
     });
 
     // Set the checkboxes based on the saved data
+    // savedData.forEach(item => {
+    //   const row = this.certificatelist.find(r => r.certificatecode === item.certificatecode);
+    //   if (row) {
+    //     row[item.rankcode] = true;
+    //   }
+    // });
     savedData.forEach(item => {
-      const row = this.certificatelist.find(r => r.certificatecode === item.certificatecode);
+      const row = this.certificatelist.find(r => r.certificatecode == item.certificatecode);
       if (row) {
-        row[item.rankcode] = true;
+          const rankText = this.ranklist.find(rank => rank.id == item.rankcode)?.text ?? '';
+          row[rankText] = true;
       }
-    });
-
+  });
     // Refresh the table to show updated checkboxes
     this.certificatelist = [...this.certificatelist];
   }
@@ -196,13 +202,37 @@ onCheckboxChange(checked: boolean, row: any, column: string) {
 
 
 
+// onSubmit() {
+//   if (this.docForm.valid) {
+//     let selectedCertificates: any = [];
+//     for (let row of this.certificatelist) {
+//       for (let column of this.filteredColumns) {
+//         if (row[column]) {
+//           selectedCertificates.push({ certificatecode: row.certificatecode, rankcode: column });
+//         }
+//       }
+//     }
+//     this.setupRankCertificatesService.addrank(selectedCertificates, this.router, this.notificationService);
+//   } else {
+//     this.notificationService.showNotification(
+//       'snackbar-danger',
+//       'Please fill all details',
+//       'bottom',
+//       'center'
+//     );
+//   }
+// }
+
+
 onSubmit() {
   if (this.docForm.valid) {
-    let selectedCertificates: any = [];
+    let selectedCertificates: any= [];
     for (let row of this.certificatelist) {
       for (let column of this.filteredColumns) {
         if (row[column]) {
-          selectedCertificates.push({ certificatecode: row.certificatecode, rankcode: column });
+          // Push the IDs instead of the text values
+          const selectedRankId = this.ranklist.find(rank => rank.text === column)?.id;
+          selectedCertificates.push({ certificatecode: row.certificatecode, rankcode: selectedRankId });
         }
       }
     }
