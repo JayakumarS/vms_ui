@@ -134,37 +134,42 @@ export class ListFleetsComponent extends UnsubscribeOnDestroyAdapter implements 
       direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
-    if (data.data == true) {
-      this.spinner.show();
-      this.fleetsService.delete(row.fleetid).subscribe({
-        next: (data) => {
-          this.spinner.hide();
-          if (data.success) {
-            this.loadData();
-            this.showNotification(
-              "snackbar-success",
-              "Record Deleted",
-              "bottom",
-              "center"
-            );
-          }
-          else{
-            this.showNotification(
-              "snackbar-danger",
-              "Error in save",
-              "bottom",
-              "center"
-            );
-          }
-        },
-        error: (error) => {
-          this.spinner.hide();
-        }
-      });
-    }else{
-      //this.loadData();
+      if (data.data === true) {
+        this.spinner.show();
+        this.fleetsService.delete(row.fleetid).subscribe({
+          next: (data) => {
+            this.spinner.hide();
+      if (data.success) {
+        this.loadData();
+        this.showNotification(
+          "snackbar-success",
+          "Record Deleted",
+          "bottom",
+          "center"
+        );
+      } else {
+        this.showNotification(
+          "snackbar-danger",
+          data.message || "Error in save",
+          "bottom",
+          "center"
+        );
+      }
+    },
+    error: (error) => {
+      this.spinner.hide();
+      this.showNotification(
+        "snackbar-danger",
+        "An error occurred while deleting the record.",
+        "bottom",
+        "center"
+      );
     }
-    })
+  });
+} else {
+  // Optional: reload data or handle the case when the dialog is closed without confirming the deletion
+}
+});
     };
 
   private refreshTable() {
