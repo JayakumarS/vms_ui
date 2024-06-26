@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/common-service/common.service';
@@ -37,6 +37,8 @@ export class AddRankShiftComponent implements OnInit {
   rankList:any=[];
   placeList:any=[];
   requestId: any;
+  timeIntervals: string[] = [];
+  timeRanges:String[];
   isChecked: boolean = false;
   getvessel:any;
   decryptRequestId: any;
@@ -57,14 +59,15 @@ export class AddRankShiftComponent implements OnInit {
     public matError : MatErrorService
   ) { 
     this.docForm = this.fb.group({
+          sort : 1,
           select: [""],
-          code:[""],
+          rankshiftid:[""],
           vessel: [""],
-          rank: [""],
+          rankcode: [""],
           sDate: [""],
-          sDateObj: [""],
+          sDateObj: ["",[Validators.required]],
           eDate: [""],
-          eDateObj: [""],
+          eDateObj: ["",[Validators.required]],
           remarks: [""],
           watchkeepers:[""],
           validToObj: [""],
@@ -96,14 +99,17 @@ export class AddRankShiftComponent implements OnInit {
   //   }
   //   this.rankList = [{id:1,text:"Master"},{id:2,text:"Chief Officer"},{id:3,text:"Second Officer"}];
   //   this.vesselList = [{id:1,text:"GODA-GODAVARI"},{id:2,text:"RJG-RAJIV GANDHI"},{id:3,text:"IDG-INDIRA GANDHI"},{id:4,text:"ARJ-TCI ARJUN"}];
-  //   this.placeList = [{id:1,text:"PORT"},{id:2,text:"SEA"}];
+    //  this.placeList = [{id:1,text:"PORT"},{id:2,text:"SEA"}];
 
 
   // }
   ngOnInit() {
     this.getvesselList();
     this.getrankList();
-    const deleteRow = this.docForm.controls.secondDetailRow as FormArray;
+    this.placeList = [{id:"1",text:"PORT"},{id:"2",text:"SEA"}];
+
+    this.timeIntervals = this.generateTimeIntervals();  
+       const deleteRow = this.docForm.controls.secondDetailRow as FormArray;
      deleteRow.removeAt(0);
      let id = 0;
      for (let hour = 0; hour < 24; hour++) {
@@ -148,10 +154,25 @@ export class AddRankShiftComponent implements OnInit {
     }, error: (err) => console.log(err)
     });
   }
+  generateTimeIntervals(): string[] {
+    const intervals: string[] = [];
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minutes = 0; minutes < 60; minutes += 30) {
+        const time = this.padNumber(hour) + ':' + this.padNumber(minutes);
 
+        intervals.push(time);
+      }
+    }
+    return intervals;
+  }
+  
+  padNumber(num: number): string {
+    return num < 10 ? '0' + num : num.toString();
+  }
+  
   getrankList(){
     this.httpService.get(this.RankShiftService.getrank).subscribe({next: (res: any) => {
-      this.rankList = res;
+      this.rankList = res.lCommonUtilityBean;
     }, error: (err) => console.log(err)
     });
   }
@@ -217,106 +238,218 @@ export class AddRankShiftComponent implements OnInit {
       );
     }
   }
+  generateTimeRanges(): string[] {
+    const ranges = [];
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const start = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        const endHour = minute === 30 ? hour + 1 : hour;
+        const endMinute = minute === 30 ? 0 : 30;
+        const end = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
+        ranges.push(`${start}-${end}`);
+      }
+    }
+    return ranges;
+  }
+  
+  
+  // shiftOne(){
+  //   let secondDetailRow = this.docForm.controls.secondDetailRow as FormArray;
+  //   for (let i = this.docForm.controls.secondDetailRow.value.length - 1; i >= 0; i--) {
+  //     let element = this.docForm.controls.secondDetailRow.value[i];
+  //     if (element.type == "1") {
+  //         secondDetailRow.removeAt(i);
+  //     }
+  //   }
+    
+  //   let arraylen = secondDetailRow.length;
+  //   let newUsergroup: FormGroup = this.fb.group({
+  //     select: [""],
+  //     shiftStart: ["18.30"],
+  //     shiftEnd: ["22.30"],
+  //     place: [""],
+  //     watchKeeping: [true],
+  //     readOnly: [true],
+  //     type:["1"]
+  //   })
+  //   secondDetailRow.insert(arraylen, newUsergroup);
 
-  shiftOne(){
+  //   let newUsergroupTwo: FormGroup = this.fb.group({
+  //     select: [""],
+  //     shiftStart: ["6.30"],
+  //     shiftEnd: ["10.30"],
+  //     place: [""],
+  //     watchKeeping: [true],
+  //     readOnly: [true],
+  //     type:["1"]
+  //   })
+  //   secondDetailRow.insert(arraylen, newUsergroupTwo);
+
+    
+  // }
+  shiftOne() {
     let secondDetailRow = this.docForm.controls.secondDetailRow as FormArray;
     for (let i = this.docForm.controls.secondDetailRow.value.length - 1; i >= 0; i--) {
       let element = this.docForm.controls.secondDetailRow.value[i];
       if (element.type == "1") {
-          secondDetailRow.removeAt(i);
+        secondDetailRow.removeAt(i);
       }
     }
-    
+  
     let arraylen = secondDetailRow.length;
     let newUsergroup: FormGroup = this.fb.group({
       select: [""],
-      shiftStart: ["18.30"],
-      shiftEnd: ["22.30"],
+      shiftStart: ["18:30"],
+      shiftEnd: ["22:30"],
       place: [""],
       watchKeeping: [true],
       readOnly: [true],
-      type:["1"]
-    })
+      type: ["1"]
+    });
     secondDetailRow.insert(arraylen, newUsergroup);
-
+  
     let newUsergroupTwo: FormGroup = this.fb.group({
       select: [""],
-      shiftStart: ["6.30"],
-      shiftEnd: ["10.30"],
+      shiftStart: ["06:30"],
+      shiftEnd: ["10:30"],
       place: [""],
       watchKeeping: [true],
       readOnly: [true],
-      type:["1"]
-    })
+      type: ["1"]
+    });
     secondDetailRow.insert(arraylen, newUsergroupTwo);
   }
+  
 
-  shiftTwo(){
+  // shiftTwo(){
+  //   let secondDetailRow = this.docForm.controls.secondDetailRow as FormArray;
+  //   for (let i = this.docForm.controls.secondDetailRow.value.length - 1; i >= 0; i--) {
+  //     let element = this.docForm.controls.secondDetailRow.value[i];
+  //     if (element.type == "2") {
+  //         secondDetailRow.removeAt(i);
+  //     }
+  //   }
+
+  //   let arraylen = secondDetailRow.length;
+  //   let newUsergroup: FormGroup = this.fb.group({
+  //     select: [""],
+  //     shiftStart: ["22.30"],
+  //     shiftEnd: ["02.30"],
+  //     place: [""],
+  //     watchKeeping: [true],
+  //     readOnly: [true],
+  //     type:["2"]
+  //   })
+  //   secondDetailRow.insert(arraylen, newUsergroup);
+
+  //   let newUsergroupTwo: FormGroup = this.fb.group({
+  //     select: [""],
+  //     shiftStart: ["10.30"],
+  //     shiftEnd: ["14.30"],
+  //     place: [""],
+  //     watchKeeping: [true],
+  //     readOnly: [true],
+  //     type:["2"]
+  //   })
+  //   secondDetailRow.insert(arraylen, newUsergroupTwo);
+  // }
+  shiftTwo() {
     let secondDetailRow = this.docForm.controls.secondDetailRow as FormArray;
     for (let i = this.docForm.controls.secondDetailRow.value.length - 1; i >= 0; i--) {
       let element = this.docForm.controls.secondDetailRow.value[i];
       if (element.type == "2") {
-          secondDetailRow.removeAt(i);
+        secondDetailRow.removeAt(i);
       }
     }
 
     let arraylen = secondDetailRow.length;
     let newUsergroup: FormGroup = this.fb.group({
       select: [""],
-      shiftStart: ["22.30"],
-      shiftEnd: ["02.30"],
+      shiftStart: ["22:30"],
+      shiftEnd: ["02:30"],
       place: [""],
       watchKeeping: [true],
       readOnly: [true],
-      type:["2"]
-    })
+      type: ["2"]
+    });
     secondDetailRow.insert(arraylen, newUsergroup);
 
     let newUsergroupTwo: FormGroup = this.fb.group({
       select: [""],
-      shiftStart: ["10.30"],
-      shiftEnd: ["14.30"],
+      shiftStart: ["10:30"],
+      shiftEnd: ["14:30"],
       place: [""],
       watchKeeping: [true],
       readOnly: [true],
-      type:["2"]
-    })
+      type: ["2"]
+    });
     secondDetailRow.insert(arraylen, newUsergroupTwo);
   }
 
-  shiftThree(){
+  // shiftThree(){
+  //   let secondDetailRow = this.docForm.controls.secondDetailRow as FormArray;
+  //   for (let i = this.docForm.controls.secondDetailRow.value.length - 1; i >= 0; i--) {
+  //     let element = this.docForm.controls.secondDetailRow.value[i];
+  //     if (element.type == "3") {
+  //         secondDetailRow.removeAt(i);
+  //     }
+  //   } 
+
+  //   let arraylen = secondDetailRow.length;
+  //   let newUsergroup: FormGroup = this.fb.group({
+  //     select: [""],
+  //     shiftStart: ["02.30"],
+  //     shiftEnd: ["06.30"],
+  //     place: [""],
+  //     watchKeeping: [true],
+  //     readOnly: [true],
+  //     type:["3"]
+  //   })
+  //   secondDetailRow.insert(arraylen, newUsergroup);
+
+  //   let newUsergroupTwo: FormGroup = this.fb.group({
+  //     select: [""],
+  //     shiftStart: ["14.30"],
+  //     shiftEnd: ["18.30"],
+  //     place: [""],
+  //     watchKeeping: [true],
+  //     readOnly: [true],
+  //     type:["3"]
+  //   })
+  //   secondDetailRow.insert(arraylen, newUsergroupTwo);
+  // }
+  shiftThree() {
     let secondDetailRow = this.docForm.controls.secondDetailRow as FormArray;
     for (let i = this.docForm.controls.secondDetailRow.value.length - 1; i >= 0; i--) {
       let element = this.docForm.controls.secondDetailRow.value[i];
       if (element.type == "3") {
-          secondDetailRow.removeAt(i);
+        secondDetailRow.removeAt(i);
       }
     } 
 
     let arraylen = secondDetailRow.length;
     let newUsergroup: FormGroup = this.fb.group({
       select: [""],
-      shiftStart: ["02.30"],
-      shiftEnd: ["06.30"],
+      shiftStart: ["02:30"],
+      shiftEnd: ["06:30"],
       place: [""],
       watchKeeping: [true],
       readOnly: [true],
-      type:["3"]
-    })
+      type: ["3"]
+    });
     secondDetailRow.insert(arraylen, newUsergroup);
 
     let newUsergroupTwo: FormGroup = this.fb.group({
       select: [""],
-      shiftStart: ["14.30"],
-      shiftEnd: ["18.30"],
+      shiftStart: ["14:30"],
+      shiftEnd: ["18:30"],
       place: [""],
       watchKeeping: [true],
       readOnly: [true],
-      type:["3"]
-    })
+      type: ["3"]
+    });
     secondDetailRow.insert(arraylen, newUsergroupTwo);
   }
-
   // isReadOnly(i): boolean {
   //   return this.docForm.controls.secondDetailRow.value[i].readOnly;
   // }
@@ -346,30 +479,47 @@ export class AddRankShiftComponent implements OnInit {
         "right");
     }
   }
-  fetchDetails(id){
-    this.httpService.get<any>(this.RankShiftService.editUrl+"?id="+parseInt(id)).subscribe({next: (data: any) => {
-      
-      console.log(data);
-
+  fetchDetails(id) {
+    this.httpService.get<any>(this.RankShiftService.editUrl + "?id=" + parseInt(id)).subscribe({
+      next: (data: any) => {
+        console.log(data);
+  
         let sDate = this.commonService.getDateObj(data.list[0].sDate);
-
         let eDate = this.commonService.getDateObj(data.list[0].eDate);
-
-     
-      this.docForm.patchValue({
-        'vessel' : data.list[0].vessel,
-        'rank' : data.list[0].rank,
-        'sDateObj' : sDate,
-        'sDate' : data.list[0].sDate,
-        'eDateObj' :eDate,
-        'eDate' : data.list[0].eDate,
-        'remarks' : data.list[0].remarks,
-        'watchkeepers' : data.list[0].watchkeepers
-      })
-
+  
+        this.docForm.patchValue({
+          'rankshiftid': data.list[0].rankshiftid,
+          'vessel': data.list[0].vessel,
+          'rankcode': data.list[0].rankcode.toString(),
+          'sDateObj': sDate,
+          'sDate': data.list[0].sDate,
+          'eDateObj': eDate,
+          'eDate': data.list[0].eDate,
+          'remarks': data.list[0].remarks,
+          'watchkeepers': data.list[0].watchkeepers
+        });
+  
+        if (data.secondDetailRow != null && data.secondDetailRow.length > 1) {
+          let secondDetailRowArray = this.docForm.controls.secondDetailRow as FormArray;
+          secondDetailRowArray.clear();
+  
+          data.secondDetailRow.forEach(element => {
+            let arraylen = secondDetailRowArray.length;
+  
+            let newUsergroup: FormGroup = this.fb.group({
+              shiftStart: [element.shiftStart],
+              shiftEnd: [element.shiftEnd],
+              place: [element.place],
+              watchKeeping: [element.watchKeeping]
+            });
+            
+            secondDetailRowArray.insert(arraylen, newUsergroup);
+          });
+        }
       }
-     });
+    });
   }
+  
 
   getDateString(event, inputFlag, index) {
     let cdate = this.cmnService.getDate(event.target.value);

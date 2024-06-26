@@ -64,7 +64,7 @@ export class ListRankShiftComponent extends UnsubscribeOnDestroyAdapter implemen
 
  editCall(row) {
   // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-  this.router.navigate(['/crew/application-properties/define-preferences-for-working-hours/define-rank-shift/add-define-rank-shift/', row.code]);
+  this.router.navigate(['/crew/application-properties/define-preferences-for-working-hours/define-rank-shift/add-define-rank-shift/', row.rankshiftid]);
 }
 
 
@@ -94,7 +94,7 @@ export class ListRankShiftComponent extends UnsubscribeOnDestroyAdapter implemen
 }
 viewCall(row) {
   // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-  this.router.navigate(['/crew/application-properties/define-preferences-for-working-hours/define-rank-shift/view-define-rank-shift/', row.code]);
+  this.router.navigate(['/crew/application-properties/define-preferences-for-working-hours/define-rank-shift/view-define-rank-shift/', row.rankshiftid]);
 }
 deleteItem(row){
   let tempDirection;
@@ -113,7 +113,7 @@ deleteItem(row){
   this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
   if (data.data == true) {
     this.spinner.show();
-    this.rankShiftService.delete(row.code).subscribe({
+    this.rankShiftService.delete(row.rankshiftid).subscribe({
       next: (data) => {
         this.spinner.hide();
         if (data.success) {

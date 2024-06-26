@@ -35,7 +35,7 @@ export class RankShiftService extends UnsubscribeOnDestroyAdapter{
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/RankWorkingShift/delete`;
   public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/RankWorkingShift/update`;
   public getvessel = `${this.serverUrl.apiServerAddress}api/common/getVessel`;
-  public getrank = `${this.serverUrl.apiServerAddress}api/crew/CrewVesselAssignment/getrank`;
+  public getrank = `${this.serverUrl.apiServerAddress}api/common/getRankMasters`;
 
 
 

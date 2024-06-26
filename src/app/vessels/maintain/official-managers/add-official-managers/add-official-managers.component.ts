@@ -160,6 +160,7 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
         'poscode' :  data.list[0].poscode,
         'phone' : data.list[0].phone,
         'remarks' : data.list[0].remarks,
+        
        
 
      
