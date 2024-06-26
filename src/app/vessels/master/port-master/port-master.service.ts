@@ -26,6 +26,8 @@ export class PortMasterService extends UnsubscribeOnDestroyAdapter{
   private updatePortMaster = `${this.serverUrl.apiServerAddress}api/master/port/updatePort`;
   private deletePortUrl = `${this.serverUrl.apiServerAddress}api/master/port/deletePort`;
   public editPortMaster = `${this.serverUrl.apiServerAddress}api/master/port/editPort`;
+  public getCountryUrl = `${this.serverUrl.apiServerAddress}api/common/getCountry`;
+
 
   get data(): PortMaster[] {
     return this.dataChange.value;

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
@@ -10,6 +10,9 @@ import { NotificationService } from 'src/app/core/service/notification.service';
 import { PortMasterService } from '../port-master.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PortMaster } from '../port-master.model';
+import { MatSelect } from '@angular/material/select';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { PortMasterResultBean } from '../port-master-result-bean';
 
 @Component({
   selector: 'app-add-port-master',
@@ -21,6 +24,12 @@ export class AddPortMasterComponent implements OnInit {
   edit:boolean=false;
   requestId: any;
   portMaster: PortMaster;
+  countryList: any = [];
+  
+  public countryFilterCtrl: FormControl = new FormControl();
+  countryFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('country', { static: true }) country: MatSelect;
+  protected onDestroy = new Subject<void>();
 
 
   constructor(private fb: FormBuilder,
@@ -39,7 +48,8 @@ export class AddPortMasterComponent implements OnInit {
       portName: ["", [Validators.required]],
       portType: ["Port"],
       isActive:[true],
-      portId : [""]
+      portId : [""],
+      countryCode: ["", [Validators.required]],
     });
 
   }
@@ -52,8 +62,38 @@ export class AddPortMasterComponent implements OnInit {
 
       }
      }); 
+
+     this.httpService.get<PortMasterResultBean>(this.portMasterService.getCountryUrl).subscribe(
+      (data) => {
+        this.countryList = data.lCommonUtilityBean;
+        this.countryFilteredOptions.next(this.countryList.slice());
+      },);
+
+     this.countryFilteredOptions.next(this.countryList.slice());
+     this.countryFilterCtrl.valueChanges
+       .pipe(takeUntil(this.onDestroy))
+       .subscribe(() => {
+         this.filterCurrency();
+       });
   }
 
+
+  
+  filterCurrency(){
+    if (!this.countryList) {
+      return;
+    }
+    let search = this.countryFilterCtrl.value;
+    if (!search) {
+      this.countryFilteredOptions.next(this.countryList.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.countryFilteredOptions.next(
+      this.countryList.filter(title => title.text.toLowerCase().includes(search))
+    );
+   }
   save(){
     if(this.docForm.valid){
       this.portMaster = this.docForm.value;
@@ -77,6 +117,7 @@ export class AddPortMasterComponent implements OnInit {
         'portName': res.list[0].portName,
         'portType': res.list[0].portType,
         'isActive': res.list[0].isActive,
+        'countryCode':res.list[0].countryCode
       })
     },
       (err: HttpErrorResponse) => {
