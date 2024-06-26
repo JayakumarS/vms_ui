@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddInterviewSetupComponent } from './add-interview-setup/add-interview-setup.component';
 import { ListInterviewSetupComponent } from './list-interview-setup/list-interview-setup.component';
+import { ViewInterviewSetupComponent } from './view-interview-setup/view-interview-setup.component';
 
 const routes: Routes = [
   {
@@ -10,7 +11,11 @@ const routes: Routes = [
   },
   {
     path: "list-interview",
-    component: ListInterviewSetupComponent
+    component: ListInterviewSetupComponent,
+  },
+  {
+    path: "view-interview",
+    component: ViewInterviewSetupComponent,
   }
 ];
 

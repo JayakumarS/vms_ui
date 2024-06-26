@@ -34,6 +34,7 @@ export class AddReligionComponent implements OnInit {
     public matError : MatErrorService
   ) { 
     this.docForm = this.fb.group({
+      religionId: [""],
       code: [""],
       name: [""],
       active: [true]
@@ -42,7 +43,22 @@ export class AddReligionComponent implements OnInit {
 
 
   ngOnInit() {
+    this.httpService.get<any>(this.religionService.getSequenceCode).subscribe((res: any) => {
+
       
+      this.docForm.patchValue({
+        'code':res.code
+      })
+    })
+
+    this.route.queryParams.subscribe(queryParams => {
+      if (queryParams.code !== undefined) {
+        this.docForm.patchValue({
+          'code':queryParams.code
+        })
+        this.docForm.value.code = queryParams.code;
+      }
+    });
       this.route.params.subscribe(params => {
         if (params.id != undefined && params.id != 0) {
           // this.decryptRequestId = params.id;
@@ -58,7 +74,7 @@ export class AddReligionComponent implements OnInit {
 
       this.httpService.get(this.religionService.editUrl + "?id=" + id).subscribe((res: any) => {
         console.log(res);
-        if (res.religionBean.active == 'Y') {
+        if (res.list[0].active == 'Y') {
           this.docForm.patchValue({ 'active': true })
         }
         else {
@@ -68,8 +84,10 @@ export class AddReligionComponent implements OnInit {
         this.docForm.patchValue({
   
   
-          'code': res.religionBean.code,
-          'name': res.religionBean.name,
+          'code': res.list[0].code,
+          'name': res.list[0].name,
+          'religionId': res.list[0].religionId
+          
           // 'active': res.departmentBean.active
   
         });

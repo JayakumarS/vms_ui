@@ -10,22 +10,93 @@ import { InterviewSetup } from './interview-setup.model';
   providedIn: 'root'
 })
 export class InterviewSetupService extends UnsubscribeOnDestroyAdapter{
+ 
 
   isTblLoading = true;
-  dataChange: BehaviorSubject<InterviewSetup[]> = new BehaviorSubject<InterviewSetup[]>([]);
+
+  dataChange: BehaviorSubject<InterviewSetup[]> = new BehaviorSubject<InterviewSetup[]>(
+    []
+  );
   
-  constructor(  private httpClient: HttpClient,
-    private serverUrl:serverLocations,
-    private httpService:HttpServiceService) {
+  dialogData: any;
+  constructor(private httpClient: HttpClient, private serverUrl: serverLocations, private httpService: HttpServiceService) {
+    super();
+  }
 
-      super();
+  public saveUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/interviewsetup/save`;
+  public listUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/interviewsetup/list`;
+  public editUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/interviewsetup/edit`;
+  public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/interviewsetup/delete`;
+  public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/interviewsetup/update`;
+  public rankListUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/interviewsetup/getRankMasters`;
 
-     }
-     get data(): InterviewSetup[] {
-      return this.dataChange.value;
-    }
+  get data(): InterviewSetup[] {
+    return this.dataChange.value;
+  }
+  getDialogData() {
+    return this.dialogData;
+  }
 
-    getList(){
-    
-    }
+  getList() {
+    this.isTblLoading = true; 
+    this.httpService.get<any>(this.listUrl).subscribe({next: (data: any) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data.list);
+      }, error: (err) => console.log(err)
+     });
+  }
+
+  saveInterviewSetup(interviewSetup: InterviewSetup, router, notificationService){
+     this.httpService.post<InterviewSetup>(this.saveUrl, interviewSetup).subscribe({next: (data: any) => {
+      if (data.success == true) {
+        notificationService.showNotification(
+          "snackbar-success",
+          "Record Added Successfully",
+          "bottom",
+          "center"
+        );
+        router.navigate(['/crew/maintain/paytypes/list-paytypes']);
+      }else{
+        notificationService.showNotification(
+          "snackbar-danger",
+          "Not Updated",
+          "bottom",
+          "center"
+        );
+      }
+      }, error: (err) => console.log(err)
+     });
+  }
+
+  updateInterviewSetup(interviewSetup: InterviewSetup, router, notificationService){
+    this.httpService.post<InterviewSetup>(this.updateUrl, interviewSetup).subscribe({next: (data: any) => {
+      if (data.success == true) {
+        notificationService.showNotification(
+          "snackbar-success",
+          "Record Updated Successfully",
+          "bottom",
+          "center"
+        );
+        router.navigate(['/crew/maintain/paytypes/list-paytypes']);
+      }else{
+        notificationService.showNotification(
+          "snackbar-danger",
+          "Not Updated",
+          "bottom",
+          "center"
+        );
+      }
+      }, error: (err) => console.log(err)
+     });
+  }
+
+  delete(id){
+    return this.httpClient.get<any>(this.deleteUrl + "?id=" + id);
+  }
+
+  
+  
+ 
+
+ 
 }

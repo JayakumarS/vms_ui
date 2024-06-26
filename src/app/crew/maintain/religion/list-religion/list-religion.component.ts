@@ -18,6 +18,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { DeleteComponent } from './delete/delete.component';
 import { NotificationService } from 'src/app/core/service/notification.service';
+import { ViewReligionComponent } from '../view-religion/view-religion.component';
 
 @Component({
   selector: 'app-list-religion',
@@ -67,13 +68,37 @@ export class ListReligionComponent  extends UnsubscribeOnDestroyAdapter   implem
 
   editCall(row) {
    
-    this.router.navigate(['/crew/maintain/religion/add-religion/', row.code]);
+    this.router.navigate(['/crew/maintain/religion/add-religion/', row.religionId]);
   }
 
+ 
   viewCall(row) {
-  
-    this.router.navigate(['/crew/maintain/religion/view-religion/', row.code]);
+    // // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    //   this.router.navigate(['/crew/maintain/religion/view-religion/', row.religionId]);
+     let rowId = row.religionId
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewReligionComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
+
   }
+
+
+
+
+
 
   deleteItem(row){
     let tempDirection;
@@ -91,7 +116,7 @@ export class ListReligionComponent  extends UnsubscribeOnDestroyAdapter   implem
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
-      this.religionService.delete(row.code).subscribe({
+      this.religionService.delete(row.religionId).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {

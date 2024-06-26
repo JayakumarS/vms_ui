@@ -10,6 +10,7 @@ import { HttpServiceService } from 'src/app/auth/http-service.service';
   providedIn: 'root'
 })
 export class BloodGroupService extends UnsubscribeOnDestroyAdapter {
+ 
   isTblLoading = true;
  
   dataChange: BehaviorSubject<BloodGroup[]> = new BehaviorSubject<BloodGroup[]>(
@@ -26,6 +27,8 @@ export class BloodGroupService extends UnsubscribeOnDestroyAdapter {
   public editUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/bloodgroup/edit`;
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/bloodgroup/delete`;
   public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/bloodgroup/update`;
+  public getSequenceCode = `${this.serverUrl.apiServerAddress}api/crew/maintain/bloodgroup/getSequenceCode`;
+
   
 
 

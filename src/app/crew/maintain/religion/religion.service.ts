@@ -28,7 +28,8 @@ export class ReligionService extends UnsubscribeOnDestroyAdapter{
   public editUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/religion/edit`;
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/religion/delete`;
   public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/religion/update`;
- 
+  public getSequenceCode = `${this.serverUrl.apiServerAddress}api/crew/maintain/religion/getSequenceCode`;
+
 
   get data(): Religion[] {
     return this.dataChange.value;

@@ -1,56 +1,35 @@
-<section class="content">
-    <div class="content-block">
-        <div class="block-header">
-            <!-- breadcrumb -->
-            <app-breadcrumb [title]="'View Blood Group'" [items]="['Crew','Maintain']"
-                [active_item]="'View Blood Group'">
-            </app-breadcrumb>
-        </div>
-        <div class="row clearfix ">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="box-shadow">
-                    <div class="card">
-                        <div class="body">
-                            <div class="container border"
-                                style=" border: 1px solid #b8a6dd!important; border-radius: 10px; background-color: #ecebf7;">
-                                <form class="m-4" autocomplete="off" [formGroup]="docForm">
-                                    <br>
-                                    <table class="border1" style=" border: 1px solidrgb(157, 158, 163); width:100%; border-collapse: collapse; margin-top: 20px; text-align: right;">
-                                    <tr style="font-weight: 600; text-align: center;height: 30px; vertical-align: middle;  background-color: rgb(96 125 139 / 82%);  color: rgb(252, 248, 248); font-weight: bold;font-size:15px; font-style:normal; text-indent: 4px;">
-                                        <th>
-                                            Religion Code
-                                        </th>
-                                        <th>
-                                              Name
-                                        </th>
-                                        
-                                    </tr>
-                                    <tr style=" padding: 7px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; vertical-align: middle;
-            font-weight:normal; border-radius: 0.25rem; text-align: center;height: 50px;  background-color: rgb(203 226 235 / 82%);">
-                                        <td>
-                                            {{religiondtls.code}}
-                                        </td>
-                                        <td>
-                                            {{religiondtls.name}}
-                                        </td>
-                                       
-                                    </tr>
-                                </table>
-                                <br>
-                                    <br>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3 center">
-                                            <button color="warn" (click)="onCancel()" type="button" mat-raised-button>Cancel</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+<div class="container">
+    <div mat-dialog-content>
+      <div class="row">
+
+
+        <div class="body">
+            <div style="margin-top: -5px;margin-left: 384px;">
+                <i class="fas fa-times" (click)="onNoClick()"style=" cursor: pointer;"></i>
+            </div>
+            <div class="container border" id="salesOrderdview"
+                style=" border: 1px solid #b8a6dd!important; border-radius: 10px; background-color: #ecebf7;height:155px">
+                <form class="m-4" [formGroup]="docForm">
+                    
+                        
+                      
+                        <div class="row" >
+                            <label><b>ID:</b>&nbsp;{{religiondtls?.code}}</label>
                         </div>
-                    </div>
-                </div>
+                        <br>
+
+                        <div class="row">
+                            <label><b> Religion Name:</b> &nbsp;{{religiondtls?.name}}</label>
+                        </div> 
+                         
+                </form>
             </div>
         </div>
+
+      </div>
     </div>
-</section>
+    <mat-dialog-actions align="center" class="mb-1">
+        <button class="cancelBtn" type="button" mat-button (click)="onNoClick()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+    </mat-dialog-actions>
+  </div>
 

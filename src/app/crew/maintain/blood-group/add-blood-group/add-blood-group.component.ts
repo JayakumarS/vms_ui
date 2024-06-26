@@ -34,6 +34,7 @@ export class AddBloodGroupComponent implements OnInit {
   
   ) { 
     this.docForm = this.fb.group({
+      bloodGroupId: [""],
       bloodGroupCode: [""],
       name: [""],
       active: [true]
@@ -43,7 +44,22 @@ export class AddBloodGroupComponent implements OnInit {
    
     
     ngOnInit() {
+      this.httpService.get<any>(this.bloodGroupService.getSequenceCode).subscribe((res: any) => {
+
       
+        this.docForm.patchValue({
+          'bloodGroupCode':res.bloodGroupCode
+        })
+      })
+
+      this.route.queryParams.subscribe(queryParams => {
+        if (queryParams.bloodGroupCode !== undefined) {
+          this.docForm.patchValue({
+            'bloodGroupCode':queryParams.bloodGroupCode
+          })
+          this.docForm.value.bloodGroupCode = queryParams.bloodGroupCode;
+        }
+      });
       this.route.params.subscribe(params => {
         if (params.id != undefined && params.id != 0) {
           // this.decryptRequestId = params.id;
@@ -60,7 +76,7 @@ export class AddBloodGroupComponent implements OnInit {
 
       this.httpService.get(this.bloodGroupService.editUrl + "?id=" + id).subscribe((res: any) => {
         console.log(res);
-        if (res.bloodGroupBean.active == 'Y') {
+        if (res.list[0].active == 'Y') {
           this.docForm.patchValue({ 'active': true })
         }
         else {
@@ -70,8 +86,9 @@ export class AddBloodGroupComponent implements OnInit {
         this.docForm.patchValue({
   
   
-          'bloodGroupCode': res.bloodGroupBean.bloodGroupCode,
-          'name': res.bloodGroupBean.name,
+          'bloodGroupCode': res.list[0].bloodGroupCode,
+          'name': res.list[0].name,
+          'bloodGroupId': res.list[0].bloodGroupId
         
   
         });

@@ -174,7 +174,7 @@ export class AddHealthStatusComponent implements OnInit {
       this.notificationService.showNotification(
         "snackbar-danger",
         "Please fill the required details",
-        "top",
+        "data.message",
         "right");
     }
   }
@@ -186,7 +186,7 @@ export class AddHealthStatusComponent implements OnInit {
       this.notificationService.showNotification(
         "snackbar-danger",
         "Please fill the required details",
-        "top",
+        "data.message",
         "right");
     }
   }

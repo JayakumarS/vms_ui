@@ -45,13 +45,13 @@
                 </div>
                 <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
                   #exporter="matTableExporter">
-                  <ng-container matColumnDef="code">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Rank</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.code}}</mat-cell>
-                  </ng-container>
                   <ng-container matColumnDef="rank">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Rank</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.rank}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="description">
                     <mat-header-cell *matHeaderCellDef mat-sort-header fxLayoutGap="5px">Description</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.surName}}</mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.description}}</mat-cell>
                   </ng-container>
                                                    
                   <!-- actions -->
@@ -62,6 +62,10 @@
                         class="tbl-action-btn">
                         <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                       </button>
+                      <button mat-icon-button (click)="$event.stopPropagation()"
+                      (click)="viewCall(row)" class="tbl-action-btn">
+                       <i class="fa fa-eye" style="color:#33b91f;" aria-hidden="true"></i>
+                         </button>
                       <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
                         (click)="deleteItem(row)" class="tbl-action-btn">
                         <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
@@ -76,10 +80,10 @@
                   </mat-row>
                 </mat-table>
                 <!-- Loading spinner -->
-                <!-- <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
+                <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
                   <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
                   </mat-progress-spinner>
-                </div> -->
+                </div> 
                 <!-- context menu start -->
                 <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
                   [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">

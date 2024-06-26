@@ -3,7 +3,7 @@
     <div class="content-block">
       <div class="block-header" style="padding: 0.5% !important;" style="padding: 0.5% !important;">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'List Religion'" [items]="['Crew','Maintain']" [active_item]="'Religion'">
+        <app-breadcrumb [title]="' Religion'" [items]="['Crew','Maintain']" [active_item]="'List Religion'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -49,12 +49,12 @@
                   
                   
                   <ng-container matColumnDef="code">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Religion Code</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.code}}</mat-cell>
                   </ng-container>
                   
                   <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Religion Name</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.name}}</mat-cell>
                   </ng-container>
                 

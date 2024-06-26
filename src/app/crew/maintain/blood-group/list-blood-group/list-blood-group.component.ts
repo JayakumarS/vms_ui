@@ -18,6 +18,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { DeleteComponent } from './delete/delete.component';
 import { NotificationService } from 'src/app/core/service/notification.service';
+import { ViewBloodGroupComponent } from '../view-blood-group/view-blood-group.component';
 
 @Component({
   selector: 'app-list-blood-group',
@@ -68,13 +69,37 @@ export class ListBloodGroupComponent  extends UnsubscribeOnDestroyAdapter  imple
 
   editCall(row) {
    
-    this.router.navigate(['/crew/maintain/blood-group/add-blood-group/', row.bloodGroupCode]);
+    this.router.navigate(['/crew/maintain/blood-group/add-blood-group/', row.bloodGroupId]);
   }
 
-  viewCall(row) {
   
-    this.router.navigate(['/crew/maintain/blood-group/view-blood-group/', row.bloodGroupCode]);
+
+  viewCall(row) {
+    // // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    //  this.router.navigate(['/crew/maintain/blood-group/view-blood-group/', row.bloodGroupId]);
+     let rowId = row.bloodGroupId
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewBloodGroupComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
+
   }
+
+
+
+
 
   deleteItem(row){
     let tempDirection;
@@ -92,7 +117,7 @@ export class ListBloodGroupComponent  extends UnsubscribeOnDestroyAdapter  imple
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
-      this.bloodGroupService.delete(row.bloodGroupCode).subscribe({
+      this.bloodGroupService.delete(row.bloodGroupId).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {

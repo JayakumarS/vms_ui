@@ -3,7 +3,7 @@
     <div class="content-block">
       <div class="block-header" style="padding: 0.5% !important;" style="padding: 0.5% !important;">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'List Blood Group'" [items]="['Crew','Maintain']" [active_item]="'Blood Group'">
+        <app-breadcrumb [title]="' Blood Group'" [items]="['Crew','Maintain']" [active_item]="'List Blood Group'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -48,11 +48,11 @@
                   #exporter="matTableExporter">
                   
                   <ng-container matColumnDef="bloodGroupCode">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Blood Group Code</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.bloodGroupCode}}</mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Blood Group Code</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.name}}</mat-cell>
                   </ng-container>
                 

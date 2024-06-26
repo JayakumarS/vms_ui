@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { BloodGroupService } from '../blood-group.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
+import { DeleteComponent } from '../list-blood-group/delete/delete.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-view-blood-group',
@@ -19,26 +21,35 @@ export class ViewBloodGroupComponent implements OnInit {
     public route:ActivatedRoute, 
     private httpService: HttpServiceService,
     private fb: FormBuilder,
-    private bloodGroupService : BloodGroupService
+    private bloodGroupService : BloodGroupService,
+    public dialogRef: MatDialogRef<DeleteComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.docForm=this.fb.group({
-      bloodGroupCode:[""],
-      name:[""]
-     
+      bloodGroupdtls: this.fb.array([
+        this.fb.group({
+          sort : 1,
+          select:[""],
+          bloodGroupCode:[""],
+          name:[""]
+        })
+      ]),  
     })
    }
 
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      if(params.id!=undefined && params.id!=0){ 
-        this.fetchDetails(params.id) ;
-      }
-     });
+   onNoClick(): void {
+    this.dialogRef.close();
   }
+  ngOnInit(): void {
+       this.fetchDetails(this.data);
+     
+  }
+
+
 
   fetchDetails(id){
     this.httpService.get<any>(this.bloodGroupService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      this.bloodGroupdtls = data.bloodGroupBean;
+      this.bloodGroupdtls = data.list[0];
       }, error: (err) => console.log(err)
      });
   }
