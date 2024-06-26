@@ -2,7 +2,8 @@
     <div class="content-block">
         <div class="block-header">
             <!-- breadcrumb -->
-            <app-breadcrumb [title]="'Add Currency Master'" [items]="['Crew']" [active_item]="'Add Currency Master'">
+            <app-breadcrumb [title]="'Add Currency Master'" [items]="['Crew','Maintain','Currency Master']"
+                [active_item]="'Add Currency Master'">
             </app-breadcrumb>
         </div>
         <div class="row clearfix">
@@ -12,13 +13,29 @@
                         <div class="body">
                             <form class="m-4" autocomplete="off" [formGroup]="docForm">
                                 <div class="row w-100">
+
                                     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12" *ngIf="!edit">
                                         <mat-form-field class="example-full-width" appearance="outline">
                                             <mat-label>Currency Code</mat-label>
                                             <input matInput formControlName="code" required>
                                             <mat-error *ngIf="docForm.get('code').hasError('required')">
                                                 Currency Code is required
-                                              </mat-error>
+                                            </mat-error>
+                                        </mat-form-field>
+
+                                    </div>
+
+                                    
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12"   *ngIf="edit">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Currency Code</mat-label>
+                                            <input matInput formControlName="code" required readonly>
+                                            <mat-error *ngIf="docForm.get('code').hasError('required')">
+                                                Currency Code is required
+                                            </mat-error>
                                         </mat-form-field>
 
                                     </div>
@@ -29,42 +46,50 @@
                                             <input matInput formControlName="name" required>
                                             <mat-error *ngIf="docForm.get('name').hasError('required')">
                                                 Currency Name is required
-                                              </mat-error>
+                                            </mat-error>
                                         </mat-form-field>
 
                                     </div>
-                                    <div class="row">
+                                </div>
 
-                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                <div class="row w-100">
 
-                                            <mat-label>Exchange Rate to Base Currency</mat-label>
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                    </div>
 
-                                        </div>
+                                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
 
-                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-                                            <mat-form-field class="example-full-width" appearance="outline">
-                                                <mat-label>From</mat-label>
-                                                <input matInput formControlName="fromcurren" placeholder="0.00" required>
-                                                <mat-error *ngIf="docForm.get('fromcurren').hasError('required')">
-                                                    From Currency is required
-                                                  </mat-error>
-                                            </mat-form-field>
+                                        <mat-label>Exchange Rate to Base Currency</mat-label>
 
-                                        </div>
+                                    </div>
 
-                                        
+                                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>From</mat-label>
+                                            <input matInput formControlName="fromcurren" placeholder="0.00" required>
+                                            <mat-error *ngIf="docForm.get('fromcurren').hasError('required')">
+                                                From Currency is required
+                                            </mat-error>
+                                        </mat-form-field>
 
-                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-                                            <mat-form-field class="example-full-width" appearance="outline">
-                                                <mat-label>To</mat-label>
-                                                <input matInput formControlName="tocurren" placeholder="0.00" required>
-                                                <mat-error *ngIf="docForm.get('tocurren').hasError('required')">
-                                                    To Currency is required
-                                                  </mat-error>
-                                            </mat-form-field>
+                                    </div>
+                                    
+                                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>To</mat-label>
+                                            <input matInput formControlName="tocurren" placeholder="0.00" required>
+                                            <mat-error *ngIf="docForm.get('tocurren').hasError('required')">
+                                                To Currency is required
+                                            </mat-error>
+                                        </mat-form-field>
 
-                                        </div>
+                                    </div>
 
+                                </div>
+
+                                <div class="row w-100">
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                                     </div>
 
                                     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
@@ -73,7 +98,7 @@
                                             <input matInput formControlName="dvalue" placeholder="0.00" required>
                                             <mat-error *ngIf="docForm.get('dvalue').hasError('required')">
                                                 Default Value is required
-                                              </mat-error>
+                                            </mat-error>
                                         </mat-form-field>
 
                                     </div>
@@ -83,38 +108,44 @@
                                             <mat-label>Fraction Part</mat-label>
                                             <input matInput formControlName="fractpart" placeholder="0" required>
                                             <mat-error *ngIf="docForm.get('fractpart').hasError('required')">
-                                                Fraction  is required
-                                              </mat-error>
+                                                Fraction is required
+                                            </mat-error>
                                         </mat-form-field>
 
                                     </div>
-
-                                    <div class="row w-100">
-                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" style="padding-left: 69px;">
-                                            <mat-checkbox formControlName="active">Active</mat-checkbox>
-                                          </div>
-
-                                            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" style="padding-left: 69px;">
-                                                <mat-checkbox formControlName="currency">Book Currency</mat-checkbox>
-                                              </div>
-                                        </div>
-
-                                    
-
                                 </div>
 
-                                <br>
-                                <div class="center">
-                                    <button *ngIf="!edit" class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
-                                    <button *ngIf="edit" class="btn-space saveBtn" mat-raised-button (click)="update()"><mat-icon class="saveCancelIcon">save</mat-icon>Update</button>
-                                    <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
-                                          </div>
-                            </form>
+                                <div class="row w-100">
 
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                    </div>
+
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12" style="padding-left: 69px;">
+                                        <mat-checkbox formControlName="active">Active</mat-checkbox>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12" style="padding-left: 69px;">
+                                        <mat-checkbox formControlName="currency">Book Currency</mat-checkbox>
+                                    </div>
+                                </div>
+
+
+                        <br>
+                        <div class="center">
+                            <button *ngIf="!edit" class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon
+                                    class="saveCancelIcon">save</mat-icon>Save</button>
+                            <button *ngIf="edit" class="btn-space saveBtn" mat-raised-button
+                                (click)="update()"><mat-icon class="saveCancelIcon">save</mat-icon>Update</button>
+                            <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon
+                                    class="saveCancelIcon">cancel</mat-icon>Cancel</button>
                         </div>
+                        </form>
+
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </section>

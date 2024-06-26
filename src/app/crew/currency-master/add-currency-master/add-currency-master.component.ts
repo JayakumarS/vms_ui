@@ -88,6 +88,7 @@ export class AddCurrencyMasterComponent implements OnInit {
         // 'currency':res.currencyBean.currency
 
         });
+      //  this.docForm.get('code').disable();
     });
   }
   save(){

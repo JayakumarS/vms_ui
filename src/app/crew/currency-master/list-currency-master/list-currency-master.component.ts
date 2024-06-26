@@ -118,7 +118,7 @@ export class ListCurrencyMasterComponent extends UnsubscribeOnDestroyAdapter imp
           else{
             this.showNotification(
               "snackbar-danger",
-              "Delete Failed",
+              data.msg,
               "bottom",
               "center"
             );

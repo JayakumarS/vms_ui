@@ -66,8 +66,8 @@ export class CurrencyMasterService  extends UnsubscribeOnDestroyAdapter{
     });
  }
 
- updateCurrency(currency: CurrencyModel, router, notificationService){
-  this.httpService.post<CurrencyModel>(this.updateUrl, currency).subscribe({next: (data: any) => {
+ updateCurrency(currencymodel: CurrencyModel, router, notificationService){
+  this.httpService.post<CurrencyModel>(this.updateUrl, currencymodel).subscribe({next: (data: any) => {
     if (data.success == true) {
       notificationService.showNotification(
         "snackbar-success",
