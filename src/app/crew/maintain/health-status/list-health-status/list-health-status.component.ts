@@ -21,6 +21,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { HealthStatusService } from '../health-status.service';
 import { HealthStatus } from '../health-status.model';
 import { DeleteComponent } from './delete/delete.component';
+import { ViewHealthStatusComponent } from '../view-health-status/view-health-status.component';
 
 @Component({
   selector: 'app-list-health-status',
@@ -113,8 +114,26 @@ export class ListHealthStatusComponent extends UnsubscribeOnDestroyAdapter imple
   }
 
   viewCall(row) {
-    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/health-status/view-health-status/', row.healthstatusid]);
+    // // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    // this.router.navigate(['/crew/maintain/health-status/view-health-status/', row.healthstatusid]);
+     let rowId = row.healthstatusid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewHealthStatusComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
+
   }
 
   deleteItem(row){

@@ -60,21 +60,16 @@ export class ViewApplicationsComponent implements OnInit {
 
 downloadcvOperations(filename){
  
-    const fileURL = this.serverUrl.apiServerAddress + "FileUpload/CustomerList/" + filename;
-  
-    // Creating an anchor element
+    const fileURL = this.serverUrl.apiServerAddress+"file_upload/"+filename;
+ 
     const a = document.createElement('a');
-    
-    a.href = fileURL;
-    
-    a.target = '_blank';
-    
-    a.download = filename;
-  
-    document.body.appendChild(a);
-  
-    a.click();
-  
-    document.body.removeChild(a);
+    a.href = this.serverUrl.apiServerAddress+"file_upload/"+filename;
+ 
+
+// a.href = fileURL;
+a.download = filename;
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
 }
 }
