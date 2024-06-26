@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -66,12 +66,12 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
     this.docForm = this.fb.group({
           select: [""],
           offmanagerid:[""],
-          code: [""],
-          description: [""],
-          city: [""],
-          address: [""],
-          poscode: [""],
-          phone: [""],
+          code: ["",Validators.required],
+          description: ["",Validators.required],
+          city: ["",Validators.required],
+          address: ["",Validators.required],
+          poscode: ["",Validators.required],
+          phone: ["",Validators.required],
           remarks: [""],
           blogofileName: [""],
           blogofilePath: [""],
