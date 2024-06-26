@@ -21,6 +21,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { ExpEngineService } from '../exp-engine.service';
 import { ExpEngine } from '../exp-engine-model';
 import { DeleteComponent } from '../../maintain-rank/list-maintain-rank/delete/delete.component';
+import { ViewExpEngineComponent } from '../view-exp-engine/view-exp-engine.component';
 
 
 @Component({
@@ -113,9 +114,31 @@ export class ListExpEngineComponent extends UnsubscribeOnDestroyAdapter implemen
     this.router.navigate(['/crew/maintain/exp-engine/add-exp-engine/', row.engineid]);
   }
 
+  // viewCall(row) {
+  //   // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+  //   this.router.navigate(['/crew/maintain/exp-engine/view-exp-engine/', row.engineid]);
+  // }
   viewCall(row) {
-    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/exp-engine/view-exp-engine/', row.engineid]);
+    // // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    // this.router.navigate(['/crew/maintain/health-status/view-health-status/', row.healthstatusid]);
+     let rowId = row.engineid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewExpEngineComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
+
   }
 
   deleteItem(row){

@@ -21,6 +21,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { PayTypes } from '../pay-types.model';
 import { PayTypesService } from '../pay-types.service';
+import { ViewPayTypesComponent } from '../view-pay-types/view-pay-types.component';
 @Component({
   selector: 'app-list-pay-types',
   templateUrl: './list-pay-types.component.html',
@@ -112,8 +113,26 @@ export class ListPayTypesComponent extends UnsubscribeOnDestroyAdapter implement
   }
 
   viewCall(row) {
-    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/paytypes/view-paytypes/', row.paytypeid]);
+    // // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    // this.router.navigate(['/crew/maintain/health-status/view-health-status/', row.healthstatusid]);
+     let rowId = row.paytypeid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewPayTypesComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
+
   }
 
   deleteItem(row){

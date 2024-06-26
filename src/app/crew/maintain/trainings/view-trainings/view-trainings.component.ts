@@ -1,10 +1,13 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { TrainingsService } from '../trainings.service';
+import { DeleteComponent } from '../../work-license/list-work-license/delete/delete.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { NotificationService } from 'src/app/core/service/notification.service';
 
 @Component({
   selector: 'app-view-trainings',
@@ -21,7 +24,10 @@ export class ViewTrainingsComponent implements OnInit {
     public route:ActivatedRoute, 
     private httpService: HttpServiceService,
     private fb: FormBuilder,
-    public trainingsService : TrainingsService
+    public trainingsService : TrainingsService,
+    public dialogRef: MatDialogRef<DeleteComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+   ,public notificationService:NotificationService
   ) { 
     this.docForm = this.fb.group({
       trainingsBeanDtls: this.fb.array([
@@ -36,13 +42,12 @@ export class ViewTrainingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
-      // this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
-       this.fetchDetails(this.decryptRequestId) ;
-      }
-     });
+    this.fetchDetails(this.data);
+  
+}
+  onNoClick(): void {
+    this.dialogRef.close();
   }
-
   fetchDetails(id){
     this.httpService.get<any>(this.trainingsService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.viewDtl = data.list[0];

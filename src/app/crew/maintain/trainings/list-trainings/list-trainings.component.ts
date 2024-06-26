@@ -21,6 +21,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { TrainingsService } from '../trainings.service';
 import { Trainings } from '../trainigs.mdodel';
+import { ViewTrainingsComponent } from '../view-trainings/view-trainings.component';
 @Component({
   selector: 'app-list-trainings',
   templateUrl: './list-trainings.component.html',
@@ -112,10 +113,27 @@ export class ListTrainingsComponent extends UnsubscribeOnDestroyAdapter implemen
   }
 
   viewCall(row) {
-    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/trainings/view-trainings/', row.trainingid]);
-  }
+    // // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    // this.router.navigate(['/crew/maintain/health-status/view-health-status/', row.healthstatusid]);
+     let rowId = row.trainingid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
 
+    const dialogRef = this.dialog.open(ViewTrainingsComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
+
+  }
   deleteItem(row){
     let tempDirection;
     if (localStorage.getItem("isRtl") == "true") {
