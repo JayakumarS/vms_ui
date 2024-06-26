@@ -15,37 +15,25 @@
                                 style=" border: 1px solid #b8a6dd!important; border-radius: 10px; background-color: #ecebf7;">
                                 <form class="m-4" autocomplete="off" [formGroup]="docForm">
                                     <br>
-                                    <table class="border1" style=" border: 1px solidrgb(157, 158, 163); width:100%; border-collapse: collapse; margin-top: 20px; text-align: right;">
-                                    <tr style="font-weight: 600; text-align: center;height: 30px; vertical-align: middle;  background-color: rgb(96 125 139 / 82%);  color: rgb(252, 248, 248); font-weight: bold;font-size:15px; font-style:normal; text-indent: 4px;">
-                                        <th>
-                                            Department Code
-                                        </th>
-                                        <th>
-                                            Department Name
-                                        </th>
-                                        <th>
-                                           Department Head
-                                        </th>
-                                    </tr>
-                                    <tr style=" padding: 7px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; vertical-align: middle;
-            font-weight:normal; border-radius: 0.25rem; text-align: center;height: 50px;  background-color: rgb(203 226 235 / 82%);">
-                                        <td>
-                                            {{deptdtls.code}}
-                                        </td>
-                                        <td>
-                                            {{deptdtls.name}}
-                                        </td>
-                                        <td>
-                                            {{deptdtls.head}}
-                                        </td>
-                                    </tr>
-                                </table>
+                                    <div class="row">
+                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Department Code: </b>{{deptdtls.code}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Department Name: </b>{{deptdtls.name}}</mat-label>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                            <mat-label><b>Department Head: </b>{{deptdtls.name}}</mat-label>
+                                        </div>
+                                    </div>
                                 <br>
                                     <br>
                                     <br>
                                     <div class="row">
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3 center">
-                                            <button color="warn" (click)="onCancel()" type="button" mat-raised-button>Cancel</button>
+                                            <button class="cancelBtn" type="button" mat-button (click)="onCancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
                                         </div>
                                     </div>
                                 </form>

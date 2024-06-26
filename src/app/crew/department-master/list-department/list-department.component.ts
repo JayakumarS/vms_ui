@@ -118,7 +118,7 @@ export class ListDepartmentComponent extends UnsubscribeOnDestroyAdapter impleme
             else {
               this.showNotification(
                 "snackbar-danger",
-                "Error in save",
+                data.msg,
                 "bottom",
                 "center"
               );
