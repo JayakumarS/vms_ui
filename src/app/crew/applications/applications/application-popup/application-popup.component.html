@@ -1,45 +1,48 @@
-<h6 style="margin-left: 39%;color: #4694c6;font-size: 19px;">Application Popup</h6>
+<h6 style="margin-left: 39%; color: #4694c6; font-size: 19px;">Application Popup</h6>
 <br><br>
 <div class="row">
-    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="margin-top: -4%;">
-        <mat-label><b>Certificate Upload</b></mat-label>
-        <app-file-upload >
-        </app-file-upload>
-
+  <div *ngFor="let certificate of certificateList; let certificateIndex = index" class="col-md-12">
+    <!-- Loop through the splitCertificateNames array -->
+    <div *ngFor="let nameObj of certificate.splitCertificateNames; let nameIndex = index" class="row">
+      <div class="col-md-3">
+        <label><b>{{nameObj.name}}</b></label>
       </div>
-      <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-        <label class="checkbox-container mandatory-valid" style="font-size: 16px;">
-            <input type="checkbox" (click)="check('mandatoryValidCheckbox')" [checked]="mandatoryFlag">
-            <span class="checkmark"></span>
-            Mandatory Valid
-        </label>
-    </div>
-    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-        <label class="checkbox-container mandatory-invalid" style="font-size: 14px;">
-            <input type="checkbox" (click)="check('mandatoryInvalidCheckbox')" [checked]="mandatoryInvalidFlag">
-            <span class="checkmark"></span>
-            Mandatory Invalid
-        </label>
-    </div>
-    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-        <label class="checkbox-container optional-invalid" style="font-size: 14px;">
-            <input type="checkbox" (click)="check('optionalInvalidCheckbox')" [checked]="optionalFlag">
-            <span class="checkmark"></span>
-            Optional Invalid
-        </label>
-    </div>
+      
+      <!-- Additional content to display for each split name -->
+      <div class="col-md-3">
+        <app-file-upload></app-file-upload>
+      </div>
     
-     
-    <table>
-        <thead>
-            <tr>
-                <th style="text-align: center;">Cerificates</th>
-            </tr>
-        </thead>
-        <tbody  *ngFor="let data of certificateList; let i = index">
-            <tr>
-                <td>{{data.certificateName}}</td>
-            </tr>
-        </tbody>
-    </table>
+      <div class="col-md-2">
+        <label class="checkbox-container mandatory-valid" style="font-size: 16px;">
+          <input type="checkbox" (click)="check(certificateIndex, nameIndex, 'mandatoryValidCheckbox')" [checked]="nameObj.mandatoryFlag">
+          <span class="checkmark"></span>
+          Mandatory Valid
+        </label>
+      </div>
+      
+      <div class="col-md-2">
+        <label class="checkbox-container mandatory-invalid" style="font-size: 14px;">
+          <input type="checkbox" (click)="check(certificateIndex, nameIndex, 'mandatoryInvalidCheckbox')" [checked]="nameObj.mandatoryInvalidFlag">
+          <span class="checkmark"></span>
+          Mandatory Invalid
+        </label>
+      </div>
+      
+      <div class="col-md-2">
+        <label class="checkbox-container optional-invalid" style="font-size: 14px;">
+          <input type="checkbox" (click)="check(certificateIndex, nameIndex, 'optionalInvalidCheckbox')" [checked]="nameObj.optionalFlag">
+          <span class="checkmark"></span>
+          Optional Invalid
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+<div class="center">
+  <button class="btn-space saveBtn" mat-raised-button (click)="onSubmit()">
+    <mat-icon class="saveCancelIcon">save</mat-icon>Save
+  </button>
 </div>

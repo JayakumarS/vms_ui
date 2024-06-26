@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -20,6 +20,8 @@ import { ApplicationsService } from '../applications.service';
   styleUrls: ['./application-popup.component.css']
 })
 export class ApplicationPopupComponent implements OnInit {
+
+  docForm: FormGroup;
   certificateList : any =[];
   mandatoryFlag = false;
   mandatoryInvalidFlag = false;
@@ -41,40 +43,91 @@ export class ApplicationPopupComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private authService: AuthService, ) { }
 
-  ngOnInit(): void {
-
-    this.rankCode = this.data.action.rankCode;
-
-      // this.httpService.get<any>(this.applicationsService.getCertificate).subscribe((res: any) => {
+    ngOnInit(): void {
+      this.docForm = this.fb.group({
+        rankCode: [""],
+        certifiCode: [""],
+      });
     
-      //   this.certificateList = res.list;
+      this.docForm.value.rankCode = this.data.action.rankCode;
     
-      // });
-
-
-      this.httpService.get<any>(this.applicationsService.getCertificate + "?rankCode=" + this.rankCode).subscribe({
+      this.httpService.get<any>(this.applicationsService.getCertificate + "?rankCode=" + this.docForm.value.rankCode).subscribe({
         next: (data) => {
-          this.certificateList = data.list;
+          this.certificateList = data.list.map(item => ({
+            certifiCode: item.CertifiCode,
+            splitCertificateNames: item.certificateName.split(',').map(name => ({
+              name,
+              mandatoryFlag: false,
+              mandatoryInvalidFlag: false,
+              optionalFlag: false
+            }))
+          }));
         },
       });
-  }
-
-  check(value: string) {
-    if (value === 'mandatoryValidCheckbox') {
-        this.mandatoryFlag = true;
-        this.mandatoryInvalidFlag = false;
-        this.optionalFlag = false;
-    } else if (value === 'mandatoryInvalidCheckbox') {
-        this.mandatoryInvalidFlag = true;
-        this.mandatoryFlag = false;
-        this.optionalFlag = false;
-    } else if (value === 'optionalInvalidCheckbox') {
-        this.optionalFlag = true;
-        this.mandatoryFlag = false;
-        this.mandatoryInvalidFlag = false;
     }
-}
-
+    
   
+    check(certificateIndex: number, nameIndex: number, value: string) {
+      const certificate = this.certificateList[certificateIndex].splitCertificateNames[nameIndex];
+      if (value === 'mandatoryValidCheckbox') {
+        certificate.mandatoryFlag = true;
+        certificate.mandatoryInvalidFlag = false;
+        certificate.optionalFlag = false;
+      } else if (value === 'mandatoryInvalidCheckbox') {
+        certificate.mandatoryInvalidFlag = true;
+        certificate.mandatoryFlag = false;
+        certificate.optionalFlag = false;
+      } else if (value === 'optionalInvalidCheckbox') {
+        certificate.optionalFlag = true;
+        certificate.mandatoryFlag = false;
+        certificate.mandatoryInvalidFlag = false;
+      }
+    }
+  
+
+    onSubmit() {
+      if (this.docForm.valid) {
+        const selectedCertificates = this.certificateList
+          .filter(certificate => certificate.splitCertificateNames.some(nameObj =>
+            nameObj.mandatoryFlag || nameObj.mandatoryInvalidFlag || nameObj.optionalFlag
+          ))
+          .map(certificate => {
+            return {
+              certifiCode: certificate.certifiCode,
+              splitCertificateNames: certificate.splitCertificateNames.map(nameObj => ({
+                name: nameObj.name,
+                mandatoryValid: nameObj.mandatoryFlag,
+                mandatoryInvalid: nameObj.mandatoryInvalidFlag,
+                optionalInvalid: nameObj.optionalFlag
+              }))
+            };
+          });
+    
+        if (selectedCertificates.length > 0) {
+          const payload = {
+            ...this.docForm.value,
+            certificates: selectedCertificates
+          };
+    
+          this.applicationsService.savecertificate(payload, this.router, this.notificationService);
+        } else {
+          this.notificationService.showNotification(
+            "snackbar-danger",
+            "Please select at least one checkbox",
+            "top",
+            "right"
+          );
+        }
+      } else {
+        this.notificationService.showNotification(
+          "snackbar-danger",
+          "Please fill the required details",
+          "top",
+          "right"
+        );
+      }
+    }
+    
+    
 
 }

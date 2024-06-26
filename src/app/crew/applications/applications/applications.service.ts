@@ -41,7 +41,8 @@ export class ApplicationsService extends UnsubscribeOnDestroyAdapter{
   public uploadFilePI = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/uploadfile`;
   public getenginelist = `${this.serverUrl.apiServerAddress}api/common/getExpEngine`;
   public getCertificate = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/certificateList`;
-  
+  public savecertificateUrl = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/saveCertificate`;
+
   
   
   getList(){
@@ -100,5 +101,27 @@ export class ApplicationsService extends UnsubscribeOnDestroyAdapter{
 
 delete(id){
   return this.httpClient.get<any>(this.deleteUrl + "?id=" + id);
+}
+
+savecertificate(application: application, router, notificationService){
+  this.httpService.post<application>(this.savecertificateUrl, application).subscribe({next: (data: any) => {
+   if (data.success == true) {
+     notificationService.showNotification(
+       "snackbar-success",
+       "Record Added Successfully",
+       "bottom",
+       "center"
+     );
+      router.navigate(['/crew/applications/applications/list-applications']);
+   }else{
+     notificationService.showNotification(
+       "snackbar-danger",
+       "Not Updated",
+       "bottom",
+       "center"
+     );
+   }
+   }, error: (err) => console.log(err)
+  });
 }
 }
