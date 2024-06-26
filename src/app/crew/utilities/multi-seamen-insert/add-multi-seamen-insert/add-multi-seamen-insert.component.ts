@@ -199,7 +199,12 @@ this.filteritempaylist();
         });
       }
 
+    nameChange(i){
+        let rankList = this.nameList.find(dtl => dtl.id === this.docForm.value.multiseamendetail[i].name);
+        let multiseamendetailDtlArray=this.docForm.controls.multiseamendetail as FormArray;
+        multiseamendetailDtlArray.at(i).patchValue({rank:rankList.rankId.toString()});
 
+    }
 
    filteritemcurrencylist(){
     if (!this.currencylist) {

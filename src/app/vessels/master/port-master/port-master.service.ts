@@ -65,7 +65,7 @@ this.httpService.post<PortMaster>(this.savePortMaster,portMaster).subscribe(data
   else if(data.success===false){
     notificationService.showNotification(
       "snackbar-danger",
-      "Save Failed ...!!!",
+       data.message,
       "bottom",
       "center"
     );

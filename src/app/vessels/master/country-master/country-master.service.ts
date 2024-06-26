@@ -77,7 +77,7 @@ export class CountryMasterService extends UnsubscribeOnDestroyAdapter{
       else if(data.success===false){
         notificationService.showNotification(
           "snackbar-danger",
-          "Save Failed ...!!!",
+          data.message,
           "bottom",
           "center"
         );

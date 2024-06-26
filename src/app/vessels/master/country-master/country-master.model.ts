@@ -7,6 +7,7 @@ export class CountryMaster {
   isActive: string;
   clientType:string;
   success:boolean;
+  message : string
   constructor(countryMaster) {
     {
       this.id = countryMaster.id || this.getRandomID();

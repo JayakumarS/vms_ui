@@ -113,7 +113,8 @@
                                                         [label]="'Name'"
                                                         formControlName="name"
                                                         [required]="true"
-                                                        [errorMessage]="'Name is required'">
+                                                        [errorMessage]="'Name is required'"
+                                                        (selectionChange)="nameChange(i)">
                                                       </app-searchable-select>
                                                     </td>
 
