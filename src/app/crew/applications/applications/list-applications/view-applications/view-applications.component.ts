@@ -57,7 +57,20 @@ export class ViewApplicationsComponent implements OnInit {
     this.router.navigate(['/crew/applications/applications/list-applications']);
 
 }
+downloadapplicantimageFileName(filename){
+ 
+  const fileURL = this.serverUrl.apiServerAddress+"file_upload/"+filename;
+ 
+  const a = document.createElement('a');
+  a.href = this.serverUrl.apiServerAddress+"file_upload/"+filename;
 
+
+// a.href = fileURL;
+a.download = filename;
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
 downloadcvOperations(filename){
  
     const fileURL = this.serverUrl.apiServerAddress+"file_upload/"+filename;
@@ -72,4 +85,34 @@ document.body.appendChild(a);
 a.click();
 document.body.removeChild(a);
 }
+downloadpassBookfileName(filename){
+ 
+  const fileURL = this.serverUrl.apiServerAddress+"file_upload/"+filename;
+
+  const a = document.createElement('a');
+  a.href = this.serverUrl.apiServerAddress+"file_upload/"+filename;
+
+
+// a.href = fileURL;
+a.download = filename;
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
+
+downloadsBookfileName(filename){
+ 
+  const fileURL = this.serverUrl.apiServerAddress+"file_upload/"+filename;
+
+  const a = document.createElement('a');
+  a.href = this.serverUrl.apiServerAddress+"file_upload/"+filename;
+
+
+// a.href = fileURL;
+a.download = filename;
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
+
 }

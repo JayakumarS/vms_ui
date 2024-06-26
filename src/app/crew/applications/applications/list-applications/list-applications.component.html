@@ -58,17 +58,17 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header fxLayoutGap="5px">Surname</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.surname}}</mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="rank">
+                  <ng-container matColumnDef="rankname">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Rank</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.rank}}</mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.rankname}}</mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="nation">
+                  <ng-container matColumnDef="nationalityname">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Nationality</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.nation}}</mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.nationalityname}}</mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="agent">
+                  <ng-container matColumnDef="agentname">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Agent</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.agent}}</mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.agentname}}</mat-cell>
                   </ng-container>
                 
                                                    

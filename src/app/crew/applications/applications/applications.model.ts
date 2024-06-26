@@ -5,4 +5,7 @@ export class application{
     surname:any;
     rank:any;
     nation:any;
+    rankname:any;
+    agentname:any;
+    nationalityname:any;
 }

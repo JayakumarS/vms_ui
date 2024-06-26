@@ -38,9 +38,9 @@ export class ListApplicationsComponent extends UnsubscribeOnDestroyAdapter imple
     "code",
     "name",
     "surname",
-    "rank",
-    "nation",
-    "agent",  
+    "rankname",
+    "nationalityname",
+    "agentname",  
     "actions"
   ];
 
@@ -187,8 +187,9 @@ export class ExampleDataSource extends DataSource<application> {
             application.code +
             application.surname +
             application.name +
-            application.rank +
-            application.nation
+            application.rankname +
+            application.nationalityname+
+            application.agentname
            ).toLowerCase();
            return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
          });
@@ -222,13 +223,15 @@ export class ExampleDataSource extends DataSource<application> {
        case "name":
          [propertyA, propertyB] = [a.name, b.name];
          break;
-       case "rank":
-         [propertyA, propertyB] = [a.rank, b.rank];
+       case "rankname":
+         [propertyA, propertyB] = [a.rankname, b.rankname];
          break;
-         case "nation":
-          [propertyA, propertyB] = [a.nation, b.nation];
+         case "nationalityname":
+          [propertyA, propertyB] = [a.nationalityname, b.nationalityname];
           break;
-
+          case "agentname":
+            [propertyA, propertyB] = [a.agentname, b.agentname];
+            break;
          
      }
      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

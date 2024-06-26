@@ -224,13 +224,62 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
       let licenceExpiryDatenew = this.cmnService.getDateObj(data.list[0].licenceExpiryDate);
 
       let expiryDatenew = this.cmnService.getDateObj(data.list[0].expiryDate);
+      if(data.list[0].engine==null){
+        this.docForm.patchValue({
+          'engine' : ''
+          })
+      }
+      else{
+        this.docForm.patchValue({
+        'engine' : data.list[0].engine.toString()
+        })
+      }
+
+      if(data.list[0].licence==null){
+        this.docForm.patchValue({
+          'licence' : ''
+          })
+      }
+      else{
+        this.docForm.patchValue({
+          'licence' : data.list[0].licence.toString(),
+        })
+      }
+      if(data.list[0].nation==null){
+        this.docForm.patchValue({
+          'nation' : ''
+          })
+      }
+      else{
+        this.docForm.patchValue({
+          'nation' :  data.list[0].nation.toString(),
+        })
+      }
+      if(data.list[0].rank==null){
+        this.docForm.patchValue({
+          'rank' : ''
+          })
+      }
+      else{
+        this.docForm.patchValue({
+          'rank' : data.list[0].rank.toString(),
+        })
+      }
+      if(data.list[0].agent==null){
+        this.docForm.patchValue({
+          'agent' : ''
+          })
+      }
+      else{
+        this.docForm.patchValue({
+          'agent' : data.list[0].agent.toString(),
+        })
+      }
       this.docForm.patchValue({
         'code': data.list[0].code,
         'surname' :  data.list[0].surname,
         'name' :  data.list[0].name,
         'midname' : data.list[0].midname,
-        'nation' :  data.list[0].nation.toString(),
-        'rank' : data.list[0].rank.toString(),
         'dobObj' :dobnew,
         'dob' : data.list[0].dob,
         'father' : data.list[0].father,
@@ -239,10 +288,9 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
         'vessel' : data.list[0].vessel,
         'priormonth' : data.list[0].priormonth,
         'decisioncode' : data.list[0].decisioncode,
-        'engine' : data.list[0].engine.toString(),
+        
         'signOffDate' : data.list[0].signOffDate,
         'signOffDateObj':signOffDatenew,
-        'agent' : data.list[0].agent.toString(),
         'remarks' : data.list[0].remarks,
         'appDate' : data.list[0].appDate,
         'appDateObj': appDatenew,
@@ -257,7 +305,6 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
         'passportissue' : data.list[0].passportissue,
         'passportExpiryDateObj' :passportExpiryDatenew,
         'passportExpiryDate' : data.list[0].passportExpiryDate,
-        'licence' : data.list[0].licence.toString(),
         'licenceissue' : data.list[0].licenceissue,
         'licenceExpiryDate' : data.list[0].licenceExpiryDate,
         'licenceExpiryDateObj':licenceExpiryDatenew,
@@ -330,9 +377,21 @@ licencelist(){
 
   });
 }
-uploadFileDoc2(event, fileInput: HTMLInputElement) {
-  // Check if the 'S.Book' field has a value
-  if (this.docForm.get('passport')?.value) {
+
+fileValidation() {
+  if (this.docForm.value.passport == "") {
+    this.showNotification(
+      "snackbar-danger",
+      "Please fill the passport",
+      "top",
+      "right"
+    );
+    return false;
+  }
+  return true;
+}
+uploadFileDoc2(event) {
+
     var excelfile = event.target.files[0];
   var blob = excelfile.slice(0, excelfile.size, ''); 
   excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
@@ -357,22 +416,25 @@ uploadFileDoc2(event, fileInput: HTMLInputElement) {
 
     console.log(frmData);
     this.tempForm.push(frmData);
-  } else {
-    this.showNotification(
-      "snackbar-danger",
-      "Please enter a value in the Passport field before uploading a file",
-      "bottom",
-      "center"
-    );
-    fileInput.value = '';
-
-  }
+ 
 
     
 }
+fileValidation1(){
+  if (this.docForm.value.book == "") {
+    this.showNotification(
+      "snackbar-danger",
+      "Please fill the S.Book",
+      "top",
+      "right"
+    );
+    return false;
+  }
+  return true;
+}
 
-uploadFileDoc1(event, fileInputDoc: HTMLInputElement) {
-  if (this.docForm.get('book')?.value) {
+uploadFileDoc1(event) {
+
     var excelfile = event.target.files[0];
   var blob = excelfile.slice(0, excelfile.size, ''); 
   excelfile = new File([blob], excelfile.name.replaceAll("#","_"), {type: ''});
@@ -398,16 +460,7 @@ uploadFileDoc1(event, fileInputDoc: HTMLInputElement) {
 
     console.log(frmData);
     this.tempForm.push(frmData);
-  } else {
-    this.showNotification(
-      "snackbar-danger",
-      "Please enter a value in the S.Book field before uploading a file",
-      "bottom",
-      "center"
-    );
-    fileInputDoc.value = '';
 
-  }
 
     
 }
