@@ -48,11 +48,11 @@
                   #exporter="matTableExporter">
                   
                   <ng-container matColumnDef="code">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> CODE </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Pay Type Code </mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.code}} </mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="description">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>DESCRIPTION</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Pay Type Description</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.description}}</mat-cell>
                   </ng-container>
                   
