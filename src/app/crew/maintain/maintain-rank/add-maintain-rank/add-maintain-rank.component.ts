@@ -61,8 +61,8 @@ export class AddMaintainRankComponent implements OnInit {
     this.docForm = this.fb.group({
 
       rankid: [""],
-      code: [""],
-      description: [""],
+      code: ["", Validators.required],
+      description: ["", Validators.required],
       groupage: [""],
       oAndt: [""],
       department: [""],

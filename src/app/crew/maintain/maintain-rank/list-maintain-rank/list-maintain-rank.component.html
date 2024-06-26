@@ -51,16 +51,16 @@
                 #exporter="matTableExporter">
 
                 <ng-container matColumnDef="code">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> CODE </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Code </mat-header-cell>
                   <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.code}} </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="description">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>DESCRIPTION</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
                   <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
                     {{row.description}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="groupagename">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>GROUPAGE</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Groupage</mat-header-cell>
                   <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.groupagename}}
                   </mat-cell>
                 </ng-container>
@@ -70,7 +70,7 @@
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="departmentname">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>DEPARTMENT</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Department</mat-header-cell>
                   <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.departmentname}}
                   </mat-cell>
                 </ng-container>

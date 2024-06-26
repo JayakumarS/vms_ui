@@ -23,7 +23,7 @@ export class ViewHealthStatusComponent implements OnInit {
     private httpService: HttpServiceService,
     private fb: FormBuilder,
     public HealthStatusService : HealthStatusService,
-    public dialogRef: MatDialogRef<DeleteComponent>,
+    public dialogRef: MatDialogRef<ViewHealthStatusComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
    ,public notificationService:NotificationService
   ) { 

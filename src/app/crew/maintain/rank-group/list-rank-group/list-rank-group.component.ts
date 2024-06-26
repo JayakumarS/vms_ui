@@ -20,6 +20,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { RankGroupService } from '../rank-group.service';
 import { RankGroup } from '../rank-group.model';
 import { DeleteComponent } from './delete/delete.component';
+import { ViewRankGroupComponent } from '../view-rank-group/view-rank-group.component';
 
 @Component({
   selector: 'app-list-rank-group',
@@ -114,7 +115,25 @@ export class ListRankGroupComponent extends UnsubscribeOnDestroyAdapter implemen
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-     this.router.navigate(['/crew/maintain/rank-group/view-Rank-Group/', row.rankgroupid]);
+
+
+     let rowId = row.rankgroupid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewRankGroupComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
   }
 
   deleteItem(row){

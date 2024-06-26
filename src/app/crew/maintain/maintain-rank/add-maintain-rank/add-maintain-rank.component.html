@@ -20,7 +20,9 @@
                   <mat-label>Code</mat-label>
          
                   <input matInput formControlName="code" >
-        
+                  <mat-error *ngIf="docForm.get('code').hasError('required')">
+                    Code is required
+                  </mat-error>
                 </mat-form-field>
                
               </div>
@@ -30,7 +32,9 @@
                   <mat-label>Discription</mat-label>
          
                   <input matInput formControlName="description" >
-        
+                  <mat-error *ngIf="docForm.get('description').hasError('required')">
+                    Description is required
+                  </mat-error>
                 </mat-form-field>
                </div>
             </div> 

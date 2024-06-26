@@ -20,6 +20,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { VesselInsuranceService } from '../vessel-insurance.service';
 import { VesselInsurance } from '../vessel-Insurance.model';
 import { DeleteComponent } from './delete/delete.component';
+import { ViewVesselInsuranceComponent } from '../view-vessel-insurance/view-vessel-insurance.component';
 
 @Component({
   selector: 'app-list-vessel-insurance',
@@ -114,7 +115,23 @@ export class ListVesselInsuranceComponent extends UnsubscribeOnDestroyAdapter im
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/vessels/maintain/vessel-insurance/view-vessel-insurance/', row.vesselinsuranceid]);
+
+    let rowId = row.vesselinsuranceid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewVesselInsuranceComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
   }
 
   deleteItem(row) {

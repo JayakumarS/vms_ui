@@ -21,6 +21,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { WorkLicenseService } from '../work-license.service';
 import { WorkLicense } from '../work-license.model';
 import { DeleteComponent } from './delete/delete.component';
+import { ViewWorkLicenseComponent } from '../view-work-license/view-work-license.component';
 
 @Component({
   selector: 'app-list-work-license',
@@ -114,7 +115,24 @@ export class ListWorkLicenseComponent extends UnsubscribeOnDestroyAdapter implem
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/work-license/view-Work-License/', row.worklicenseid]);
+
+    let rowId = row.worklicenseid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewWorkLicenseComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
   }
 
   deleteItem(row){

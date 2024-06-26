@@ -48,23 +48,23 @@
                   #exporter="matTableExporter">
                   
                   <ng-container matColumnDef="code">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> CODE </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Code </mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.code}} </mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="description">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>DESCRIPTION</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.description}}</mat-cell>
                   </ng-container>
                   
                   <ng-container matColumnDef="remarks">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>REMARKS</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.remarks}}</mat-cell>
                   </ng-container>
                  
                  
                   <!-- actions -->
                   <ng-container matColumnDef="actions" class="col-lg-12 col-md-2">
-                    <mat-header-cell class="pr-0" *matHeaderCellDef>ACTIONS</mat-header-cell>
+                    <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                       <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
                         class="tbl-action-btn">

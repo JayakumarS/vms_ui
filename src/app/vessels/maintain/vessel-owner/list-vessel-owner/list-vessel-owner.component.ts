@@ -20,6 +20,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { VesselOwnerService } from '../vessel-owner.service';
 import { VesselOwner } from '../vessel-owner.model';
 import { DeleteComponent } from './delete/delete.component';
+import { ViewVesselOwnerComponent } from '../view-vessel-owner/view-vessel-owner.component';
 
 @Component({
   selector: 'app-list-vessel-owner',
@@ -113,7 +114,25 @@ export class ListVesselOwnerComponent extends UnsubscribeOnDestroyAdapter implem
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/vessels/maintain/vessel-owner/view-vessel-owner/', row.vesselownerid]);
+
+
+    let rowId = row.vesselownerid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewVesselOwnerComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
   }
 
   deleteItem(row){

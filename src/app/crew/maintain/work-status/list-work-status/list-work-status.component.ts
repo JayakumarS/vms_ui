@@ -21,6 +21,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { DeleteComponent } from './delete/delete.component';
 import { WorkStatusService } from '../work-status.service';
 import { WorkStatus } from '../work-status.model';
+import { ViewWorkStatusComponent } from '../view-work-status/view-work-status.component';
 
 @Component({
   selector: 'app-list-work-status',
@@ -114,7 +115,23 @@ export class ListWorkStatusComponent extends UnsubscribeOnDestroyAdapter impleme
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/work-status/view-Work-Status/', row.workstatusid]);
+
+    let rowId = row.workstatusid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewWorkStatusComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
   }
 
   deleteItem(row){

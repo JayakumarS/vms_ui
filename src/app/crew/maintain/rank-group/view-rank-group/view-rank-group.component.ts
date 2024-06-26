@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { RankGroupService } from '../rank-group.service';
+import { NotificationService } from 'src/app/core/service/notification.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-view-rank-group',
   templateUrl: './view-rank-group.component.html',
@@ -19,7 +21,10 @@ export class ViewRankGroupComponent implements OnInit {
     public route:ActivatedRoute, 
     private httpService: HttpServiceService,
     private fb: FormBuilder,
-    public RankGroupService : RankGroupService
+    public RankGroupService : RankGroupService,
+    public dialogRef: MatDialogRef<ViewRankGroupComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+   ,public notificationService:NotificationService
   ) { 
     this.docForm = this.fb.group({
       vesselTypeDtls: this.fb.array([
@@ -34,13 +39,12 @@ export class ViewRankGroupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
-      // this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
-       this.fetchDetails(this.decryptRequestId) ;
-      }
-     });
+       this.fetchDetails(this.data) ;
+     
   }
-
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
   fetchDetails(id){
     this.httpService.get<any>(this.RankGroupService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.viewDtl = data.list[0];

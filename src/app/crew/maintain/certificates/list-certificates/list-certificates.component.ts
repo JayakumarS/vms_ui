@@ -21,6 +21,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { CertificatesService } from '../certificates.service';
 import { Certificates } from '../certificates.model';
 import { DeleteComponent } from './delete/delete.component';
+import { ViewCertificatesComponent } from '../view-certificates/view-certificates.component';
 
 @Component({
   selector: 'app-list-certificates',
@@ -115,7 +116,22 @@ export class ListCertificatesComponent extends UnsubscribeOnDestroyAdapter imple
 
   viewCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/crew/maintain/certificates/view-certificates/', row.certificateId]);
+    let rowId = row.certificateId
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewCertificatesComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
   }
 add(){
 
