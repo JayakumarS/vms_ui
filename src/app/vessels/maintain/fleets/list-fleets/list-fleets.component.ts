@@ -23,6 +23,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { Fleets } from '../fleets.model';
 import { FleetsService } from '../fleets.service';
+import { ViewFleetsComponent } from '../view-fleets/view-fleets.component';
 @Component({
   selector: 'app-list-fleets',
   templateUrl: './list-fleets.component.html',
@@ -113,8 +114,25 @@ export class ListFleetsComponent extends UnsubscribeOnDestroyAdapter implements 
   }
 
   viewCall(row) {
-    this.router.navigate(['/vessels/maintain/fleets/view-fleets/',row.fleetid]);
+
+    let rowId = row.fleetid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewFleetsComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
   }
+  
 
   
 

@@ -42,13 +42,15 @@ import { CountryMasterRoutingModule } from 'src/app/master/country-master/countr
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ViewClassComponent } from './view-class/view-class.component';
+import { DeleteClassComponent } from './list-class/delete-class/delete-class.component';
 
 
 @NgModule({
   declarations: [
     ListClassComponent,
     AddClassComponent,
-    ViewClassComponent
+    ViewClassComponent,
+    DeleteClassComponent
   ],
   imports: [
     CommonModule,

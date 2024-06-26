@@ -21,6 +21,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { ClassService } from '../class.service';
 import { Class } from '../class.model';
+import { ViewClassComponent } from '../view-class/view-class.component';
 @Component({
   selector: 'app-list-class',
   templateUrl: './list-class.component.html',
@@ -111,7 +112,23 @@ export class ListClassComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   viewCall(row) {
-    this.router.navigate(['/vessels/maintain/class/view-class/', row.classid]);
+  
+    let rowId = row.classid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewClassComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
   }
 
   

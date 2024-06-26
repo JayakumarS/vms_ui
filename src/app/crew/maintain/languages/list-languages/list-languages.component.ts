@@ -20,6 +20,7 @@ import { language } from '../languages.model';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { LanguagesService } from '../languages.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ViewLanguagesComponent } from '../view-languages/view-languages.component';
 
 @Component({
   selector: 'app-list-languages',
@@ -152,7 +153,24 @@ export class ListLanguagesComponent extends UnsubscribeOnDestroyAdapter implemen
   }
 
   viewCall(row) {
-    this.router.navigate(['/crew/maintain/language/view-language/',row.languageid]);
+    
+    let rowId = row.languageid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewLanguagesComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
   }
 
   private refreshTable() {

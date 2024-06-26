@@ -42,13 +42,15 @@ import { CountryMasterRoutingModule } from 'src/app/master/country-master/countr
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ViewWageScalesComponent } from './view-wage-scales/view-wage-scales.component';
+import { DeleteWageScalesComponent } from './list-wage-scales/delete-wage-scales/delete-wage-scales.component';
 
 
 @NgModule({
   declarations: [
     AddWageScalesComponent,
     ListWageScalesComponent,
-    ViewWageScalesComponent
+    ViewWageScalesComponent,
+    DeleteWageScalesComponent
   ],
   imports: [
     CommonModule,

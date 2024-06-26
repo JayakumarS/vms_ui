@@ -13,12 +13,13 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { DeleteComponent } from 'src/app/master/country-master/list-country-master/dialog/delete/delete.component';
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { AgentService } from '../agent.service';
 import { agent } from '../agent.model';
+import { DeleteAgentComponent } from './delete-agent/delete-agent.component';
+import { ViewAgentComponent } from '../view-agent/view-agent.component';
 
 @Component({
   selector: 'app-list-agent',
@@ -102,7 +103,7 @@ export class ListAgentComponent extends UnsubscribeOnDestroyAdapter implements O
       tempDirection = "ltr";
     }
 
-    const dialogRef = this.dialog.open(DeleteComponent, {
+    const dialogRef = this.dialog.open(DeleteAgentComponent, {
       height: "270px",
       width: "400px",
       data: row,
@@ -152,7 +153,23 @@ export class ListAgentComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   viewCall(row) {
-    this.router.navigate(['/crew/maintain/agent/view-agent/',row.agentid]);
+
+    let rowId = row.agentid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewAgentComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
   }
 
   private refreshTable() {

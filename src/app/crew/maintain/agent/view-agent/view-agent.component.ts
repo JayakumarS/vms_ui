@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { AgentService } from '../agent.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DeleteAgentComponent } from '../list-agent/delete-agent/delete-agent.component';
 
 @Component({
   selector: 'app-view-agent',
@@ -21,7 +23,8 @@ export class ViewAgentComponent implements OnInit {
   public router:Router,
   public route:ActivatedRoute, 
   private httpService: HttpServiceService,
-  private fb: FormBuilder,
+  private fb: FormBuilder,public dialogRef: MatDialogRef<DeleteAgentComponent>,
+  @Inject(MAT_DIALOG_DATA) public data: any,
   public agentService: AgentService,
 ) { 
   this.docForm = this.fb.group({
@@ -34,12 +37,11 @@ export class ViewAgentComponent implements OnInit {
 }
 
 ngOnInit(): void {
+  this.fetchDetails(this.data);
 
-  this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
-    // this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
-     this.fetchDetails(this.decryptRequestId) ;
-    }
-   });
+}
+onNoClick(): void {
+this.dialogRef.close();
 }
 fetchDetails(id){
   this.httpService.get<any>(this.agentService.edit+"?id="+id).subscribe({next: (data: any) => {

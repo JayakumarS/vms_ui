@@ -42,13 +42,15 @@ import { LanguagesRoutingModule } from './languages-routing.module';
 import { AddLanguagesComponent } from './add-languages/add-languages.component';
 import { ListLanguagesComponent } from './list-languages/list-languages.component';
 import { ViewLanguagesComponent } from './view-languages/view-languages.component';
+import { DeleteLanguagesComponent } from './list-languages/delete-languages/delete-languages.component';
 
 
 @NgModule({
   declarations: [
     AddLanguagesComponent,
     ListLanguagesComponent,
-    ViewLanguagesComponent
+    ViewLanguagesComponent,
+    DeleteLanguagesComponent
   ],
   imports: [
     CommonModule,

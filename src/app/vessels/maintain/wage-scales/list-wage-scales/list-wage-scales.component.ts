@@ -14,12 +14,13 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { DeleteComponent } from 'src/app/master/country-master/list-country-master/dialog/delete/delete.component';
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { WageScalesService } from '../wage-scales.service';
 import { wagescale } from '../wage-scale.model';
+import { DeleteWageScalesComponent } from './delete-wage-scales/delete-wage-scales.component';
+import { ViewWageScalesComponent } from '../view-wage-scales/view-wage-scales.component';
 
 @Component({
   selector: 'app-list-wage-scales',
@@ -114,7 +115,7 @@ export class ListWageScalesComponent extends UnsubscribeOnDestroyAdapter impleme
       tempDirection = "ltr";
     }
 
-    const dialogRef = this.dialog.open(DeleteComponent, {
+    const dialogRef = this.dialog.open(DeleteWageScalesComponent, {
       height: "270px",
       width: "400px",
       data: row,
@@ -164,7 +165,24 @@ export class ListWageScalesComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   viewCall(row) {
-    this.router.navigate(['/vessels/maintain/wage-scale/view-wageScale/',row.wagescaleid]);
+    let rowId = row.wagescaleid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewWageScalesComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
+
   }
 
  

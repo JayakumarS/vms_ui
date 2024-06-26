@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { LanguagesService } from '../languages.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DeleteLanguagesComponent } from '../list-languages/delete-languages/delete-languages.component';
 
 @Component({
   selector: 'app-view-languages',
@@ -18,7 +20,8 @@ export class ViewLanguagesComponent implements OnInit {
   constructor(public router:Router,
     public route:ActivatedRoute, 
     private httpService: HttpServiceService,
-    private fb: FormBuilder,
+    private fb: FormBuilder,  public dialogRef: MatDialogRef<DeleteLanguagesComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     public languagesService: LanguagesService,
   ) { 
     this.docForm = this.fb.group({
@@ -30,11 +33,11 @@ export class ViewLanguagesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      if(params.id!=undefined && params.id!=0){ 
-        this.fetchDetails(params.id) ;
-      }
-     });
+    this.fetchDetails(this.data);
+  
+  }
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
   fetchDetails(id){

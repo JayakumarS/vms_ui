@@ -42,13 +42,15 @@ import { CountryMasterRoutingModule } from 'src/app/master/country-master/countr
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ViewFleetsComponent } from './view-fleets/view-fleets.component';
+import { DeleteFleetsComponent } from './list-fleets/delete-fleets/delete-fleets.component';
 
 
 @NgModule({
   declarations: [
     ListFleetsComponent,
     AddFleetsComponent,
-    ViewFleetsComponent
+    ViewFleetsComponent,
+    DeleteFleetsComponent
   ],
   imports: [
     CommonModule,

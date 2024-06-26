@@ -48,11 +48,11 @@
                   #exporter="matTableExporter">
                   
                   <ng-container matColumnDef="code">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>FLEET CODE </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Fleet Code </mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.code}} </mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="description">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>FLEET DESCRIPTION</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Fleet Description</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.description}}</mat-cell>
                   </ng-container>
                   
@@ -64,20 +64,21 @@
                  
                   <!-- actions -->
                   <ng-container matColumnDef="actions">
-                    <mat-header-cell class="pr-0" *matHeaderCellDef>ACTIONS</mat-header-cell>
+                    <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                       <button  matTooltip="EDIT" mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
                         class="tbl-action-btn">
                         <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                       </button>
-                      <button  matTooltip="DELETE" mat-icon-button color="accent" (click)="$event.stopPropagation()"
-                        (click)="deleteItem(row)" class="tbl-action-btn">
-                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
-                      </button>
                       <button  matTooltip="VIEW" mat-icon-button  (click)="$event.stopPropagation()" (click)="viewCall(row)"
                       class="tbl-action-btn">
                       <i class="fa fa-eye" style="color:#33b91f;"aria-hidden="true"></i> 
                     </button>
+                      <button  matTooltip="DELETE" mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                        (click)="deleteItem(row)" class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                      
                     </mat-cell>
                   </ng-container>
   

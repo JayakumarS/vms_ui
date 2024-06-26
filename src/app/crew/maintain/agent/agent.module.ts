@@ -42,13 +42,15 @@ import { AgentRoutingModule } from './agent-routing.module';
 import { AddAgentComponent } from './add-agent/add-agent.component';
 import { ListAgentComponent } from './list-agent/list-agent.component';
 import { ViewAgentComponent } from './view-agent/view-agent.component';
+import { DeleteAgentComponent } from './list-agent/delete-agent/delete-agent.component';
 
 
 @NgModule({
   declarations: [
     AddAgentComponent,
     ListAgentComponent,
-    ViewAgentComponent
+    ViewAgentComponent,
+    DeleteAgentComponent
   ],
   imports: [
     CommonModule,
