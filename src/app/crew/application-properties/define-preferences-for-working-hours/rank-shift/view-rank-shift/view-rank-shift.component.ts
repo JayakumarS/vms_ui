@@ -16,7 +16,7 @@ export class ViewRankShiftComponent implements OnInit {
   docForm:FormGroup;
   decryptRequestId:any;
   viewDtl:any=[];
-  secondDetailRow:[];
+  secondDetailRow:any=[];
   constructor(
     public router:Router,
     public route:ActivatedRoute, 
@@ -55,7 +55,7 @@ export class ViewRankShiftComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
-      // this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
+      //this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
        this.fetchDetails(this.decryptRequestId) ;
       }
      });
@@ -64,7 +64,8 @@ export class ViewRankShiftComponent implements OnInit {
   fetchDetails(id){
     this.httpService.get<any>(this.RankShiftService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.viewDtl = data.list[0];
-      this.secondDetailRow = data.tables
+      this.secondDetailRow = data.secondDetailRow;
+   
 
       }, error: (err) => console.log(err)
      });
