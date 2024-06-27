@@ -18,6 +18,9 @@ export class CommonService extends UnsubscribeOnDestroyAdapter {
   }
 
   getYear(date): any {
+    if (!date) {
+      return null;
+    }
     return moment(date).format('YYYY');
   }
 

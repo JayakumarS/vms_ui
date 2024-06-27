@@ -39,7 +39,7 @@ export class VesselsParticularsService extends UnsubscribeOnDestroyAdapter{
   public vesselInsuranceUrl = `${this.serverUrl.apiServerAddress}api/common/getVesselInsurance`;
   public wageUrl = `${this.serverUrl.apiServerAddress}api/common/getWageScale`;
   public portUrl = `${this.serverUrl.apiServerAddress}api/common/getPort`;
-  public flagUrl = `${this.serverUrl.apiServerAddress}api/common/getCountry`;
+  public flagUrl = `${this.serverUrl.apiServerAddress}api/common/getNationality`;
   public vesselOwnerUrl = `${this.serverUrl.apiServerAddress}api/common/getVesselOwner`;
   public officialMngrUrl = `${this.serverUrl.apiServerAddress}api/common/getOfficialManagers`;
   public saveUrl = `${this.serverUrl.apiServerAddress}api/master/vesselParticular/save`;

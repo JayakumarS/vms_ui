@@ -15,7 +15,7 @@ export class PersonMaintenanceService extends UnsubscribeOnDestroyAdapter{
   dataChange: BehaviorSubject<PersonMaintenance[]> = new BehaviorSubject<PersonMaintenance[]>([]);
 
   //API'S
-  public countryUrl = `${this.serverUrl.apiServerAddress}api/common/getCountry`;
+  public countryUrl = `${this.serverUrl.apiServerAddress}api/common/getNationality`;
   public rankListUrl = `${this.serverUrl.apiServerAddress}api/common/getRankMasters`;
   public agentListUrl = `${this.serverUrl.apiServerAddress}api/common/getAgents`;
   public religionListUrl = `${this.serverUrl.apiServerAddress}api/common/getReligion`;
@@ -28,9 +28,11 @@ export class PersonMaintenanceService extends UnsubscribeOnDestroyAdapter{
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/delete`;
   public editUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/edit`;
   public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/update`;
-  public uploadFileUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/fileUpload`;
+  public uploadFileUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/uploadfile`;
   public applicantListUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/getApplicantList`;
   public detailsUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/getdetails`;
+  public generateCodeUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/generateCode`;
+  public checkListUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/checkListDtl`;
   
   
   constructor(

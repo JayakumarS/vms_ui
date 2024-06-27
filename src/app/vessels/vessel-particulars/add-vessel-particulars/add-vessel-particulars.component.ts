@@ -1272,6 +1272,8 @@ this.filteritemsuperintendentlist();
         'fleetvessel':res.hdrBean.fleetvessel,
         'dateinfleettypeObj':fleetDate,
         'dateinfleettype':res.hdrBean.dateinfleettype,
+        'vesselStatus':res.hdrBean.vesselStatus,
+        'vesselClass':res.hdrBean.vesselClass,
 
         //Main Dtls
         'flag':res.mainDtlBean.flag,
@@ -1287,6 +1289,7 @@ this.filteritemsuperintendentlist();
         'mmis':res.mainDtlBean.mmis,
         'iceclass':res.mainDtlBean.iceclass,
         'imono':res.mainDtlBean.imono,
+        'callsign':res.mainDtlBean.callsign,
 
         //Comm Dtls
         'shipowner':res.commDtlBean.shipowner,
