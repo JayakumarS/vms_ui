@@ -502,7 +502,28 @@ this.filteritempaylist();
   }
   onSubmit(){
 
-    if(this.docForm.valid){
+    if(this.docForm.value.vessel == ""){
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please select vessel",
+        "top",
+        "right"
+      )
+    }else if(this.docForm.value.startdate == ""){
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please select Start Date",
+        "top",
+        "right"
+      )
+    }else if(this.docForm.value.joinPort == ""){
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please select Join Port",
+        "top",
+        "right"
+      )
+    }else if(this.docForm.valid && this.docForm.value.vessel != "" && this.docForm.value.startdate != "" && this.docForm.value.joinPort != ""){
       this.multiSeamenInsertService.saveMultiSeamenUrl(this.docForm.value, this.router, this.notificationService);
     }else{
       this.matError.markFormGroupTouched(this.docForm);
@@ -510,7 +531,8 @@ this.filteritempaylist();
         "snackbar-danger",
         "Please fill the required details",
         "top",
-        "right");
+        "right"
+      );
     }
 
   }
