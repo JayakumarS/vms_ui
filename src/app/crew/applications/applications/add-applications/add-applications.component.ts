@@ -169,6 +169,8 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
 
       applicantimagePath: [""],
       applicantimageFileName: [""],
+      certificates:[],
+      rankCode:[""],
     })
   
 
@@ -539,6 +541,9 @@ uploadFileDoc1(event) {
         "right");
     }
   }
+
+  
+  
   addFile(){
   
     var obj = []
@@ -680,15 +685,31 @@ uploadFileDoc1(event) {
       rankCode
   }
     const dialogRef = this.dialog.open(ApplicationPopupComponent, {
-      height: "300px",
-      width: "50%",
+      height: "700px",
+      width: "80%",
       data: {
         action: obj,
       },
       direction: tempDirection,
     });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      debugger
+      console.log(result);
+      this.subdetailsPatch(result);
+      
+    });     
   }
 }
+
+
+subdetailsPatch(value) {
+
+  this.docForm.patchValue({
+    rankCode: value.rankCode,
+    certifiCode: value.certifiCode,
+    certificates: value.certificates
+  });
 }
 
 
+}

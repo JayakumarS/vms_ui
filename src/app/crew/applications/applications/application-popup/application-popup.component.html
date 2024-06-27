@@ -2,9 +2,16 @@
 <br><br>
 <div class="row">
   <div *ngFor="let certificate of certificateList; let certificateIndex = index" class="col-md-12">
+
     <!-- Loop through the splitCertificateNames array -->
     <div *ngFor="let nameObj of certificate.splitCertificateNames; let nameIndex = index" class="row">
-      <div class="col-md-3">
+
+      
+    <div class="col-md-1">
+      <label><b> {{certificate.sno}}</b></label>
+    </div>
+
+      <div class="col-md-2">
         <label><b>{{nameObj.name}}</b></label>
       </div>
       
