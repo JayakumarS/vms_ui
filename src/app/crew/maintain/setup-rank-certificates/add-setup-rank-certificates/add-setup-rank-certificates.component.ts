@@ -75,22 +75,22 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
       certificatecode: [""],
       rankcode: [""],
     });
+    this.loadRankList();
+    // this.httpService.get<any>(this.setupRankCertificatesService.ranklist).subscribe((res: any) => {
+    //   this.ranklist = res;
+    //   this.srankcodeFilteredOptions.next(this.ranklist.slice());
+    // }, (error: HttpErrorResponse) => {
+    //   console.log(error.name + " " + error.message);
+    // });
 
-    this.httpService.get<any>(this.setupRankCertificatesService.ranklist).subscribe((res: any) => {
-      this.ranklist = res;
-      this.srankcodeFilteredOptions.next(this.ranklist.slice());
-    }, (error: HttpErrorResponse) => {
-      console.log(error.name + " " + error.message);
-    });
 
-
-    this.httpService.get<any>(this.setupRankCertificatesService.list).subscribe((res: any) => {
-      this.certificatelist = res.list;
-      this.updateDisplayedColumns('0');  // Initially display all columns
-      this.fetchAndCheckSavedCertificates();
-    }, (error: HttpErrorResponse) => {
-      console.log(error.name + " " + error.message);
-    });
+    // this.httpService.get<any>(this.setupRankCertificatesService.list).subscribe((res: any) => {
+    //   this.certificatelist = res.list;
+    //   this.updateDisplayedColumns('0');  // Initially display all columns
+    //   this.fetchAndCheckSavedCertificates();
+    // }, (error: HttpErrorResponse) => {
+    //   console.log(error.name + " " + error.message);
+    // });
 
 
   
@@ -114,6 +114,28 @@ export class AddSetupRankCertificatesComponent extends UnsubscribeOnDestroyAdapt
 
     
   }
+
+
+  loadRankList() {
+    this.httpService.get<any>(this.setupRankCertificatesService.ranklist).subscribe((res: any) => {
+      this.ranklist = res;
+      this.srankcodeFilteredOptions.next(this.ranklist.slice());
+      this.loadCertificateList();  // Load certificates after ranks are loaded
+    }, (error: HttpErrorResponse) => {
+      console.log(error.name + " " + error.message);
+    });
+  }
+
+  loadCertificateList() {
+    this.httpService.get<any>(this.setupRankCertificatesService.list).subscribe((res: any) => {
+      this.certificatelist = res.list;
+      this.updateDisplayedColumns('0');  // Initially display all columns
+      this.fetchAndCheckSavedCertificates();  // Fetch and check saved certificates
+    }, (error: HttpErrorResponse) => {
+      console.log(error.name + " " + error.message);
+    });
+  }
+
 
   filterrank() {
     if (!this.ranklist) {

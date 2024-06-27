@@ -75,20 +75,21 @@ export class AddSetupRankTrainingsComponent extends UnsubscribeOnDestroyAdapter 
       rankcode: [""],
     });
 
-    this.httpService.get<any>(this.setupRankTrainingsService.ranklist).subscribe((res: any) => {
-      this.ranklist = res;
-      this.srankcodeFilteredOptions.next(this.ranklist.slice());
-    }, (error: HttpErrorResponse) => {
-      console.log(error.name + " " + error.message);
-    });
+    this.loadRankList();
+    // this.httpService.get<any>(this.setupRankTrainingsService.ranklist).subscribe((res: any) => {
+    //   this.ranklist = res;
+    //   this.srankcodeFilteredOptions.next(this.ranklist.slice());
+    // }, (error: HttpErrorResponse) => {
+    //   console.log(error.name + " " + error.message);
+    // });
 
-    this.httpService.get<any>(this.setupRankTrainingsService.list).subscribe((res: any) => {
-      this.traininglist = res.list;
-      this.updateDisplayedColumns('0');  // Initially display columns excluding '0'
-      this.fetchAndCheckSavedCertificates();
-    }, (error: HttpErrorResponse) => {
-      console.log(error.name + " " + error.message);
-    });
+    // this.httpService.get<any>(this.setupRankTrainingsService.list).subscribe((res: any) => {
+    //   this.traininglist = res.list;
+    //   this.updateDisplayedColumns('0');  // Initially display columns excluding '0'
+    //   this.fetchAndCheckSavedCertificates();
+    // }, (error: HttpErrorResponse) => {
+    //   console.log(error.name + " " + error.message);
+    // });
 
     this.srankcodeFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
       this.filterrank();
@@ -107,6 +108,28 @@ export class AddSetupRankTrainingsComponent extends UnsubscribeOnDestroyAdapter 
     });
   }
 
+
+
+  
+  loadRankList() {
+    this.httpService.get<any>(this.setupRankTrainingsService.ranklist).subscribe((res: any) => {
+      this.ranklist = res;
+      this.srankcodeFilteredOptions.next(this.ranklist.slice());
+      this.loadCertificateList();  // Load certificates after ranks are loaded
+    }, (error: HttpErrorResponse) => {
+      console.log(error.name + " " + error.message);
+    });
+  }
+
+  loadCertificateList() {
+    this.httpService.get<any>(this.setupRankTrainingsService.list).subscribe((res: any) => {
+      this.traininglist = res.list;
+      this.updateDisplayedColumns('0');  // Initially display columns excluding '0'
+      this.fetchAndCheckSavedCertificates();
+    }, (error: HttpErrorResponse) => {
+      console.log(error.name + " " + error.message);
+    });
+  }
   filterrank() {
     if (!this.ranklist) {
       return;
