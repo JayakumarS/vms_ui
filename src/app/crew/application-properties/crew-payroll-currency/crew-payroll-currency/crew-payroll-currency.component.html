@@ -21,18 +21,39 @@
                 
                   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12" >
               
-                    <!-- <app-searchable-select [options]="nationalitylist" placeholderLabel="Search for Nationality"
-                    noEntriesFoundLabel="No results found" [label]="'Nationality'" formControlName="countryname" (click)="dropdown(title.id)"
+               <!-- <app-searchable-select [options]="nationalitylist" placeholderLabel="Search for Nationality"
+                    noEntriesFoundLabel="No results found" [label]="'Nationality'" formControlName="countryname" 
+                    (selectionChange)="dropdown($event.value)"
                     [required]="true" [errorMessage]="'Nationality is required'">
-                  </app-searchable-select> -->
-                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                   
+                  </app-searchable-select>  -->
+                 <!-- <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                     <mat-label>Nationality:</mat-label>
-                  <mat-select formControlName="countryname" required>
-                    <mat-option *ngFor="let title of nationalitylist" [value]="title.id"(click)="dropdown(title.id)">
+                  <mat-select formControlName="countryname" 
+                   noEntriesFoundLabel="No results found"  required>
+                  
+                <mat-option *ngFor="let title of nationalitylist" [value]="title.id"(click)="dropdown(title.id)">
+                  {{title.text}}
+                </mat-option>
+                  </mat-select>
+                  </mat-form-field>   -->
+
+                  
+     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                    <mat-label>Nationality:</mat-label>
+                  <mat-select formControlName="countryname" #nation (selectionChange)="dropdown($event.value)"
+                   noEntriesFoundLabel="No results found"  required>
+                   <mat-option>
+                    <ngx-mat-select-search [placeholderLabel]="'Search for Nationality'" 
+                        [noEntriesFoundLabel]="'no results found'"
+                        [formControl]="nationalityListFilterCtrl"></ngx-mat-select-search>
+                </mat-option>
+                    <mat-option *ngFor="let title of nationalityListFilteredOptions |async"
+                     [value]="title.id">
                     {{title.text}}
                   </mat-option>
                   </mat-select>
-                  </mat-form-field>
+                  </mat-form-field> 
                   
                
                   </div>

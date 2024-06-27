@@ -10,7 +10,7 @@ import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { ReplaySubject, Subject, map, startWith, takeUntil } from 'rxjs';
 import { MatSelect } from '@angular/material/select';
 import { CrewPayrollCurrency } from '../crew-payroll-currency.model';
 import { CrewPayrollCurrencyService } from '../crew-payroll-currency.service';
@@ -43,7 +43,9 @@ export class CrewPayrollCurrencyComponent implements OnInit {
   timingList:any=[];
   nationList:any=[];
   nationalitylist: any = [];
-
+  title:any;
+  filteredNationalities:any;
+  countryname:any;
   // For Encryption
   requestId: any;
   decryptRequestId: any;
@@ -84,7 +86,25 @@ export class CrewPayrollCurrencyComponent implements OnInit {
     //     'code':res.code
     //   })
     // })
-    this.filternationality();
+    this.httpService.get<any>(this.CrewPayrollCurrencyService.getNationalityCode).subscribe((res: any) => {
+  
+      this.nationalitylist = res.lCommonUtilityBean;
+      this.nationalityListFilteredOptions.next(this.nationalitylist.slice());
+
+  
+    });
+     this.nationalityListFilterCtrl.valueChanges
+     .pipe(takeUntil(this.onDestroy))
+    .subscribe(() => {
+       this.filternationality();
+     });
+    // this.filteredNationalities = this.nationalityListFilterCtrl.valueChanges
+    // .pipe(
+    //   startWith(''),
+    //   map(value => this.filternationality(value))
+    // );
+
+
     this.nationList = [{id:1,text:"POLAND"},{id:2,text:"PAKISTANI"},{id:3,text:"NEPALESE"},{id:4,text:"PHILIPINO"}];
     this.vesselFilteredOptions.next(this.nationList.slice());
 
@@ -113,13 +133,13 @@ export class CrewPayrollCurrencyComponent implements OnInit {
       this.placeListFilter();
     });
    }
-   filternationality(){
-    this.httpService.get<any>(this.CrewPayrollCurrencyService.getNationalityCode).subscribe((res: any) => {
+  //  filternationality(){
+  //   this.httpService.get<any>(this.CrewPayrollCurrencyService.getNationalityCode).subscribe((res: any) => {
   
-      this.nationalitylist = res.lCommonUtilityBean;
+  //     this.nationalitylist = res.lCommonUtilityBean;
   
-    });
-  }
+  //   });
+  // }
   dropdown(id){
 
 
@@ -133,6 +153,24 @@ export class CrewPayrollCurrencyComponent implements OnInit {
       })
   });
   }
+  filternationality() {
+    if (!this.nationalitylist) {
+      return;
+    }
+    // get the search keyword
+    let search = this.nationalityListFilterCtrl.value;
+    if (!search) {
+      this.nationalityListFilteredOptions.next(this.nationalitylist.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.nationalityListFilteredOptions.next(
+      this.nationalitylist.filter(title => title.text.toLowerCase().includes(search))
+    );
+  }
+
    placeListFilter(){
     if (!this.placeList) {
       return;

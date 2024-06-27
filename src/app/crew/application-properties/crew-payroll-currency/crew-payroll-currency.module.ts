@@ -28,6 +28,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MatRadioModule } from '@angular/material/radio';
 import { ListCrewPayrollCurrencyComponent } from './list-crew-payroll-currency/list-crew-payroll-currency.component';
 import { ViewCrewPayrollCurrencyComponent } from './view-crew-payroll-currency/view-crew-payroll-currency.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 
 @NgModule({
@@ -133,6 +134,8 @@ import { ViewCrewPayrollCurrencyComponent } from './view-crew-payroll-currency/v
       MatProgressSpinnerModule,
       ComponentsModule,
       SharedModule,
+      NgxMatSelectSearchModule,
+
       MatAutocompleteModule
   ]
 })
