@@ -101,6 +101,10 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header>VESSAL TYPE </mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.offSignVesselType}} </a></mat-cell>
                   </ng-container>
+                  <ng-container matColumnDef="remarks">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Remarks </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.remarks}} </a></mat-cell>
+                  </ng-container>
                   <ng-container matColumnDef="createdBy">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Created By </mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.createdBy}} </a></mat-cell>

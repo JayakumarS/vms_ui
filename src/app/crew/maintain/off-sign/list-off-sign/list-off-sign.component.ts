@@ -32,6 +32,7 @@ export class ListOffSignComponent extends UnsubscribeOnDestroyAdapter implements
   displayedColumns = [
    // "select",
     "offSignVesselType",
+    "remarks",
     "createdBy",
     "createdDate",
     "actions"
@@ -275,7 +276,8 @@ export class ExampleDataSource extends DataSource<offSign> {
             const searchStr = (
               offSign.offSignVesselType +
               offSign.createdBy +
-              offSign.createdDate    
+              offSign.createdDate +
+              offSign.remarks   
              
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -311,7 +313,9 @@ export class ExampleDataSource extends DataSource<offSign> {
         case "createdDate":
               [propertyA, propertyB] = [a.createdDate, b.createdDate];
           break;
-        
+        case "remarks":
+            [propertyA, propertyB] = [a.remarks, b.remarks];
+        break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

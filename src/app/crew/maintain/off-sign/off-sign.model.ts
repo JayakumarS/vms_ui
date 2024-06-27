@@ -7,4 +7,5 @@ export class offSign {
     months:any;
     createdBy:any;
     createdDate:any;
+    remarks:any;
 }
