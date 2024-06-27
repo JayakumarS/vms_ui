@@ -51,10 +51,14 @@
                                             <label><b>Remarks:</b> &nbsp;{{officialManagersBeanDtls?.remarks}}</label>
                                         </div> 
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Bank Letter logo:</b> &nbsp;{{officialManagersBeanDtls?.blogofileName}}</label>
+                                            <label><b>Bank Letter logo:</b> &nbsp;
+                                            <a (click)="downloadblogo(officialManagersBeanDtls?.blogofileName)" 
+                                            style="color: green">{{officialManagersBeanDtls?.blogofileName}}</a></label>
                                         </div> 
                                         <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Payslip Logo:</b> &nbsp;{{officialManagersBeanDtls?.plogofileName}}</label>
+                                            <label><b>Payslip Logo:</b> &nbsp;
+                                                <a (click)="downloadplogo(officialManagersBeanDtls?.plogofileName)" 
+                                            style="color: green">{{officialManagersBeanDtls?.plogofileName}}</a></label>
                                         </div> 
                                         
    

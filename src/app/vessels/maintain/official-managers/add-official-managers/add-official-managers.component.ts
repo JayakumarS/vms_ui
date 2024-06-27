@@ -94,14 +94,8 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
      }
     });
    }
-   viewCall(row) {
-    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/vessels/maintain/official-managers/view-official-managers/', row.code]);
-  }
-  editCall(row) {
-    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/vessels/maintain/official-managers/add-official-managers/', row.offmanagerid]);
-  }
+  
+  
   cancel(){
     this.router.navigate(['/vessels/maintain/official-managers/list-official-managers']);
 

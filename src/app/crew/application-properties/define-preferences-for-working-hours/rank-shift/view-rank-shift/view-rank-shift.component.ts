@@ -16,6 +16,7 @@ export class ViewRankShiftComponent implements OnInit {
   docForm:FormGroup;
   decryptRequestId:any;
   viewDtl:any=[];
+  secondDetailRow:[];
   constructor(
     public router:Router,
     public route:ActivatedRoute, 
@@ -24,15 +25,32 @@ export class ViewRankShiftComponent implements OnInit {
     public RankShiftService : RankShiftService
   ) { 
     this.docForm = this.fb.group({
-      vesselTypeDtls: this.fb.array([
-        this.fb.group({
-          sort : 1,
-          select:[""],
-          code:[""],
-          description:[""],
-        })
-      ]),
-    });
+      sort : 1,
+      select: [""],
+      rankshiftid:[""],
+      vessel: [""],
+      rankcode: [""],
+      sDate: [""],
+      sDateObj: [""],
+      eDate: [""],
+      eDateObj: [""],
+      remarks: [""],
+      watchkeepers:[""],
+      validToObj: [""],
+ 
+
+  secondDetailRow: this.fb.array([
+    this.fb.group({
+      select: [""],
+      shiftStart: [""],
+      shiftEnd: [""],
+      place: [""],
+      watchKeeping: [true],
+      readOnly: [true],
+      type:[""]
+    })
+  ])
+});
   }
 
   ngOnInit(): void {
@@ -46,6 +64,8 @@ export class ViewRankShiftComponent implements OnInit {
   fetchDetails(id){
     this.httpService.get<any>(this.RankShiftService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.viewDtl = data.list[0];
+      this.secondDetailRow = data.tables
+
       }, error: (err) => console.log(err)
      });
   }

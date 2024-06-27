@@ -20,6 +20,7 @@ export class ViewOfficialManagersComponent implements OnInit {
     public router:Router,
     public route:ActivatedRoute, 
     private httpService: HttpServiceService,
+    private serverUrl: serverLocations,
     private fb: FormBuilder,
     public officialManagersService : OfficialManagersService
   ) { 
@@ -53,9 +54,43 @@ export class ViewOfficialManagersComponent implements OnInit {
   fetchDetails(id){
     this.httpService.get<any>(this.officialManagersService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.officialManagersBeanDtls = data.list[0];
+      this.docForm.patchValue({
+        'files' :data.files,
+   }
+  
+      )
+
       }, error: (err) => console.log(err)
      });
   }
+  downloadblogo(filename){
+ 
+    const fileURL = this.serverUrl.apiServerAddress+"file_upload/"+filename;
+ 
+    const a = document.createElement('a');
+    a.href = this.serverUrl.apiServerAddress+"file_upload/"+filename;
+ 
+
+// a.href = fileURL;
+a.download = filename;
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
+downloadplogo(filename){
+ 
+  const fileURL = this.serverUrl.apiServerAddress+"file_upload/"+filename;
+
+  const a = document.createElement('a');
+  a.href = this.serverUrl.apiServerAddress+"file_upload/"+filename;
+
+
+// a.href = fileURL;
+a.download = filename;
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
 
   onCancel(){
     this.router.navigate(['/vessels/maintain/official-managers/list-official-managers']);
