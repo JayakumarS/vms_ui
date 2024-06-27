@@ -1,7 +1,7 @@
 export class CrewPayrollCurrency {
-    seaman: string;
-    vessel: string;
-
+   currencycode: string;
+   countryname: string;
+   validation: string;
     clientType:string;
     Success:boolean;
       constructor(commodity) {

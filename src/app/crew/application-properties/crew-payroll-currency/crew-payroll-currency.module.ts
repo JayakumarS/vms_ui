@@ -26,11 +26,15 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatRadioModule } from '@angular/material/radio';
+import { ListCrewPayrollCurrencyComponent } from './list-crew-payroll-currency/list-crew-payroll-currency.component';
+import { ViewCrewPayrollCurrencyComponent } from './view-crew-payroll-currency/view-crew-payroll-currency.component';
 
 
 @NgModule({
   declarations: [
-    CrewPayrollCurrencyComponent
+    CrewPayrollCurrencyComponent,
+    ListCrewPayrollCurrencyComponent,
+    ViewCrewPayrollCurrencyComponent
   ],
   imports: [
     CommonModule,

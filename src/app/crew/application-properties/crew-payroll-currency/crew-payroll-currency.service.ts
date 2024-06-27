@@ -26,19 +26,16 @@ export class CrewPayrollCurrencyService extends UnsubscribeOnDestroyAdapter{
   constructor(private httpClient: HttpClient, private serverUrl: serverLocations, private httpService: HttpServiceService) {
     super();
   }
+
+  public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/CrewPayrollCurrency/delete`;
+  public editUrl = `${this.serverUrl.apiServerAddress}api/crew/CrewPayrollCurrency/edit`;
+  public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/CrewPayrollCurrency/update`;
+
   private getAllMasters = `${this.serverUrl.apiServerAddress}app/countryMaster/getList`;
-  private saveCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/save`;
-  public deleteCountryUrl = `${this.serverUrl.apiServerAddress}app/countryMaster/delete`;
-  public editCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/edit`;
-  public updateCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/update`;
-  public currencyListUrl = `${this.serverUrl.apiServerAddress}app/currencyMaster/getList`;
-  public editcountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/getCode`;
-  public validateCusShortNameUrl = `${this.serverUrl.apiServerAddress}app/common/commonServices/validateUnique`;
-  public viewCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/view`;
-  public savePrePlan = `${this.serverUrl.apiServerAddress}app/countryMaster/savePrePlan`;
-  public updatePreplanCal = `${this.serverUrl.apiServerAddress}app/countryMaster/updatePreplan`;
-  public deleteEventCal = `${this.serverUrl.apiServerAddress}app/countryMaster/deleteEventCal`;
-  public editEventDetail = `${this.serverUrl.apiServerAddress}app/countryMaster/editEventDetail`;
+  public getCountryCode = `${this.serverUrl.apiServerAddress}api/crew/CrewPayrollCurrency/getCountry`;
+  public getNationalityCode = `${this.serverUrl.apiServerAddress}api/common/getCountry`;
+  public saveUrl = `${this.serverUrl.apiServerAddress}api/crew/CrewPayrollCurrency/save`;
+  public listUrl = `${this.serverUrl.apiServerAddress}api/crew/CrewPayrollCurrency/list`;
 
   get data(): CrewPayrollCurrency[] {
     return this.dataChange.value;
@@ -46,11 +43,60 @@ export class CrewPayrollCurrencyService extends UnsubscribeOnDestroyAdapter{
   getDialogData() {
     return this.dialogData;
   }
-  /** CRUD METHODS */
-  getList(): void {
-        
+  getList() {
+    this.isTblLoading = true; 
+    this.httpService.get<any>(this.listUrl).subscribe({next: (data: any) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data.list);
+      }, error: (err) => console.log(err)
+     });
   }
+  updateRankShift(CrewPayrollCurrency: CrewPayrollCurrency, router, notificationService){
+    this.httpService.post<CrewPayrollCurrency>(this.updateUrl, CrewPayrollCurrency).subscribe({next: (data: any) => {
+      if (data.success == true) {
+        notificationService.showNotification(
+          "snackbar-success",
+          "Record Updated Successfully",
+          "bottom",
+          "center"
+        );
+        router.navigate(['/crew/application-properties/crew-payroll-currency/list-crew-payroll-currency']);
+      }else{
+        notificationService.showNotification(
+          "snackbar-danger",
+          "Not Updated",
+          "bottom",
+          "center"
+        );
+      }
+      }, error: (err) => console.log(err)
+     });
+  }
+  savePayTypes(CrewPayrollCurrency: CrewPayrollCurrency, router, notificationService){
+    this.httpService.post<CrewPayrollCurrency>(this.saveUrl, CrewPayrollCurrency).subscribe({next: (data: any) => {
+     if (data.success == true) {
+       notificationService.showNotification(
+         "snackbar-success",
+         "Record Added Successfully",
+         "bottom",
+         "center"
+       );
+       router.navigate(['/crew/application-properties/crew-payroll-currency/list-crew-payroll-currency']);
+     }else{
+       notificationService.showNotification(
+         "snackbar-danger",
+        "Not Updated",
+         "bottom",
+         "center"
+       );
+     }
+     }, error: (err) => console.log(err)
+    });
+ }
   
+ delete(id){
+  return this.httpClient.get<any>(this.deleteUrl + "?id=" + id);
+}
 
 
   

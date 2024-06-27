@@ -13,6 +13,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { MatSelect } from '@angular/material/select';
 import { CrewPayrollCurrency } from '../crew-payroll-currency.model';
+import { CrewPayrollCurrencyService } from '../crew-payroll-currency.service';
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
 
 
 @Component({
@@ -27,6 +29,10 @@ export class CrewPayrollCurrencyComponent implements OnInit {
   public vesselFilterCtrl: FormControl = new FormControl();
   vesselFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
   @ViewChild('vesselFilter', { static: true }) vesselFilter: MatSelect;
+
+  public nationalityListFilterCtrl: FormControl = new FormControl();
+  nationalityListFilteredOptions: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  @ViewChild('nation', { static: true }) nation: MatSelect;
   protected onDestroy = new Subject<void>();
   docForm: FormGroup;
   placeList:any=[];
@@ -36,6 +42,8 @@ export class CrewPayrollCurrencyComponent implements OnInit {
   // oldPwd: boolean=false;
   timingList:any=[];
   nationList:any=[];
+  nationalitylist: any = [];
+
   // For Encryption
   requestId: any;
   decryptRequestId: any;
@@ -52,60 +60,43 @@ export class CrewPayrollCurrencyComponent implements OnInit {
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
     private serverUrl:serverLocations,
+    public matError : MatErrorService,
     private encryptionService:EncryptionService,
+    private CrewPayrollCurrencyService:CrewPayrollCurrencyService,
+
+
     public snackBar: MatSnackBar) { 
 
     this.docForm = this.fb.group({
       // first: ["", [Validators.required, Validators.pattern("[a-zA-Z]+")]],
-      seaman: [""],
-      vessel: [""],
-      rank:[""],
-       servicestate:[""],
-      isActive:["true"],
-      seamansdtltable: this.fb.array([
-        this.fb.group({
-          select:[""],
-          startingdate: [""],
-          remarks:[""],
-          endingDate:[""],
-          isChecked:[""],
-          // rank:["",[Validators.required]],
-          
-        })
-       
-      ]),
-      seamansdtltable1: this.fb.array([
-        this.fb.group({
-          select: [""],
-          shiftStart: [""],
-          shiftEnd: [""],
-          place: [""],
-          watchKeeping: [""],
-
-        })
-      ]),
+      countryname: [""],
+      currencycode: [""],
+      validation:[""],
+      currencyid:[""]
+    
     });
     
     }
   
    ngOnInit() {
-    
+    // this.httpService.get<any>(this.CrewPayrollCurrencyService.getCountryCode).subscribe((res: any) => {
+    //   this.docForm.patchValue({
+    //     'code':res.code
+    //   })
+    // })
+    this.filternationality();
     this.nationList = [{id:1,text:"POLAND"},{id:2,text:"PAKISTANI"},{id:3,text:"NEPALESE"},{id:4,text:"PHILIPINO"}];
     this.vesselFilteredOptions.next(this.nationList.slice());
 
     this.vesselFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
         this.filtervessel();
     });
-     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
+    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
       this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
-       this.edit=true;
-       //For User login Editable mode
-       this.fetchDetails(this.requestId) ;
-
+        this.edit=true;
+        this.fetchDetails(this.decryptRequestId) ;
       }
      });
-     this.placeList = [{id:1,text:"At Sea"},{id:2,text:"In Port"}];
-   // this.timingList = [{id:1,text:"0:00"},{id:2,text:"0:30"},{id:3,text:"1:00"},{id:4,text:"1:30"}];
 
     let id = 1;
 
@@ -122,6 +113,26 @@ export class CrewPayrollCurrencyComponent implements OnInit {
       this.placeListFilter();
     });
    }
+   filternationality(){
+    this.httpService.get<any>(this.CrewPayrollCurrencyService.getNationalityCode).subscribe((res: any) => {
+  
+      this.nationalitylist = res.lCommonUtilityBean;
+  
+    });
+  }
+  dropdown(id){
+
+
+    this.httpService.get(this.CrewPayrollCurrencyService.getCountryCode +"?id="+id).subscribe((data: any) => {
+    
+      this.docForm.patchValue({
+
+         
+        'currencycode':data.list[0].currencycode,
+   
+      })
+  });
+  }
    placeListFilter(){
     if (!this.placeList) {
       return;
@@ -167,12 +178,23 @@ export class CrewPayrollCurrencyComponent implements OnInit {
     })
     seamansdtltable1.insert(arraylen, newUsergroup);
   }
+ 
   save(){
-
+    if(this.docForm.valid){
+      this.CrewPayrollCurrencyService.savePayTypes(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
+  
   onVesselChange(){}
   cancel(){
-    this.router.navigate(['/crew/applications/seamans-working-shift/list-seamans-working-shift']);
+    this.router.navigate(['/crew/application-properties/crew-payroll-currency/list-crew-payroll-currency']);
   }
   removeRowTwo(){
     let count = 0;
@@ -495,35 +517,40 @@ incrementHour(time) {
   padZero(num: number): string {
     return num < 10 ? `0${num}` : `${num}`;
   }
-  fetchDetails(countryCode: any): void {
-    this.httpService.get(this.countryMasterService.editCountryMaster + "?countryMaster="+encodeURIComponent(this.encryptionService.encryptAesToString(countryCode, this.serverUrl.secretKey).toString())).subscribe((res: any) => {
-      // console.log(countryCode);
+  fetchDetails(id){
+    this.httpService.get<any>(this.CrewPayrollCurrencyService.editUrl+"?id="+parseInt(id)).subscribe({
+      next: (data: any) => {
 
+        // if (data.list[0].validation == 'Y') {
+        //   this.docForm.patchValue({ 'validation': true })
+        // }
+        // else {
+        //   this.docForm.patchValue({ 'validation': false })
+        // }
       this.docForm.patchValue({
-        'countryCode': res.countryMasterBean.countryCode,
-        'countryName': res.countryMasterBean.countryName,
-        'currency': res.countryMasterBean.currency,
-        'clientType': res.countryMasterBean.clientType,
-        'isActive': res.countryMasterBean.isActive,
-      })
-    },
-      (err: HttpErrorResponse) => {
-        // error code here
-      }
-    );
-    /*  this.httpClient.delete(this.API_URL + id).subscribe(data => {
-      console.log(id);
-      },
-      (err: HttpErrorResponse) => {
-         // error code here
-      }
-    );*/
+        'countryname': data.list[0].countryname,
+        'currencycode': data.list[0].currencycode,
+        'validation': data.list[0].validation.toString(),
+        'currencyid': data.list[0].currencyid
+
+      });
+
+    }
+  });
   }
   
   update() {
-
-    
-
+   
+    if(this.docForm.valid){
+      this.CrewPayrollCurrencyService.updateRankShift(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
 
   onCancel(){
