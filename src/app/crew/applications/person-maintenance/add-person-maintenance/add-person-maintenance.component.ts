@@ -11,6 +11,8 @@ import { NotificationService } from 'src/app/core/service/notification.service';
 import { ApplicantListPopupComponent } from '../applicant-list-popup/applicant-list-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { serverLocations } from 'src/app/auth/serverLocations';
+import { ViewChecklistPopupComponent } from '../view-checklist-popup/view-checklist-popup.component';
 
 @Component({
   selector: 'app-add-person-maintenance',
@@ -49,6 +51,12 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
   proposeTypeList:any=[];
   seaServiceYear:any;
   edit:boolean = false;
+  uploadImage:any;
+  file_upload:any;
+  cvFile:any;
+  cvFileName:any;
+  sidFile:any;
+  sidFileName:any;
 
   constructor(
     private fb: FormBuilder,
@@ -60,10 +68,12 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
     private notificationService: NotificationService,
     public route: ActivatedRoute,
     public dialog: MatDialog,
+    private serverUrl: serverLocations
   ) { 
     super();
     this.docForm = this.fb.group({
       code: [""],
+      applCode: [""],
       surname: [""],
       name: [""],
       middle: [""],
@@ -118,7 +128,19 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
       adhar: [""],
       indos:[""],
       files: [[]],
-      sidFiles: [[]]
+      sidFiles: [[]],
+      cvFileName:[""],
+      cvFilePath:[""],
+      sidFilePath:[""],
+      sidFileName:[""],
+      age:[null],
+      compService:[null],
+      seaService:[null],
+      yearsInRank:[null],
+      crewMasterImg:[""],
+      crewMasterFilePath:[""],
+      imgName:[""],
+      imgPath:[""]
 
     });
   }
@@ -133,6 +155,7 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
     this.getHealthStatusList();
     this.getWorkStatusList();
     this.getVesselTypeList();
+    this.getCrewCode();
 
     this.cList = [{id:1,text:"Decision-1"},{id:2,text:"Decision-1"},{id:3,text:"Decision-1"}];
     this.remarksList = [
@@ -207,6 +230,18 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
     });
   }
 
+  getCrewCode(){
+    if(!this.edit){
+      this.httpService.get(this.personMaintenanceService.generateCodeUrl).subscribe({next: (res: any) => {
+        console.log(res);
+          this.docForm.patchValue({
+            'code':res.code
+          })
+      }, error: (err) => console.log(err)
+    });
+    }
+  }
+
   fetchDetails(id){
     this.httpService.get<any>(this.personMaintenanceService.editUrl+"?id="+id).subscribe({next: (res: any) => {
       let bDate = this.commonService.getDateObj(res.crewMasterDtls.birthDate == null ? "" : res.crewMasterDtls.birthDate);
@@ -279,13 +314,46 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
         'indos':res.crewMasterDocDtls.indos,
         'usVisaNo':res.crewMasterDocDtls.usVisaNo,
         'usExpiry':res.crewMasterDocDtls.usExpiry,
-        'usExpiryObj':usExpiry
+        'usExpiryObj':usExpiry,
+        'imgName':res.crewMasterDocDtls.imgName,
+        'imgPath':res.crewMasterDocDtls.imgPath,
+        'cvFileName':res.crewMasterDocDtls.cvFileName,
+        'cvFilePath':res.crewMasterDocDtls.cvFilePath,
+        'sidFileName':res.crewMasterDocDtls.sidFileName,
+        'sidFilePath':res.crewMasterDocDtls.sidFilePath
       })
+
+      this.uploadImage = this.serverUrl.apiServerAddress + "file_upload/" + res.crewMasterDocDtls.imgName;
+      this.cvFile = this.serverUrl.apiServerAddress + "file_upload/" + res.crewMasterDocDtls.cvFileName;
+      this.cvFileName = res.crewMasterDocDtls.cvFileName;
+
+      this.sidFile = this.serverUrl.apiServerAddress + "file_upload/" + res.crewMasterDocDtls.sidFileName;
+      this.sidFileName = res.crewMasterDocDtls.sidFileName;
 
       this.calculateSeaService();
       let currentYear = new Date().getFullYear();  
       let birthyear = this.commonService.getYear(this.docForm.value.birthDateObj);
       this.age = currentYear - parseInt(birthyear);
+      isNaN(this.age) ? this.docForm.patchValue({'age':null}) : this.docForm.patchValue({'age':this.age});
+
+      if(this.docForm.value.availableFrom != null){
+        const givenDateParts = this.docForm.value.availableFrom.split('/');
+        let currentDate = new Date();
+        const givenDate = new Date(parseInt(givenDateParts[2]), parseInt(givenDateParts[1]) - 1, parseInt(givenDateParts[0]));
+        const differenceInMonths = this.monthsDifference(givenDate, currentDate);
+        isNaN(differenceInMonths) ? this.docForm.patchValue({'compService':null}) : this.docForm.patchValue({'compService':(differenceInMonths/12).toFixed(1)});
+      }
+      // let availableYear = this.commonService.getYear(this.docForm.value.availableFromObj);
+      // let compExp = currentYear - parseInt(availableYear);
+      // isNaN(compExp) ? this.docForm.patchValue({'compService':null}) : this.docForm.patchValue({'compService':compExp});
+
+      if(res.crewMasterDtls.rankDate != null){
+        let rankExpYear = res.crewMasterDtls.rankDate.split('/');
+        let currentDate = new Date();
+        const givenDate = new Date(parseInt(rankExpYear[2]), parseInt(rankExpYear[1]) - 1, parseInt(rankExpYear[0]));
+        const differenceInMonths = this.monthsDifference(givenDate, currentDate);
+        isNaN(differenceInMonths) ? this.docForm.patchValue({'yearsInRank':null}) : this.docForm.patchValue({'yearsInRank':(differenceInMonths/12).toFixed(1)});
+      }
       }, error: (err) => console.log(err)
      });
   }
@@ -316,11 +384,29 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
     }
   }
 
+  monthsDifference(vDate: Date, curr: Date): number {
+    const yearsDiff = curr.getFullYear() - vDate.getFullYear();
+    const monthsDiff = curr.getMonth() - vDate.getMonth();
+    return yearsDiff * 12 + monthsDiff;
+  }
+
   calculateSeaService(){
       const years = this.docForm.value.expMonth / 12;
       this.seaServiceYear = years.toFixed(1);
+      this.docForm.patchValue({
+        'seaService':this.seaServiceYear
+       })
       console.log(years);
   }
+
+  calculateCompanyService(){
+    const years = this.docForm.value.expMonth / 12;
+    this.seaServiceYear = years.toFixed(1);
+    this.docForm.patchValue({
+      'seaService':this.seaServiceYear
+     })
+    console.log(years);
+}
 
   getDateString(event,id){
     let cdate = this.commonService.getDate(event.target.value);
@@ -330,11 +416,20 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
      let currentYear = new Date().getFullYear();  
      let birthyear = this.commonService.getYear(event.target.value);
      this.age = currentYear - parseInt(birthyear);
+     this.docForm.patchValue({
+      'age':this.age
+     })
 
     }else if(id == 'signedOff'){
       this.docForm.patchValue({signedOff : cdate});
     }else if(id == 'availableFrom'){
       this.docForm.patchValue({availableFrom : cdate});
+      let currentYear = new Date().getFullYear();  
+      let availableYear = this.commonService.getYear(event.target.value);
+      let compExp = currentYear - parseInt(availableYear);
+      this.docForm.patchValue({
+       'compService':compExp
+      })
     }else if(id == 'pIssue'){
       this.docForm.patchValue({pIssue : cdate});
     }else if(id == 'pExpiry'){
@@ -352,7 +447,7 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
     }
   }
 
-  uploadFile(event) {
+  uploadFileCv(event) {
     for(let i=0; i < event.target.files.length; i++){
       var excelfile = event.target.files[i];
       this.excel = event.target.files[i];
@@ -364,7 +459,7 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
     }
 
     this.httpService.post<any>(this.personMaintenanceService.uploadFileUrl,frmData).subscribe({next: (res: any) => {
-
+      this.docForm.patchValue({'cvFilePath':res.filePath,'cvFileName':res.fileName});
       }, error: (err) => console.log(err)
     });
   }
@@ -384,7 +479,7 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
       direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((res) => {
-    if (res.data.length > 0) {
+    if (res.data != 'CANCEL') {
       let bDate = this.commonService.getDateObj(res.data[0].birthDate == null ? "" : res.data[0].birthDate);
       let avail = this.commonService.getDateObj(res.data[0].availableFrom == null ? "" : res.data[0].availableFrom);
       let signedOff = this.commonService.getDateObj(res.data[0].signedOff == null ? "" : res.data[0].signedOff);
@@ -400,7 +495,7 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
 
       let usExpiry = this.commonService.getDateObj(res.data[0].usExpiry == null ? "" : res.data[0].usExpiry);
       this.docForm.patchValue({
-        'code':res.data[0].code,
+        'applCode':res.data[0].applCode,
         'surname':res.data[0].surname,
         'name':res.data[0].name,
         'middle':res.data[0].middle,
@@ -428,7 +523,7 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
         'remarksOne':parseInt(res.data[0].remarksOne),
         'remarksTwo':parseInt(res.data[0].remarksTwo),
         'reCom':res.data[0].reCom,
-        'active':res.data[0].active == "Y" ? 'yes' : 'no',
+        // 'active':res.data[0].active == "Y" ? 'yes' : 'no',
 
         'passport':res.data[0].passport,
         'pIssue':res.data[0].pIssue,
@@ -454,12 +549,19 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
         'indos':res.data[0].indos,
         'usVisaNo':res.data[0].usVisaNo,
         'usExpiry':res.data[0].usExpiry,
-        'usExpiryObj':usExpiry
+        'usExpiryObj':usExpiry,
+        'imgName':res.data[0].imgName,
+        'imgPath':res.data[0].imgPath
       })
+
+      this.uploadImage = this.serverUrl.apiServerAddress+"file_upload/"+res.data[0].imgName;
 
       let currentYear = new Date().getFullYear();  
       let birthyear = this.commonService.getYear(this.docForm.value.birthDateObj);
       this.age = currentYear - parseInt(birthyear);
+      this.docForm.patchValue({
+        'age':this.age
+       })
     }
     })
   }
@@ -516,6 +618,11 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
         frmData.append("file", excelfile);
         frmData.append("fileName", fileExtension);
       }
+
+      this.httpService.post<any>(this.personMaintenanceService.uploadFileUrl,frmData).subscribe({next: (res: any) => {
+        this.docForm.patchValue({'sidFilePath':res.filePath,'sidFileName':res.fileName});
+        }, error: (err) => console.log(err)
+      });
   }
 
   addSidFile() {
@@ -601,6 +708,16 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
     if(this.fileValidation()) {
       this.sidFileUpload(event);
     }
+  }
+
+  openViewCheckListPopUp(){
+    let tempDirection;
+    const dialogRef = this.dialog.open(ViewChecklistPopupComponent, {
+      data: this.docForm.value.applCode,
+      height:"",
+      width: "30%",
+      direction: tempDirection,
+    });  
   }
 
 }

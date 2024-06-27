@@ -1,0 +1,90 @@
+<div class="container">
+    <div class="budgerHeader center">
+        <h4>Checklist</h4>
+    </div>
+    <hr>
+ <div class="flex-sb">
+    <div>
+        <span style="background-color: #3e7540; height: 1vh; width: 1vh; display: inline-block; border-radius: 50%;margin-right: 0.5em;"></span>
+        <b>Valid</b>
+    </div>
+
+    <div>
+        <span style="background-color: #923e37; height: 1vh; width: 1vh; display: inline-block; border-radius: 50%;margin-right: 0.5em;"></span>
+        <b>Expired</b>
+    </div>
+
+    <div>
+        <span style="background-color: #93952b; height: 1vh; width: 1vh; display: inline-block; border-radius: 50%;margin-right: 0.5em;"></span>
+        <b>Expiring in voyage</b>
+    </div>
+ </div>
+ <hr>
+
+ <style>
+    .bg-green{
+        background-color: #3e7540;
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .bg-red{
+        background-color: #923e37 !important;
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .bg-yellow{
+        background-color: #93952b !important;
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .header{
+        background: #878787 !important;
+        padding: 5px;
+        border-radius: 3px;
+        color: white;
+    }
+
+    .document-section {
+       margin-bottom: 0.5em; 
+    }  
+ </style>
+
+ <div *ngIf="bookDtls.pExpiry != null || bookDtls.sExpiry != null">
+    <h5 class="header center">Documents</h5>
+    <div *ngIf="bookDtls.pExpiry" class="document-section flex-sb" [ngClass]="{'bg-red': isExpired(bookDtls.pExpiry), 'bg-green': !isExpired(bookDtls.pExpiry)}">
+        <div>
+          <b>Passport : </b>
+        </div>
+        <div>
+            <b>Expires on : {{bookDtls.pExpiry}}</b>
+        </div>
+    </div>
+    <div *ngIf="bookDtls.sExpiry" class="document-section flex-sb" [ngClass]="{'bg-red': isExpired(bookDtls.sExpiry), 'bg-green': !isExpired(bookDtls.sExpiry)}">
+        <div>
+            <b>S.book : </b>
+        </div>
+        <div>
+              <b>Expires on : {{bookDtls.sExpiry}}</b>
+        </div>
+    </div>
+ </div>
+ <hr>
+ <h5 class="header center" *ngIf="certificateList.length > 0">Certificates</h5>
+ <div *ngFor="let item of certificateList">
+    <div class="document-section" [ngClass]="{'bg-red': item.inValid, 'bg-green': item.valid, 'bg-yellow': item.optional}">
+        <b>{{item.name}}</b>
+    </div>
+ </div>
+ <mat-dialog-actions align="center" class="mb-1">
+    <!-- <button mat-flat-button color="warn" [mat-dialog-close]="1" (click)="cancel()">
+      Cancel
+    </button> -->
+    <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+  </mat-dialog-actions>
+</div>

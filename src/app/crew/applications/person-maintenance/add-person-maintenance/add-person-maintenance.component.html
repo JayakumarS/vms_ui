@@ -21,7 +21,14 @@
                     <div style="width: 70%;">
                       <div class="row w-100">
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>Code</mat-label>
+                            <input matInput formControlName="code" readonly>
+                          </mat-form-field>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>Surname</mat-label>
                             <input matInput formControlName="surname" required>
                             <mat-error *ngIf="docForm.get('surname').hasError('required')">
@@ -31,7 +38,7 @@
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>Name</mat-label>
                             <input matInput formControlName="name" required>
                             <mat-error *ngIf="docForm.get('name').hasError('required')">
@@ -40,12 +47,12 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                        <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>Middle</mat-label>
                             <input matInput formControlName="middle">
                             </mat-form-field>
-                        </div>
+                        </div> -->
                       </div>
 
                       <div class="row w-100">
@@ -74,7 +81,7 @@
                         </div>
     
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                 <mat-label>Birth Date</mat-label>
                                 <input matInput [matDatepicker]="bdPicker" [max]="toDay" formControlName="birthDateObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="birthDate" (dateChange)="getDateString($event, 'birthDate')" autocomplete="off" required>
                                 <mat-datepicker-toggle matSuffix [for]="bdPicker"></mat-datepicker-toggle>
@@ -89,7 +96,7 @@
 
                       <div class="row w-100">
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                 <mat-label>Gender</mat-label>
                                 <mat-select formControlName="gender" placeholder="Gender">
                                     <mat-option [value]="'M'">
@@ -103,14 +110,14 @@
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>Father</mat-label>
                             <input matInput formControlName="father">
                             </mat-form-field>
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>Mother</mat-label>
                           <input matInput formControlName="mother">
                           </mat-form-field>
@@ -119,14 +126,14 @@
 
                       <div class="row w-100">
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>Place</mat-label>
                             <input matInput formControlName="place">
                           </mat-form-field>
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <!-- <mat-form-field class="example-full-width" appearance="outline">
+                          <!-- <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>Licence</mat-label>
                             <mat-select  formControlName="licence">
                               <mat-option *ngFor="let title of licenceList" [value]="title.id">
@@ -147,7 +154,7 @@
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <!-- <mat-form-field class="example-full-width" appearance="outline">
+                          <!-- <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>Health St</mat-label>
                             <mat-select  formControlName="health">
                               <mat-option *ngFor="let title of healthList" [value]="title.id1">
@@ -170,7 +177,7 @@
 
                       <div class="row w-100">
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <!-- <mat-form-field class="example-full-width" appearance="outline">
+                          <!-- <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>Decision C</mat-label>
                             <mat-select  formControlName="decision">
                               <mat-option *ngFor="let title of cList" [value]="title.id">
@@ -231,14 +238,14 @@
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>Exp Months</mat-label>
                           <input matInput formControlName="expMonth" appNumericFormatDirective (blur)="calculateSeaService()">
                           </mat-form-field>
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>No Voyages</mat-label>
                           <input matInput formControlName="noVoyage" appNumericFormatDirective>
                           </mat-form-field>
@@ -259,7 +266,7 @@
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                               <mat-label>Last Signed Off</mat-label>
                               <input matInput [matDatepicker]="picker" formControlName="signedOffObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="signedOff" (dateChange)="getDateString($event, 'signedOff')" autocomplete="off">
                               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -268,7 +275,7 @@
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                               <mat-label>Available From</mat-label>
                               <input matInput [matDatepicker]="afPicker" formControlName="availableFromObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="availableFrom" (dateChange)="getDateString($event, 'availableFrom')" autocomplete="off">
                               <mat-datepicker-toggle matSuffix [for]="afPicker"></mat-datepicker-toggle>
@@ -303,7 +310,7 @@
                         </div>
 
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>Recom. By</mat-label>
                           <input matInput formControlName="reCom">
                           </mat-form-field>
@@ -313,34 +320,35 @@
                     
                     <div class="w-40">
                       <h5>Summary</h5> 
+                      <br>
                       <div style="display: flex;justify-content: space-between;">
                           <mat-label><b>Age:</b></mat-label>
-                          <p><span>{{age}}</span> Years</p>
+                          <p><span>{{docForm.value.age}}</span> Years</p>
                       </div>
   
                       <div style="display: flex;justify-content: space-between;">
                           <mat-label><b>Company Service:</b></mat-label>
-                          <p>Years</p>
+                          <p><span>{{docForm.value.compService}}</span> Years</p>
                       </div>
   
                       <div style="display: flex;justify-content: space-between;">
                           <mat-label><b>Total Sea Service:</b></mat-label>
-                          <p><span>{{seaServiceYear}}</span> Years</p>
+                          <p><span>{{docForm.value.seaService}}</span> Years</p>
                       </div>
   
                       <div style="display: flex;justify-content: space-between;">
                           <mat-label><b>Years In Rank:</b></mat-label>
-                          <p>Years</p>
+                          <p><span>{{docForm.value.yearsInRank}}</span> Years</p>
                       </div>
   
-                      <div style="display: flex;justify-content: space-between;">
+                      <!-- <div style="display: flex;justify-content: space-between;">
                           <mat-label><b>Code:</b></mat-label>
                           <p>{{code}}</p>
-                      </div>
+                      </div> -->
                       <br>
   
                       <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                               <mat-label>Active</mat-label>
                               <mat-select formControlName="active">
                                   <mat-option [value]="'yes'">
@@ -354,15 +362,20 @@
                       </div>
 
                       <h5>Check List</h5>
-                      <button type="button" class="btn-space checkListBtn" mat-raised-button>CheckList</button>
+                      <button type="button" class="btn-space checkListBtn" mat-raised-button (click)="openViewCheckListPopUp()">CheckList</button>
                       <br>
                       <br>
 
+                      <div *ngIf="uploadImage != '' && uploadImage != undefined">
+                        <img style="height: 245px;width: 215px;" src={{uploadImage}} class="preview"/>
+                      </div>
+                      <br>
                       <h5>CV Operations</h5>
                       <div class="row">
                         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
-                          <app-file-upload (change)="uploadFile($event)"></app-file-upload>
-                          <!-- <a href="{{filePath}}{{creditFile}}" target="_blank">{{creditFile}}</a> -->
+                          <app-file-upload (change)="uploadFileCv($event)"></app-file-upload>
+                          <br>
+                          <a href="{{cvFile}}" target="_blank">{{cvFileName}}</a>
                         </div>
                         <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                           <button (click)="addFile()" type="button" mat-mini-fab color="primary"
@@ -392,14 +405,14 @@
                       <br>
                       <div class="row">
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>Passport</mat-label>
                             <input matInput formControlName="passport">
                             </mat-form-field>
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                 <mat-label>Issue</mat-label>
                                 <input matInput [matDatepicker]="issuePickerOne" formControlName="pIssueObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="pIssue" (dateChange)="getDateString($event, 'pIssue')" autocomplete="off">
                                 <mat-datepicker-toggle matSuffix [for]="issuePickerOne"></mat-datepicker-toggle>
@@ -408,7 +421,7 @@
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                 <mat-label>Expiry</mat-label>
                                 <input matInput [matDatepicker]="expiryPickerOne" formControlName="pExpiryObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="pExpiry" (dateChange)="getDateString($event, 'pExpiry')" autocomplete="off">
                                 <mat-datepicker-toggle matSuffix [for]="expiryPickerOne"></mat-datepicker-toggle>
@@ -417,7 +430,7 @@
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>Issue Place</mat-label>
                             <input matInput formControlName="pIssuePlace">
                             </mat-form-field>
@@ -426,14 +439,14 @@
 
                       <div class="row">
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>S Book</mat-label>
                             <input matInput formControlName="sBook">
                             </mat-form-field>
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                 <mat-label>Issue</mat-label>
                                 <input matInput [matDatepicker]="issuePickerTwo" formControlName="sIssueObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="sIssue" (dateChange)="getDateString($event, 'sIssue')" autocomplete="off">
                                 <mat-datepicker-toggle matSuffix [for]="issuePickerTwo"></mat-datepicker-toggle>
@@ -442,7 +455,7 @@
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                 <mat-label>Expiry</mat-label>
                                 <input matInput [matDatepicker]="expiryPickerTwo" formControlName="sExpiryObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="sExpiry" (dateChange)="getDateString($event, 'sExpiry')" autocomplete="off">
                                 <mat-datepicker-toggle matSuffix [for]="expiryPickerTwo"></mat-datepicker-toggle>
@@ -451,7 +464,7 @@
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>Issue Place</mat-label>
                             <input matInput formControlName="sIssuePlace">
                             </mat-form-field>
@@ -466,14 +479,14 @@
                         </div>
   
                         <div *ngIf="docForm.value.usVisa" class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>Visa No</mat-label>
                           <input matInput formControlName="usVisaNo">
                           </mat-form-field>
                         </div>
 
                         <div *ngIf="docForm.value.usVisa" class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                               <mat-label>Expiry</mat-label>
                               <input matInput [matDatepicker]="usExpiry" formControlName="usExpiryObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="usExpiry" (dateChange)="getDateString($event, 'usExpiry')" autocomplete="off">
                               <mat-datepicker-toggle matSuffix [for]="usExpiry"></mat-datepicker-toggle>
@@ -484,14 +497,14 @@
 
                       <div class="row">
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>SID</mat-label>
                             <input matInput formControlName="sid">
                             </mat-form-field>
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                 <mat-label>Issue</mat-label>
                                 <input matInput [matDatepicker]="issuePickerThree" formControlName="sidIssueObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="sidIssue" (dateChange)="getDateString($event, 'sidIssue')" autocomplete="off">
                                 <mat-datepicker-toggle matSuffix [for]="issuePickerThree"></mat-datepicker-toggle>
@@ -500,7 +513,7 @@
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                                 <mat-label>Expiry</mat-label>
                                 <input matInput [matDatepicker]="expiryPickerThree" formControlName="sidExpiryObj" (dateInput)="$event.value.format('YYYY/MM/DD')" id="sidExpiry" (dateChange)="getDateString($event, 'sidExpiry')" autocomplete="off">
                                 <mat-datepicker-toggle matSuffix [for]="expiryPickerThree"></mat-datepicker-toggle>
@@ -511,16 +524,19 @@
                         <div class="row">
                           <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                             <app-file-upload (click)="fileValidation()" (change)="onFileChange($event)"></app-file-upload>
+                            <br>
+                            <a href="{{sidFile}}" target="_blank">{{sidFileName}}</a>
                           </div>
-                          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+
+                          <!-- <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                             <button (click)="addSidFile()" type="button" mat-mini-fab color="primary"
                               style="margin-left: -14px;margin-top: 18px;">
                               <mat-icon class="col-white">add</mat-icon>
                             </button>
-                          </div>
+                          </div> -->
                         </div>
 
-                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                        <!-- <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                           <div *ngFor="let link of this.docForm.value.sidFiles; let index = index">
                             <a style="display: none" [href]="filePathdata + '/' + link.filename"
                               download="{{link.name}}"></a>
@@ -531,26 +547,26 @@
                               </button>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
                       </div>
                       <br>
                       <div *ngIf="docForm.value.nationality == 'IN'" class="row">
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>INDOS</mat-label>
                           <input matInput formControlName="indos">
                           </mat-form-field>
                         </div>
 
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>Pan</mat-label>
                           <input matInput formControlName="pan">
                           </mat-form-field>
                         </div>
   
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                          <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>Adhar</mat-label>
                           <input matInput formControlName="adhar">
                           </mat-form-field>
