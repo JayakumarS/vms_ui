@@ -71,7 +71,7 @@ export class CrewPayrollCurrencyComponent implements OnInit {
 
     this.docForm = this.fb.group({
       // first: ["", [Validators.required, Validators.pattern("[a-zA-Z]+")]],
-      countryname: [""],
+      countryname: ["",[Validators.required]],
       currencycode: [""],
       validation:[""],
       currencyid:[""]
