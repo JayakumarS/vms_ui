@@ -114,6 +114,12 @@ const routes: Routes = [
   loadChildren: () =>
     import("./medicals/medicals.module").then((m) => m.MedicalsModule),
 },
+{
+  path: "setup-rankmedical",
+  loadChildren: () =>
+    import("./setup-rank-medicals/setup-rank-medicals.module").then((m) => m.SetupRankMedicalsModule),
+},
+
 ];
 
 @NgModule({

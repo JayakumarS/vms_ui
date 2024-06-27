@@ -1,1 +1,84 @@
-<p>add-setup-rank-medicals works!</p>
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Add Rank Medical'" [items]="['Crew','Maintain']" [active_item]="'Add Rank Medical'">
+        </app-breadcrumb>
+      </div>
+      <div class="row clearfix ">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="box-shadow">
+          <div class="card">
+            <div class="body" >
+
+         <form class="m-4" [formGroup]="docForm">
+
+         <div class="row" style="display: flex;justify-content: center;">   
+         
+          <div class="col-md-3">
+            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                <mat-label>select rank</mat-label>
+                <mat-select name="srank" formControlName="srank" #srank> 
+                
+                  <mat-option>
+                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
+                        [noEntriesFoundLabel]="'no results found'"
+                        [formControl]="srankcodeFilterCtrl"></ngx-mat-select-search>
+                </mat-option>
+                <mat-option
+                    *ngFor="let title of srankcodeFilteredOptions | async"
+                    [value]="title.id">
+                    {{title.text1}}
+                </mat-option>
+            </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <br>
+        
+        <div class="wrap">
+          <div class="table-wrap">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive-sm">
+                  <div class="table-container">
+                    <table class="table table-bordered table-hover">
+                      <thead class="theadRow thead-light">
+                        <tr>
+                          <th class="certificates-column" style="width:18%">Certificates</th>
+                          <ng-container *ngFor="let column of displayedColumns">
+                            <th *ngIf="column !== 'Certificates'">{{ column }}</th>
+                          </ng-container>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of medicallist; let i = index">
+                          <td>{{ row.certificatename}}</td>
+                          <ng-container *ngFor="let column of displayedColumns">
+                            <td *ngIf="column !== 'Certificates'">
+                              <input type="checkbox" [checked]="row[column]" (change)="onCheckboxChange($event.target.checked, row, column)">
+                            </td>
+                          </ng-container>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+<br>
+         <div class="center">
+              <button  class="btn-space saveBtn" mat-raised-button (click)="onSubmit()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+        </div>
+    </form>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
