@@ -1,8 +1,10 @@
 export class offSign {
     id: number;
     Success:boolean;
-    vessaltype:any;
+    offSignVesselType:any;
     nationality:any;
     rank:any;
     months:any;
+    createdBy:any;
+    createdDate:any;
 }

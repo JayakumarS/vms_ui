@@ -31,8 +31,9 @@ import { MatSelect } from '@angular/material/select';
 export class ListOffSignComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns = [
    // "select",
-    "vessaltype",
-
+    "offSignVesselType",
+    "createdBy",
+    "createdDate",
     "actions"
   ];
   docForm: FormGroup;
@@ -154,8 +155,7 @@ this.vessaltypeFilterCtrl.valueChanges
 
 
   editCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/add-CountryMaster/', encrypted]);
+    this.router.navigate(['/crew/maintain/off-sign/add-off-sign/', row.offSignId]);
   }
 
   viewCall(row) {
@@ -163,31 +163,56 @@ this.vessaltypeFilterCtrl.valueChanges
     this.router.navigate(['/master/country-Master/viewCountryMaster/', encrypted]);
   }
 
-  // deleteItem(i: number, row) {
-  //   this.index = i;
-  //   this.id = row.countryCode;
-  //   let tempDirection;
-  //   if (localStorage.getItem("isRtl") === "true") {
-  //     tempDirection = "rtl";
-  //   } else {
-  //     tempDirection = "ltr";
-  //   }
-  //   const dialogRef = this.dialog.open(DeleteComponent, {
-  //     height: "270px",
-  //     width: "400px",
-  //     data: row,
-  //     direction: tempDirection,
-  //   });
-  //   this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
-  //     this.loadData();
-  //   });
-  // }
   search(){
 
   }
-  deleteItem(row){ 
-
-    };
+  deleteItem(row){
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+  
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      height: "270px",
+      width: "400px",
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+    if (data.data == true) {
+      this.spinner.show();
+      this.OffSignService.delete(row.offSignId).subscribe({
+        next: (data) => {
+          this.spinner.hide();
+          if (data.success) {
+            this.loadData();
+            this.showNotification(
+              "snackbar-success",
+              "Record Deleted",
+              "bottom",
+              "center"
+            );
+          }
+          else{
+            this.showNotification(
+              "snackbar-danger",
+              "Error in delete",
+              "bottom",
+              "center"
+            );
+          }
+        },
+        error: (error) => {
+          this.spinner.hide();
+        }
+      });
+    }else{
+      //this.loadData();
+    }
+    })
+  }
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
@@ -248,8 +273,9 @@ export class ExampleDataSource extends DataSource<offSign> {
           .slice()
           .filter((offSign: offSign) => {
             const searchStr = (
-              offSign.vessaltype
-          
+              offSign.offSignVesselType +
+              offSign.createdBy +
+              offSign.createdDate    
              
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -276,10 +302,15 @@ export class ExampleDataSource extends DataSource<offSign> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-        case "vessaltype":
-          [propertyA, propertyB] = [a.vessaltype, b.vessaltype];
+        case "offSignVesselType":
+          [propertyA, propertyB] = [a.offSignVesselType, b.offSignVesselType];
           break;
-   
+        case "createdBy":
+            [propertyA, propertyB] = [a.createdBy, b.createdBy];
+          break;
+        case "createdDate":
+              [propertyA, propertyB] = [a.createdDate, b.createdDate];
+          break;
         
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

@@ -12,6 +12,7 @@ import { offSign } from '../off-sign.model';
 import { OffSignService } from '../off-sign.service';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
 @Component({
   selector: 'app-add-off-sign',
   templateUrl: './add-off-sign.component.html',
@@ -54,7 +55,7 @@ export class AddOffSignComponent implements OnInit {
     private notificationService: NotificationService,
     public OffSignService: OffSignService,
     private httpService: HttpServiceService,
-    public route: ActivatedRoute,
+    public route: ActivatedRoute,public matError : MatErrorService,
     public EncrDecr: EncrDecrService,
     private serverUrl:serverLocations,
     private encryptionService:EncryptionService,
@@ -62,16 +63,16 @@ export class AddOffSignComponent implements OnInit {
 
 
     this.docForm = this.fb.group({
-      vessaltype: [""],
+      offSignVesselType: [""],
+      remarks: [""],
 
-
-      offSigndetail: this.fb.array([
+      offSignDetail: this.fb.array([
         this.fb.group({
           select: [""],
-          nationality:[""],
-          rank:[""],
-          months: [""],
-
+          offSignNationality:[""],
+          offSignRank:[""],
+          offSignMonth: [""],
+          offSignId: [""],
    
         })
       ]),
@@ -84,8 +85,8 @@ export class AddOffSignComponent implements OnInit {
    ngOnInit() {
     
 
-     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
-      this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
+     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ 
+      this.requestId = params.id;
        this.edit=true;
        //For User login Editable mode
        this.fetchDetails(this.requestId) ;
@@ -191,21 +192,22 @@ this.filteritemranklist();
     );
    }
    addRow(){
-    let offSigndetailDtlArray=this.docForm.controls.offSigndetail as FormArray;
-    let arraylen=offSigndetailDtlArray.length;
+    let offSignDetailDtlArray=this.docForm.controls.offSignDetail as FormArray;
+    let arraylen=offSignDetailDtlArray.length;
     let newUsergroup:FormGroup = this.fb.group({
-      select: [""],
-
-      nationality:[""],
-      rank:[""],
-      months: [""],
+          select: [""],
+          offSignNationality:[""],
+          offSignRank:[""],
+          offSignMonth: [""],
+          remark: [""]
+        
     })
-    offSigndetailDtlArray.insert(arraylen,newUsergroup);
+    offSignDetailDtlArray.insert(arraylen,newUsergroup);
   }
 
    removeRow(){
     let count = 0;
-    const deleteRow = this.docForm.controls.offSigndetail as FormArray;
+    const deleteRow = this.docForm.controls.offSignDetail as FormArray;
     let i = 0;
     
     while (i < deleteRow.length) {
@@ -228,15 +230,58 @@ this.filteritemranklist();
 
   }
   onSubmit(){
-
+    if(this.docForm.valid){
+      this.OffSignService.saveOffSignUrl(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
-  fetchDetails(countryCode: any): void {
+  fetchDetails(id: any): void {
    
+    this.httpService.get<any>(this.OffSignService.editUrl + "?id=" + id).subscribe({
+      next: (data: any) => {
+        console.log(data);
+  
+        this.docForm.patchValue({
+          'offSignVesselType': data.list[0].offSignVesselType,
+          'remarks':data.list[0].remarks
+            });
+  
+          let offSignDetailRowArray = this.docForm.controls.offSignDetail as FormArray;
+          offSignDetailRowArray.clear();
+  
+           data.offSignDetail.forEach(element => {
+            let arraylen = offSignDetailRowArray.length;
+  
+            let newUsergroup: FormGroup = this.fb.group({
+              offSignNationality: [element.offSignNationality.toString()],
+              offSignRank: [element.offSignRank.toString()],
+              offSignMonth: [element.offSignMonth]
+            });
+            
+            offSignDetailRowArray.insert(arraylen, newUsergroup);
+          });
+      }
+    });
   }
   
   update() {
-
-
+    this.docForm.value.offSignId = this.requestId;
+    if(this.docForm.valid){
+      this.OffSignService.updateOffSign(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
 
   onCancel(){
@@ -283,7 +328,7 @@ this.filteritemranklist();
         vessaltype: [""],
 
 
-        offSigndetail: this.fb.array([
+        offSignDetail: this.fb.array([
           this.fb.group({
             siNo : 1,
             nationality:[""],

@@ -25,8 +25,8 @@ export class OffSignService extends UnsubscribeOnDestroyAdapter{
   constructor(private httpClient: HttpClient, private serverUrl: serverLocations, private httpService: HttpServiceService) {
     super();
   }
-  private getAllMasters = `${this.serverUrl.apiServerAddress}app/countryMaster/getList`;
-  private saveCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/save`;
+  private listUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/offsign/listOffSign`;
+  private saveUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/offsign/saveOffSign`;
   public deleteCountryUrl = `${this.serverUrl.apiServerAddress}app/countryMaster/delete`;
   public editCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/edit`;
   public updateCountryMaster = `${this.serverUrl.apiServerAddress}app/countryMaster/update`;
@@ -41,6 +41,10 @@ export class OffSignService extends UnsubscribeOnDestroyAdapter{
   public vesselTypeUrl = `${this.serverUrl.apiServerAddress}api/common/getVesselType`;
   public nationalityUrl = `${this.serverUrl.apiServerAddress}api/common/getNationality`;
   public rankListUrl = `${this.serverUrl.apiServerAddress}api/common/getRankMasters`;
+  public editUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/offsign/editOffSign`;
+  public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/offsign/updateOffSign`;
+  public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/offsign/deleteOffSign`;
+
   get data(): offSign[] {
     return this.dataChange.value;
   }
@@ -49,49 +53,60 @@ export class OffSignService extends UnsubscribeOnDestroyAdapter{
   }
   /** CRUD METHODS */
   getAllList(): void {
-    // const hardcodedData: offSign[] = [
-    //   {
-    //     vessaltype: 'RORO',
-    //     id: 0,
-    //     Success: false,
-    //     nationality: undefined,
-    //     rank: undefined,
-    //     months: undefined
-    //   },
-    //   {
-    //     vessaltype: 'TANKER',
-    //     id: 0,
-    //     Success: false,
-    //     nationality: undefined,
-    //     rank: undefined,
-    //     months: undefined
-    //   },
-    //   {
-    //     vessaltype: 'CONTAINER',
-    //     id: 0,
-    //     Success: false,
-    //     nationality: undefined,
-    //     rank: undefined,
-    //     months: undefined
-    //   },
-    //   {
-    //     vessaltype: 'BULK CARRIER',
-    //     id: 0,
-    //     Success: false,
-    //     nationality: undefined,
-    //     rank: undefined,
-    //     months: undefined
-    //   },
-    //   // Add more items as needed
-    // ];
-    
-
-    // // Update the dataChange observable with the hardcoded data
-    // this.dataChange.next(hardcodedData);
+      this.isTblLoading = true; 
+      this.httpService.get<any>(this.listUrl).subscribe({next: (data: any) => {
+          this.isTblLoading = false;
+          this.dataChange.next(data.list);
+        }, error: (err) => console.log(err)
+       });  
   }
   
+  saveOffSignUrl(offSign: offSign, router, notificationService){
+    this.httpService.post<offSign>(this.saveUrl, offSign).subscribe({next: (data: any) => {
+     if (data.success == true) {
+       notificationService.showNotification(
+         "snackbar-success",
+         "Record Added Successfully",
+         "bottom",
+         "center"
+       );
+       router.navigate(['/crew/maintain/off-sign/list-off-sign']);
+     }else{
+       notificationService.showNotification(
+         "snackbar-danger",
+         "Not Updated",
+         "bottom",
+         "center"
+       );
+     }
+     }, error: (err) => console.log(err)
+    });
+ }
 
+ updateOffSign(offSign: offSign, router, notificationService){
+  this.httpService.post<offSign>(this.updateUrl, offSign).subscribe({next: (data: any) => {
+    if (data.success == true) {
+      notificationService.showNotification(
+        "snackbar-success",
+        "Record Updated Successfully",
+        "bottom",
+        "center"
+      );
+      router.navigate(['/crew/maintain/off-sign/list-off-sign']);
+    }else{
+      notificationService.showNotification(
+        "snackbar-danger",
+        "Not Updated",
+        "bottom",
+        "center"
+      );
+    }
+    }, error: (err) => console.log(err)
+   });
+}
 
-
+delete(id){
+  return this.httpClient.get<any>(this.deleteUrl + "?id=" + parseInt(id));
+}
  
 }
