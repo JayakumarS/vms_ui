@@ -108,6 +108,12 @@ const routes: Routes = [
   loadChildren: () =>
     import("./blood-group/blood-group.module").then((m) => m.BloodGroupModule),
 }, 
+
+{
+  path: "Medicals",
+  loadChildren: () =>
+    import("./medicals/medicals.module").then((m) => m.MedicalsModule),
+},
 ];
 
 @NgModule({

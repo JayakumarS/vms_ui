@@ -150,15 +150,12 @@ export class AddAgentComponent implements OnInit {
   reset(){
     if(!this.edit){
       this.docForm = this.fb.group({
-        wageScaleDetails: this.fb.array([
-          this.fb.group({
-            sort : 1,
+       
             code:[""],
             description:[""],
             
           })
-        ]),
-      });
+        
     }else{
       this.fetchDetails(this.docForm.value.countryCode);
     }

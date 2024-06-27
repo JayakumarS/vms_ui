@@ -1,5 +1,3 @@
-
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,47 +10,47 @@ import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { Class } from '../class.model';
-import { ClassService } from '../class.service';
 import { MatErrorService } from 'src/app/core/service/mat-error.service';
+import { MedicalsService } from '../medicals.service';
+import { Medicals } from '../medicals-model';
+
 @Component({
-  selector: 'app-add-class',
-  templateUrl: './add-class.component.html',
-  styleUrls: ['./add-class.component.sass']
+  selector: 'app-add-medicals',
+  templateUrl: './add-medicals.component.html',
+  styleUrls: ['./add-medicals.component.sass']
 })
-export class AddClassComponent implements OnInit {
+export class AddMedicalsComponent implements OnInit {
 
   docForm: FormGroup;
-  class: Class;
+  Medicals: Medicals;
   edit:boolean=false;
+  
   requestId: any;
   decryptRequestId: any;
-
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public classService: ClassService,
+    public medicalsService: MedicalsService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
     private serverUrl:serverLocations,public matError : MatErrorService,
     private encryptionService:EncryptionService,
-    public snackBar: MatSnackBar) { 
+    public snackBar: MatSnackBar) {
 
+      this.docForm = this.fb.group({
+        mcode:["", Validators.required],
+        mdescription:["", Validators.required],
+        medicalId:[""],
+        
+      });
 
-    this.docForm = this.fb.group({
   
-          code:["",Validators.required],
-          description:["",Validators.required],
-          classid:[""],
-        });
+    }
      
-  }
-  
-   ngOnInit() {
-    
 
-     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
       this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
        this.edit=true;
        //For User login Editable mode
@@ -60,50 +58,39 @@ export class AddClassComponent implements OnInit {
 
       }
      });
+  }
 
-    }
-   addRow(){
-    let payitemsDetailsDtlArray=this.docForm.controls.classDetails as FormArray;
-    let arraylen=payitemsDetailsDtlArray.length;
-    var len = this.docForm.controls["classDetails"].value.length;
 
-    let newUsergroup:FormGroup = this.fb.group({
-      sort : 1 + len,
-      select: [""],
-      code:[""],
-      description:[""],
+  cancel(){
+    this.router.navigate(['/crew/maintain/Medicals/list-Medicals/']);
+  }
+
+
+  
+
+  
+
+  fetchDetails(id: any) {
+
+    this.httpService.get(this.medicalsService.editmed + "?id=" + id).subscribe((res: any) => {
+      console.log(res);
+      
+
+      this.docForm.patchValue({
+        'mcode': res.list[0].mcode,
+        'mdescription': res.list[0].mdescription,
+        'medicalId': res.list[0].medicalId,
+      });
       
     })
-    payitemsDetailsDtlArray.insert(arraylen,newUsergroup);
   }
 
-  removeRow(){
-    let count = 0;
-    const deleteRow = this.docForm.controls.classDetails as FormArray;
-    let i = 0;
-    
-    while (i < deleteRow.length) {
-      if (deleteRow.at(i).value.select) {
-        deleteRow.removeAt(i);
-        count++;
-      } else {
-        i++;
-      }
-    }
 
-    if(count == 0){
-      this.showNotification(
-        "snackbar-danger",
-        "Please select atleast one row",
-        "top",
-        "right"
-      );
-    }
-  }
+
   save(){
     
     if(this.docForm.valid){
-    this.classService.saveclass(this.docForm.value, this.router, this.notificationService);
+    this.medicalsService.savemed(this.docForm.value, this.router, this.notificationService);
   }else{
     this.matError.markFormGroupTouched(this.docForm);
     this.notificationService.showNotification(
@@ -113,48 +100,30 @@ export class AddClassComponent implements OnInit {
       "right");
   }
   }
-  update() {
 
+  update() {
     if(this.docForm.valid){
-      this.classService.updateclass(this.docForm.value, this.router, this.notificationService);
+      this.medicalsService.updatemed(this.docForm.value, this.router, this.notificationService);
     }else{
-      this.matError.markFormGroupTouched(this.docForm);
-      this.notificationService.showNotification(
+      this.showNotification(
         "snackbar-danger",
         "Please fill the required details",
         "top",
-        "right");
+        "right"
+      );
     }
   }
 
-  fetchDetails(id: any): void {
-    this.httpService.get<any>(this.classService.editclass+"?id="+id).subscribe({next: (data: any) => {
-      this.docForm.patchValue({
-        'code': data.list[0].code,
-        'description': data.list[0].description,
-        'classid':data.list[0].classid
-      });
-    }
-  });
-  }
-
-  cancel(){
-    this.router.navigate(['/vessels/maintain/class/list-class']);
-  }
-
-
-  
-
-  
   reset(){
     if(!this.edit){
       this.docForm = this.fb.group({
        
-            sort : 1,
-            code:[""],
-            description:[""],
+            
+            mcode:[""],
+            mdescription:[""],
+            
+          })
        
-      });
     }else{
       this.fetchDetails(this.docForm.value.countryCode);
     }
@@ -168,6 +137,5 @@ export class AddClassComponent implements OnInit {
       panelClass: colorName,
     });
   }
- 
-}
 
+}
