@@ -41,6 +41,7 @@ export class MultiSeamenInsertService extends UnsubscribeOnDestroyAdapter{
   public getRankUrl = `${this.serverUrl.apiServerAddress}api/common/getRankMasters`;
   public getNameUrl = `${this.serverUrl.apiServerAddress}api/common/getSeamenName`;
   public saveUrl = `${this.serverUrl.apiServerAddress}api/crew/utilities/multiseamen/saveMultiSeamen`;
+  public nationalityUrl = `${this.serverUrl.apiServerAddress}api/common/getNationality`;
 
 
 

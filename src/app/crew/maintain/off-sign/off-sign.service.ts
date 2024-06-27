@@ -38,7 +38,9 @@ export class OffSignService extends UnsubscribeOnDestroyAdapter{
   public updatePreplanCal = `${this.serverUrl.apiServerAddress}app/countryMaster/updatePreplan`;
   public deleteEventCal = `${this.serverUrl.apiServerAddress}app/countryMaster/deleteEventCal`;
   public editEventDetail = `${this.serverUrl.apiServerAddress}app/countryMaster/editEventDetail`;
-
+  public vesselTypeUrl = `${this.serverUrl.apiServerAddress}api/common/getVesselType`;
+  public nationalityUrl = `${this.serverUrl.apiServerAddress}api/common/getNationality`;
+  public rankListUrl = `${this.serverUrl.apiServerAddress}api/common/getRankMasters`;
   get data(): offSign[] {
     return this.dataChange.value;
   }

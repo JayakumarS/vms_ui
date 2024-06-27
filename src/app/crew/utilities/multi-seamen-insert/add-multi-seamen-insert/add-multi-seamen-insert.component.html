@@ -79,6 +79,8 @@
                     width: 4%; border-radius: 0.05rem;">Name</th>
                                                 <th class="text-center table-heading padding-both-side-2 width_7" style=" 
                     width: 4%;border-radius: 0.07rem;">Rank</th>
+                    <th class="text-center table-heading padding-both-side-2 width_7" style=" 
+                    width: 4%;border-radius: 0.07rem;">Nationality</th>
                      <th class="text-center table-heading padding-both-side-2 width_7" style=" 
                      width: 4%; border-radius: 0.05rem;">Pay</th>
                                                  <th class="text-center table-heading padding-both-side-2 width_7" style=" 
@@ -127,6 +129,18 @@
                                                         formControlName="rank"
                                                         [required]="true"
                                                         [errorMessage]="'Rank is required'">
+                                                      </app-searchable-select>
+                                                    </td>
+
+                                                    <td class="padding-both-side-2">
+                                                        <app-searchable-select 
+                                                        [options]="nationalityList" 
+                                                        placeholderLabel="Search"
+                                                        noEntriesFoundLabel="No results found"  
+                                                        [label]="'Nationality'"
+                                                        formControlName="nationality"
+                                                        [required]="true"
+                                                        [errorMessage]="'Nationality is required'">
                                                       </app-searchable-select>
                                                     </td>
 
@@ -207,7 +221,7 @@
                                         </ng-container>
                                     </table>
 
-                                </div>
+                                </div><br>
                                 <div class="row">
                                     <div>
                                         <button mat-mini-fab color="primary" (click)="addRow()">

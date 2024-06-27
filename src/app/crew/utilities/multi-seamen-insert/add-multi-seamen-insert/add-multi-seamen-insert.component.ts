@@ -69,6 +69,7 @@ export class AddMultiSeamenInsertComponent implements OnInit {
   paylist: any;
   currencylist: any;
   nameList: any =[];
+  nationalityList: any =[];
   registryportlist: any;
   // For Encryption
   requestId: any;
@@ -103,6 +104,7 @@ export class AddMultiSeamenInsertComponent implements OnInit {
           joiningDate: [""],
           estSignOffObj: [""],
           estSignOff: [""],
+          nationality: [""]
         })
       ]),
     });
@@ -135,6 +137,9 @@ export class AddMultiSeamenInsertComponent implements OnInit {
   this.getRankList();
 
   this.getNameList();
+
+  this.getNationalityList();
+
 
 
 
@@ -199,12 +204,22 @@ this.filteritempaylist();
         });
       }
 
+      getNationalityList(){
+        this.httpService.get(this.multiSeamenInsertService.nationalityUrl).subscribe({next: (res: any) => {
+          this.nationalityList = res.lCommonUtilityBean;
+        }, error: (err) => console.log(err)
+        });
+      }
+
     nameChange(i){
         let rankList = this.nameList.find(dtl => dtl.id === this.docForm.value.multiseamendetail[i].name);
         let multiseamendetailDtlArray=this.docForm.controls.multiseamendetail as FormArray;
-        multiseamendetailDtlArray.at(i).patchValue({rank:rankList.rankId.toString()});
-
-    }
+        if (rankList) {
+          multiseamendetailDtlArray.at(i).patchValue({
+              rank: rankList.rankId.toString(),
+              nationality: rankList.nationalityId.toString() // or just rankList.nationalityid if it is already a string
+          });
+      }    }
 
    filteritemcurrencylist(){
     if (!this.currencylist) {

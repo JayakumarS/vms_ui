@@ -93,15 +93,12 @@ export class AddOffSignComponent implements OnInit {
       }
      });
 
-     this.vessaltypelist = [
-      { id: "RO RO VESSAL", text: "RO RO VESSAL" },
-      { id: "TANKER", text: "TANKER" },
-    
-    ];
-    
-    this.vessaltypeFilteredOptions.next(this.vessaltypelist.slice());
-
-// listen for origin List  search field value changes
+     this.httpService.get<any>(this.OffSignService.vesselTypeUrl).subscribe(
+      (data) => {
+        this.vessaltypelist = data.lCommonUtilityBean;
+        this.vessaltypeFilteredOptions.next(this.vessaltypelist.slice());
+      },
+    );
 this.vessaltypeFilterCtrl.valueChanges
   .pipe(takeUntil(this.onDestroy))
   .subscribe(() => {
@@ -109,17 +106,13 @@ this.vessaltypeFilterCtrl.valueChanges
   });
 
 
-  this.nationalitylist = [
-    { id: "BANGLADESH", text: "BANGLADESH" },
-    { id: "BRITISH", text: "BRITISH" },
-    { id: "BELGIAN", text: "BELGIAN" },
+  this.httpService.get<any>(this.OffSignService.nationalityUrl).subscribe(
+    (data) => {
+      this.nationalitylist = data.lCommonUtilityBean;
+      this.nationalityFilteredOptions.next(this.nationalitylist.slice());
+    },
+  );
 
-  
-  ];
-  
-  this.nationalityFilteredOptions.next(this.nationalitylist.slice());
-
-// listen for origin List  search field value changes
 this.nationalityFilterCtrl.valueChanges
 .pipe(takeUntil(this.onDestroy))
 .subscribe(() => {
@@ -129,16 +122,12 @@ this.nationalityFilterCtrl.valueChanges
 
 
 
-this.ranklist = [
-  { id: "ENGINEER", text: "ENGINEER" },
-  { id: "OFFICER", text: "OFFICER" },
-  { id: "COOK", text: "COOK" },
-
-
-];
-
-this.rankFilteredOptions.next(this.ranklist.slice());
-
+this.httpService.get<any>(this.OffSignService.rankListUrl).subscribe(
+  (data) => {
+    this.ranklist = data.lCommonUtilityBean;
+    this.rankFilteredOptions.next(this.ranklist.slice());
+  },
+);
 // listen for origin List  search field value changes
 this.rankFilterCtrl.valueChanges
 .pipe(takeUntil(this.onDestroy))
