@@ -16,6 +16,10 @@ export class serverLocations {
       //For Server Added 
       this.apiServerAddress = 'http://65.108.201.61:8090/pvms/';
       
+    }  else if (window.location.hostname === '213.42.28.18') {
+      //For Server Added 
+      this.apiServerAddress = 'http://213.42.28.18:8082/pvms/';
+      
     } 
     
   }
