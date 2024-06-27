@@ -101,7 +101,7 @@ export class AddReligionComponent implements OnInit {
         this.showNotification(
           "snackbar-danger",
           "Please fill the required details",
-          "top",
+          "data.message",
           "right"
         );
       }
@@ -114,7 +114,7 @@ export class AddReligionComponent implements OnInit {
         this.showNotification(
           "snackbar-danger",
           "Please fill the required details",
-          "top",
+          "data.message",
           "right"
         );
       }

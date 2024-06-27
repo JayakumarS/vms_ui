@@ -60,7 +60,7 @@ export class ReligionService extends UnsubscribeOnDestroyAdapter{
       }else{
         notificationService.showNotification(
           "snackbar-danger",
-          "Not Updated",
+         data.message,
           "bottom",
           "center"
         );
@@ -82,7 +82,7 @@ export class ReligionService extends UnsubscribeOnDestroyAdapter{
       }else{
         notificationService.showNotification(
           "snackbar-danger",
-          "Not Updated",
+          data.message,
           "bottom",
           "center"
         );

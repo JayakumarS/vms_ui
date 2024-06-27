@@ -61,7 +61,7 @@ export class BloodGroupService extends UnsubscribeOnDestroyAdapter {
       }else{
         notificationService.showNotification(
           "snackbar-danger",
-          "Not Updated",
+          data.message,
           "bottom",
           "center"
         );
@@ -83,7 +83,7 @@ export class BloodGroupService extends UnsubscribeOnDestroyAdapter {
       }else{
         notificationService.showNotification(
           "snackbar-danger",
-          "Not Updated",
+          data.message,
           "bottom",
           "center"
         );
