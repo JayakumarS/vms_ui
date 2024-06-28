@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { DepartmentMasterService } from '../department-master.service';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 
 @Component({
@@ -19,7 +20,9 @@ export class ViewDepartmentComponent implements OnInit {
     public route:ActivatedRoute, 
     private httpService: HttpServiceService,
     private fb: FormBuilder,
-    private deptService: DepartmentMasterService
+    private deptService: DepartmentMasterService,
+    public dialogRef:  MatDialogRef<ViewDepartmentComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.docForm=this.fb.group({
       code:[""],
@@ -29,11 +32,7 @@ export class ViewDepartmentComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      if(params.id!=undefined && params.id!=0){ 
-        this.fetchDetails(params.id) ;
-      }
-     });
+    this.fetchDetails(this.data);
   }
 
   fetchDetails(id){
@@ -42,8 +41,9 @@ export class ViewDepartmentComponent implements OnInit {
       }, error: (err) => console.log(err)
      });
   }
-  onCancel(){
-    this.router.navigate(['/crew/department-master/list-department']);
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
 }

@@ -1,48 +1,40 @@
-<section class="content">
-    <div class="content-block">
-        <div class="block-header">
-            <!-- breadcrumb -->
-            <app-breadcrumb [title]="'View Department Master'" [items]="['Crew','Department Master']"
-                [active_item]="'View Department Master'">
-            </app-breadcrumb>
-        </div>
-        <div class="row clearfix ">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="box-shadow">
-                    <div class="card">
-                        <div class="body">
-                            <div class="container border"
-                                style=" border: 1px solid #b8a6dd!important; border-radius: 10px; background-color: #ecebf7;">
-                                <form class="m-4" autocomplete="off" [formGroup]="docForm">
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-                                        </div>
-                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                                            <mat-label><b>Department Code: </b>{{deptdtls.code}}</mat-label>
-                                        </div>
-                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                                            <mat-label><b>Department Name: </b>{{deptdtls.name}}</mat-label>
-                                        </div>
-                                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                                            <mat-label><b>Department Head: </b>{{deptdtls.name}}</mat-label>
-                                        </div>
-                                    </div>
-                                <br>
-                                    <br>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3 center">
-                                            <button class="cancelBtn" type="button" mat-button (click)="onCancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+<div class="container">
+    <div mat-dialog-content>
+        <div class="row">
+
+
+            <div class="body">
+                <div style="margin-top: -5px;margin-left: 384px;">
+                    <i class="fas fa-times" (click)="onNoClick()" style=" cursor: pointer;"></i>
+                </div>
+                <div class="container border" id="salesOrderdview"
+                    style=" border: 1px solid #b8a6dd!important; border-radius: 10px; background-color: #ecebf7;height:155px">
+                    <form class="m-4" [formGroup]="docForm">
+                        
+                        <div class="row">
+                            <label><b>Department Code: </b>{{deptdtls.code}}</label>
                         </div>
-                    </div>
+                        <br>
+
+                        <div class="row">
+                            <label><b>Department Name: </b>{{deptdtls.name}}</label>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <label><b>Department Head: </b>{{deptdtls.head}}</label>
+                        </div>
+                        <br>
+                    
+                    </form>
+
                 </div>
             </div>
+
         </div>
     </div>
-</section>
-
+    <mat-dialog-actions align="center" class="mb-1">
+        <button class="cancelBtn" type="button" mat-button (click)="onNoClick()"><mat-icon
+                class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+    </mat-dialog-actions>
+</div>

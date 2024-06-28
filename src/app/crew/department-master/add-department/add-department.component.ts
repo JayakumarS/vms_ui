@@ -20,6 +20,7 @@ export class AddDepartmentComponent implements OnInit {
   docForm: FormGroup;
   edit: boolean = false;
   requestId: any;
+  deptheadlist: any=[];
 
   constructor(
     public router: Router,
@@ -46,6 +47,19 @@ export class AddDepartmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.httpService.get<any>(this.departmentService.getdepartment).subscribe(
+      (data) => {
+        this.deptheadlist = data.lCommonUtilityBean;
+      }, 
+    );
+
+    this.httpService.get<any>(this.departmentService.getSequenceCode).subscribe((res: any) => {
+      this.docForm.patchValue({
+        'code':res.code
+      })
+    })
+
     this.route.params.subscribe(params => {
       if (params.id != undefined && params.id != 0) {
         // this.decryptRequestId = params.id;
@@ -54,6 +68,17 @@ export class AddDepartmentComponent implements OnInit {
         this.fetchDetails(this.requestId);
       }
     });
+    
+    //this.route.queryParams.subscribe(queryParams => {
+      //if (queryParams.code !== undefined) {
+        //this.docForm.patchValue({
+          //'code':queryParams.code
+       // })
+        //this.docForm.value.code = queryParams.code;
+      //}
+   // });
+
+   
 
   }
   fetchDetails(id: any) {
@@ -68,8 +93,7 @@ export class AddDepartmentComponent implements OnInit {
       }
 
       this.docForm.patchValue({
-
-
+        
         'name': res.departmentBean.name,
         'head': res.departmentBean.head,
         'code': res.departmentBean.code,

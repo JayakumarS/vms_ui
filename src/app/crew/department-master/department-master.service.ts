@@ -27,6 +27,8 @@ export class DepartmentMasterService extends UnsubscribeOnDestroyAdapter {
   public editUrl = `${this.serverUrl.apiServerAddress}api/master/department/edit`;
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/master/department/delete`;
   public updateUrl = `${this.serverUrl.apiServerAddress}api/master/department/update`;
+  public getSequenceCode = `${this.serverUrl.apiServerAddress}api/master/department/getSequenceCode`;
+  public getdepartment=`${this.serverUrl.apiServerAddress}api/common/getgrouppage`;
 
   
   get data(): DepartmentModel[] {

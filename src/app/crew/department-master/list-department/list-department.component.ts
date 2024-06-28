@@ -18,6 +18,7 @@ import { MatSort } from '@angular/material/sort';
 import { CurrencyModel } from '../../currency-master/currency.model';
 import { DepartmentMasterService } from '../department-master.service';
 import { DeleteComponent } from 'src/app/master/country-master/list-country-master/dialog/delete/delete.component';
+import { ViewDepartmentComponent } from '../view-department/view-department.component';
 
 @Component({
   selector: 'app-list-department',
@@ -28,8 +29,8 @@ export class ListDepartmentComponent extends UnsubscribeOnDestroyAdapter impleme
   displayedColumns=[
         'code',
         'name',
-    'head',
-    'actions'
+        'head',
+        'actions'
   ]
 
   dataSource: ExampleDataSource | null;
@@ -82,8 +83,22 @@ export class ListDepartmentComponent extends UnsubscribeOnDestroyAdapter impleme
 
   }
   viewCall(row){
-    this.router.navigate(['/crew/department-master/view-department/', row.deptId]);
+    let rowId = row.deptId
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
 
+    const dialogRef = this.dialog.open(ViewDepartmentComponent, {
+      height: "300px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
 
   }
   deleteItem(row) {
