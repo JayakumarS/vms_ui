@@ -148,7 +148,7 @@ export class CrewPayrollCurrencyComponent implements OnInit {
       this.docForm.patchValue({
 
          
-        'currencycode':data.list[0].currencycode,
+        'currencycode':data.list[0].currencycode.toString(),
    
       })
   });
@@ -566,7 +566,7 @@ incrementHour(time) {
         //   this.docForm.patchValue({ 'validation': false })
         // }
       this.docForm.patchValue({
-        'countryname': data.list[0].countryname,
+        'countryname': data.list[0].countryname.toString(),
         'currencycode': data.list[0].currencycode,
         'validation': data.list[0].validation.toString(),
         'currencyid': data.list[0].currencyid

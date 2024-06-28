@@ -34,6 +34,11 @@ const routes: Routes = [
     import("./ship-managers/ship-managers.module").then((m)=>m.ShipManagersModule),
   },
   {
+    path: 'freight-type',
+    loadChildren: () =>
+    import("./freight-type/freight-type.module").then((m)=>m.FreightTypeModule),
+  },
+  {
     path: 'despatch-reasons',
     loadChildren: () =>
     import("./despatch-reasons/despatch-reasons.module").then((m)=>m.DespatchReasonsModule),
