@@ -151,28 +151,28 @@ export class AddVesselParticularsComponent implements OnInit {
   fleetlist: any = [];
   fleetlist1: { id: string, text: string }[] = [];
   typelist:any;
-  vesseltypelist:any;
+  vesseltypelist:any=[];
   prefixlist:any;
   requestId: any;
   decryptRequestId: any;
   machinerylist: any=[];
-  vesselgrouplist: any;
+  vesselgrouplist: any=[];
   fdanddlist: any;
   wagescalelist: any;
   classificationlist: any;
   reasonlist: any;
   vesselClasslist: any=[]
-  fleetvessellist: any;
-  leadvesselidlist: any;
-  flaglist: any;
-  registryportlist: any;
-  iceclasslist: any;
-  shipownerlist:any;
+  fleetvessellist: any=[];
+  leadvesselidlist: any=[];
+  flaglist: any=[];
+  registryportlist: any=[];
+  iceclasslist: any=[];
+  shipownerlist:any=[];
   shipownerplatformlist:any;
-  operatorlist:any;
-  officialManagerlist:any;
-  shipmanagerlist:any;
-  crewmanagerlist:any;
+  operatorlist:any=[];
+  officialManagerlist:any=[];
+  crewmanagerlist:any=[];
+  shipmanagerlist:any=[];
   superintendentlist:any;
   currtmpList: any[];
   pandilist: any=[];
@@ -570,10 +570,10 @@ this.filteritemsuperintendentlist();
    getVesselClassList(){
     this.httpService.get(this.VesselsParticularsService.vesselClassUrl).subscribe({next: (res: any) => {
         this.vesselClasslist = res.lCommonUtilityBean;
-        this.vesselClassFilteredOptions.next(this.vesselClasslist.slice());
-        this.vesselClassFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
-          this.filteritemvesselClasslist();
-        });
+        // this.vesselClassFilteredOptions.next(this.vesselClasslist.slice());
+        // this.vesselClassFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+        //   this.filteritemvesselClasslist();
+        // });
       }, error: (err) => console.log(err)
     });
    }
@@ -581,10 +581,10 @@ this.filteritemsuperintendentlist();
    getVesselType(){
     this.httpService.get(this.VesselsParticularsService.vesselTypeUrl).subscribe({next: (res: any) => {
         this.vesseltypelist = res.lCommonUtilityBean;
-        this.vesseltypeFilteredOptions.next(this.vesseltypelist.slice());
-        this.vesseltypeFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
-          this.filteritemvesseltypelist();
-        });
+        // this.vesseltypeFilteredOptions.next(this.vesseltypelist.slice());
+        // this.vesseltypeFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+        //   this.filteritemvesseltypelist();
+        // });
       }, error: (err) => console.log(err)
     });
    }
@@ -592,10 +592,10 @@ this.filteritemsuperintendentlist();
    getPIList(){
     this.httpService.get(this.VesselsParticularsService.vesselInsuranceUrl).subscribe({next: (res: any) => {
         this.pandilist = res.lCommonUtilityBean;
-        this.pandiFilteredOptions.next(this.pandilist.slice());
-        this.pandiFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
-          this.filteritempandilist();
-        });
+        // this.pandiFilteredOptions.next(this.pandilist.slice());
+        // this.pandiFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+        //   this.filteritempandilist();
+        // });
       }, error: (err) => console.log(err)
     });
    }
@@ -603,10 +603,10 @@ this.filteritemsuperintendentlist();
    getHullMachinery(){
     this.httpService.get(this.VesselsParticularsService.vesselInsuranceUrl).subscribe({next: (res: any) => {
         this.machinerylist = res.lCommonUtilityBean;
-        this.hullandmachineryFilteredOptions.next(this.machinerylist.slice());
-        this.hullandmachineryFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
-          this.filteritemmachinerylist();
-        });
+        // this.hullandmachineryFilteredOptions.next(this.machinerylist.slice());
+        // this.hullandmachineryFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+        //   this.filteritemmachinerylist();
+        // });
       }, error: (err) => console.log(err)
     });
    }
@@ -614,10 +614,10 @@ this.filteritemsuperintendentlist();
    fdList(){
     this.httpService.get(this.VesselsParticularsService.vesselInsuranceUrl).subscribe({next: (res: any) => {
         this.fdanddlist = res.lCommonUtilityBean;
-        this.fdanddFilteredOptions.next(this.fdanddlist.slice());
-        this.fdanddFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
-          this.filteritemfdanddlist();
-        });
+        // this.fdanddFilteredOptions.next(this.fdanddlist.slice());
+        // this.fdanddFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+        //   this.filteritemfdanddlist();
+        // });
       }, error: (err) => console.log(err)
     });
    }
@@ -625,10 +625,10 @@ this.filteritemsuperintendentlist();
    getWageList(){
     this.httpService.get(this.VesselsParticularsService.wageUrl).subscribe({next: (res: any) => {
         this.wagescalelist = res.lCommonUtilityBean;
-        this.wagescaleFilteredOptions.next(this.wagescalelist.slice());
-        this.wagescaleFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
-          this.filteritemwagescalelist();
-        });
+        // this.wagescaleFilteredOptions.next(this.wagescalelist.slice());
+        // this.wagescaleFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+        //   this.filteritemwagescalelist();
+        // });
       }, error: (err) => console.log(err)
     });
    }
@@ -636,10 +636,10 @@ this.filteritemsuperintendentlist();
    getPortList(){
     this.httpService.get(this.VesselsParticularsService.portUrl).subscribe({next: (res: any) => {
         this.registryportlist = res.lCommonUtilityBean;
-        this.registryportFilteredOptions.next(this.registryportlist.slice());
-        this.registryportFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
-          this.filteritemregistryportlist();
-        });
+        // this.registryportFilteredOptions.next(this.registryportlist.slice());
+        // this.registryportFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+        //   this.filteritemregistryportlist();
+        // });
       }, error: (err) => console.log(err)
     });
    }
@@ -647,10 +647,10 @@ this.filteritemsuperintendentlist();
    flagList(){
     this.httpService.get(this.VesselsParticularsService.flagUrl).subscribe({next: (res: any) => {
         this.flaglist = res.lCommonUtilityBean;
-        this.flagFilteredOptions.next(this.flaglist.slice());
-        this.flagFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
-          this.filteritemflaglist();
-        });
+        // this.flagFilteredOptions.next(this.flaglist.slice());
+        // this.flagFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+        //   this.filteritemflaglist();
+        // });
       }, error: (err) => console.log(err)
     });
    }
@@ -658,10 +658,10 @@ this.filteritemsuperintendentlist();
    getVesselOwner(){
     this.httpService.get(this.VesselsParticularsService.vesselOwnerUrl).subscribe({next: (res: any) => {
         this.shipownerlist = res.lCommonUtilityBean;
-        this.shipownerFilteredOptions.next(this.shipownerlist.slice());
-        this.shipownerFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
-          this.filteritemshipownerlist();
-        });
+        // this.shipownerFilteredOptions.next(this.shipownerlist.slice());
+        // this.shipownerFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+        //   this.filteritemshipownerlist();
+        // });
       }, error: (err) => console.log(err)
     });
    }
@@ -669,10 +669,10 @@ this.filteritemsuperintendentlist();
    getOfficialManager(){
     this.httpService.get(this.VesselsParticularsService.officialMngrUrl).subscribe({next: (res: any) => {
         this.officialManagerlist = res.lCommonUtilityBean;
-        this.officialManagerFilteredOptions.next(this.officialManagerlist.slice());
-        this.officialManagerFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
-          this.filteritemofficialManagerlist();
-        });
+        // this.officialManagerFilteredOptions.next(this.officialManagerlist.slice());
+        // this.officialManagerFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+        //   this.filteritemofficialManagerlist();
+        // });
       }, error: (err) => console.log(err)
     });
    }
@@ -680,10 +680,10 @@ this.filteritemsuperintendentlist();
    getShipManagers(){
     this.httpService.get(this.VesselsParticularsService.shipMngrUrl).subscribe({next: (res: any) => {  
         this.shipmanagerlist =   res.lCommonUtilityBean; 
-        this.shipmanagerFilteredOptions.next(this.shipmanagerlist.slice());
-        this.shipmanagerFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
-           this.filteritemshipmanagerlist();
-        });
+        // this.shipmanagerFilteredOptions.next(this.shipmanagerlist.slice());
+        // this.shipmanagerFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+        //    this.filteritemshipmanagerlist();
+        // });
         }, error: (err) => console.log(err)
     });
    }
@@ -691,10 +691,10 @@ this.filteritemsuperintendentlist();
    getCrewManagers(){
     this.httpService.get(this.VesselsParticularsService.shipMngrUrl).subscribe({next: (res: any) => {  
         this.crewmanagerlist =   res.lCommonUtilityBean; 
-        this.crewmanagerFilteredOptions.next(this.shipmanagerlist.slice());
-        this.crewmanagerFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
-          this.filteritemcrewmanagerlist();
-        });
+        // this.crewmanagerFilteredOptions.next(this.shipmanagerlist.slice());
+        // this.crewmanagerFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+        //   this.filteritemcrewmanagerlist();
+        // });
         }, error: (err) => console.log(err)
     });
    }

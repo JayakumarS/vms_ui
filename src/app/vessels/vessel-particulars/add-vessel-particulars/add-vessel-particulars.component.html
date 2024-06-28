@@ -5,1012 +5,469 @@
         <app-breadcrumb [title]="'Add Vessel Particulars'" [items]="['Vessel']" [active_item]="'Add Vessel Particulars'">
         </app-breadcrumb>
       </div>
-      <div class="row clearfix ">
+
+      <div class="row clearfix">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-        <div class="box-shadow">
-            <div class="card"style="height: 1700px;">
+          <div class="box-shadow">
+            <div class="card">
+              <div class="body">
+               <form class="m-4" autocomplete="off" [formGroup]="docForm">
+                 <mat-tab-group backgroundColor="light" animationDuration="1000ms">
+                   <mat-tab label="General">
+                    <br>
+                    <div class="row w-100">
+                        <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>Code</mat-label>
+                            <input matInput formControlName="code" readonly>
+                          </mat-form-field>
+                        </div>
 
-          <div class="card">
-            <div class="body" style="padding-left: 110px;">
-                <h4>GENERAL</h4>
-              <form class="m-4" [formGroup]="docForm">
-                <div class="row" >
-                    <div  class="col-xl-3 col-lg-2 col-md-12 col-sm-12">
-                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Code</mat-label>
-                        <input matInput formControlName="code" readonly required>
-                        <mat-error *ngIf="docForm.get('code').hasError('required')">
-                          Code is required
-                      </mat-error>
-                      </mat-form-field>
+                        <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>Name</mat-label>
+                            <input matInput formControlName="name" required>
+                            <mat-error *ngIf="docForm.get('name').hasError('required')">
+                              Name is required
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
 
-                    </div>
-                    <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-  
-                       </div>
-                    <div class="col-xl-3 col-lg-2 col-md-12 col-sm-12">
-                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Name</mat-label>
-                        <input matInput formControlName="name" required>
-                        <mat-error *ngIf="docForm.get('name').hasError('required')">
-                          Name is required
-                      </mat-error>
-                       
-                      </mat-form-field>
-                    </div>
-                    <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-  
-                    </div>
-                    <!-- Second Field: Country Name -->
-                    <div class="col-xl-3 col-lg-2 col-md-12 col-sm-12">
-                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Short Name</mat-label>
-                        <input matInput formControlName="shortname" required>
-                        <mat-error *ngIf="docForm.get('shortname').hasError('required')">
-                          Short name is required
-                      </mat-error>
-                    
-                      </mat-form-field>
-                    </div>
+                        <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 flex">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>Short Name</mat-label>
+                            <input matInput formControlName="shortname" required>
+                            <mat-error *ngIf="docForm.get('shortname').hasError('required')">
+                              Short name is required
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
 
-                    <!-- <div class="col-xl-3 col-lg-2 col-md-12 col-sm-12">
-                      <app-searchable-select 
-                      [options]="typelist" 
-                      placeholderLabel="Search"
-                      noEntriesFoundLabel="No results found"
-                      [label]="'Type'"
-                      formControlName="type"
-                      [required]="true"
-                      [errorMessage]="'Type is required'">
-                    </app-searchable-select>
-                    </div> -->
-                  
-                    <!-- Third Field: Additional Field 1 -->
-                    <!-- <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Prefix</mat-label>
-                        <mat-select  formControlName="prefix" #prefix>
-                          <mat-option>
-                              <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                  [noEntriesFoundLabel]="'no results found'"
-                                  [formControl]="prefixFilterCtrl"></ngx-mat-select-search>
-                          </mat-option>
-                          <mat-option
-                              *ngFor="let title of prefixFilteredOptions | async"
-                              [value]="title.id">
-                              {{title.text}}
-                          </mat-option>
-                      </mat-select>
-                      </mat-form-field>
-                    </div> -->
-                  
-                    <!-- Fourth Field: Additional Field 2 -->
-                    <!-- <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Initials</mat-label>
-                        <input matInput formControlName="" maxlength="15" >
-                 
-                      </mat-form-field>
-                    </div> -->
-                  
-                    <!-- Fifth Field: Additional Field 3 -->
-                    <!-- <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Sorting</mat-label>
-                        <input matInput formControlName="sorting" >
-                   
-                      </mat-form-field>
-                    </div> -->
-                
-               
-                  </div>
-                  
-              
-                <div class="row">
-                  <!-- <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                            <mat-label>X Name 1</mat-label>
-                            <input matInput formControlName="xname1" >
-                          </mat-form-field>                
-                          </div> -->
+                        <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 flex-sb">
+                          <app-searchable-select class="w-100"
+                            [options]="fleetlist" 
+                            placeholderLabel="Search"
+                            noEntriesFoundLabel="No results found"
+                            [label]="'Fleet'"
+                            formControlName="fleet"
+                            [required]="true"
+                            [errorMessage]="'Fleet is required'">
+                          </app-searchable-select>
 
-                            <!-- <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                      <mat-label>Type</mat-label>
-                      <mat-select  formControlName="type" #type>
-                        <mat-option>
-                            <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                [noEntriesFoundLabel]="'no results found'"
-                                [formControl]="typeFilterCtrl"></ngx-mat-select-search>
-                        </mat-option>
-                        <mat-option
-                            *ngFor="let title of typeFilteredOptions | async"
-                            [value]="title.id">
-                            {{title.text}}
-                        </mat-option>
-                    </mat-select>
-
-
-                    </mat-form-field> -->
-
-          
-                  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                    <!-- <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                    <mat-label>Fleet</mat-label>
-
-
-                    <mat-select  formControlName="fleet" #fleet required>
-                      <mat-option>
-                          <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                              [noEntriesFoundLabel]="'no results found'"
-                              [formControl]="fleetFilterCtrl"></ngx-mat-select-search>
-                      </mat-option>
-                      <mat-option
-                          *ngFor="let title of fleetFilteredOptions | async"
-                          [value]="title.id">
-                          {{title.text}}
-                      </mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="docForm.get('fleet').hasError('required')">
-                    Fleet is required
-                </mat-error>
-                  </mat-form-field> -->
-
-                      <app-searchable-select 
-                        [options]="fleetlist" 
-                        placeholderLabel="Search"
-                        noEntriesFoundLabel="No results found"
-                        [label]="'Fleet'"
-                        formControlName="fleet"
-                        [required]="true"
-                        [errorMessage]="'Fleet is required'">
-                      </app-searchable-select>
-                  </div>
-                  <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                  <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/fleets/add-fleets/0'">
-                    <mat-icon class="col-white">add</mat-icon>
-                  </button>
-                   </div>
-
-                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                    <mat-label>Vessel Type  </mat-label>
-
-                    <mat-select  formControlName="vesseltype" #vesseltype required>
-                      <mat-option>
-                          <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                              [noEntriesFoundLabel]="'no results found'"
-                              [formControl]="vesseltypeFilterCtrl"></ngx-mat-select-search>
-                      </mat-option>
-                      <mat-option
-                          *ngFor="let title of vesseltypeFilteredOptions | async"
-                          [value]="title.id">
-                          {{title.text}}
-                      </mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="docForm.get('vesseltype').hasError('required')">
-                    Vessel Type is required
-                </mat-error>
-
-
-                  
-                  </mat-form-field>
-                   </div>
-                   <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                    <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/vessel-types/add-vessel-types/0'">
-                      <mat-icon class="col-white">add</mat-icon>
-                    </button>
-                     </div>
-
-                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                          <mat-label>P & I </mat-label>
-
-                          <mat-select  formControlName="pandi" #pandi>
-                            <mat-option>
-                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                    [noEntriesFoundLabel]="'no results found'"
-                                    [formControl]="pandiFilterCtrl"></ngx-mat-select-search>
-                            </mat-option>
-                            <mat-option
-                                *ngFor="let title of pandiFilteredOptions | async"
-                                [value]="title.id">
-                                {{title.text}}
-                            </mat-option>
-                        </mat-select>
-                        </mat-form-field>                
-                      
-                      </div>
-                      <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                        <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/p-and-i/add-p-and-i/0'">
-                          <mat-icon class="col-white">add</mat-icon>
-                        </button>
-                         </div>
-                </div> 
-             
-
-                <div class="row">
-                    <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                            <mat-label>X Name 2</mat-label>
-                            <input matInput formControlName="xname2" >
-                          </mat-form-field>                  </div> -->
-                  <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                    <mat-checkbox formControlName="isActive"  ngInit="checked=true">Show on Secheduling</mat-checkbox>
-
-                  </div> -->
-          
-                  <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                    <mat-label>Vessel Type  </mat-label>
-
-                    <mat-select  formControlName="vesseltype" #vesseltype required>
-                      <mat-option>
-                          <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                              [noEntriesFoundLabel]="'no results found'"
-                              [formControl]="vesseltypeFilterCtrl"></ngx-mat-select-search>
-                      </mat-option>
-                      <mat-option
-                          *ngFor="let title of vesseltypeFilteredOptions | async"
-                          [value]="title.id">
-                          {{title.text}}
-                      </mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="docForm.get('vesseltype').hasError('required')">
-                    Vessel Type is required
-                </mat-error>
-
-
-                  
-                  </mat-form-field>
-                   </div>
-                   <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                    <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/vessel-types/add-vessel-types/0'">
-                      <mat-icon class="col-white">add</mat-icon>
-                    </button>
-                     </div>
-
-                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                          <mat-label>P & I </mat-label>
-
-                          <mat-select  formControlName="pandi" #pandi>
-                            <mat-option>
-                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                    [noEntriesFoundLabel]="'no results found'"
-                                    [formControl]="pandiFilterCtrl"></ngx-mat-select-search>
-                            </mat-option>
-                            <mat-option
-                                *ngFor="let title of pandiFilteredOptions | async"
-                                [value]="title.id">
-                                {{title.text}}
-                            </mat-option>
-                        </mat-select>
-                        </mat-form-field>                
-                      
-                      </div>
-                      <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                        <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/p-and-i/add-p-and-i/0'">
-                          <mat-icon class="col-white">add</mat-icon>
-                        </button>
-                         </div> -->
-                </div> 
-
-                <div class="row">
- 
-
-                  <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                    <mat-checkbox formControlName="isActive"  ngInit="checked=true">Active for chartering</mat-checkbox>
-
-                  </div> -->
-          
-                  <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                    <mat-label>Vessel Type 2</mat-label>
-                    <input type="text" matInput formControlName="vesseltype2">
-                   
-                  </mat-form-field>
-                   </div> -->
-                </div> 
-
-
-                <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                            <mat-label>HULL & Machinery</mat-label>
-
-                            
-                            <mat-select  formControlName="hullandmachinery" #hullandmachinery>
-                              <mat-option>
-                                  <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                      [noEntriesFoundLabel]="'no results found'"
-                                      [formControl]="hullandmachineryFilterCtrl"></ngx-mat-select-search>
-                              </mat-option>
-                              <mat-option
-                                  *ngFor="let title of hullandmachineryFilteredOptions | async"
-                                  [value]="title.id">
-                                  {{title.text}}
-                              </mat-option>
-                          </mat-select>
-
-                          </mat-form-field>               
-                           </div>
-                           <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                            <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/p-and-i/add-p-and-i/0'">
+                          <div class="center h-7">
+                            <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/fleets/add-fleets/0'">
                               <mat-icon class="col-white">add</mat-icon>
                             </button>
-                             </div>
-                  <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                    <mat-checkbox formControlName="virtual"  ngInit="checked=true">Virtual</mat-checkbox>
+                          </div>
+                        </div>
+                    </div>
 
-                  </div> -->
-          
-                  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                    <mat-label>Vessel Group</mat-label>
-                   
+                    <div class="row w-100">
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 flex-sb">
+                        <app-searchable-select class="w-100"
+                          [options]="vesseltypelist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Vessel Type'"
+                          formControlName="vesseltype"
+                          [required]="true"
+                          [errorMessage]="'Vessel type is required'">
+                        </app-searchable-select>
 
-                    <mat-select  formControlName="vesselgroup" #vesselgroup>
-                      <mat-option>
-                          <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                              [noEntriesFoundLabel]="'no results found'"
-                              [formControl]="vesselgroupFilterCtrl"></ngx-mat-select-search>
-                      </mat-option>
-                      <mat-option
-                          *ngFor="let title of vesselgroupFilteredOptions | async"
-                          [value]="title.id">
-                          {{title.text}}
-                      </mat-option>
-                  </mat-select>
-
-
-                  </mat-form-field>
-                   </div>
-                   <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                    <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/vessel-group/add-vessel-group/0'">
-                      <mat-icon class="col-white">add</mat-icon>
-                    </button>
-                     </div>
-
-                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                          <mat-label> FD & D</mat-label>
-
-
-                          <mat-select  formControlName="fdandd" #fdandd>
-                            <mat-option>
-                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                    [noEntriesFoundLabel]="'no results found'"
-                                    [formControl]="fdanddFilterCtrl"></ngx-mat-select-search>
-                            </mat-option>
-                            <mat-option
-                                *ngFor="let title of fdanddFilteredOptions | async"
-                                [value]="title.id">
-                                {{title.text}}
-                            </mat-option>
-                        </mat-select>
-                        </mat-form-field>                  
+                        <div class="center h-7">
+                          <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/vessel-types/add-vessel-types/0'">
+                            <mat-icon class="col-white">add</mat-icon>
+                          </button>
+                        </div>
                       </div>
-                      <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                        <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/p-and-i/add-p-and-i/0'">
-                          <mat-icon class="col-white">add</mat-icon>
-                        </button>
-                         </div>
-                </div> 
 
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 flex-sb">
+                        <app-searchable-select class="w-100"
+                          [options]="pandilist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'P & I'"
+                          formControlName="pandi"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
 
-                <div class="row">
+                        <div class="center h-7">
+                          <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/p-and-i/add-p-and-i/0'">
+                            <mat-icon class="col-white">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
 
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 flex-sb">
+                        <app-searchable-select class="w-100"
+                          [options]="machinerylist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'HULL & Machinery'"
+                          formControlName="hullandmachinery"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
 
-                  <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                    <mat-checkbox formControlName="isActive"  ngInit="checked=true">Own</mat-checkbox>
+                        <div class="center h-7">
+                          <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/p-and-i/add-p-and-i/0'">
+                            <mat-icon class="col-white">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
 
-                  </div> -->
-          
-                  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                    <mat-label>Wage Scale</mat-label>
-                    
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 flex-sb">
+                        <app-searchable-select class="w-100"
+                          [options]="vesselgrouplist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Vessel Group'"
+                          formControlName="vesselgroup"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
 
-                    <mat-select  formControlName="wagescale" #wagescale>
-                      <mat-option>
-                          <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                              [noEntriesFoundLabel]="'no results found'"
-                              [formControl]="wagescaleFilterCtrl"></ngx-mat-select-search>
-                      </mat-option>
-                      <mat-option
-                          *ngFor="let title of wagescaleFilteredOptions | async"
-                          [value]="title.id">
-                          {{title.text}}
-                      </mat-option>
-                  </mat-select>
+                        <div class="center h-7">
+                          <button mat-mini-fab color="primary" [routerLink]="'/vessels/maintain/vessel-group/add-vessel-group/0'">
+                            <mat-icon class="col-white">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
 
+                    <div class="row w-100">
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 flex-sb">
+                        <app-searchable-select class="w-100"
+                          [options]="fdanddlist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'FD & D'"
+                          formControlName="fdandd"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
 
-                  </mat-form-field>
-                   </div>
-                   <!-- <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                    <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/wage-scale/add-wageScale/0'">
-                      <mat-icon class="col-white">add</mat-icon>
-                    </button>
-                     </div> -->
+                        <div class="center h-7">
+                          <button mat-mini-fab color="primary" [routerLink]="'/vessels/maintain/p-and-i/add-p-and-i/0'">
+                            <mat-icon class="col-white">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
 
-                     <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                          <mat-label> Classification Society</mat-label>
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 flex-sb">
+                        <app-searchable-select class="w-100"
+                          [options]="wagescalelist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Wage Scale'"
+                          formControlName="wagescale"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
 
-                          <mat-select  formControlName="classification" #classigication>
-                            <mat-option>
-                                <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                    [noEntriesFoundLabel]="'no results found'"
-                                    [formControl]="classificationFilterCtrl"></ngx-mat-select-search>
-                            </mat-option>
-                            <mat-option
-                                *ngFor="let title of classificationFilteredOptions | async"
-                                [value]="title.id">
-                                {{title.text}}
-                            </mat-option>
-                        </mat-select>
-      
+                        <div class="center h-7">
+                          <button mat-mini-fab color="primary" [routerLink]="'/vessels/maintain/classification/add-classification/0'">
+                            <mat-icon class="col-white">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
 
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <app-searchable-select 
+                          [options]="reasonlist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Reason'"
+                          formControlName="reason"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
+                      </div>
 
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 flex-sb">
+                        <app-searchable-select class="w-100"
+                          [options]="vesselClasslist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Vessel Class'"
+                          formControlName="vesselClass"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
 
-                        </mat-form-field>             
-                           </div> -->
-                           <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                            <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/classification/add-classification/0'">
-                              <mat-icon class="col-white">add</mat-icon>
-                            </button>
-                             </div>
+                        <div class="center h-7">
+                          <button mat-mini-fab color="primary" [routerLink]="'/vessels/maintain/class/add-class/0'">
+                            <mat-icon class="col-white">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
 
-                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-
-                              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                <mat-label> Reason</mat-label>
-          
-                                
-                                <mat-select  formControlName="reason" #reason>
-                                  <mat-option>
-                                      <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                          [noEntriesFoundLabel]="'no results found'"
-                                          [formControl]="reasonFilterCtrl"></ngx-mat-select-search>
-                                  </mat-option>
-                                  <mat-option
-                                      *ngFor="let title of reasonFilteredOptions | async"
-                                      [value]="title.id">
-                                      {{title.text}}
-                                  </mat-option>
-                              </mat-select>
-            
-          
-          
-                              </mat-form-field>
-                            </div>
-                            <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                              <!-- <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/class/add-class/0'">
-                                <mat-icon class="col-white">add</mat-icon>
-                              </button> -->
-                               </div>
-
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                              <mat-label>Vessel Class</mat-label>
-                            
-          
-                              <mat-select  formControlName="vesselClass" #vesselClass>
-                                <mat-option>
-                                    <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                        [noEntriesFoundLabel]="'no results found'"
-                                        [formControl]="vesselClassFilterCtrl"></ngx-mat-select-search>
-                                </mat-option>
-                                <mat-option
-                                    *ngFor="let title of vesselClassFilteredOptions | async"
-                                    [value]="title.id">
-                                    {{title.text}}
-                                </mat-option>
-                            </mat-select>
-          
-          
-                            </mat-form-field>
-                             </div>
-                             <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                              <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/class/add-class/0'">
-                                <mat-icon class="col-white">add</mat-icon>
-                              </button>
-                               </div>
-                </div> 
-
-
-                <div class="row">
-
-
-          
-                  <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
-
-                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                    <mat-label>Valied Until(Mga)</mat-label>
-                    <input matInput [matDatepicker]="datepicker2" formControlName="valiedUntilObj" 
-                    id="valiedUntil"  (dateChange)="onDateChange2($event,'valiedUntil',0)"
-                    (input)="onDateInput2($event.target.value,'valiedUntil',0)"   placeholder="dd/mm/yyyy">
-                    <mat-datepicker-toggle matSuffix [for]="datepicker2"></mat-datepicker-toggle>
-                    <mat-datepicker #datepicker2></mat-datepicker>
-          
-                  </mat-form-field>
-
-
-                   </div>
-
-                   <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                    <!-- <button mat-mini-fab color="primary"  [routerLink]="'/vessels/maintain/class/add-class/0'">
-                      <mat-icon class="col-white">add</mat-icon>
-                    </button> -->
-                     </div>
-
-                   <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Lead Vessel Id</mat-label>
-
-                        <mat-select  formControlName="leadvesselid" #leadvesselid>
-                          <mat-option>
-                              <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                  [noEntriesFoundLabel]="'no results found'"
-                                  [formControl]="leadvesselidFilterCtrl"></ngx-mat-select-search>
-                          </mat-option>
-                          <mat-option
-                              *ngFor="let title of leadvesselidFilteredOptions | async"
-                              [value]="title.id">
-                              {{title.text}}
-                          </mat-option>
-                      </mat-select>
-
-
-                      </mat-form-field>              
-                       </div>
-                       <div class="col-xl-1 col-lg-3 col-md-6 col-sm-12" style="margin-top:'10px'">
-                     
-                         </div>
-
-                       <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                    <div class="row w-100">
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                            <mat-label>Fleet Vessel Idnt</mat-label>
+                          <mat-label>Valied Until(Mga)</mat-label>
+                          <input matInput [matDatepicker]="datepicker2" formControlName="valiedUntilObj" id="valiedUntil"  (dateChange)="onDateChange2($event,'valiedUntil',0)"
+                          (input)="onDateInput2($event.target.value,'valiedUntil',0)"   placeholder="dd/mm/yyyy">
+                          <mat-datepicker-toggle matSuffix [for]="datepicker2"></mat-datepicker-toggle>
+                          <mat-datepicker #datepicker2></mat-datepicker>
+                        </mat-form-field>
+                      </div>
 
-                            <mat-select  formControlName="fleetvessel" #fleetvessel>
-                              <mat-option>
-                                  <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                      [noEntriesFoundLabel]="'no results found'"
-                                      [formControl]="fleetvesselFilterCtrl"></ngx-mat-select-search>
-                              </mat-option>
-                              <mat-option
-                                  *ngFor="let title of fleetvesselFilteredOptions | async"
-                                  [value]="title.id">
-                                  {{title.text}}
-                              </mat-option>
-                          </mat-select>
-                          </mat-form-field>               
-                           </div>
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <app-searchable-select 
+                          [options]="fleetvessellist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Fleet Vessel Idnt'"
+                          formControlName="fleetvessel"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
+                      </div>
 
-
-                </div> 
-
-                <div class="row">
-
-                  <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-            
-                        <mat-label>Date in Fleet Type</mat-label>
-                        <input matInput [matDatepicker]="datepicker1" formControlName="dateinfleettypeObj" 
-                        id="dateinfleettype"  (dateChange)="onDateChange($event,'dateinfleettype',0)"
-                        (input)="onDateInput($event.target.value,'dateinfleettype',0)"   placeholder="dd/mm/yyyy">
-                        <mat-datepicker-toggle matSuffix [for]="datepicker1"></mat-datepicker-toggle>
-                        <mat-datepicker #datepicker1></mat-datepicker>
-              
-                      </mat-form-field>
-
-
-                  </div>
-
-                  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12" style="padding-left: 127px;">
-                    <mat-checkbox formControlName="vesselStatus" ngInit="checked=true">Active</mat-checkbox>
-                  </div>
-          
-                 
-                </div> 
-           
-              </form>
-            </div>
-          </div>
-          <div calss="row">
-          <div class="card" style="float: left;
-          width: 50%;
-          padding: 10px;
-          height: 750px; ">
-           <div class="body" style="padding-left: 110px;">
-            <h4>MAIN DETAILS</h4>
-          <form class="m-4" [formGroup]="docForm">
-  
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Flag </mat-label>
-
-                        
-                        <mat-select  formControlName="flag" #flag>
-                          <mat-option>
-                              <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                  [noEntriesFoundLabel]="'no results found'"
-                                  [formControl]="flagFilterCtrl"></ngx-mat-select-search>
-                          </mat-option>
-                          <mat-option
-                              *ngFor="let title of flagFilteredOptions | async"
-                              [value]="title.id">
-                              {{title.text}}
-                          </mat-option>
-                      </mat-select>
-
-                      </mat-form-field>                 
-                     </div>
-                      <!-- <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                        <mat-checkbox formControlName="greek" ngInit="checked=true">Greek Flag</mat-checkbox>
-
-              </div> -->
-              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                    <mat-label>Registry Port </mat-label>
-
-                        
-                    <mat-select  formControlName="registryport" #registryport>
-                      <mat-option>
-                          <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                              [noEntriesFoundLabel]="'no results found'"
-                              [formControl]="registryportFilterCtrl"></ngx-mat-select-search>
-                      </mat-option>
-                      <mat-option
-                          *ngFor="let title of registryportFilteredOptions | async"
-                          [value]="title.id">
-                          {{title.text}}
-                      </mat-option>
-                  </mat-select>
-
-
-                  </mat-form-field>      
-                            </div>
-      
-            
-            </div> 
-
-            <div class="row">
-
-                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                  <mat-label>Registry No</mat-label>
-                  <input matInput formControlName="registryno" appNumericFormatDirective>
-                </mat-form-field>
-              </div>
+                            <mat-label>Date in Fleet Type</mat-label>
+                            <input matInput [matDatepicker]="datepicker1" formControlName="dateinfleettypeObj" 
+                            id="dateinfleettype"  (dateChange)="onDateChange($event,'dateinfleettype',0)"
+                            (input)="onDateInput($event.target.value,'dateinfleettype',0)"   placeholder="dd/mm/yyyy">
+                            <mat-datepicker-toggle matSuffix [for]="datepicker1"></mat-datepicker-toggle>
+                            <mat-datepicker #datepicker1></mat-datepicker>
+                          </mat-form-field>
+                      </div>
 
-              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                      <mat-label>Class No</mat-label>
-                      <input matInput formControlName="classno" appNumericFormatDirective>
-                  </mat-form-field>                  
-                </div>
-              </div> 
+                      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                        <mat-checkbox formControlName="vesselStatus" ngInit="checked=true">Active</mat-checkbox>
+                      </div>
+                    </div>
 
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Built Date</mat-label>
-                        <input matInput [matDatepicker]="bDate" 
-                          formControlName="builtdateObj" 
-                          id="builtdate"  
-                          (dateChange)="onDateChange2($event,'builtdate',0)"
-                          (input)="onDateInput2($event.target.value,'builtdate',0)"   
-                          placeholder="dd/mm/yyyy">
-                        <mat-datepicker-toggle matSuffix [for]="bDate"></mat-datepicker-toggle>
-                        <mat-datepicker #bDate></mat-datepicker>
-                      </mat-form-field>
-                    
-                </div>
-                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <div class="row w-100" *ngIf="docForm.value.fleetvessel == 'Sister'">
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Lead Vessel Id</mat-label>
+                          <input matInput formControlName="leadvesselid">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                   </mat-tab>
+
+                   <mat-tab label="Main Details">
+                    <br>
+                    <div class="row w-100">
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <app-searchable-select 
+                          [options]="flaglist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Flag'"
+                          formControlName="flag"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
+                      </div>
+
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <app-searchable-select 
+                          [options]="registryportlist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Registry Port'"
+                          formControlName="registryport"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
+                      </div>
+
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Registry No</mat-label>
+                          <input matInput formControlName="registryno" appNumericFormatDirective>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Class No</mat-label>
+                          <input matInput formControlName="classno" appNumericFormatDirective>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                          <mat-label>Built Date</mat-label>
+                          <input matInput [matDatepicker]="bDate" 
+                            formControlName="builtdateObj" 
+                            id="builtdate"  
+                            (dateChange)="onDateChange2($event,'builtdate',0)"
+                            (input)="onDateInput2($event.target.value,'builtdate',0)"   
+                            placeholder="dd/mm/yyyy">
+                          <mat-datepicker-toggle matSuffix [for]="bDate"></mat-datepicker-toggle>
+                          <mat-datepicker #bDate></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                             <mat-label>Place Build</mat-label>
-                            <input matInput formControlName="placeBuild" >
-                          </mat-form-field>                  </div>
-      
-            
-            </div> 
-
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Yard Build</mat-label>
-                        <input matInput formControlName="yardbuild" >
-                      </mat-form-field>                  </div>
-                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                  <mat-label>IMO NO</mat-label>
-                  <input matInput formControlName="imono" appNumericFormatDirective>
-                </mat-form-field>
-              </div>
-      
-            
-            </div> 
-
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Hull NO</mat-label>
-                        <input matInput formControlName="hullno" appNumericFormatDirective>
-                      </mat-form-field>                  </div>
-                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                  <mat-label>Call Sign</mat-label>
-                  <input matInput formControlName="callsign" >
-                </mat-form-field>
-              </div>
-      
-            
-            </div> 
-
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Nat Number</mat-label>
-                        <input matInput formControlName="natnumber" appNumericFormatDirective>
-                      </mat-form-field>                  </div>
-                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                  <mat-label>MMIS</mat-label>
-                  <input matInput formControlName="mmis" appNumericFormatDirective>
-                </mat-form-field>
-              </div>
-      
-            
-            </div> 
-
-            <div class="row">
-
-                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                  <mat-label>Ice Class</mat-label>
-
-                  <mat-select  formControlName="iceclass" #iceclass>
-                    <mat-option>
-                        <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                            [noEntriesFoundLabel]="'no results found'"
-                            [formControl]="iceclassFilterCtrl"></ngx-mat-select-search>
-                    </mat-option>
-                    <mat-option
-                        *ngFor="let title of iceclassFilteredOptions | async"
-                        [value]="title.id">
-                        {{title.text}}
-                    </mat-option>
-                </mat-select>
-
-
-
-                </mat-form-field>
-              </div>
-      
-            
-            </div> 
-         
-        </form>
-        </div>
-          </div>
-          <div class="card"  style="float: left;
-          width: 50%;
-          padding: 10px;
-          height: 350px;">
-         <div class="body" style="padding-left: 110px;">
-            <h4>COMMERCIAL</h4>
-          <form class="m-4" [formGroup]="docForm">
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Shipowner</mat-label>
-
-                        <mat-select  formControlName="shipowner" #shipowner>
-                          <mat-option>
-                              <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                  [noEntriesFoundLabel]="'no results found'"
-                                  [formControl]="shipownerFilterCtrl"></ngx-mat-select-search>
-                          </mat-option>
-                          <mat-option
-                              *ngFor="let title of shipownerFilteredOptions | async"
-                              [value]="title.id">
-                              {{title.text}}
-                          </mat-option>
-                      </mat-select>
-
-
-                      </mat-form-field>                
+                            <input matInput formControlName="placeBuild">
+                          </mat-form-field>                  
                       </div>
-                      <!-- <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                  <mat-label>Shipowner(Platform)</mat-label>
+                            <mat-label>Yard Build</mat-label>
+                            <input matInput formControlName="yardbuild">
+                        </mat-form-field>                  
+                      </div>
 
-                  <mat-select  formControlName="shipownerplatform" #shipownerplatform>
-                    <mat-option>
-                        <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                            [noEntriesFoundLabel]="'no results found'"
-                            [formControl]="shipownerplatformFilterCtrl"></ngx-mat-select-search>
-                    </mat-option>
-                    <mat-option
-                        *ngFor="let title of shipownerplatformFilteredOptions | async"
-                        [value]="title.id">
-                        {{title.text}}
-                    </mat-option>
-                </mat-select>
-
-
-                </mat-form-field>
-              </div> -->
-      
-            
-            </div> 
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Operator </mat-label>
-                        <mat-select  formControlName="operator" #operator>
-                          <mat-option>
-                              <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                  [noEntriesFoundLabel]="'no results found'"
-                                  [formControl]="operatorFilterCtrl"></ngx-mat-select-search>
-                          </mat-option>
-                          <mat-option
-                              *ngFor="let title of operatorFilteredOptions | async"
-                              [value]="title.id">
-                              {{title.text}}
-                          </mat-option>
-                      </mat-select>
-                      </mat-form-field>              
-                        </div>
-                      <!-- <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                      
-                <mat-checkbox formControlName="useOperator" ngInit="checked=true">Use Operator(ACC)</mat-checkbox>
-
-              </div> -->
-      
-            
-            </div> 
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Saftey No</mat-label>
-                        <input matInput formControlName="safteyno" appNumericFormatDirective>
-                      </mat-form-field>                  </div>
-                   
-      
-            
-            </div> 
-            
-        </form>
-        </div>
-          </div>
-          <div class="card"  style="float: right;
-          width: 50%;
-          padding: 10px;
-          height: 350px;">
-         <div class="body" style="padding-left: 110px;">
-            <h4>CREW</h4>
-          <form class="m-4" [formGroup]="docForm">
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Official Manager</mat-label>
-
-
-                        <mat-select  formControlName="officialManager" #opeofficialManagerrator>
-                          <mat-option>
-                              <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                  [noEntriesFoundLabel]="'no results found'"
-                                  [formControl]="officialManagerFilterCtrl"></ngx-mat-select-search>
-                          </mat-option>
-                          <mat-option
-                              *ngFor="let title of officialManagerFilteredOptions | async"
-                              [value]="title.id">
-                              {{title.text}}
-                          </mat-option>
-                      </mat-select>
-
-                      </mat-form-field>              
-                        </div>
-                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                  <mat-label>Ship Manager</mat-label>
-                  <mat-select  formControlName="shipmanager" #shipmanager>
-                    <mat-option>
-                        <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                            [noEntriesFoundLabel]="'no results found'"
-                            [formControl]="shipmanagerFilterCtrl"></ngx-mat-select-search>
-                    </mat-option>
-                    <mat-option
-                        *ngFor="let title of shipmanagerFilteredOptions | async"
-                        [value]="title.id">
-                        {{title.text}}
-                    </mat-option>
-                </mat-select>
-                </mat-form-field>
-              </div>
-      
-            
-            </div> 
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Crew Manager</mat-label>
-                        <mat-select  formControlName="crewmanager" #crewmanager>
-                          <mat-option>
-                              <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                                  [noEntriesFoundLabel]="'no results found'"
-                                  [formControl]="crewmanagerFilterCtrl"></ngx-mat-select-search>
-                          </mat-option>
-                          <mat-option
-                              *ngFor="let title of crewmanagerFilteredOptions | async"
-                              [value]="title.id">
-                              {{title.text}}
-                          </mat-option>
-                      </mat-select>
-                      </mat-form-field>            
-                          </div>
+                          <mat-label>IMO NO</mat-label>
+                          <input matInput formControlName="imono" appNumericFormatDirective>
+                        </mat-form-field>
+                      </div>
+                    </div>
 
-                          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                            <!-- <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                <mat-label>Group Manager</mat-label>
-                                <input matInput formControlName="groupmanager" >
-                              </mat-form-field>             -->
-                                  </div>
-                      <!-- <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <div class="row w-100">
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                  <mat-label>Superintendent</mat-label>
-                  <mat-select  formControlName="superintendent" #superintendent>
-                    <mat-option>
-                        <ngx-mat-select-search [placeholderLabel]="'Search'" 
-                            [noEntriesFoundLabel]="'no results found'"
-                            [formControl]="superintendentFilterCtrl"></ngx-mat-select-search>
-                    </mat-option>
-                    <mat-option
-                        *ngFor="let title of superintendentFilteredOptions | async"
-                        [value]="title.id">
-                        {{title.text}}
-                    </mat-option>
-                </mat-select>
-                </mat-form-field>
-              </div> -->
-      
-            
-            </div> 
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>Group Manager</mat-label>
-                        <input matInput formControlName="groupmanager" >
-                      </mat-form-field>            
-                          </div>
-                     
-      
-            
-            </div> 
-            <br><br><br><br>
+                            <mat-label>Hull No</mat-label>
+                            <input matInput formControlName="hullno" appNumericFormatDirective>
+                          </mat-form-field>                  
+                      </div>
 
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>Call Sign</mat-label>
+                            <input matInput formControlName="callsign">
+                          </mat-form-field>                  
+                      </div>
 
-            <div class="row"> 
-              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
-               
-                  <button *ngIf="!edit" (click) = "onSubmit()" class="btn-space saveBtn" mat-raised-button
-                  style="margin-left: -38%"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
-                  <button *ngIf="edit" (click) = "update()" class="btn-space saveBtn" mat-raised-button style="margin-left: -38%;"><mat-icon class="saveCancelIcon">save</mat-icon>Update</button>
-                <button type="button" class="cancelBtn" (click)="onCancel()" mat-raised-button><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>Nat Number</mat-label>
+                            <input matInput formControlName="natnumber" appNumericFormatDirective>
+                          </mat-form-field>                  
+                      </div>
+
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>MMIS</mat-label>
+                            <input matInput formControlName="mmis" appNumericFormatDirective>
+                          </mat-form-field>                  
+                      </div>
+
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <app-searchable-select 
+                          [options]="iceclasslist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Ice Class'"
+                          formControlName="iceclass"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
+                      </div>
+                    </div>
+                   </mat-tab>
+
+                   <mat-tab label="Commerical">
+                    <br>
+                    <div class="row w-100">
+                      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                        <app-searchable-select 
+                          [options]="shipownerlist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Shipowner'"
+                          formControlName="shipowner"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
+                      </div>
+
+                      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                        <app-searchable-select 
+                          [options]="operatorlist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Operator'"
+                          formControlName="operator"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
+                      </div>
+
+                      <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>Saftey No</mat-label>
+                            <input matInput formControlName="safteyno" appNumericFormatDirective>
+                          </mat-form-field>                  
+                      </div>
+                    </div> 
+                   </mat-tab>
+
+                   <mat-tab label="Crew">
+                    <br>
+                    <div class="row w-100">
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <app-searchable-select 
+                          [options]="officialManagerlist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Official Manager'"
+                          formControlName="officialManager"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
+                      </div>
+
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <app-searchable-select 
+                          [options]="shipmanagerlist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Ship Manager'"
+                          formControlName="shipmanager"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
+                      </div>
+
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <app-searchable-select 
+                          [options]="crewmanagerlist" 
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="No results found"
+                          [label]="'Crew Manager'"
+                          formControlName="crewmanager"
+                          [required]="false"
+                          [errorMessage]="''">
+                        </app-searchable-select>
+                      </div>
+
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>Group Manager</mat-label>
+                            <input matInput formControlName="groupmanager" >
+                          </mat-form-field>            
+                      </div>
+                    </div> 
+                   </mat-tab>
+                 </mat-tab-group>
+
+                  <br>
+                  <div class="center">
+                    <button class="btn-space saveBtn" mat-raised-button (click)="onSubmit()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                    <button class="cancelBtn" type="button" mat-button (click)="onCancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+                  </div>
+               </form>
               </div>
             </div>
-        </form>
-        </div>
           </div>
         </div>
-  
-        
-        </div>
-       </div>
-     </div>
       </div>
     </div>
   </section>
