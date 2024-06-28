@@ -17,6 +17,7 @@ background-color: #fff;
 
 .mat-form-field {
     font-size: 13px !important;
+    font-family: century gothic, sans-serif;
 }
  .mat-form-field-appearance-outline .mat-form-field-label {
     font-size: 12px !important;
@@ -43,22 +44,27 @@ background-color: #fff;
 }
 .materialTableHeader .header-buttons-left{
     padding-left: -3px;
-   
+    font-family: century gothic, sans-serif;
 }
 .materialTableHeader .header-buttons-left input.search-field {
     height: 35px !important;
+    font-family: century gothic, sans-serif;
 }
+
 .mat-icon {
     height: 32px !important;
 }
 .mat-header-row {
     min-height: 35px !important;
+    font-family: century gothic, sans-serif;
 }
 mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
     padding-left: 10px !important;
+    font-family: century gothic, sans-serif;
 }
 .mat-cell, .mat-footer-cell {
     font-size: 12px !important;
+    font-family: century gothic, sans-serif;
 }
 mat-row, mat-footer-row {
     min-height: 40px !important;
@@ -81,8 +87,12 @@ mat-row, mat-footer-row {
 .materialTableHeader{
     padding-top: 1% !important;
     padding-bottom: 4% !important;
-       
+    font-family: century gothic, sans-serif;
 }
+
+h2,h4,h3,h1,h5,h6,li,button,label,input,.mat-checkbox,th,td{
+    font-family: century gothic, sans-serif
+  }
 
 .multiselect-dropdown .dropdown-btn {
     display: inline-block;
@@ -111,21 +121,27 @@ mat-row, mat-footer-row {
 .saveBtn {
     background-color: #147c14;
     color: white;
+    font-family: century gothic, sans-serif;
+
 }
 
 .cancelBtn {
     background-color: #a61f1f;
     color: white;
+    font-family: century gothic, sans-serif;
+
 }
 
 .selectBtn {
     background-color: #14377c;
     color: white;
+    font-family: century gothic, sans-serif;
 }
 
 .checkListBtn{
     background-color: #57c8de;
-    color: white;
+    color: white;  
+    font-family: century gothic, sans-serif;
 }
 
 .w-90{

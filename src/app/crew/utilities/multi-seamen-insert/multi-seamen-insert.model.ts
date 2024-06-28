@@ -1,8 +1,9 @@
-export class miultiSeamenInsert {
+export class MultiSeamenInsert {
     id: number;
     Success:boolean;
-    vessaltype:any;
-    nationality:any;
-    rank:any;
+    vessel:any;
+    startdate:any;
+    joinPort:any;
     months:any;
+    createdDate:any;
 }

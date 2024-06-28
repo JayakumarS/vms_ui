@@ -11,16 +11,30 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { miultiSeamenInsert } from '../multi-seamen-insert.model';
 import { MultiSeamenInsertService } from '../multi-seamen-insert.service';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { PersonDetailsPopupComponent } from '../person-details-popup/person-details-popup.component';
 import { MatErrorService } from 'src/app/core/service/mat-error.service';
+import { MultiSeamenInsert } from '../multi-seamen-insert.model';
+import { CommonService } from 'src/app/common-service/common.service';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 @Component({
   selector: 'app-add-multi-seamen-insert',
   templateUrl: './add-multi-seamen-insert.component.html',
-  styleUrls: ['./add-multi-seamen-insert.component.sass']
+  styleUrls: ['./add-multi-seamen-insert.component.sass'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    {
+      provide: MAT_DATE_FORMATS, useValue: {
+        display: {
+          dateInput: 'DD/MM/YYYY',
+          monthYearLabel: 'MMMM YYYY',
+        },
+      }
+    }, CommonService
+  ]
 })
 export class AddMultiSeamenInsertComponent implements OnInit {
 
@@ -57,7 +71,7 @@ export class AddMultiSeamenInsertComponent implements OnInit {
 
 
   docForm: FormGroup;
-  miultiSeamenInsert: miultiSeamenInsert;
+  multiSeamenInsert: MultiSeamenInsert;
   currencyList: any =[];
   vesselList :  any =[];
   edit:boolean=false;
@@ -82,7 +96,7 @@ export class AddMultiSeamenInsertComponent implements OnInit {
     public multiSeamenInsertService: MultiSeamenInsertService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,public matError : MatErrorService,
-    public EncrDecr: EncrDecrService,
+    public EncrDecr: EncrDecrService, private commonService: CommonService,
     private serverUrl:serverLocations,
     private encryptionService:EncryptionService, public dialog: MatDialog,
     public snackBar: MatSnackBar) { 
@@ -116,14 +130,7 @@ export class AddMultiSeamenInsertComponent implements OnInit {
    ngOnInit() {
     
 
-     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
-      this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
-       this.edit=true;
-       //For User login Editable mode
-       this.fetchDetails(this.requestId) ;
-
-      }
-     });
+   
 
 
   this.getVesselList();
@@ -158,6 +165,17 @@ this.payFilterCtrl.valueChanges
 .subscribe(() => {
 this.filteritempaylist();
 });
+
+
+this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ 
+  this.requestId = params.id;
+   this.edit=true;
+   //For User login Editable mode
+   this.fetchDetails(this.requestId) ;
+
+  }
+ });
+ 
 
    }
 
@@ -212,6 +230,7 @@ this.filteritempaylist();
       }
 
     nameChange(i){
+      debugger
         let rankList = this.nameList.find(dtl => dtl.id === this.docForm.value.multiseamendetail[i].name);
         let multiseamendetailDtlArray=this.docForm.controls.multiseamendetail as FormArray;
         if (rankList) {
@@ -472,6 +491,7 @@ this.filteritempaylist();
       joiningDate: [""],
       estSignOffObj: [""],
       estSignOff: [""],
+      nationality: [""]
     })
     multiseamendetailDtlArray.insert(arraylen,newUsergroup);
   }
@@ -519,7 +539,7 @@ this.filteritempaylist();
     }else if(this.docForm.value.joinPort == ""){
       this.notificationService.showNotification(
         "snackbar-danger",
-        "Please select Join Port",
+        "Please select Joining Port",
         "top",
         "right"
       )
@@ -536,17 +556,66 @@ this.filteritempaylist();
     }
 
   }
-  fetchDetails(countryCode: any): void {
-   
+  fetchDetails(seamenCode: any): void {
+    this.httpService.get<any>(this.multiSeamenInsertService.editUrl + "?id=" + seamenCode).subscribe({
+      next: (data: any) => {
+        console.log(data);
+  
+        let startdate = this.commonService.getDateObj(data.list[0].startdate);
+
+        this.docForm.patchValue({
+          'vessel': data.list[0].vessel,
+          'joinPort':data.list[0].joinPort.toString(),
+          'startdateObj': startdate,
+          'startdate': data.list[0].startdate,
+            });
+
+  
+          let multiseamendetailRowArray = this.docForm.controls.multiseamendetail as FormArray;
+          multiseamendetailRowArray.clear();
+  
+            data.multiseamendetail.forEach(element => {
+            let arraylen = multiseamendetailRowArray.length;
+  
+            let joiningDate = this.commonService.getDateObj(element.joiningDate);
+            let estSignOff = this.commonService.getDateObj(element.estSignOff);
+
+
+            let newUsergroup: FormGroup = this.fb.group({
+              name: [element.name.toString()],
+              rank: [element.rank.toString()],
+              nationality: [element.nationality.toString()],
+              pay: [element.pay],
+              currency: [element.currency],
+              joiningdateObj: joiningDate,
+              joiningDate: [element.joiningDate],
+              estSignOffObj:estSignOff,
+              estSignOff: [element.estSignOff]
+            });
+            
+            multiseamendetailRowArray.insert(arraylen, newUsergroup);
+          });
+      }
+    });
   }
   
   update() {
-
+    this.docForm.value.seamenCode = this.requestId;
+    if(this.docForm.valid){
+      this.multiSeamenInsertService.updateMultiSeamenUrl(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
 
   }
 
   onCancel(){
-    this.router.navigate(['/crew/maintain/off-sign/list-off-sign']);
+    this.router.navigate(['/crew/utilities/multi-seamen-insert/list-multi-seamen-insert']);
 
   }
 

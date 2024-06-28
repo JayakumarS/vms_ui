@@ -41,12 +41,18 @@ import { CountryMasterRoutingModule } from 'src/app/master/country-master/countr
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PersonDetailsPopupComponent } from './person-details-popup/person-details-popup.component';
+import { ListMultiSeamenInsertComponent } from './list-multi-seamen-insert/list-multi-seamen-insert.component';
+import { CommonService } from 'src/app/common-service/common.service';
 
 
 @NgModule({
   declarations: [
     AddMultiSeamenInsertComponent,
     PersonDetailsPopupComponent,
+    ListMultiSeamenInsertComponent,
+  ],
+  providers: [
+    CommonService
   ],
   imports: [
     CommonModule,

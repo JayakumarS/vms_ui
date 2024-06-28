@@ -12,7 +12,7 @@
                     <div class="card">
                         <div class="body" style="padding-left: 110px;">
                             <form class="m-4" [formGroup]="docForm">
-                                <div class="row">
+                                <div class="row" *ngIf="!edit">
                                     <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12" style="margin-left: 50px;">
                                         <mat-label><b></b></mat-label>
                                     </div>
@@ -56,6 +56,52 @@
                                       </app-searchable-select>
                                     </div>
                                 </div>
+
+                                <div class="row"  *ngIf="edit">
+                                    <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12" style="margin-left: 50px;">
+                                        <mat-label><b></b></mat-label>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <app-searchable-select 
+                                        [options]="vesselList" 
+                                        placeholderLabel="Search"
+                                        noEntriesFoundLabel="No results found"
+                                        [label]="'Vessel'"
+                                        formControlName="vessel"
+                                        [required]="true"
+                                        [errorMessage]="'vessel is required'" [disabled]="edit">
+                                      </app-searchable-select>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+
+                                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                            <mat-label>Starting Date </mat-label>
+                                            <input matInput [matDatepicker]="datepicker2" formControlName="startdateObj"
+                                                id="startdate" (dateChange)="onDateChange2($event,'startdate',0)"
+                                                (input)="onDateInput2($event.target.value,'startdate',0)"
+                                                placeholder="dd/mm/yyyy" required  [disabled]="edit">
+                                            <mat-datepicker-toggle matSuffix
+                                                [for]="datepicker2"></mat-datepicker-toggle>
+                                            <mat-datepicker #datepicker2></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+
+
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <app-searchable-select 
+                                        [options]="portList" 
+                                        placeholderLabel="Search"
+                                        noEntriesFoundLabel="No results found"  
+                                        [label]="'Joining Port'"
+                                        formControlName="joinPort"
+                                        [required]="true"
+                                        [errorMessage]="'Joining Port is required'"  [disabled]="edit">
+                                      </app-searchable-select>
+                                    </div>
+                                </div>
+
 
 
 
@@ -107,7 +153,8 @@
                                                         formControlName="name"
                                                         [required]="true"
                                                         [errorMessage]="'Name is required'"
-                                                        (selectionChange)="nameChange(i)">
+                                                        (selectionChange)="nameChange(i)"
+                                                        class="common-select">
                                                       </app-searchable-select>
                                                     </td>
 
@@ -201,7 +248,7 @@
                                                         <mat-icon style="color: green;"> check_circle_outline</mat-icon>
                                                     </td>
                                                     <td class="padding-both-side-2">
-                                                        <button (click)="popup(i)" style="background-color: #283be7;color: white;" mat-raised-button>Details</button>
+                                                        <button (click)="popup(i)" style="background-color: #283be7;color: white;" mat-raised-button>View</button>
                 
                                                     </td>
 
@@ -231,11 +278,17 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
-                                        <button (click)="onSubmit()" class="btn-space saveBtn" mat-raised-button
+                                        <button *ngIf="!edit" (click)="onSubmit()" class="btn-space saveBtn" mat-raised-button
                                             style="margin-left: 42%"><mat-icon
-                                                class="saveCancelIcon">save</mat-icon>Save</button>
-                                       
-
+                                                class="saveCancelIcon">save</mat-icon>Save
+                                        </button>
+                                        <button *ngIf="edit" (click)="update()" class="btn-space saveBtn" mat-raised-button
+                                        style="margin-left: 42%"><mat-icon
+                                            class="saveCancelIcon">save</mat-icon>Update
+                                    </button>
+                                    <button type="button" class="cancelBtn" (click)="onCancel()" mat-raised-button><mat-icon
+                                        class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+                  
                                     </div>
                                 </div>
                             </form>

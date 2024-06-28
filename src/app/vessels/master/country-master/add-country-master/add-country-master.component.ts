@@ -11,7 +11,7 @@ import { serverLocations } from 'src/app/auth/serverLocations';
 import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelect } from '@angular/material/select';
-import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { Observable, ReplaySubject, Subject, map, takeUntil } from 'rxjs';
 import { CountryMasterService } from '../country-master.service';
 
 @Component({
@@ -39,6 +39,16 @@ export class AddCountryMasterComponent implements OnInit {
   currtmpList: any[];
   currencyList:any=[];
   phoneList:any=[];
+  placeholderLabel = 'Search';
+  noEntriesFoundLabel = 'No entries found';
+  filterCtrl = new FormControl();
+  filteredOptions: Observable<any[]>;
+  selectedOption: any;
+  options = [
+    { id: 1, text: 'Option 1' },
+    { id: 2, text: 'Option 2' },
+    // Add more options as needed
+  ];
 
   constructor(private fb: FormBuilder,
     public router:Router,
@@ -71,6 +81,11 @@ export class AddCountryMasterComponent implements OnInit {
        this.edit=true;
        this.fetchDetails(this.requestId) ;
 
+       this.filteredOptions = this.filterCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value as string))
+      );
+
       }
      }); 
 
@@ -102,6 +117,18 @@ export class AddCountryMasterComponent implements OnInit {
          this.filterPhoneCode();
        });
    }
+
+   private _filter(value: string): any[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter(option => option.text.toLowerCase().includes(filterValue));
+  }
+
+  onSelectionChange(event: any) {
+    this.selectedOption = event.value;
+    this.docForm.patchValue({
+      'currencyCode': this.selectedOption 
+    })
+  }
 
 
    filterPhoneCode(){
@@ -262,3 +289,7 @@ export class AddCountryMasterComponent implements OnInit {
   }
 
 }
+function startWith(arg0: string): import("rxjs").OperatorFunction<any, unknown> {
+  throw new Error('Function not implemented.');
+}
+

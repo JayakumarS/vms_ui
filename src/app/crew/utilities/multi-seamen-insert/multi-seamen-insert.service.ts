@@ -4,8 +4,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { miultiSeamenInsert } from './multi-seamen-insert.model';
 import * as moment from 'moment';
+import { MultiSeamenInsert } from './multi-seamen-insert.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -24,7 +24,7 @@ export class MultiSeamenInsertService extends UnsubscribeOnDestroyAdapter{
   }
   isTblLoading = true;
   currencyList:[];
-  dataChange: BehaviorSubject<miultiSeamenInsert[]> = new BehaviorSubject<miultiSeamenInsert[]>(
+  dataChange: BehaviorSubject<MultiSeamenInsert[]> = new BehaviorSubject<MultiSeamenInsert[]>(
     []
   );
   // Temporarily stores data from dialogs
@@ -42,23 +42,57 @@ export class MultiSeamenInsertService extends UnsubscribeOnDestroyAdapter{
   public getNameUrl = `${this.serverUrl.apiServerAddress}api/common/getSeamenName`;
   public saveUrl = `${this.serverUrl.apiServerAddress}api/crew/utilities/multiseamen/saveMultiSeamen`;
   public nationalityUrl = `${this.serverUrl.apiServerAddress}api/common/getNationality`;
+  public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/utilities/multiseamen/deleteMultiSeamen`;
+  public listUrl = `${this.serverUrl.apiServerAddress}api/crew/utilities/multiseamen/listMultiSeamen`;
+  public editUrl = `${this.serverUrl.apiServerAddress}api/crew/utilities/multiseamen/editMultiSeamen`;
+  public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/utilities/multiseamen/updateMultiSeamen`;
 
 
 
-
-  get data(): miultiSeamenInsert[] {
+  get data(): MultiSeamenInsert[] {
     return this.dataChange.value;
   }
   getDialogData() {
     return this.dialogData;
   }
   /** CRUD METHODS */
+
   getAllList(): void {
-   
+    this.isTblLoading = true; 
+    this.httpService.get<any>(this.listUrl).subscribe({next: (data: any) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data.list);
+      }, error: (err) => console.log(err)
+     });  
+}
+  delete(id){
+    return this.httpClient.get<any>(this.deleteUrl + "?id=" + parseInt(id));
   }
 
-  saveMultiSeamenUrl(miultiSeamenInsert: miultiSeamenInsert, router, notificationService){
-    this.httpService.post<miultiSeamenInsert>(this.saveUrl, miultiSeamenInsert).subscribe({next: (data: any) => {
+  updateMultiSeamenUrl(MultiSeamenInsert: MultiSeamenInsert, router, notificationService){
+    this.httpService.post<MultiSeamenInsert>(this.updateUrl, MultiSeamenInsert).subscribe({next: (data: any) => {
+      if (data.success == true) {
+        notificationService.showNotification(
+          "snackbar-success",
+          "Record Updated Successfully",
+          "bottom",
+          "center"
+        );
+        router.navigate(['/crew/utilities/multi-seamen-insert/list-multi-seamen-insert']);
+      }else{
+        notificationService.showNotification(
+          "snackbar-danger",
+          "Not Updated",
+          "bottom",
+          "center"
+        );
+      }
+      }, error: (err) => console.log(err)
+     });
+  }
+
+  saveMultiSeamenUrl(MultiSeamenInsert: MultiSeamenInsert, router, notificationService){
+    this.httpService.post<MultiSeamenInsert>(this.saveUrl, MultiSeamenInsert).subscribe({next: (data: any) => {
      if (data.success == true) {
        notificationService.showNotification(
          "snackbar-success",
@@ -66,8 +100,7 @@ export class MultiSeamenInsertService extends UnsubscribeOnDestroyAdapter{
          "bottom",
          "center"
        );
-       location.reload();
-       //router.navigate(['/crew/application-properties/define-preferences-for-working-hours/define-rank-shift/list-define-rank-shift']);
+       router.navigate(['/crew/utilities/multi-seamen-insert/list-multi-seamen-insert']);
      }else{
        notificationService.showNotification(
          "snackbar-danger",
