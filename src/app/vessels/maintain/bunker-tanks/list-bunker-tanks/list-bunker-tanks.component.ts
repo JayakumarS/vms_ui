@@ -1,4 +1,5 @@
 
+
 import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 import { HttpClient } from "@angular/common/http";
@@ -21,9 +22,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { BunkerTanksService } from '../bunker-tanks.service';
 import { BunkerTanks } from '../bunker-tanks.model';
-
-
-
+import { ViewBunkerTanksComponent } from '../view-bunker-tanks/view-bunker-tanks.component';
 @Component({
   selector: 'app-list-bunker-tanks',
   templateUrl: './list-bunker-tanks.component.html',
@@ -35,7 +34,6 @@ export class ListBunkerTanksComponent extends UnsubscribeOnDestroyAdapter implem
     "code",
     "description",
     "actions"
-    
   ];
 
   dataSource: ExampleDataSource | null;
@@ -48,14 +46,14 @@ export class ListBunkerTanksComponent extends UnsubscribeOnDestroyAdapter implem
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public countryMasterService: BunkerTanksService,
+    public BunkerTanksService: BunkerTanksService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
     public router: Router,
     private EncrDecr:EncrDecrService,
     private spinner: NgxSpinnerService,
-    private tokenStorageService : TokenStorageService,
+    private tokenStorageService : TokenStorageService
   ) {
     super();
   }
@@ -111,38 +109,85 @@ export class ListBunkerTanksComponent extends UnsubscribeOnDestroyAdapter implem
 
 
   editCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/add-CountryMaster/', encrypted]);
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
+    this.router.navigate(['/vessels/maintain/bunker-tanks/add-bunker-tanks', row.bunkertankid]);
   }
 
   viewCall(row) {
-    var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/master/country-Master/viewCountryMaster/', encrypted]);
+    // // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    // this.router.navigate(['/crew/maintain/health-status/view-health-status/', row.healthstatusid]);
+     let rowId = row.bunkertankid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewBunkerTanksComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
+
   }
 
-  // deleteItem(i: number, row) {
-  //   this.index = i;
-  //   this.id = row.countryCode;
-  //   let tempDirection;
-  //   if (localStorage.getItem("isRtl") === "true") {
-  //     tempDirection = "rtl";
-  //   } else {
-  //     tempDirection = "ltr";
-  //   }
-  //   const dialogRef = this.dialog.open(DeleteComponent, {
-  //     height: "270px",
-  //     width: "400px",
-  //     data: row,
-  //     direction: tempDirection,
-  //   });
-  //   this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
-  //     this.loadData();
-  //   });
-  // }
+  deleteItem(row){
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
 
-  deleteItem(row){ 
-   
-    };
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      height: "270px",
+      width: "400px",
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+    if (data.data == true) {
+      this.spinner.show();
+      this.BunkerTanksService.delete(row.bunkertankid).subscribe({
+        next: (data) => {
+          this.spinner.hide();
+    if (data.success) {
+      this.loadData();
+      this.showNotification(
+        "snackbar-success",
+        "Record Deleted",
+        "bottom",
+        "center"
+      );
+    } else {
+      this.showNotification(
+        "snackbar-danger",
+        data.message || "Error in save",
+        "bottom",
+        "center"
+      );
+    }
+  },
+  error: (error) => {
+    this.spinner.hide();
+    this.showNotification(
+      "snackbar-danger",
+      "An error occurred while deleting the record.",
+      "bottom",
+      "center"
+    );
+  }
+      });
+    }else{
+      //this.loadData();
+    }
+    })
+  }
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
@@ -233,14 +278,14 @@ export class ExampleDataSource extends DataSource<BunkerTanks> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-      
+        
         case "code":
           [propertyA, propertyB] = [a.code, b.code];
           break;
         case "description":
           [propertyA, propertyB] = [a.description, b.description];
           break;
-        ;
+        
 
         
       }

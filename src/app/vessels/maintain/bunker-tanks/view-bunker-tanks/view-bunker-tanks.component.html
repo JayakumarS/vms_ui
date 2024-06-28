@@ -1,0 +1,42 @@
+<div class="container">
+    <div mat-dialog-content>
+      <div class="row">
+
+
+        <div class="body">
+            <div style="margin-top: -5px;margin-left: 384px;">
+                <i class="fas fa-times" (click)="onNoClick()"style=" cursor: pointer;"></i>
+            </div>
+            <div class="container border" id="salesOrderdview"
+                style=" border: 1px solid #b8a6dd!important; border-radius: 10px; background-color: #ecebf7;height:155px">
+                <form class="m-4" [formGroup]="docForm">
+                    
+                        
+                      
+                        <div class="row" >
+                            <label><b>Bunker Tank Code:</b>&nbsp;{{viewDtl?.code}}</label>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <label><b>Bunker Tank Description:</b> &nbsp;{{viewDtl?.description}}</label>
+                        </div> 
+                       
+
+
+    
+        
+
+                   
+                </form>
+
+            </div>
+        </div>
+
+      </div>
+    </div>
+    <mat-dialog-actions align="center" class="mb-1">
+        <button class="cancelBtn" type="button" mat-button (click)="onNoClick()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+    </mat-dialog-actions>
+  </div>
+

@@ -11,9 +11,9 @@ import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
 import { BunkerTanks } from '../bunker-tanks.model';
 import { BunkerTanksService } from '../bunker-tanks.service';
-
 
 @Component({
   selector: 'app-add-bunker-tanks',
@@ -73,76 +73,64 @@ export class AddBunkerTanksComponent implements OnInit {
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public PayItemsService: BunkerTanksService,
+    public BunkerTanksService: BunkerTanksService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
     private serverUrl:serverLocations,
     private encryptionService:EncryptionService,
-    public snackBar: MatSnackBar) { 
+    public snackBar: MatSnackBar,
+    public matError : MatErrorService) { 
 
 
     this.docForm = this.fb.group({
-  
-
-
-      payitemsDetails: this.fb.array([
-        this.fb.group({
-       
+          sort : 1,
           select:[""],
-          code:[""],
-          description:[""],
-          
-        })
-      ]),
+          bunkertankid:[""],
+          code: ["", Validators.required],
+          description:["", Validators.required],
+     
+    
     });
 
 
   }
   
    ngOnInit() {
-    
-
      this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
       this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
-       this.edit=true;
-       //For User login Editable mode
-       this.fetchDetails(this.requestId) ;
-
+        this.edit=true;
+        this.fetchDetails(this.decryptRequestId) ;
       }
      });
-
     }
+
+    get rowDtls() {
+      return this.docForm.get('payTypesBeanDtls') as FormArray;
+    }
+  
+    getControl(index: number,name:any) {
+      return this.rowDtls.at(index).get([name]);
+    }
+
    addRow(){
-    let payitemsDetailsDtlArray=this.docForm.controls.payitemsDetails as FormArray;
-    let arraylen=payitemsDetailsDtlArray.length;
-    var len = this.docForm.controls["payitemsDetails"].value.length;
+    let payTypesBeanDtlsDtlArray=this.docForm.controls.payTypesBeanDtls as FormArray;
+    let arraylen=payTypesBeanDtlsDtlArray.length;
+    var len = this.docForm.controls["payTypesBeanDtls"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
       sort : 1 + len,
       select: [""],
-      code:[""],
+      code: ["", Validators.required],
       description:[""],
       
     })
-    payitemsDetailsDtlArray.insert(arraylen,newUsergroup);
-  }
-  save(){}
-
-  cancel(){
-    this.router.navigate(['/vessels/maintain/bunker-tanks/list-bunker-tanks/']);
+    payTypesBeanDtlsDtlArray.insert(arraylen,newUsergroup);
   }
 
-  //  removeRow(index){
-
-  //   var value;
-  //   let dataarray1 = this.docForm.controls.payitemsDetails as FormArray;
-  //   dataarray1.removeAt(index);
-
-  // }
   removeRow(){
     let count = 0;
-    const deleteRow = this.docForm.controls.payitemsDetails as FormArray;
+    const deleteRow = this.docForm.controls.payTypesBeanDtls as FormArray;
     let i = 0;
     
     while (i < deleteRow.length) {
@@ -163,21 +151,64 @@ export class AddBunkerTanksComponent implements OnInit {
       );
     }
   }
-  onSubmit(){
 
+  // fetchDetails(id){
+  //   this.httpService.get<any>(this.PayTypesService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+  //     let dtlArray = this.docForm.controls.payTypesBeanDtls as FormArray;
+  //     dtlArray.clear();
+  //     data.list.forEach((element, index) => {
+  //       let arraylen = dtlArray.length;
+  //       let newUsergroup: FormGroup = this.fb.group({
+  //         select:[""],
+  //         code: [element.code],
+  //         description:[element.description + ""]
+  //       })
+  //       dtlArray.insert(arraylen, newUsergroup);
+  //       newUsergroup.get('code').disable();
+  //     });
+  //     }, error: (err) => console.log(err)
+  //    });
+  // }
+  fetchDetails(id){
+    this.httpService.get<any>(this.BunkerTanksService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+      this.docForm.patchValue({
+        'code': data.list[0].code,
+        'description': data.list[0].description,
+        'bunkertankid': data.list[0].bunkertankid
+
+      });
+
+    }
+  });
   }
-  fetchDetails(countryCode: any): void {
-   
-  }
-  
   update() {
-
-
+   
+    if(this.docForm.valid){
+      this.BunkerTanksService.updateBunkerTanks(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
+  }
+  save(){
+    if(this.docForm.valid){
+      this.BunkerTanksService.saveBunkerTanks(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
 
-  onCancel(){
-    this.router.navigate(['/vessels/maintain/fleets/list-fleets']);
-
+  cancel(){
+    this.router.navigate(['/vessels/maintain/bunker-tanks/list-bunker-tanks']);
   }
 
   getmastrcurr(){
@@ -216,7 +247,7 @@ export class AddBunkerTanksComponent implements OnInit {
   reset(){
     if(!this.edit){
       this.docForm = this.fb.group({
-        payitemsDetails: this.fb.array([
+        payTypesBeanDtls: this.fb.array([
           this.fb.group({
             sort : 1,
             code:[""],
@@ -243,4 +274,6 @@ export class AddBunkerTanksComponent implements OnInit {
   }
 
 }
+
+
 
