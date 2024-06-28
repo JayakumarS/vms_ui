@@ -157,7 +157,7 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
     this.getVesselTypeList();
     this.getCrewCode();
 
-    this.cList = [{id:1,text:"Decision-1"},{id:2,text:"Decision-1"},{id:3,text:"Decision-1"}];
+    this.cList = [{id:1,text:"Seafarer Approved For Promotion"},{id:2,text:"To Be Re-Employed"},{id:3,text:"XX Not To Be Re-Employed"}];
     this.remarksList = [
       {id:1,text:"BLACK LIST"},
       {id:2,text:"DEPORTED"},
