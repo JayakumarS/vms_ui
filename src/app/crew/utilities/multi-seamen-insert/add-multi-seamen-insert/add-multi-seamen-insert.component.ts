@@ -544,6 +544,7 @@ this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){
         "right"
       )
     }else if(this.docForm.valid && this.docForm.value.vessel != "" && this.docForm.value.startdate != "" && this.docForm.value.joinPort != ""){
+      this.docForm.value.joinPort = this.docForm.value.joinPort.id;
       this.multiSeamenInsertService.saveMultiSeamenUrl(this.docForm.value, this.router, this.notificationService);
     }else{
       this.matError.markFormGroupTouched(this.docForm);

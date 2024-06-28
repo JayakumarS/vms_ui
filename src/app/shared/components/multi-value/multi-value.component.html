@@ -1,0 +1,30 @@
+  <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+    <mat-label>{{ label }}</mat-label>
+    <mat-select (selectionChange)="onSelectionChange($event.value)" [required]="required" [disabled]= "disabled" [value]="_value" [formControl]="control">
+      <mat-option>
+        <ngx-mat-select-search [placeholderLabel]="placeholderLabel"
+                               [noEntriesFoundLabel]="noEntriesFoundLabel"
+                               [formControl]="filterCtrl">
+        </ngx-mat-select-search>
+      </mat-option>
+      <mat-select-trigger>
+        {{ selectedValue ? selectedValue.text : 'Select' }}
+      </mat-select-trigger>
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        <div class="flex-sb">
+          <div >
+          {{option.text}}
+        </div>
+        <div>
+          {{option.code}}
+        </div>
+      </div>
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="required">
+      {{ getErrorMessage() }}
+    </mat-error>
+  </mat-form-field>
+  
+
+  

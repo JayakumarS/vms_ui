@@ -60,7 +60,7 @@
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.joinPort}} </a></mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="createdDate">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Created</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.createdDate}} </a></mat-cell>
                   </ng-container>
 

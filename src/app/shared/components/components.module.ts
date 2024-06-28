@@ -5,13 +5,14 @@ import { SharedModule } from "../shared.module";
 import { SearchableSelectComponent } from './searchable-select/searchable-select.component';
 import { WarningPopupComponent } from './warning-popup/warning-popup.component';
 import { MatDialogModule } from "@angular/material/dialog";
+import { MultiValueComponent } from './multi-value/multi-value.component';
 
 @NgModule({
-  declarations: [FileUploadComponent, BreadcrumbComponent, SearchableSelectComponent, WarningPopupComponent,WarningPopupComponent],
+  declarations: [FileUploadComponent, BreadcrumbComponent, SearchableSelectComponent, WarningPopupComponent,WarningPopupComponent, MultiValueComponent],
   imports: [
     SharedModule,
     MatDialogModule
   ],
-  exports: [FileUploadComponent, BreadcrumbComponent, SearchableSelectComponent],
+  exports: [FileUploadComponent, BreadcrumbComponent, SearchableSelectComponent,MultiValueComponent],
 })
 export class ComponentsModule {}
