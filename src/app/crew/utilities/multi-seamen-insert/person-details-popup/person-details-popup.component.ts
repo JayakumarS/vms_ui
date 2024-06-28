@@ -25,7 +25,7 @@ export class PersonDetailsPopupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchDetails("CM0003");
+    this.fetchDetails("CM0001");
   }
 
   fetchDetails(id){

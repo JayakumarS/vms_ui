@@ -8,8 +8,8 @@
                         <div class="body" style="height: 73vh;">
                                          
                                 <form class="m-4" [formGroup]="docForm">
-                                    <h5>For [{{persondtls.code}}] {{persondtls.surname}} {{persondtls.name}}</h5>
                                     <h3>Seaman's Record Card</h3>
+                                    <h5>For [{{persondtls.code}}] {{persondtls.surname}} {{persondtls.name}}</h5>
                                     <br>
                                     <div class="row">
                                     <div class="col">
@@ -136,7 +136,7 @@
                                         </div>
                                         <br>
 
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
                                             <label><b>Birth Date:</b> {{ persondtls?.birthDate }}</label>
                                         </div>
                                         <br>
@@ -153,12 +153,12 @@
                                         <br>
 
 
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
                                             <label><b>Last Sign Off:</b> {{ persondtls?.signedOff }}</label>
                                         </div>
                                         <br>
 
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
                                            <label><b>Available From:</b> {{ persondtls?.availableFrom }}</label>
                                         </div>
                                         <br>
@@ -178,27 +178,27 @@
                                         <br>
 
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12"style="display: flex;justify-content: space-between;">
-                                            <label><b>Age:</b> {{ persondtls?.chequeNO }}</label>
-                                            <p>years</p>
+                                            <label><b>Age: </b> {{ persondtls?.age }}  years</label>
+                                            
                                         </div>
                                         <br>
 
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
-                                            <label><b>Company Service:</b> {{ persondtls?.acctCurrency }}</label>
-                                            <p>years</p>
+                                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
+                                            <label><b>Company Service: </b> {{ persondtls?.compService }} years</label>
+                                        
 
                                         </div>
                                         <br>
 
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
-                                            <label><b>Total S.Service:</b> {{ persondtls?.acctCurrency }}</label>
-                                            <p>years</p>
+                                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
+                                            <label><b>Total S.Service: </b> {{ persondtls?.seaService }} years</label>
+                                            
                                         </div>
                                         <br>
 
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
-                                            <label><b>Years in Rank:</b> {{ persondtls?.acctCurrency }}</label>
-                                            <p>years</p>
+                                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
+                                            <label><b>Years in Rank: </b> {{ persondtls?.yearsInRank }} years</label>
+                                            
 
                                         </div>
                                     </div>
