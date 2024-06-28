@@ -1,0 +1,226 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Add Multi Seamen Sign Off'" [items]="['Crew','Crew properties']"
+                [active_item]="'Add Multi Seamen Sign Off'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix ">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="box-shadow">
+                    <div class="card">
+                        <div class="body">
+                            <form class="m-4" [formGroup]="docForm">
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                            <mat-label>From Date</mat-label>
+                                            <input matInput [matDatepicker]="datepicker2" formControlName="fromdateObj"
+                                                id="fromdate" (dateChange)="onDateChange2($event, 'fromdate', 0)"
+                                                (input)="onDateInput2($event.target.value, 'fromdate', 0)"
+                                                placeholder="dd/mm/yyyy">
+                                            <mat-datepicker-toggle matSuffix [for]="datepicker2"></mat-datepicker-toggle>
+                                            <mat-datepicker #datepicker2></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <app-searchable-select 
+                                            [options]="vesselList" 
+                                            placeholderLabel="Search"
+                                            noEntriesFoundLabel="No results found"
+                                            [label]="'Vessel'"
+                                            formControlName="vessel"
+                                            [required]="false"
+                                            [errorMessage]="'Vessel is required'">
+                                        </app-searchable-select>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <app-searchable-select 
+                                            [options]="signoffList" 
+                                            placeholderLabel="Search"
+                                            noEntriesFoundLabel="No results found"
+                                            [label]="'Sign Off Code'"
+                                            formControlName="signoffCode"
+                                            [required]="false"
+                                            [errorMessage]="'Sign Off Code is required'">
+                                        </app-searchable-select>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                        <app-searchable-select 
+                                            [options]="portList" 
+                                            placeholderLabel="Search"
+                                            noEntriesFoundLabel="No results found"  
+                                            [label]="'Port'"
+                                            formControlName="joinPort"
+                                            [required]="false"
+                                            [errorMessage]="'Joining Port is required'">
+                                        </app-searchable-select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                                        <button (click)="generate()" class="btn-space saveBtn" mat-raised-button
+                                            style="margin-left: 46%; background-color: rgb(69, 78, 202);">
+                                            <mat-icon class="saveCancelIcon">save</mat-icon>Fetch
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="tableBody">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+
+                                                    <th style="text-align:center">Code</th>
+                                                    <th style="text-align:center">Seaman</th>
+                                                    <th style="text-align:center">Rank</th>
+                                                    <th style="text-align:center">Sign Off Reason</th>
+                                                    <th style="text-align:center">Nationality</th>
+                                                    <th style="text-align:center">Joining Date</th>
+                                                    <th style="text-align:center">Joining Port</th>
+                                                    <th style="text-align:center">Sign Off Date</th>
+                                                    <th style="text-align:center">Sign Off Port</th>
+                                                    <th style="text-align:center">Est Sign Off Date</th>
+                                                </tr>
+                                            </thead>
+
+
+                                            <ng-container *ngFor="let tablerow of docForm.get('tablerow')['controls']; let i = index" >
+                                                <tbody  [formGroup]="tablerow">
+                              
+                                                    <tr *ngIf="data">
+                                                        <td> {{tablerow.get('code').value}}</td>
+                                                      
+                                                        <td class="padding-both-side-2">
+                                                            <app-searchable-select 
+                                                            [options]="nameList" 
+                                                            placeholderLabel="Search"
+                                                            noEntriesFoundLabel="No results found"  
+                                                            [label]="'Seamen'"
+                                                            formControlName="seaman"
+                                                            [required]="false"
+                                                            [errorMessage]="'Name is required'"
+                                                            (selectionChange)="nameChange(i)" 
+                                                            [disabled]="true">
+                                                          </app-searchable-select>
+                                                        </td>  <!-- <td> {{tablerow.get('seaman').value}}</td> -->
+                                                        <!-- <td> {{tablerow.get('rank').value}}</td> -->
+
+                                                        <td class="padding-both-side-2">
+                                                            <app-searchable-select 
+                                                            [options]="rankList" 
+                                                            placeholderLabel="Search"
+                                                            noEntriesFoundLabel="No results found"  
+                                                            [label]="'Rank'"
+                                                            formControlName="rank"
+                                                            [required]="true"
+                                                            [errorMessage]="'Rank is required'"
+                                                            [disabled]="true">
+                                                          </app-searchable-select>
+                                                        </td>
+    
+                                                
+
+                                                        <td>
+                                                            <mat-form-field class="example-full-width" appearance="outline" style="width: 90%;">
+                                                                <mat-label>Sign Off Reason</mat-label>
+                                                                <textarea matInput formControlName="reason" name="reason{{i}}"></textarea>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td class="padding-both-side-2">
+                                                            <app-searchable-select 
+                                                            [options]="nationalityList" 
+                                                            placeholderLabel="Search"
+                                                            noEntriesFoundLabel="No results found"  
+                                                            [label]="'Nationality'"
+                                                            formControlName="nationality"
+                                                            [required]="true"
+                                                            [errorMessage]="'Nationality is required'"
+                                                            [disabled]="true">
+                                                          </app-searchable-select>
+                                                        </td>
+
+                                                        <td> {{tablerow.get('joiningdate').value}}</td>
+
+                                                        <!-- <td> {{tablerow.get('port').value}}</td> -->
+                                                        <td>
+                                                            <app-searchable-select 
+                                                                [options]="portList" 
+                                                                placeholderLabel="Search"
+                                                                noEntriesFoundLabel="No results found"  
+                                                                [label]="'Port'"
+                                                                formControlName="port"
+                                                                name="port{{i}}"
+                                                                [required]="false"
+                                                                [errorMessage]="'Joining Port is required'"
+                                                                [disabled]="true">
+                                                            </app-searchable-select>
+                                                        </td>
+                                                    
+                                                        <td> 
+                                                            <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+
+                                                                <input matInput [matDatepicker]="picker3" formControlName="signOffDateObj"
+                                                                (dateInput)="$event.value.format('DD/MM/YYYY')"
+                                                               (dateChange)="getDateString($event, 'signOffDate',i)" id="signOffDate"> 
+                                                             <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                                             <mat-datepicker #picker3></mat-datepicker>
+                                                            </mat-form-field>
+
+
+                                                            <!-- <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                                                                <mat-label>Sign Off Date </mat-label>
+                                                                <input matInput [matDatepicker]="datepicker3" formControlName="signOffDateObj"
+                                                                    id="signOffDate" (dateChange)="onDateChange3($event, 'signOffDate', i)"
+                                                                    (input)="onDateInput3($event.target.value, 'signOffDate', 0)"
+                                                                    placeholder="dd/mm/yyyy">
+                                                                <mat-datepicker-toggle matSuffix [for]="datepicker3"></mat-datepicker-toggle>
+                                                                <mat-datepicker #datepicker3></mat-datepicker>
+                                                            </mat-form-field> -->
+                                                            </td>
+                                                        <td>
+                                                            <app-searchable-select 
+                                                                [options]="portList" 
+                                                                placeholderLabel="Search"
+                                                                noEntriesFoundLabel="No results found"  
+                                                                [label]="'Sign Off Port'"
+                                                                formControlName="signoffport"
+                                                                name="signoffport{{i}}"
+                                                                [required]="false"
+                                                                [errorMessage]="'Joining Port is required'">
+                                                            </app-searchable-select>
+                                                        </td>
+                                                        <td> {{tablerow.get('estSignoff').value}}</td>
+
+                                                    </tr>
+                                                 
+                                                </tbody>
+                                             </ng-container>
+
+
+
+
+
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                                        <button (click)="onSubmit()" class="btn-space saveBtn" mat-raised-button style="margin-left: 46%;">
+                                            <mat-icon class="saveCancelIcon">save</mat-icon>Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

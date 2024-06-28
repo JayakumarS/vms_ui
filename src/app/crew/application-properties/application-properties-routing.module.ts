@@ -73,6 +73,11 @@ const routes: Routes = [
     path: "user-agent-link",
     loadChildren: () =>
       import("./user-agent-link/user-agent-link.module").then((m) => m.UserAgentLinkModule),
+  },
+  {
+    path: "multi-seamen-sign-off",
+    loadChildren: () =>
+      import("./multi-seamen-sign-off/multi-seamen-sign-off.module").then((m) => m.MultiSeamenSignOffModule),
   }
 ];
 
