@@ -367,7 +367,8 @@
                       <br>
 
                       <div *ngIf="uploadImage != '' && uploadImage != undefined">
-                        <img style="height: 245px;width: 215px;" src={{uploadImage}} class="preview"/>
+                        <!-- <img style="height: 245px;width: 215px;" src={{uploadImage}} class="preview"/> -->
+                        <img style="height: 245px;width: 215px;" src='http://213.42.28.18/assets/images/web-suppliers.png' class="preview"/>
                       </div>
                       <br>
                       <h5>CV Operations</h5>
@@ -375,7 +376,7 @@
                         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
                           <app-file-upload (change)="uploadFileCv($event)"></app-file-upload>
                           <br>
-                          <a href="{{cvFile}}" target="_blank">{{cvFileName}}</a>
+                          <a href="{{cvFile}}">{{cvFileName}}</a>
                         </div>
                         <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                           <button (click)="addFile()" type="button" mat-mini-fab color="primary"
