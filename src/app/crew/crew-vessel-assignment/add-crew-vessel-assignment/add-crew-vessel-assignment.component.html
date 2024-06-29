@@ -22,8 +22,8 @@
 
                                             <mat-label>Date</mat-label>
                                             <input matInput [matDatepicker]="datepicker1" formControlName="dateObj"
-                                                id="date" (dateChange)="onDateChange($event,'date',0)"
-                                                (input)="onDateInput($event.target.value,'date',0)"
+                                                id="date" (dateChange)="getDateString($event, 'date',0)" placeholder="dd/mm/yyyy"
+                                                (dateInput)="$event.value.format('DD/MM/YYYY')"
                                                 placeholder="dd/mm/yyyy">
                                             <mat-datepicker-toggle matSuffix
                                                 [for]="datepicker1"></mat-datepicker-toggle>
@@ -40,7 +40,7 @@
 
 
                                     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                                        <ng-multiselect-dropdown class="inputTxt" formControlName="rank"
+                                        <ng-multiselect-dropdown class="inputTxt" formControlName="rankcode"
                                             [placeholder]="'Rank'" [settings]="dropdownSettings" [data]="ranklist">
                                         </ng-multiselect-dropdown>
                                     </div>
@@ -69,7 +69,7 @@
                                     <div>
 
                                         <div class="tableBody">
-                                            <div class="table-responsive">
+                                            <!-- <div class="table-responsive">
                                                 <table class="table table-hover ">
                                                     <thead>
                                                         <tr>
@@ -187,7 +187,108 @@
                                                 </table>
 
 
-                                            </div>
+                                            </div> -->
+
+
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                  <thead>
+                                                    <tr>
+                                                      <th style="text-align:center">Rank</th>
+                                                      <th style="text-align:center">Name</th>
+                                                      <th style="text-align:center">Sign On</th>
+                                                      <th style="text-align:center">Est Sign Off</th>
+                                                      <th style="text-align:center">On Date</th>
+                                                      <th style="text-align:center">Est. Sign Off</th>
+                                                      <th style="text-align:center">Name of Substitute</th>
+                                                      <th style="text-align:center">Rank</th>
+                                                      <th style="text-align:center">Port</th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                    <ng-container *ngFor="let data of dataArray.controls; let i = index" [formGroupName]="i">
+                                                      <tr *ngIf="show">
+                                                        <td>{{data.get('rank').value}}</td>
+                                                        <td>{{data.get('name').value}}</td>
+                                                        <td>{{data.get('signon').value}}</td>
+                                                        <td style="border-right: 2px solid black;">{{data.get('signoff').value}}</td>
+                                                        <td>
+                                                          <mat-form-field class="example-full-width form-control-sm" appearance="outline" style="width: 90%;">
+                                                            <mat-label>Date</mat-label>
+                                                            <input matInput [matDatepicker]="datepicker1" formControlName="onDate" id="date"
+                                                              (dateChange)="onDateChange($event, 'onDate', i)"
+                                                              placeholder="dd/mm/yyyy">
+                                                            <mat-datepicker-toggle matSuffix [for]="datepicker1"></mat-datepicker-toggle>
+                                                            <mat-datepicker #datepicker1></mat-datepicker>
+                                                          </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                          <mat-form-field class="example-full-width form-control-sm" appearance="outline" style="width: 90%;">
+                                                            <mat-label>Date</mat-label>
+                                                            <input matInput [matDatepicker]="datepicker2" formControlName="estSignOffDate" id="estSignOffDate"
+                                                              (dateChange)="onDateChange($event, 'estSignOffDate', i)"
+                                                              placeholder="dd/mm/yyyy">
+                                                            <mat-datepicker-toggle matSuffix [for]="datepicker2"></mat-datepicker-toggle>
+                                                            <mat-datepicker #datepicker2></mat-datepicker>
+                                                          </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                          <mat-form-field class="example-full-width form-control-sm" appearance="outline" style="width: 90%;">
+                                                            <mat-select formControlName="substituteName">
+                                                              <mat-option>
+                                                                <ngx-mat-select-search [placeholderLabel]="'Search'" [noEntriesFoundLabel]="'no results found'"
+                                                                  [formControl]="nameFilterCtrl"></ngx-mat-select-search>
+                                                              </mat-option>
+                                                              <mat-option *ngFor="let item of nameFilteredOptions | async" [value]="item.Code">
+                                                                {{ item.Code }} - {{ item.FullName }} - {{ item.Rank }} - {{ item.Nationality }}
+                                                              </mat-option>
+                                                            </mat-select>
+                                                          </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                          <app-searchable-select [options]="ranklist" placeholderLabel="Search for rank"
+                                                            noEntriesFoundLabel="No results found" [label]="'Rank'" formControlName="rank"
+                                                            [required]="false" [errorMessage]="'Rank is required'">
+                                                          </app-searchable-select>
+                                                        </td>
+                                                        <td>
+                                                          <app-searchable-select [options]="portList" placeholderLabel="Search for port"
+                                                            noEntriesFoundLabel="No results found" [label]="'Port'" formControlName="port"
+                                                            [required]="false" [errorMessage]="'Port is required'">
+                                                          </app-searchable-select>
+                                                        </td>
+                                                        
+                                                      </tr>
+                                                     
+                                                        <tr *ngIf="show">
+                                                          <td colspan="4" style="border-right: 2px solid black;">
+                                                            <div class="d-flex align-items-center justify-content-end">
+                                                              <label class="col-md-3">Voyage Remarks</label>
+                                                              <mat-form-field class="example-full-width " style="padding-left: 10px;" appearance="outline">
+                                                                <input matInput formControlName="voyageRemarks">
+                                                              </mat-form-field>
+                                                            </div>
+                                                          </td>
+                                                          
+                                                          
+                                                        
+                                                          <td colspan="5">
+                                                            <div > 
+                                                              <label class="col-md-2">Assign Remarks</label> 
+                                                              <mat-form-field class="example-full-width col-md-8"appearance="outline">
+                                                                <input matInput formControlName="assignRemarks">
+                                                              </mat-form-field>
+                                                            </div>
+                                                          </td>
+                                                        </tr>
+                                                    
+                                                    </ng-container>
+                                                  </tbody>
+                                                </table>
+                                              </div>
+                                              
+                                            
+                                            
                                         </div>
 
 

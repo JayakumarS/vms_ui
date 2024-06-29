@@ -2,7 +2,7 @@ export class CrewVesselAssignment{
    
     code: string;
     description: string;
-    
+    rankcode:any;
       constructor(commodity) {
       
       }

@@ -18,17 +18,42 @@ import * as moment from 'moment';
 import { CrewVesselAssignment } from '../crew-vessel-assignment.model';
 import { CrewVesselAssignmentService } from '../crew-vessel-assignment.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { CommonService } from 'src/app/common-service/common.service';
 
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  },
+};
 @Component({
   selector: 'app-add-crew-vessel-assignment',
   templateUrl: './add-crew-vessel-assignment.component.html',
-  styleUrls: ['./add-crew-vessel-assignment.component.sass']
+  styleUrls: ['./add-crew-vessel-assignment.component.sass'],
 
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    {
+      provide: MAT_DATE_FORMATS, useValue: {
+        display: {
+          dateInput: 'DD/MM/YYYY',
+          monthYearLabel: 'MMMM YYYY',
+        },
+      }
+    }, CommonService
+  ]
 })
 export class AddCrewVesselAssignmentComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   dropdownSettings: IDropdownSettings;
-  vessellist: any;
-  ranklist: any;
+  vessellist: any = [];
+  ranklist: any = [];
   portList:any;
   substitudeList: any;
   supplierDropDownList: any;
@@ -38,7 +63,7 @@ export class AddCrewVesselAssignmentComponent extends UnsubscribeOnDestroyAdapte
   loadData: any;
   totalAmount1: any;
   CrewVesselAssignment: CrewVesselAssignment;
-
+ show: boolean=false;
   customerCode: any;
   companyCode: any;
   edit: boolean = false;
@@ -102,7 +127,7 @@ export class AddCrewVesselAssignmentComponent extends UnsubscribeOnDestroyAdapte
     private spinner: NgxSpinnerService,
     public router: Router,
 public CrewVesselAssignmentService: CrewVesselAssignmentService,
-    private httpService: HttpServiceService,
+    private httpService: HttpServiceService,private cmnService: CommonService,
     public notificationService: NotificationService,
     private snackBar: MatSnackBar,
   
@@ -113,14 +138,22 @@ public CrewVesselAssignmentService: CrewVesselAssignmentService,
     this.docForm = this.fb.group({
       date : [""],
       dateObj: [""],
-      rank: [""],
       vessel: [""],
+      rankcode:[""],
+
+      data: this.fb.array([
+        this.fb.group({
+      rank: [""],
       port: [""],
       name: [""],
       assignRemarks: [""],
       voyageRemarks: [""],
-    });
-
+      signoff:[""],
+      signon:[""],
+     
+    })
+]),
+})
 
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -149,13 +182,13 @@ public CrewVesselAssignmentService: CrewVesselAssignmentService,
     
     this.httpService.get<any>(this.CrewVesselAssignmentService.getvessel).subscribe((res: any) => {
 
-      this.vessellist = res;
+      this.vessellist = res.lCommonUtilityBean;
 
         });
 
         this.httpService.get<any>(this.CrewVesselAssignmentService.getrank).subscribe((res: any) => {
 
-          this.ranklist = res;
+          this.ranklist = res.lCommonUtilityBean;
     
             });
 
@@ -165,8 +198,7 @@ public CrewVesselAssignmentService: CrewVesselAssignmentService,
         
                 });
 
-
-        
+                
      this.substitudeList=[
 
       { Code: "34575", FullName: "Rinkoo",Rank:"Cook",Nationality:"Indian" },
@@ -187,7 +219,46 @@ this.filteritemnamelist();
 });
 
 
+// this.fetchData();
   }
+
+  get dataArray(): FormArray {
+    return this.docForm.get('data') as FormArray;
+  }
+  
+  fetchData() {
+    this.httpService.get<any>(this.CrewVesselAssignmentService.getList).subscribe((res: any) => {
+      this.show = true;
+      this.mainList = res.list;
+      this.dataArray.clear();
+
+      res.list.forEach(element => {
+        const formGroup = this.fb.group({
+          rank: [element.rank],
+          name: [element.name],
+          signon: [element.signon],
+          signoff: [element.signoff],
+          onDate: [element],
+          estSignOffDate: [element],
+          substituteName: [element],
+          rankcode: [element],
+          port: [element],
+          assignRemarks: [element],
+          voyageRemarks: [element],
+        });
+        this.dataArray.push(formGroup);
+      });
+    });
+  }
+ 
+
+  getDateString(event, inputFlag, index) {
+    let cdate = this.cmnService.getDate(event.target.value);
+    if (inputFlag == "date") {
+      this.docForm.patchValue({ date: cdate });
+    }
+  }
+
   filteritemnamelist(){
     if (!this.substitudeList) {
       return;
@@ -209,7 +280,50 @@ this.filteritemnamelist();
 
 
 
+   generate() {
+    if(this.docForm.valid){
+    this.CrewVesselAssignmentService.save(this.docForm.value, this.router, this.notificationService) ;
+  //   this.httpService.post(this.CrewVesselAssignmentService.getList, this.docForm.value).subscribe((res: any) => {
 
+  //     this.show=true;
+  //     this.spinner.hide();
+  //     this.mainList = res.list;
+
+  //     let detailArray = this.docForm.controls.data as FormArray;
+  //     detailArray.clear();
+  //     res.list.forEach(element => {
+  //      let detailArray = this.docForm.controls.data as FormArray;
+
+  //      let arraylen = detailArray.length;
+  //      let newUsergroup: FormGroup = this.fb.group({
+  //       rank:[element.rank],
+  //       name:[element.name],
+  //       signon:[element.signon],
+  //       signoff:[element.signoff],
+  //       paymentOrderTCAmount:[element.paymentOrderTCAmount],
+  //       paymentOrderBCAmount:[element.paymentOrderBCAmount],
+  //       companycode:[element.companycode],
+  //       accountHeadCode:[element.accountHeadCode],
+  //       currency:[element.currency],
+  //       exchangeRate:[element.exchangeRate],
+  //       paidAmountTC:[element.paidAmountTC],
+  //       paidAmountBC:[element.paidAmountBC],
+  //       chequeNo:[element.chequeNo],
+  //       chequeDateObj:[element], 
+  //       voucherDateObj:[element],
+  //       chequeDate:[element.chequeDate], 
+  //       voucherDate:[element.voucherDate],
+  //       poCompanyCode:[element.poCompanyCode],
+  //      })
+  //      detailArray.insert(arraylen, newUsergroup);
+     
+  //    });
+  //    for (let i = 1; i <= 100; i++) {
+  //     this.mainList.push({ id: i, name: 'Item ' + i });
+  //   }
+  // });
+}
+  }
 
   //RESET 
 
@@ -299,32 +413,7 @@ this.filteritemnamelist();
       }
     }
   }
-  generate() {
-    this.datasave = [
-      {
-        rank: 'Captain',
-        name: 'John Doe',
-        signOn: '2023-01-01',
-        estSignOff: '2023-06-01',
-        onDate: '2023-01-01',
-        estSignOff2: '2023-06-01',
-        substituteName: 'Jane Smith',
-        rank2: 'First Officer',
-        port: 'New York'
-      },
-      {
-        rank: 'First Officer',
-        name: 'Jane Smith',
-        signOn: '2023-02-01',
-        estSignOff: '2023-07-01',
-        onDate: '2023-02-01',
-        estSignOff2: '2023-07-01',
-        substituteName: 'John Doe',
-        rank2: 'Captain',
-        port: 'Los Angeles'
-      }
-    ];
-  }
+
 
 
   onDateChange(event: any, inputFlag: any, index: number) {

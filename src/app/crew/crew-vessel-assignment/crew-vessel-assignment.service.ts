@@ -33,8 +33,8 @@ export class CrewVesselAssignmentService extends UnsubscribeOnDestroyAdapter{
     super();
   }
 
-  public getvessel = `${this.serverUrl.apiServerAddress}api/crew/CrewVesselAssignment/getvessel`;
-  public getrank = `${this.serverUrl.apiServerAddress}api/crew/CrewVesselAssignment/getrank`;
+  public getvessel = `${this.serverUrl.apiServerAddress}api/common/getVessel`;
+  public getrank = `${this.serverUrl.apiServerAddress}api/common/getRankMasters`;
   public getport = `${this.serverUrl.apiServerAddress}api/crew/CrewVesselAssignment/getport`;
 
   
@@ -42,6 +42,7 @@ export class CrewVesselAssignmentService extends UnsubscribeOnDestroyAdapter{
   public editUrl = `${this.serverUrl.apiServerAddress}api/crew/WorkStatus/edit`;
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/WorkStatus/delete`;
   public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/WorkStatus/update`;
+  public getList = `${this.serverUrl.apiServerAddress}api/crew/CrewVesselAssignment/showlist`;
 
 
   get data(): CrewVesselAssignment[] {
@@ -51,15 +52,35 @@ export class CrewVesselAssignmentService extends UnsubscribeOnDestroyAdapter{
     return this.dialogData;
   }
 
-  getList() {
-    this.isTblLoading = true; 
-    this.httpService.get<any>(this.listUrl).subscribe({next: (data: any) => {
-        this.isTblLoading = false;
-        this.dataChange.next(data.list);
-      }, error: (err) => console.log(err)
-     });
-  }
+  // getList() {
+  //   this.isTblLoading = true; 
+  //   this.httpService.get<any>(this.listUrl).subscribe({next: (data: any) => {
+  //       this.isTblLoading = false;
+  //       this.dataChange.next(data.list);
+  //     }, error: (err) => console.log(err)
+  //    });
+  // }
 
-
+  save(CrewVesselAssignment: CrewVesselAssignment, router, notificationService){
+    this.httpService.post<CrewVesselAssignment>(this.getList, CrewVesselAssignment).subscribe({next: (data: any) => {
+     if (data.success == true) {
+       notificationService.showNotification(
+         "snackbar-success",
+         "Record Added Successfully",
+         "bottom",
+         "center"
+       );
+        // router.navigate(['/crew/applications/applications/list-applications']);
+     }else{
+       notificationService.showNotification(
+         "snackbar-danger",
+         "Not Updated",
+         "bottom",
+         "center"
+       );
+     }
+     }, error: (err) => console.log(err)
+    });
+ }
  
 }
