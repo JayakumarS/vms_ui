@@ -1,0 +1,89 @@
+<div class="container">
+    <div class="budgerHeader center">
+        <h4>Immigration Summary</h4>
+    </div>
+    <hr>
+ <style>
+    .bg-green{
+        background-color: #3e7540;
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .bg-red{
+        background-color: #923e37 !important;
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .bg-yellow{
+        background-color: #93952b !important;
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .header{
+        background: #878787 !important;
+        padding: 5px;
+        border-radius: 3px;
+        color: white;
+    }
+    .document-section {
+       margin-bottom: 0.5em; 
+    }  
+ </style>
+
+ <div>
+    <div class="text-center">
+        <h6>Life Boat Capacity : 40</h6>
+    </div>
+    <hr>
+    <div class="text-center">
+        <h6>Accommodation Capacity : 40</h6>
+    </div>
+    <hr>
+ </div>
+
+ <div class="tableBody">
+    <div class="table-responsive">
+        <table class="table table-hover" style="margin-top: 5px;">
+            <thead>
+                <tr>
+                    <th colspan="6" class="tableHeader text-center">Totals Per Nationality</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let data of list;let i = index">
+                    <tr>
+                        <td colspan="3" style="background-color: #929292;">
+                            <b style="color: white;">{{data.nationality}}</b>
+                        </td>
+                        <td colspan="3" style="background-color: #929292;">
+                            <b style="color: white;">{{data.count}}</b>
+                        </td>
+                    </tr>
+                </ng-container>
+                <tr>
+                    <td colspan="3" style="background-color: #276a7a;">
+                        <b style="color: white;">Grand Toal</b>
+                    </td>
+                    <td colspan="3" style="background-color: #276a7a;">
+                        <b style="color: white;">4</b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+ <hr>
+
+ <mat-dialog-actions align="center" class="mb-1">
+    <!-- <button mat-flat-button color="warn" [mat-dialog-close]="1" (click)="cancel()">
+      Cancel
+    </button> -->
+    <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+  </mat-dialog-actions>
+</div>

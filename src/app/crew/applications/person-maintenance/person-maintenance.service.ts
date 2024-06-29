@@ -33,6 +33,7 @@ export class PersonMaintenanceService extends UnsubscribeOnDestroyAdapter{
   public detailsUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/getdetails`;
   public generateCodeUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/generateCode`;
   public checkListUrl = `${this.serverUrl.apiServerAddress}api/crew/personMaintenance/checkListDtl`;
+  public vesselUrl = `${this.serverUrl.apiServerAddress}api/common/getVessel`;
   
   
   constructor(
@@ -54,6 +55,10 @@ export class PersonMaintenanceService extends UnsubscribeOnDestroyAdapter{
         this.dataChange.next(data.list);
       }, error: (err) => console.log(err)
      });
+  }
+
+  getImmigrationCrewList(object){
+
   }
 
   save(person: any, router, notificationService){

@@ -28,6 +28,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonService } from 'src/app/common-service/common.service';
 import { ApplicantListPopupComponent } from './applicant-list-popup/applicant-list-popup.component';
 import { ViewChecklistPopupComponent } from './view-checklist-popup/view-checklist-popup.component';
+import { ListImmigrationCrewComponent } from './list-immigration-crew/list-immigration-crew.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ImmigrationSummaryPopupComponent } from './immigration-summary-popup/immigration-summary-popup.component';
 
 
 @NgModule({
@@ -35,7 +38,9 @@ import { ViewChecklistPopupComponent } from './view-checklist-popup/view-checkli
     ListPersonMaintenanceComponent,
     AddPersonMaintenanceComponent,
     ApplicantListPopupComponent,
-    ViewChecklistPopupComponent
+    ViewChecklistPopupComponent,
+    ListImmigrationCrewComponent,
+    ImmigrationSummaryPopupComponent
   ],
   providers:[
     CommonService
@@ -65,7 +70,8 @@ import { ViewChecklistPopupComponent } from './view-checklist-popup/view-checkli
     MatTooltipModule,
     MatProgressSpinnerModule,
     ComponentsModule,
-    SharedModule
+    SharedModule,
+    NgMultiSelectDropDownModule
   ]
 })
 export class PersonMaintenanceModule { }

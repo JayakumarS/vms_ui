@@ -30,104 +30,40 @@ export class AddDepartmentsComponent extends UnsubscribeOnDestroyAdapter  implem
   ) { 
     super();
       this.docForm = this.fb.group({
-        firstDetailRow: this.fb.array([
-          this.fb.group({
-            select: [""],
-            code: [""],
-            department: [""],
-            formType: [""],
-            decimals: [""],
-            itemsToOrderCommends: [""],
-            itemsNotToOrderCommends: [""],
-            availableOffice: new FormControl(false),
-            availableVessel:new FormControl(false),
-            officeUndefinedItemsS: new FormControl(false),
-            vesselUndefinedItemsS:new FormControl(false),
-            proposedItems:new FormControl(false),
-            officeUndefinedItemsL: new FormControl(false),
-            vesselUndefinedItemsL:new FormControl(false),
-            combinedControl: new FormControl(false),  
-            lockSupplyCaseswithinvoicedate: new FormControl(false),
-            vesselOrders: new FormControl(false),
-            tolerance: [""],
-            minimumItems: [""],
-            toggleLockValue: new FormControl(false)
-          })
-        ]),
+        select: [""],
+        code: [""],
+        department: [""],
+        formType: [""],
+        decimals: [""],
+        itemsToOrderComments: [""],
+        itemsNotToOrderComments: [""],
+        availableOffice: new FormControl(false),
+        availableVessel:new FormControl(false),
+        officeUndefinedItemS: new FormControl(false),
+        vesselUndefinedItemS:new FormControl(false),
+        proposedItems:new FormControl(false),
+        officeUndefinedItemsL: new FormControl(false),
+        vesselUndefinedItemsL:new FormControl(false),
+        combinedControl: new FormControl(false),  
+        lscInvoiceDateObj: [""],
+        lscInvoiceDate: [""],
+        vesselOrders: new FormControl(false),
+        tolerance: [""],
+        minimumItems: [""],
+        toggleLockValue: new FormControl(false)
       });
-   
-      
-   
     }
-    
-   
-  
-
 
   ngOnInit(): void {
-    
     this.formTypeList = [{id:1,text:"Lubricants"},{id:2,text:"Provision/Stores"},{id:3,text:"Spares"}];
-      
-
   }
 
+  getDateString(event,id){
+    let cdate = this.commonService.getDate(event.target.value);
 
-
-
-  addRow() {
-    
-    let firstDetailRow = this.docForm.controls.firstDetailRow as FormArray;
-    let arraylen = firstDetailRow.length;
-    let newUsergroup: FormGroup = this.fb.group({
-      select: [""],
-      code: [""],
-      department: [""],
-      formType: [""],
-      decimals: [""],
-      itemsToOrderCommends: [""],
-      itemsNotToOrderCommends:[""],
-      availableOffice: [""],
-      availableVessel: [""],
-      officeUndefinedItemsS: [""],
-      vesselUndefinedItemsS: [""],
-      proposedItems: [""],
-      officeUndefinedItemsL: [""],
-      vesselUndefinedItemsL: [""],
-      lockSupplyCaseswithinvoicedate: [""],
-      vesselOrders: [""],
-      tolerance: [""],
-      minimumItems: [""],
-      toggleLockValue: new FormControl(false)
-     
-    })
-    firstDetailRow.insert(arraylen, newUsergroup);
-  
-  }
-
-  removeRow(){
-    
-    let count = 0;
-    const deleteRow = this.docForm.controls.firstDetailRow as FormArray;
-    let i=0;
-
-    while (i < deleteRow.length) {
-      if (deleteRow.at(i).value.select) {
-        deleteRow.removeAt(i);
-        count++;
-      } else {
-        i++;
-      }
+    if(id == 'lscInvoiceDate'){
+     this.docForm.patchValue({lscInvoiceDate : cdate});
     }
-
-    if(count == 0){
-      this.showNotification(
-        "snackbar-danger",
-        "Please select atleast one row",
-        "top",
-        "right"
-      );
-    }
- 
   }
 
   showNotification(colorName, text, placementFrom, placementAlign) {
