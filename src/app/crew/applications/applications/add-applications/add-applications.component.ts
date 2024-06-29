@@ -96,6 +96,7 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
   progressInfos: any[] = [];
   message: string[] = [];
   previews: string[] = [];
+  certificateList: any;
   constructor(
     private fb: FormBuilder,
     private httpService: HttpServiceService,
@@ -166,7 +167,7 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
       passBookfileName: [""],
       sBookfilePath: [""],
       sBookfileName: [""],
-
+      medicalcertificates:[],
       applicantimagePath: [""],
       applicantimageFileName: [""],
       certificates:[],
@@ -328,11 +329,39 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
         'applicantimagePath':data.list[0].applicantimagePath,
         'applicantimageFileName':data.list[0].applicantimageFileName,
       });
-      }, error: (err) => console.log(err)
-     });
+      this.applicationsService.setPopArr(data.listpopup);
+      // if (data.listpopup && data.listpopup.length > 0) {
   
+      //   this.openPopup(data.listpopup);
+      // }
+    
+    }
+
+  });
+}
+
+  openPopup(data: any) {
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+    const dialogRef = this.dialog.open(ApplicationPopupComponent, {
+      height: "",
+      width: "",
+      data: {
+        action: data,
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.subdetailsPatch(result);
+      }
+    });
   }
-  
+
 
   rankdropdown(){
   this.httpService.get<any>(this.applicationsService.getrank).subscribe((res: any) => {
@@ -675,6 +704,7 @@ uploadFileDoc1(event) {
   checkList(){
     if(this.docForm.valid){
       let rankCode = this.docForm.value.rank;
+      let edit = this.edit;
     let tempDirection;
     if (localStorage.getItem("isRtl") === "true") {
       tempDirection = "rtl";
@@ -682,11 +712,12 @@ uploadFileDoc1(event) {
       tempDirection = "ltr";
     }
     const obj = {
-      rankCode
+      rankCode,
+      edit
   }
     const dialogRef = this.dialog.open(ApplicationPopupComponent, {
-      height: "700px",
-      width: "80%",
+      height: "",
+      width: "",
       data: {
         action: obj,
       },
@@ -701,13 +732,14 @@ uploadFileDoc1(event) {
   }
 }
 
-
 subdetailsPatch(value) {
 
   this.docForm.patchValue({
     rankCode: value.rankCode,
     certifiCode: value.certifiCode,
-    certificates: value.certificates
+    certificates: value.certificates,
+    mCertificatecode: value.mCertificatecode,
+    medicalcertificates:value.medicalcertificates
   });
 }
 

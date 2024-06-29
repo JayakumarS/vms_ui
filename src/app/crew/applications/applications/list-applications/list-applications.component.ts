@@ -111,7 +111,7 @@ deleteItem(row){
         else{
           this.showNotification(
             "snackbar-danger",
-            "Error in Deleted",
+            data.message ||"Error in Deleted",
             "bottom",
             "center"
           );

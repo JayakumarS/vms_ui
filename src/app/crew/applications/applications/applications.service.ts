@@ -21,7 +21,16 @@ export class ApplicationsService extends UnsubscribeOnDestroyAdapter{
   ) {
     super();
   }
+   
+  popArr=[];
+   
+  getPopArr(){
+    return this.popArr
+  }
 
+  setPopArr(arr){
+    this.popArr = arr;
+  }
   get data(): application[] {
     return this.dataChange.value;
   }
@@ -42,6 +51,7 @@ export class ApplicationsService extends UnsubscribeOnDestroyAdapter{
   public getenginelist = `${this.serverUrl.apiServerAddress}api/common/getExpEngine`;
   public getCertificate = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/certificateList`;
   public savecertificateUrl = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/saveCertificate`;
+  public getmedicalCertificate = `${this.serverUrl.apiServerAddress}api/crew/Crewapplications/mcertificateList`;
 
   
   
