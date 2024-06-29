@@ -23,12 +23,13 @@ export class AddInterviewSetupComponent implements OnInit {
   decryptRequestId: any;
 
   config1 = {
+    //startupFocus : true,
     tabSpaces: 10,
     extraPlugins: 'smiley,justify,indentblock,colordialog,font,exportpdf,pagebreak',
     font_names: 'कृति देवी/Kruti;Andale Mono;Arial; Arial Black; Arial Narrow; Comic Sans MS; Courier New; Georgia; Helvetica; Impact; Tahoma; Terminal; Times New Roman; Verdana;',
     removeButtons: 'Paste,PasteText,PasteFromWord',
     removePlugins: 'elementspath',
-  };
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -116,35 +117,31 @@ export class AddInterviewSetupComponent implements OnInit {
     }
   }
 
-  fetchDetails(id){
-    this.httpService.get<any>(this.interviewSetupService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      let dtlArray = this.docForm.controls.interviewSetupBeanDtls as FormArray;
-      dtlArray.clear();
-      data.list.forEach((element, index) => {
-        console.log(data);
-  
-        this.docForm.patchValue({
-          'rank': data.list[0].rank,
-          'desc':data.list[0].desc.toString(),
-         
-            });
-        let arraylen = dtlArray.length;
-        let newUsergroup: FormGroup = this.fb.group({
-          select:[],
-          description:[element.description + ""]
-          
-          
-        })
-        dtlArray.insert(arraylen, newUsergroup);
-        const interviewSetupIdControl = newUsergroup.get('interviewsetupid');
-        if (interviewSetupIdControl) {
-          interviewSetupIdControl.disable();
-        }
-      });
-      }, error: (err) => console.log(err)
-     });
+  fetchDetails(id: any) {
+    this.httpService.get<any>(this.interviewSetupService.editUrl + "?id=" + id).subscribe({
+      next: (data: any) => {
+        const dtlArray = this.docForm.controls.interviewSetupBeanDtls as FormArray;
+        dtlArray.clear();
+        data.list.forEach((element: any) => {
+          this.docForm.patchValue({
+            'rank': data.list[0].rank.toString(),
+            'desc': data.list[0].desc.toString(),
+          });
+          const arrayLen = dtlArray.length;
+          const newUserGroup: FormGroup = this.fb.group({
+            select: [],
+            description: [element.description + ""]
+          });
+          dtlArray.insert(arrayLen, newUserGroup);
+          const interviewSetupIdControl = newUserGroup.get('interviewsetupid');
+          if (interviewSetupIdControl) {
+            interviewSetupIdControl.disable();
+          }
+        });
+      },
+      error: (err) => console.log(err)
+    });
   }
-
 
   
 

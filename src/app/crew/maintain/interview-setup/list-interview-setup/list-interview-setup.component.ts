@@ -22,7 +22,7 @@ import { ViewInterviewSetupComponent } from '../view-interview-setup/view-interv
 @Component({
   selector: 'app-list-interview-setup',
   templateUrl: './list-interview-setup.component.html',
-  styleUrls: ['./list-interview-setup.component.sass']
+  styleUrls: ['./list-interview-setup.component.css']
 })
 export class ListInterviewSetupComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 

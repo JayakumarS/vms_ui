@@ -49,15 +49,16 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Rank</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.rankname}}</mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="description">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxLayoutGap="5px">Description</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> 
-                      <span [matTooltip]="row.description" class="truncated-description">
-                        {{ row.description | slice:0:30 }}...
-                      </span>
-                      
-                    </mat-cell>
-                  </ng-container>
+                 <!-- list-interview-setup.component.html -->
+             <ng-container matColumnDef="description">
+               <mat-header-cell *matHeaderCellDef mat-sort-header fxLayoutGap="5px">Description</mat-header-cell>
+                 <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> 
+                   <span [matTooltip]="row.description" class="truncated-description">
+                  {{ row.description | slice:0:30 }}...
+                               </span>
+                </mat-cell>
+            </ng-container>
+
                            
                   <ng-container matColumnDef="createdBy">
                     <mat-header-cell *matHeaderCellDef mat-sort-header fxLayoutGap="5px">Created By</mat-header-cell>

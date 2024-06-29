@@ -26,7 +26,7 @@ export class ViewInterviewSetupComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.docForm=this.fb.group({
-      rank:[""],
+      rankname:[""],
       description:[""]
     })
    }
