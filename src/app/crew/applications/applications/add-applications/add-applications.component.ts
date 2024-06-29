@@ -172,6 +172,8 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
       applicantimageFileName: [""],
       certificates:[],
       rankCode:[""],
+      certificatesupdate:[],
+      medicalcertificatesupdate:[],
     })
   
 
@@ -739,7 +741,7 @@ subdetailsPatch(value) {
     certifiCode: value.certifiCode,
     certificates: value.certificates,
     mCertificatecode: value.mCertificatecode,
-    medicalcertificates:value.medicalcertificates
+    medicalcertificates:value.medicalcertificates,
   });
 }
 

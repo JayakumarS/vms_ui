@@ -8,25 +8,21 @@
         <div class="col-md-1">
           <label><b>{{certificateIndex+1}}</b></label>
         </div>
-        <!-- <div class="col-md-2">
+        <div  *ngIf=!edit class="col-md-3">
           <label><b>{{nameObj.name}}</b></label>
-        </div> -->
+        </div>
 
-
-        <div class="col-md-3">
+        <div *ngIf=edit  class="col-md-3">
           <div [ngClass]="{
-              'badge-solid-green': nameObj.mandatoryFlag,
-              'badge-solid-red': nameObj.mandatoryInvalidFlag,
-              'badge-solid-yellow': nameObj.optionalFlag
-            }">
+            'badge-solid-green': nameObj.mandatoryFlag,
+            'badge-solid-red': nameObj.mandatoryInvalidFlag,
+            'badge-solid-yellow': nameObj.optionalFlag
+          }">
             {{nameObj.name}}
           </div>
-          <div class="demo-section">
-          </div>
+          <div class="demo-section"></div>
         </div>
-        <div class="col-md-1">
-         <i class="fa fa-upload"style="color:#565691"></i>
-        </div>
+       
         <div class="col-md-2">
           <label class="checkbox-container mandatory-valid" style="font-size: 16px;">
             <input type="checkbox" (click)="check(certificateIndex, nameIndex, 'mandatoryValidCheckbox', 'regular')" [checked]="nameObj.mandatoryFlag">
@@ -48,6 +44,10 @@
             Optional Invalid
           </label>
         </div>
+
+        <div class="col-md-1">
+          <i class="fa fa-upload"style="color:#565691" tooltip="file-upload"></i>
+         </div>
       </div>
     </div>
   </div>
@@ -60,10 +60,11 @@
           <label><b>{{certificateIndex+1}}</b></label>
         </div>
         
-        <!-- <div class="col-md-3">
+        <div *ngIf=!edit class="col-md-3">
           <label><b>{{mnameObj.mname}}</b></label>
-        </div> -->
-        <div class="col-md-3">
+        </div>
+
+        <div *ngIf=edit  class="col-md-3">
         <div [ngClass]="{
           'badge-solid-green': mnameObj.mmandatoryFlag,
           'badge-solid-red': mnameObj.mmandatoryInvalidFlag,
@@ -74,9 +75,7 @@
       <div class="demo-section">
       </div>
       </div>
-        <div class="col-md-1">
-         <i class="fa fa-upload"style="color:#565691"></i>
-        </div>
+        
         <div class="col-md-2">
           <label class="checkbox-container mandatory-valid" style="font-size: 16px;">
             <input type="checkbox" (click)="check(certificateIndex, nameIndex, 'mandatoryValidCheckbox', 'medical')" [checked]="mnameObj.mmandatoryFlag">
@@ -98,6 +97,9 @@
             Optional Invalid
           </label>
         </div>
+        <div class="col-md-1">
+          <i class="fa fa-upload"style="color:#565691" tooltip="file-upload"></i>
+         </div>
       </div>
     </div>
   </div>
@@ -107,7 +109,14 @@
     <button *ngIf=!edit class="btn-space saveBtn" mat-raised-button (click)="onSubmit()">
       <mat-icon class="saveCancelIcon">save</mat-icon>Save
     </button>
+    <button *ngIf=edit class="btn-space saveBtn" mat-raised-button (click)="onupdate()">
+      <mat-icon class="saveCancelIcon">save</mat-icon>Update
+    </button>
+    <button *ngIf=edit class="btn-space saveBtn" mat-raised-button (click)="onCancel()">
+      <mat-icon class="saveCancelIcon">save</mat-icon>Cancel
+    </button>
   </div>
+
 </div>
 
 

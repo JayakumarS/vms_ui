@@ -142,36 +142,36 @@ export class ApplicationPopupComponent implements OnInit {
     if (type === 'regular') {
       const certificate = this.certificateList[certificateIndex].splitCertificateNames[nameIndex];
       if (value === 'mandatoryValidCheckbox') {
-        certificate.mandatoryFlag = true;
+        certificate.mandatoryFlag = !certificate.mandatoryFlag; // Toggle the flag
         certificate.mandatoryInvalidFlag = false;
         certificate.optionalFlag = false;
       } else if (value === 'mandatoryInvalidCheckbox') {
-        certificate.mandatoryInvalidFlag = true;
+        certificate.mandatoryInvalidFlag = !certificate.mandatoryInvalidFlag; // Toggle the flag
         certificate.mandatoryFlag = false;
         certificate.optionalFlag = false;
       } else if (value === 'optionalInvalidCheckbox') {
-        certificate.optionalFlag = true;
+        certificate.optionalFlag = !certificate.optionalFlag; // Toggle the flag
         certificate.mandatoryFlag = false;
         certificate.mandatoryInvalidFlag = false;
       }
     } else if (type === 'medical') {
       const certificate = this.MedicalcertificateList[certificateIndex].splitCertificateMedicalNames[nameIndex];
       if (value === 'mandatoryValidCheckbox') {
-        certificate.mmandatoryFlag = true;
+        certificate.mmandatoryFlag = !certificate.mmandatoryFlag; // Toggle the flag
         certificate.mmandatoryInvalidFlag = false;
         certificate.moptionalFlag = false;
       } else if (value === 'mandatoryInvalidCheckbox') {
-        certificate.mmandatoryInvalidFlag = true;
+        certificate.mmandatoryInvalidFlag = !certificate.mmandatoryInvalidFlag; // Toggle the flag
         certificate.mmandatoryFlag = false;
         certificate.moptionalFlag = false;
       } else if (value === 'optionalInvalidCheckbox') {
-        certificate.moptionalFlag = true;
+        certificate.moptionalFlag = !certificate.moptionalFlag; // Toggle the flag
         certificate.mmandatoryFlag = false;
         certificate.mmandatoryInvalidFlag = false;
       }
     }
   }
-
+  
   onSubmit() {
     if (this.docForm.valid) {
       const selectedCertificates = this.certificateList
@@ -202,7 +202,7 @@ export class ApplicationPopupComponent implements OnInit {
             splitCertificateMedicalNames: certificate.splitCertificateMedicalNames.map(mnameObj => ({
               mname: mnameObj.mname,
               mmandatoryValid: mnameObj.mmandatoryFlag,
-              mmandatoryInValid: mnameObj.mmandatoryInvalidFlag,
+              mmandatoryInvalid: mnameObj.mmandatoryInvalidFlag,
               moptionalInvalid: mnameObj.moptionalFlag
             }))
           };
@@ -231,5 +231,66 @@ export class ApplicationPopupComponent implements OnInit {
         { duration: 3000 }
       );
     }
+  }
+
+
+
+  onupdate(){
+
+      const selectedCertificates = this.certificateList
+        .filter(certificate => certificate.splitCertificateNames.some(nameObj =>
+          nameObj.mandatoryFlag || nameObj.mandatoryInvalidFlag || nameObj.optionalFlag
+        ))
+        .map(certificate => {
+          return {
+            sno: certificate.sno,
+            certifiCode: certificate.certifiCode,
+            splitCertificateNames: certificate.splitCertificateNames.map(nameObj => ({
+              name: nameObj.name,
+              mandatoryValid: nameObj.mandatoryFlag,
+              mandatoryInvalid: nameObj.mandatoryInvalidFlag,
+              optionalInvalid: nameObj.optionalFlag
+            }))
+          };
+        });
+
+      const selectedMedicalCertificates = this.MedicalcertificateList
+        .filter(certificate => certificate.splitCertificateMedicalNames.some(mnameObj =>
+          mnameObj.mmandatoryFlag || mnameObj.mmandatoryInvalidFlag || mnameObj.moptionalFlag
+        ))
+        .map(certificate => {
+          return {
+            sno: certificate.sno,
+            mcertificateCode: certificate.mcertificateCode,
+            splitCertificateMedicalNames: certificate.splitCertificateMedicalNames.map(mnameObj => ({
+              mname: mnameObj.mname,
+              mmandatoryValid: mnameObj.mmandatoryFlag,
+              mmandatoryInvalid: mnameObj.mmandatoryInvalidFlag,
+              moptionalInvalid: mnameObj.moptionalFlag
+            }))
+          };
+        });
+
+      if (selectedCertificates.length > 0 || selectedMedicalCertificates.length > 0) {
+        const payloadupdate = {
+          ...this.docForm.value,
+          certificates: selectedCertificates,
+          medicalcertificates: selectedMedicalCertificates
+        };
+
+        // Close the dialog and pass payload back to AddApplicationsComponent
+        this.dialogRef.close(payloadupdate);
+      } else {
+        this.snackBar.open(
+          "Please select at least one checkbox",
+          "Close",
+          { duration: 3000 }
+        );
+      }
+ 
+
+  }
+  onCancel(){
+    this.dialogRef.close();
   }
 }
