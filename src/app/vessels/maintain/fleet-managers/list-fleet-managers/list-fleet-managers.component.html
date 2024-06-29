@@ -57,13 +57,13 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Fleet</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.fleetname}}</mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="opmanager">
+                  <ng-container matColumnDef="opmanagername">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Operating Manager</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.opmanager}}</mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.opmanagername}}</mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="techmanager">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Technical Manager</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.techmanager}}</mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.techmanagername}}</mat-cell>
                   </ng-container>
                                                    
                   <!-- actions -->
@@ -144,13 +144,13 @@
                 </mat-menu>
                 <!-- context menu end -->
                 <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
-                  [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
-                  No results
-                </div>
-                <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
-                  [pageSizeOptions]="[5, 10, 25, 100]">
-                </mat-paginator>
+                [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+                No results
               </div>
+              <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]">
+              </mat-paginator>
+            </div>
           </div>
         </div>
       </div>

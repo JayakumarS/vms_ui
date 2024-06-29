@@ -27,8 +27,8 @@ export class ListFleetManagersComponent extends UnsubscribeOnDestroyAdapter impl
   displayedColumns=[
     "code",
     "fleetname",
-    "opmanager",
-    "techmanager",
+    "opmanagername",
+    "techmanagername",
     "actions"
   ];
   dataSource: ExampleDataSource | null;
@@ -196,8 +196,8 @@ export class ExampleDataSource extends DataSource<fleetmanager> {
         .slice().filter((fleetmanager: fleetmanager) => {
             const searchStr = (
               fleetmanager.fleetname +
-              fleetmanager.opmanager +
-              fleetmanager.techmanager +
+              fleetmanager.opmanagername +
+              fleetmanager.techmanagername +
               fleetmanager.code
 
             ).toLowerCase();
@@ -227,11 +227,11 @@ export class ExampleDataSource extends DataSource<fleetmanager> {
         case "fleetname":
           [propertyA, propertyB] = [a.fleetname, b.fleetname];
           break;
-        case "opmanager":
-          [propertyA, propertyB] = [a.opmanager, b.opmanager];
+        case "opmanagername":
+          [propertyA, propertyB] = [a.opmanagername, b.opmanagername];
           break;
-        case "techmanager":
-          [propertyA, propertyB] = [a.techmanager, b.techmanager];
+        case "techmanagername":
+          [propertyA, propertyB] = [a.techmanagername, b.techmanagername];
           break;
 
           case "code":

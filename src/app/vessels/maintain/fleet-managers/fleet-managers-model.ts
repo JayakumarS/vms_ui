@@ -5,6 +5,8 @@ export class fleetmanager{
     techmanager:any;
     code:any;
     fleetname:any;
+    opmanagername:any;
+    techmanagername:any;
       constructor(commodity) {
       
       }
