@@ -85,7 +85,15 @@ const routes: Routes = [
         loadChildren: () =>
           import("./supplies/supplies-routing.module").then((m) => m.SuppliesRoutingModule),
       },
-     
+      {
+        path: "ism",
+        canActivate: [AuthGuard],
+        data: {
+          role: Role.Admin,
+        },
+        loadChildren: () =>
+          import("./ism/ism-routing.module").then((m) => m.IsmRoutingModule),
+      },
       
     ],
   },

@@ -1,0 +1,264 @@
+<section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'UDE List'" [items]="['ISM','Reports']" [active_item]="'UDE List'">
+        </app-breadcrumb>
+      </div>
+  
+      <style>
+  
+      </style>
+  
+  
+      <div class="row clearfix ">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="box-shadow">
+  
+  
+  <div class="row" style="padding-left: 20px;padding-right: 20px;padding-top: 30px;">
+                <div class="card" style="float: left;
+              width: 25%;
+              padding: 10px;
+              height: 400px; ">
+                  <div class="body">
+  
+                    <form class="m-4" [formGroup]="docForm">
+                      <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12">
+                          <label class="switch">
+                            <input type="checkbox" formControlName="checkbox" (change)="toggleFleet()">
+                            <span class="slider round"></span>
+                          </label>
+                          <span style="padding-left: 40px;"><strong>{{ checkboxText }}</strong></span>
+                        </div>
+  
+                      </div>
+                      <br>
+                      <div class="row" *ngIf="sliderChecked">
+  
+                        <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>Fleet</mat-label>
+  
+  
+                            <mat-select formControlName="fleet" #fleet>
+                              <mat-option>
+                                <ngx-mat-select-search [placeholderLabel]="'Search'"
+                                  [noEntriesFoundLabel]="'no results found'"
+                                  [formControl]="fleetFilterCtrl"></ngx-mat-select-search>
+                              </mat-option>
+                              <mat-option *ngFor="let title of fleetFilteredOptions | async" [value]="title.id">
+                                {{title.text}}
+                              </mat-option>
+                            </mat-select>
+  
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12">
+                          <h6 *ngIf="sliderChecked">Vessel</h6>
+  
+                          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <ng-multiselect-dropdown class="inputTxt" formControlName="active" [placeholder]="'Active'"
+                              [settings]="dropdownSettings" [data]="activelist">
+                            </ng-multiselect-dropdown>
+                          </div>
+  
+                          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <ng-multiselect-dropdown class="inputTxt" formControlName="inactive"
+                              [placeholder]="'Inactive'" [settings]="dropdownSettings" [data]="inactivelist">
+                            </ng-multiselect-dropdown>
+                          </div>
+  
+  
+                        </div>
+  
+  
+  
+  
+  
+  
+                      </div>
+  
+                    </form>
+                  </div>
+                </div>
+                <div class="card" style="float: left;
+            width: 25%;
+            padding: 10px;
+            height: 400px; ">
+                  <div class="body">
+                    <form class="m-4" [formGroup]="docForm">
+  
+                      <div class="row">
+  
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+  
+  
+                          <ng-multiselect-dropdown class="inputTxt" formControlName="udetype"
+                            [placeholder]="'UDE Type'" [settings]="dropdownSettings" [data]="udetypelist">
+                          </ng-multiselect-dropdown>
+  
+                        </div>
+  
+  
+                      </div>
+  
+  
+                    </form>
+                  </div>
+                </div>
+
+                <div class="card" style="float: left;
+                width: 25%;
+                padding: 10px;
+                height: 400px; ">
+                      <div class="body">
+                        <form class="m-4" [formGroup]="docForm">
+      
+                          <div class="row">
+      
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      
+      
+                              <ng-multiselect-dropdown class="inputTxt" formControlName="categories"
+                                [placeholder]="'Categories'" [settings]="dropdownSettings" [data]="Categorieslist">
+                              </ng-multiselect-dropdown>
+      
+                            </div>
+      
+      
+                          </div>
+      
+      
+                        </form>
+                      </div>
+                    </div>
+    
+                <div class="card" style="float: left;
+            width: 25%;
+            padding: 10px;
+            height: 400px; ">
+                  <div class="body">
+                    <form class="m-4" [formGroup]="docForm">
+  
+                      <div class="row">
+  
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+  
+                            <mat-label>From Date</mat-label>
+                            <input matInput [matDatepicker]="datepicker1" formControlName="fromdateObj" id="fromdate"
+                              (dateChange)="onDateChange($event,'fromdate',0)"
+                              (input)="onDateInput($event.target.value,'fromdate',0)" placeholder="dd/mm/yyyy">
+                            <mat-datepicker-toggle matSuffix [for]="datepicker1"></mat-datepicker-toggle>
+                            <mat-datepicker #datepicker1></mat-datepicker>
+  
+                          </mat-form-field>
+  
+  
+                        </div>
+                      </div>
+                      <div class="row">
+  
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+  
+                          <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                            <mat-label>To Date</mat-label>
+                            <input matInput [matDatepicker]="datepicker2" formControlName="todateObj" id="todate"
+                              (dateChange)="onDateChange2($event,'todate',0)"
+                              (input)="onDateInput2($event.target.value,'todate',0)" placeholder="dd/mm/yyyy">
+                            <mat-datepicker-toggle matSuffix [for]="datepicker2"></mat-datepicker-toggle>
+                            <mat-datepicker #datepicker2></mat-datepicker>
+  
+                          </mat-form-field>
+  
+  
+                        </div>
+                      </div>
+
+                      <div class="row">
+  
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <app-searchable-select [options]="casecloselist" placeholderLabel="Search for Case Close"
+                            noEntriesFoundLabel="No results found" [label]="'Case Close'" formControlName="nation"
+                            [required]="false" [errorMessage]="'Case Close is required'">
+                          </app-searchable-select>
+  
+  
+                        </div>
+                      </div>
+
+
+                    </form>
+                  </div>
+                </div>
+  
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+  
+                  <button (click)="generate()" class="btn-space saveBtn" mat-raised-button
+                    style="margin-left: 47%"><mat-icon class="saveCancelIcon">save</mat-icon>Fetch</button>
+               
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                    <div class="tableBody">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+
+                                        <th style="text-align:center">Ref No.</th>
+                                        <th style="text-align:center">Date</th>
+                                        <th style="text-align:center">Vessel</th>
+                                        <th style="text-align:center">Description</th>
+                                        <th style="text-align:center">Type</th>
+                                        <th style="text-align:center">Category</th>
+                                        <th style="text-align:center">Case Col</th>
+                                        <th style="text-align:center">Closed On</th>
+                                 
+                                    </tr>
+                                </thead>
+
+
+                                    <tbody  >
+                  
+                                        <tr *ngFor="let data of datasave; let i = index">
+                                            <td style="text-align:center">{{data.refno}}</td>
+                                            <td style="text-align:center">{{data.date}}</td>
+                                            <td style="text-align:center">{{data.vessel}}</td>
+                                            <td style="text-align:center">{{data.description}}</td>
+                                            <td style="text-align:center">{{data.type}}</td>
+                                            <td style="text-align:center">{{data.category}}</td>
+                                            <td style="text-align:center">{{data.casecol}}</td>
+                                            <td style="text-align: center;">
+                                                <i class="fa fa-external-link-alt" aria-hidden="true"></i>
+                                            </td>
+                                            
+                                              
+                                        
+
+                                        </tr>
+                                     
+                                    </tbody>
+
+
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
