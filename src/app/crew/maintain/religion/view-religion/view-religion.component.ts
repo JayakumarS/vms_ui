@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { ReligionService } from '../religion.service';
-import { DeleteComponent } from '../list-religion/delete/delete.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from 'src/app/core/service/notification.service';
 
@@ -23,7 +22,7 @@ export class ViewReligionComponent implements OnInit {
     private httpService: HttpServiceService,
     private fb: FormBuilder,
     private religionService : ReligionService,
-    public dialogRef: MatDialogRef<DeleteComponent>,
+    public dialogRef: MatDialogRef<ViewReligionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
    ,public notificationService:NotificationService
   ) {

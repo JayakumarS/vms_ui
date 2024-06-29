@@ -3,7 +3,6 @@ import { BloodGroupService } from '../blood-group.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { DeleteComponent } from '../list-blood-group/delete/delete.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -22,7 +21,7 @@ export class ViewBloodGroupComponent implements OnInit {
     private httpService: HttpServiceService,
     private fb: FormBuilder,
     private bloodGroupService : BloodGroupService,
-    public dialogRef: MatDialogRef<DeleteComponent>,
+    public dialogRef: MatDialogRef<ViewBloodGroupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.docForm=this.fb.group({

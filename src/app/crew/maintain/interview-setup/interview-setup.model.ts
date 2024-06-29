@@ -1,5 +1,7 @@
 export class InterviewSetup {
     description:any;
-    rank:any;
-    Success: boolean;
+    rankname:any;
+    createdBy:any;
+    createdDate:any;
+    
 }

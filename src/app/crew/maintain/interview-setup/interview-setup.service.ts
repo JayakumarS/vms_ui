@@ -29,6 +29,8 @@ export class InterviewSetupService extends UnsubscribeOnDestroyAdapter{
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/interviewsetup/delete`;
   public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/interviewsetup/update`;
   public rankListUrl = `${this.serverUrl.apiServerAddress}api/crew/maintain/interviewsetup/getRankMasters`;
+  public getrank = `${this.serverUrl.apiServerAddress}api/common/getRankMasters`;
+
 
   get data(): InterviewSetup[] {
     return this.dataChange.value;
@@ -55,7 +57,7 @@ export class InterviewSetupService extends UnsubscribeOnDestroyAdapter{
           "bottom",
           "center"
         );
-        router.navigate(['/crew/maintain/paytypes/list-paytypes']);
+        router.navigate(['/crew/maintain/interview-setup/list-interview']);
       }else{
         notificationService.showNotification(
           "snackbar-danger",
@@ -77,7 +79,7 @@ export class InterviewSetupService extends UnsubscribeOnDestroyAdapter{
           "bottom",
           "center"
         );
-        router.navigate(['/crew/maintain/paytypes/list-paytypes']);
+        router.navigate(['/crew/maintain/interview-setup/list-interview']);
       }else{
         notificationService.showNotification(
           "snackbar-danger",

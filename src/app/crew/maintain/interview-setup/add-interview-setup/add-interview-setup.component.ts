@@ -22,7 +22,6 @@ export class AddInterviewSetupComponent implements OnInit {
   requestId: any;
   decryptRequestId: any;
 
-  
   config1 = {
     tabSpaces: 10,
     extraPlugins: 'smiley,justify,indentblock,colordialog,font,exportpdf,pagebreak',
@@ -46,186 +45,164 @@ export class AddInterviewSetupComponent implements OnInit {
   ) {
     this.docForm = this.fb.group({
       rank: [""],
-      interviewsetupid:[""],  
+      interviewsetupid: [""],
+      desc: [""],
+      
       interviewSetupBeanDtls: this.fb.array([
         this.fb.group({
-          sort : 1,
-          select:[""],
-          description:[""]
-         
+          sort: 1,
+          select: [],
+          description: [""]
         })
       ]),
-       });
+    });
   }
 
   ngOnInit() {
-  
     this.route.params.subscribe(params => {
-      if (params.id !== undefined && params.id !== 0) {
+      if (params.id !== undefined && params.id !== "0") {
         this.decryptRequestId = params.id;
-        this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId);
         this.edit = true;
         this.fetchDetails(this.decryptRequestId);
       }
     });
-     this.getRankList();
+    this.getRankList();
   }
 
-  getRankList(){
-    this.httpService.get(this.interviewSetupService.rankListUrl).subscribe({next: (res: any) => {
-        this.rankList = res.lInterviewSetupBean;
-      }, error: (err) => console.log(err)
+  getRankList() {
+    this.httpService.get(this.interviewSetupService.getrank).subscribe({
+      next: (res: any) => {
+        this.rankList = res.lCommonUtilityBean;
+      },
+      error: (err) => console.log(err)
     });
   }
 
 
+  addRow() {
+    let interviewSetupBeanDtlsArray = this.docForm.controls.interviewSetupBeanDtls as FormArray;
+    let arraylen = interviewSetupBeanDtlsArray.length;
+    var len = this.docForm.controls["interviewSetupBeanDtls"].value.length;
 
-  get rowDtls() {
-    return this.docForm.get('interviewSetupBeanDtls') as FormArray;
+    let newUsergroup: FormGroup = this.fb.group({
+      sort: 1 + len,
+      select: [],
+      description: [""]
+    })
+    interviewSetupBeanDtlsArray.insert(arraylen, newUsergroup);
   }
 
-  getControl(index: number,name:any) {
-    return this.rowDtls.at(index).get([name]);
-  }
+  removeRow() {
+    let count = 0;
+    const deleteRow = this.docForm.controls.interviewSetupBeanDtls as FormArray;
+    let i = 0;
 
- addRow(){
-  let interviewSetupBeanDtlsArray=this.docForm.controls.interviewSetupBeanDtls as FormArray;
-  let arraylen=interviewSetupBeanDtlsArray.length;
-  var len = this.docForm.controls["interviewSetupBeanDtls"].value.length;
+    while (i < deleteRow.length) {
+      if (deleteRow.at(i).value.select) {
+        deleteRow.removeAt(i);
+        count++;
+      } else {
+        i++;
+      }
+    }
 
-  let newUsergroup:FormGroup = this.fb.group({
-    sort : 1 + len,
-    select: [""],
-    description:[""]
-  
-    
-  })
-  interviewSetupBeanDtlsArray.insert(arraylen,newUsergroup);
-}
-
-removeRow(){
-  let count = 0;
-  const deleteRow = this.docForm.controls.interviewSetupBeanDtls as FormArray;
-  let i = 0;
-  
-  while (i < deleteRow.length) {
-    if (deleteRow.at(i).value.select) {
-      deleteRow.removeAt(i);
-      count++;
-    } else {
-      i++;
+    if (count == 0) {
+      this.showNotification(
+        "snackbar-danger",
+        "Please select atleast one row",
+        "top",
+        "right"
+      );
     }
   }
 
-  if(count == 0){
-    this.showNotification(
-      "snackbar-danger",
-      "Please select atleast one row",
-      "top",
-      "right"
-    );
+  fetchDetails(id){
+    this.httpService.get<any>(this.interviewSetupService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+      let dtlArray = this.docForm.controls.interviewSetupBeanDtls as FormArray;
+      dtlArray.clear();
+      data.list.forEach((element, index) => {
+        console.log(data);
+  
+        this.docForm.patchValue({
+          'rank': data.list[0].rank,
+          'desc':data.list[0].desc.toString(),
+         
+            });
+        let arraylen = dtlArray.length;
+        let newUsergroup: FormGroup = this.fb.group({
+          select:[],
+          description:[element.description + ""]
+          
+          
+        })
+        dtlArray.insert(arraylen, newUsergroup);
+        const interviewSetupIdControl = newUsergroup.get('interviewsetupid');
+        if (interviewSetupIdControl) {
+          interviewSetupIdControl.disable();
+        }
+      });
+      }, error: (err) => console.log(err)
+     });
   }
-}
 
-fetchDetails(id){
-  this.httpService.get<any>(this.interviewSetupService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-    let dtlArray = this.docForm.controls.interviewSetupBeanDtls as FormArray;
-    dtlArray.clear();
-    data.list.forEach((element, index) => {
-      let arraylen = dtlArray.length;
-      let newUsergroup: FormGroup = this.fb.group({
-        select:[""],
-        description:[element.description + ""]
-      
-      })
-      dtlArray.insert(arraylen, newUsergroup);
-      newUsergroup.get('code').disable();
-    });
-    }, error: (err) => console.log(err)
-   });
-}
 
-update() {
-  const dtlArray = this.docForm.get('interviewSetupBeanDtls') as FormArray;
-  dtlArray.controls.forEach(control => {
-    control.get('code').enable();
-  });
-  if(this.docForm.valid){
-    this.interviewSetupService.updateInterviewSetup(this.docForm.value, this.router, this.notificationService);
-  }else{
-    this.matError.markFormGroupTouched(this.docForm);
-    this.notificationService.showNotification(
-      "snackbar-danger",
-      "Please fill the required details",
-      "top",
-      "right");
+  
+
+
+
+
+  hasSelectedRow(): boolean {
+    const interviewSetupBeanDtlsArray = this.docForm.controls.interviewSetupBeanDtls as FormArray;
+    return interviewSetupBeanDtlsArray.controls.some(control => control.get('select').value);
   }
-}
-save(){
-  if(this.docForm.valid){
-    this.interviewSetupService.saveInterviewSetup(this.docForm.value, this.router, this.notificationService);
-  }else{
-    this.matError.markFormGroupTouched(this.docForm);
-    this.notificationService.showNotification(
-      "snackbar-danger",
-      "Please fill the required details",
-      "top",
-      "right");
+
+  save() {
+    if (!this.hasSelectedRow()) {
+      this.showNotification(
+        "snackbar-danger",
+        "Please select at least one row",
+        "top",
+        "right"
+      );
+      return;
+    }
+
+    if (this.docForm.valid) {
+      this.interviewSetupService.saveInterviewSetup(this.docForm.value, this.router, this.notificationService);
+    } else {
+      this.matError.markFormGroupTouched(this.docForm);
+      this.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right"
+      );
+    }
   }
-}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // fetchDetails(id: any) {
-
-  //   this.httpService.get(this.interviewSetupService.editUrl + "?id=" + id).subscribe((res: any) => {
-  //     console.log(res);
-
-  //         this.docForm.patchValue({
-  //       'rank': res.interviewSetupBean.rank,
-  //       'description': res.interviewSetupBean.description,
-  //       'interviewsetupid': res.interviewSetupBean.interviewsetupid
-  //     });
-  //   });
-  // }
-
-  // save(){
-  //   if(this.docForm.valid){
-  //     this.interviewSetupService.saveInterviewSetup(this.docForm.value, this.router, this.notificationService);
-  //   }else{
-  //     this.showNotification(
-  //       "snackbar-danger",
-  //       "Please fill the required details",
-  //       "top",
-  //       "right"
-  //     );
-  //   }
-  // }
-
-  // update(){
-  //   if(this.docForm.valid){
-  //     this.interviewSetupService.updateInterviewSetup(this.docForm.value, this.router, this.notificationService);
-  //   }else{
-  //     this.showNotification(
-  //       "snackbar-danger",
-  //       "Please fill the required details",
-  //       "top",
-  //       "right"
-  //     );
-  //   }
-  // }
-
+  update() {
+    if (!this.hasSelectedRow()) {
+      this.showNotification(
+        "snackbar-danger",
+        "Please select at least one row",
+        "top",
+        "right"
+      );
+      return;
+    }
+    this.docForm.value.interviewsetupid = this.decryptRequestId;
+    if (this.docForm.valid) {
+      this.interviewSetupService.updateInterviewSetup(this.docForm.value, this.router, this.notificationService);
+    } else {
+      this.matError.markFormGroupTouched(this.docForm);
+      this.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right"
+      );
+    }
+  }
 
   cancel() {
     this.router.navigate(['/crew/maintain/interview-setup/list-interview']);
@@ -239,5 +216,4 @@ save(){
       panelClass: colorName,
     });
   }
-
 }

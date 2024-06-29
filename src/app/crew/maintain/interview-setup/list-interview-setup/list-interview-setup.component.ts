@@ -18,6 +18,7 @@ import { NotificationService } from 'src/app/core/service/notification.service';
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { DeleteComponent } from 'src/app/master/country-master/list-country-master/dialog/delete/delete.component';
+import { ViewInterviewSetupComponent } from '../view-interview-setup/view-interview-setup.component';
 @Component({
   selector: 'app-list-interview-setup',
   templateUrl: './list-interview-setup.component.html',
@@ -26,9 +27,13 @@ import { DeleteComponent } from 'src/app/master/country-master/list-country-mast
 export class ListInterviewSetupComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   displayedColumns = [
-    "rank",
+    "rankname",
     "description",
+      "createdBy",
+      "createdDate",
     "actions"
+   
+  
   ];
 
   dataSource: ExampleDataSource | null;
@@ -69,11 +74,39 @@ export class ListInterviewSetupComponent extends UnsubscribeOnDestroyAdapter imp
       this.router.navigate(['/crew/maintain/interview-setup/add-interview/', row.interviewsetupid]);
     }
   
-    viewCall(row) {
+    // viewCall(row) {
     
-      this.router.navigate(['/crew/maintain/interview-setup/view-interview/', row.interviewsetupid]);
+    //   this.router.navigate(['/crew/maintain/interview-setup/view-interview/', row.interviewsetupid]);
+    // }
+  
+    viewCall(row) {
+      // // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+      // this.router.navigate(['/crew/maintain/health-status/view-health-status/', row.healthstatusid]);
+       let rowId = row.interviewsetupid
+      let tempDirection;
+      if (localStorage.getItem("isRtl") == "true") {
+        tempDirection = "rtl";
+      } else {
+        tempDirection = "ltr";
+      }
+  
+      const dialogRef = this.dialog.open(ViewInterviewSetupComponent, {
+        height: "270px",
+        width: "450px",
+        data: rowId,
+        direction: tempDirection,
+        disableClose: true 
+  
+      });
+  
+  
     }
   
+
+
+
+
+
     deleteItem(row){
       let tempDirection;
       if (localStorage.getItem("isRtl") == "true") {
@@ -168,12 +201,17 @@ export class ListInterviewSetupComponent extends UnsubscribeOnDestroyAdapter imp
         this.paginator.page,
       ];
   
+  
+
+
       this.exampleDatabase.getList();
       return merge(...displayDataChanges).pipe(map(() => {
           this.filteredData = this.exampleDatabase.data.slice().filter((interviewSetup: InterviewSetup) => {
               const searchStr = (
-                interviewSetup.rank +
-                interviewSetup.description 
+                interviewSetup.rankname +
+                interviewSetup.description +
+                interviewSetup.createdBy +
+                interviewSetup.createdDate 
               ).toLowerCase();
               return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
             });
@@ -198,13 +236,21 @@ export class ListInterviewSetupComponent extends UnsubscribeOnDestroyAdapter imp
         let propertyA: number | string = "";
         let propertyB: number | string = "";
         switch (this._sort.active) {
-          case "rank":
-            [propertyA, propertyB] = [a.rank, b.rank];
+          case "rankname":
+            [propertyA, propertyB] = [a.rankname, b.rankname];
             break;
           case "description":
             [propertyA, propertyB] = [a.description, b.description];
             break;
+            case "createdBy":
+            [propertyA, propertyB] = [a.createdBy, b.createdBy];
+            break;
+            case "createdDate":
+            [propertyA, propertyB] = [a.createdDate, b.createdDate];
+            break;
         }
+
+      
         const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
         const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
         return (

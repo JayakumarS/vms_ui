@@ -6,7 +6,7 @@ import { ViewInterviewSetupComponent } from './view-interview-setup/view-intervi
 
 const routes: Routes = [
   {
-    path: "add-interview",
+    path: "add-interview/:id",
     component: AddInterviewSetupComponent,
   },
   {
@@ -14,7 +14,7 @@ const routes: Routes = [
     component: ListInterviewSetupComponent,
   },
   {
-    path: "view-interview",
+    path: "view-interview/:id",
     component: ViewInterviewSetupComponent,
   }
 ];
