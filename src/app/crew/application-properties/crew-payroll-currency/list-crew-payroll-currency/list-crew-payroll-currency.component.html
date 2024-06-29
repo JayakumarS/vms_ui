@@ -57,7 +57,7 @@
                   </ng-container>
                   <ng-container matColumnDef="validation">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Voyage Validation</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.validation}}</mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.validation ? 'Yes' : 'No'}}</mat-cell>
                   </ng-container>
                   
                  

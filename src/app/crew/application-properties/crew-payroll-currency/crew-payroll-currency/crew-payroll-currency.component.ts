@@ -566,7 +566,7 @@ incrementHour(time) {
         //   this.docForm.patchValue({ 'validation': false })
         // }
       this.docForm.patchValue({
-        'countryname': data.list[0].countryname.toString(),
+        'countryname': data.list[0].countryname,
         'currencycode': data.list[0].currencycode,
         'validation': data.list[0].validation.toString(),
         'currencyid': data.list[0].currencyid
