@@ -87,6 +87,17 @@ export class AddOfficialManagersComponent extends UnsubscribeOnDestroyAdapter im
   }
 
   ngOnInit() {
+
+    this.httpService.get<any>(this.officialManagersService.getSequenceCode).subscribe((res: any) => {
+
+      
+      this.docForm.patchValue({
+        'code':res.code
+      })
+    })
+
+
+
     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
      this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
        this.edit=true;

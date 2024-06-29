@@ -32,6 +32,7 @@ export class ShipManagersService extends UnsubscribeOnDestroyAdapter{
   public editUrl = `${this.serverUrl.apiServerAddress}api/vessels/shipManagers/edit`;
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/vessels/shipManagers/delete`;
   public updateUrl = `${this.serverUrl.apiServerAddress}api/vessels/shipManagers/update`;
+  public getSequenceCode = `${this.serverUrl.apiServerAddress}api/vessels/shipManagers/getSequenceCode`;
 
 
   get data(): ShipModel[] {

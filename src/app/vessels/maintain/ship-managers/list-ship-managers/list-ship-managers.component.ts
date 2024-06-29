@@ -16,6 +16,7 @@ import { fromEvent, BehaviorSubject, Observable, merge, map } from 'rxjs';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { DeleteComponent } from 'src/app/master/country-master/list-country-master/dialog/delete/delete.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ViewShipManagersComponent } from '../view-ship-managers/view-ship-managers.component';
 
 @Component({
   selector: 'app-list-ship-managers',
@@ -84,9 +85,32 @@ export class ListShipManagersComponent extends UnsubscribeOnDestroyAdapter imple
       }
     );
   }
+
+
+  
   viewCall(row) {
-    this.router.navigate(['/vessels/maintain/ship-managers/view-ship-managers/', row.shipmanid]);
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+
+
+    let rowId = row.shipmanid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewShipManagersComponent, {
+      height: "290px",
+      width: "470px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
   }
+
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, "", {
       duration: 2000,
