@@ -244,12 +244,28 @@
                 
                                                         </mat-form-field>
                                                     </td>
-                                                    <td class="padding-both-side-2" *ngIf="valid">
-                                                        <mat-icon style="color: green;"> check_circle_outline</mat-icon>
-                                                    </td>
-                                                    <td class="padding-both-side-2" *ngIf="!valid">
-                                                        <mat-icon style="color: red;">error_outline</mat-icon>
-                                                    </td>
+                                                    <td *ngIf="!edit">
+                                                    <div class="padding-both-side-2" *ngIf="valid">
+                                                        <mat-icon style="color: green;" matTooltip="Valid"> check_circle_outline</mat-icon>
+                                                    </div>
+                                                    <div class="padding-both-side-2" *ngIf="!valid">
+                                                        <mat-icon style="color: red;" matTooltip="Mandatory Certificates/ Documents are not available">error_outline</mat-icon>
+                                                    </div>
+                                                   </td>
+
+                                                   <td *ngIf="edit">
+                                                    <ng-container>
+                                                      <div class="padding-both-side-2" *ngIf="multiseamendetail.value.validCheck === true">
+                                                        <mat-icon style="color: green;" matTooltip="Valid">check_circle_outline</mat-icon>
+                                                      </div>
+                                                      <div class="padding-both-side-2"  *ngIf="multiseamendetail.value.validCheck !== true">
+                                                        <mat-icon style="color: red;" matTooltip="Mandatory Certificates/ Documents are not available">error_outline</mat-icon>
+                                                      </div>
+                                                    </ng-container>
+                                                </td>
+                                                  
+
+
                                                     <td class="padding-both-side-2">
                                                         <button (click)="popup(i)" style="background-color: #283be7;color: white;" mat-raised-button>View</button>
                 
