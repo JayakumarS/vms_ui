@@ -61,7 +61,7 @@
       
 
                 <ng-container matColumnDef="isActive">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>ACTIVE</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Active</mat-header-cell>
                   <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
                     <mat-checkbox [checked]="row.isActive" style='margin-left: 15px;' disabled></mat-checkbox>
                   </mat-cell>
