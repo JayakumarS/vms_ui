@@ -1,10 +1,11 @@
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { fdandd } from './fd-and-d.model';
+import { pandi } from './pandi.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,11 +14,11 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class FdAndDService extends UnsubscribeOnDestroyAdapter{
+export class PandiService extends UnsubscribeOnDestroyAdapter{
 
   isTblLoading = true;
   currencyList:[];
-  dataChange: BehaviorSubject<fdandd[]> = new BehaviorSubject<fdandd[]>(
+  dataChange: BehaviorSubject<pandi[]> = new BehaviorSubject<pandi[]>(
     []
   );
   // Temporarily stores data from dialogs
@@ -25,18 +26,21 @@ export class FdAndDService extends UnsubscribeOnDestroyAdapter{
   constructor(private httpClient: HttpClient, private serverUrl: serverLocations, private httpService: HttpServiceService) {
     super();
   }
+
   public saveUrl = `${this.serverUrl.apiServerAddress}api/vessel/VesselInsurance/save`;
-  public listUrl = `${this.serverUrl.apiServerAddress}api/vessel/VesselInsurance/listfdandd`;
+  public listUrl = `${this.serverUrl.apiServerAddress}api/vessel/VesselInsurance/listpani`;
   public editUrl = `${this.serverUrl.apiServerAddress}api/vessel/VesselInsurance/edit`;
   public deleteUrl = `${this.serverUrl.apiServerAddress}api/vessel/VesselInsurance/delete`;
   public updateUrl = `${this.serverUrl.apiServerAddress}api/vessel/VesselInsurance/update`;
 
-  get data(): fdandd[] {
+
+  get data(): pandi[] {
     return this.dataChange.value;
   }
   getDialogData() {
     return this.dialogData;
   }
+
   getList() {
     this.isTblLoading = true; 
     this.httpService.get<any>(this.listUrl).subscribe({next: (data: any) => {
@@ -46,8 +50,8 @@ export class FdAndDService extends UnsubscribeOnDestroyAdapter{
      });
   }
 
-  savefdandd(fdandd: fdandd, router, notificationService){
-     this.httpService.post<fdandd>(this.saveUrl, fdandd).subscribe({next: (data: any) => {
+  savepandi(pandi: pandi, router, notificationService){
+     this.httpService.post<pandi>(this.saveUrl, pandi).subscribe({next: (data: any) => {
       if (data.success == true) {
         notificationService.showNotification(
           "snackbar-success",
@@ -55,7 +59,7 @@ export class FdAndDService extends UnsubscribeOnDestroyAdapter{
           "bottom",
           "center"
         );
-         router.navigate(['/vessels/maintain/fd-and-d/list-fd-and-d']);
+         router.navigate(['/vessels/maintain/p-and-i/list-p-and-i']);
       }else{
         notificationService.showNotification(
           "snackbar-danger",
@@ -68,8 +72,8 @@ export class FdAndDService extends UnsubscribeOnDestroyAdapter{
      });
   }
 
-  updatefdandd(fdandd: fdandd, router, notificationService){
-    this.httpService.post<fdandd>(this.updateUrl, fdandd).subscribe({next: (data: any) => {
+  updatepandi(pandi: pandi, router, notificationService){
+    this.httpService.post<pandi>(this.updateUrl, pandi).subscribe({next: (data: any) => {
       if (data.success == true) {
         notificationService.showNotification(
           "snackbar-success",
@@ -77,7 +81,7 @@ export class FdAndDService extends UnsubscribeOnDestroyAdapter{
           "bottom",
           "center"
         );
-        router.navigate(['/vessels/maintain/fd-and-d/list-fd-and-d']);
+        router.navigate(['/vessels/maintain/p-and-i/list-p-and-i']);
       }else{
         notificationService.showNotification(
           "snackbar-danger",
@@ -93,5 +97,41 @@ export class FdAndDService extends UnsubscribeOnDestroyAdapter{
   delete(id){
     return this.httpClient.get<any>(this.deleteUrl + "?id=" + id);
   }
+
+  
+  
+  // deleteEmployees(countryCode : any,router,notificationService): void {
+  //    this.httpService.get<CountryMaster>(this.deleteCountryUrl+"?countryCode="+countryCode).subscribe(data => {
+  //     console.log(countryCode);
+  //     if(data.Success===true){
+  //       notificationService.showNotification(
+  //         "snackbar-success",
+  //         "Deleted Record Successfully...!!!",
+  //         "bottom",
+  //         "center"
+  //       );
+  //       router.navigate(['/master/country-Master/list-CountryMaster']);
+  //     }
+  //     else if(data.Success===false){
+  //       notificationService.showNotification(
+  //         "snackbar-danger",
+  //         "Error in delete...!!!",
+  //         "bottom",
+  //         "center"
+  //       );
+  //     }
+
+  //     },
+  //     (err: HttpErrorResponse) => {
+  //        // error code here
+  //     }
+  //   );
+  // }
+
+  getCurrencyList() {
+   
+   
+  }
+
  
 }

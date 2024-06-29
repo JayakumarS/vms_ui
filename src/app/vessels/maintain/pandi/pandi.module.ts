@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { FdAndDRoutingModule } from './fd-and-d-routing.module';
-import { AddFdAndDComponent } from './add-fd-and-d/add-fd-and-d.component';
-import { ListFdAndDComponent } from './list-fd-and-d/list-fd-and-d.component';
+import { PandiRoutingModule } from './pandi-routing.module';
+import { AddPandiComponent } from './add-pandi/add-pandi.component';
+import { ListPandiComponent } from './list-pandi/list-pandi.component';
+import { ViewPandiComponent } from './view-pandi/view-pandi.component';
+import { DeleteComponent } from './list-pandi/delete/delete.component';
 import { A11yModule } from '@angular/cdk/a11y';
 import { PortalModule } from '@angular/cdk/portal';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -38,23 +40,21 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CountryMasterRoutingModule } from 'src/app/master/country-master/country-master-routing.module';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ViewFdAndDComponent } from './view-fd-and-d/view-fd-and-d.component';
-import { DeleteComponent } from './list-fd-and-d/delete/delete.component';
+import { CountryMasterRoutingModule } from '../../master/country-master/country-master-routing.module';
 
 
 @NgModule({
   declarations: [
-    AddFdAndDComponent,
-    ListFdAndDComponent,
-    ViewFdAndDComponent,
+    AddPandiComponent,
+    ListPandiComponent,
+    ViewPandiComponent,
     DeleteComponent
   ],
   imports: [
     CommonModule,
-    FdAndDRoutingModule,
+    PandiRoutingModule,
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
@@ -208,4 +208,4 @@ import { DeleteComponent } from './list-fd-and-d/delete/delete.component';
       MatAutocompleteModule
   ]
 })
-export class FdAndDModule { }
+export class PandiModule { }

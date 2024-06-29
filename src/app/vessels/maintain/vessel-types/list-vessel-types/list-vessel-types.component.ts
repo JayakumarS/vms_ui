@@ -23,6 +23,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { VesselTypes } from '../vessel-types.model';
 import { VesselTypesService } from '../vessel-types.service';
+import { ViewVesselTypesComponent } from '../view-vessel-types/view-vessel-types.component';
 @Component({
   selector: 'app-list-vessel-types',
   templateUrl: './list-vessel-types.component.html',
@@ -110,12 +111,28 @@ export class ListVesselTypesComponent extends UnsubscribeOnDestroyAdapter implem
 
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/vessels/maintain/vessel-types/add-vessel-types/', row.code]);
+    this.router.navigate(['/vessels/maintain/vessel-types/add-vessel-types/', row.vessetypeid]);
   }
 
   viewCall(row) {
-    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
-    this.router.navigate(['/vessels/maintain/vessel-types/view-vessel-types/', row.code]);
+  
+
+    let rowId = row.vessetypeid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewVesselTypesComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
   }
 
   deleteItem(row){
@@ -135,7 +152,7 @@ export class ListVesselTypesComponent extends UnsubscribeOnDestroyAdapter implem
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.vesselTypesService.delete(row.code).subscribe({
+      this.vesselTypesService.delete(row.vessetypeid).subscribe({
         next: (data) => {
           this.spinner.hide();
           if (data.success) {

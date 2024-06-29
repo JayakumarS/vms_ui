@@ -14,8 +14,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { PrefixesService } from '../prefixes.service';
 import { PrefixesModel } from '../prefixes.model';
-import { DeleteComponent } from 'src/app/master/country-master/list-country-master/dialog/delete/delete.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ViewPrefixesComponent } from '../view-prefixes/view-prefixes.component';
+import { DeleteComponent } from './delete/delete.component';
 
 @Component({
   selector: 'app-list-prefixes',
@@ -36,7 +37,7 @@ export class ListPrefixesComponent extends UnsubscribeOnDestroyAdapter implement
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public prefixeservice: PrefixesService,
+    public PrefixesService: PrefixesService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
@@ -73,12 +74,33 @@ export class ListPrefixesComponent extends UnsubscribeOnDestroyAdapter implement
   }
 
   editCall(row) {
-    this.router.navigate(['/vessels/maintain/prefixes/add-prefixes/', row.code]);
+    this.router.navigate(['/vessels/maintain/prefixes/add-prefixes/', row.vesselprefixid]);
   }
 
-  viewCall(row){
-    this.router.navigate(['/vessels/maintain/prefixes/view-prefixes/', row.code]);
+
+  viewCall(row) {
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+
+
+    let rowId = row.vesselprefixid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewPrefixesComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
+
   }
+
 
   deleteItem(row){
     let tempDirection;
@@ -96,8 +118,10 @@ export class ListPrefixesComponent extends UnsubscribeOnDestroyAdapter implement
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
-      this.prefixeservice.delete(row.code).subscribe({
+      this.spinner.show();
+      this.PrefixesService.delete(row.vesselprefixid).subscribe({
         next: (data) => {
+          this.spinner.hide();
           if (data.success) {
             this.loadData();
             this.showNotification(
@@ -110,7 +134,7 @@ export class ListPrefixesComponent extends UnsubscribeOnDestroyAdapter implement
           else{
             this.showNotification(
               "snackbar-danger",
-              "Error in save",
+              data.message,
               "bottom",
               "center"
             );
@@ -125,7 +149,6 @@ export class ListPrefixesComponent extends UnsubscribeOnDestroyAdapter implement
     }
     })
   }
-
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, "", {
       duration: 2000,

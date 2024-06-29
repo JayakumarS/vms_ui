@@ -10,8 +10,12 @@ import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { fdandd } from '../fd-and-d.model';
 import { FdAndDService } from '../fd-and-d.service';
+
+import { MatErrorService } from 'src/app/core/service/mat-error.service';
+import { fdandd } from '../fd-and-d.model';
+
+
 @Component({
   selector: 'app-add-fd-and-d',
   templateUrl: './add-fd-and-d.component.html',
@@ -76,64 +80,57 @@ export class AddFdAndDComponent implements OnInit {
     public EncrDecr: EncrDecrService,
     private serverUrl:serverLocations,
     private encryptionService:EncryptionService,
-    public snackBar: MatSnackBar) { 
+    public snackBar: MatSnackBar,
+    public matError : MatErrorService) { 
 
 
     this.docForm = this.fb.group({
   
-
-
-      wageScaleDetails: this.fb.array([
-        this.fb.group({
-       
-          select:[""],
-          code:[""],
-          description:[""],
-          
-        })
-      ]),
+          flag:["FD&D"],
+          vesselinsuranceid:[""],
+          code: ["", Validators.required],
+          description: ["", Validators.required],
+          remarks:[""],
     });
 
 
   }
   
    ngOnInit() {
-    
-
      this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
       this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
-       this.edit=true;
-       //For User login Editable mode
-       this.fetchDetails(this.requestId) ;
-
+        this.edit=true;
+        this.fetchDetails(this.decryptRequestId) ;
       }
      });
-
     }
+
+    get rowDtls() {
+      return this.docForm.get('vesselInsuranceDtls') as FormArray;
+    }
+  
+    getControl(index: number,name:any) {
+      return this.rowDtls.at(index).get([name]);
+    }
+
    addRow(){
-    let wageScaleDetailsDtlArray=this.docForm.controls.wageScaleDetails as FormArray;
-    let arraylen=wageScaleDetailsDtlArray.length;
-    var len = this.docForm.controls["wageScaleDetails"].value.length;
+    let vesselInsuranceDtlsArray=this.docForm.controls.vesselInsuranceDtls as FormArray;
+    let arraylen=vesselInsuranceDtlsArray.length;
+    var len = this.docForm.controls["VesselInsuranceDtls"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
       sort : 1 + len,
       select: [""],
-      code:[""],
+      code: ["", Validators.required],
       description:[""],
       
     })
-    wageScaleDetailsDtlArray.insert(arraylen,newUsergroup);
+    vesselInsuranceDtlsArray.insert(arraylen,newUsergroup);
   }
-  save(){}
-
-  cancel(){
-    this.router.navigate(['/vessels/maintain/fd-and-d/list-fd-and-f']);
-  }
-
 
   removeRow(){
     let count = 0;
-    const deleteRow = this.docForm.controls.wageScaleDetails as FormArray;
+    const deleteRow = this.docForm.controls.vesselInsuranceDtls as FormArray;
     let i = 0;
     
     while (i < deleteRow.length) {
@@ -154,21 +151,49 @@ export class AddFdAndDComponent implements OnInit {
       );
     }
   }
-  onSubmit(){
 
-  }
-  fetchDetails(countryCode: any): void {
-   
+  fetchDetails(id){
+    this.httpService.get<any>(this.FdAndDService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+      this.docForm.patchValue({
+        'code': data.list[0].code,
+        'description': data.list[0].description,
+        'remarks': data.list[0].remarks,
+        'vesselinsuranceid': data.list[0].vesselinsuranceid,
+      });
+
+    }
+  });
   }
   
   update() {
 
-
+    
+    if(this.docForm.valid){
+      this.FdAndDService.updatefdandd(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
+  }
+  save(){
+    if(this.docForm.valid){
+      this.FdAndDService.savefdandd(this.docForm.value, this.router, this.notificationService);
+    }else{
+      this.matError.markFormGroupTouched(this.docForm);
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Please fill the required details",
+        "top",
+        "right");
+    }
   }
 
-  onCancel(){
-    this.router.navigate(['/vessels/maintain/fleets/list-fleets']);
-
+  cancel(){
+    this.router.navigate(['/vessels/maintain/fd-and-d/list-fd-and-d']);
   }
 
   getmastrcurr(){
@@ -207,7 +232,7 @@ export class AddFdAndDComponent implements OnInit {
   reset(){
     if(!this.edit){
       this.docForm = this.fb.group({
-        wageScaleDetails: this.fb.array([
+        vesselInsuranceDtls: this.fb.array([
           this.fb.group({
             sort : 1,
             code:[""],

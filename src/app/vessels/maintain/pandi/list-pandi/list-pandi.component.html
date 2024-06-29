@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'FD & D'" [items]="['Vessel','Maintain']" [active_item]="'FD & D List'">
+        <app-breadcrumb [title]="'P & I'" [items]="['Vessel','Maintain']" [active_item]="'P & I List'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -15,9 +15,8 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ms-0">
                         <li class="dropdown">
-                          <h2>FD & D</h2>
+                          <h2>P & I</h2>
                         </li>
-                        
                         <li class="dropdown m-l-20">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
                           <input placeholder="Search" type="text" #filter class="browser-default search-field"
@@ -25,7 +24,7 @@
                         </li>
                         <li>
                           <div class="m-l-10" matTooltip="ADD">
-                            <button color="primary" type="button" class="btn-space" [routerLink]="'/vessels/maintain/fd-and-d/add-fd-and-d/0'" mat-raised-button>
+                            <button color="primary" type="button" class="btn-space" [routerLink]="'/vessels/maintain/p-and-i/add-p-and-i/0'" mat-raised-button>
                               <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Create New
                             </button>
                           </div>
@@ -40,21 +39,7 @@
                               (click)="exporter.exportTable('xlsx', {fileName:'GRN-list', sheet: 'sheet1'})" />
                           </div>
                         </li>
-                        <li>
-                          <div class="export-button m-l-10" matTooltip="CSV">
-                            <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv',{fileName:'GRN-list'})" />
-                          </div>
-                        </li>
-                        <li>
-                          <div class="export-button m-l-10" matTooltip="JSON">
-                            <img src="assets/images/icons/json.png" alt="" (click)="exporter.exportTable('json',{fileName:'GRN-list'})" />
-                          </div>
-                        </li>
-                        <li>
-                          <div class="export-button m-l-10" matTooltip="TXT">
-                            <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt',{fileName:'GRN-list'})" />
-                          </div>
-                        </li>
+                        
                       </ul>
                     </div>
                   </div>
@@ -63,18 +48,18 @@
                   #exporter="matTableExporter">
                   
                   <ng-container matColumnDef="code">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>FD & D Code </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>P & I Code </mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.code}} </mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="description">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>FD & D Description</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>P & I Description</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.description}}</mat-cell>
                   </ng-container>
+                  
                   <ng-container matColumnDef="remarks">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.remarks}}</mat-cell>
                   </ng-container>
-                 
                  
                  
                   <!-- actions -->
@@ -95,6 +80,7 @@
                       </button>
                     </mat-cell>
                   </ng-container>
+  
   
                   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                   <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
@@ -159,8 +145,8 @@
                   No results
                 </div>
                 <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
-                  [pageSizeOptions]="[5, 10, 25, 100]">
-                </mat-paginator>
+                [pageSizeOptions]="[5, 10, 25, 100]">
+              </mat-paginator>
               </div>
           </div>
         </div>

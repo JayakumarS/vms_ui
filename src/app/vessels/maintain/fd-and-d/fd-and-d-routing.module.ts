@@ -6,7 +6,7 @@ import { AddFdAndDComponent } from './add-fd-and-d/add-fd-and-d.component';
 const routes: Routes = [
 
   {
-    path:"list-fd-and-f",
+    path:"list-fd-and-d",
     component:ListFdAndDComponent
   },
   {

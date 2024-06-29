@@ -1,4 +1,4 @@
-export class fdandd{
+export class pandi{
    
     code: string;
     description: string;

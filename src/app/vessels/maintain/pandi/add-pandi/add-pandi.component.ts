@@ -1,5 +1,3 @@
-
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,15 +10,17 @@ import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { VesselTypes } from '../vessel-types.model';
-import { VesselTypesService } from '../vessel-types.service';
+
 import { MatErrorService } from 'src/app/core/service/mat-error.service';
+import { pandi } from '../pandi.model';
+import { PandiService } from '../pandi.service';
+
 @Component({
-  selector: 'app-add-vessel-types',
-  templateUrl: './add-vessel-types.component.html',
-  styleUrls: ['./add-vessel-types.component.sass']
+  selector: 'app-add-pandi',
+  templateUrl: './add-pandi.component.html',
+  styleUrls: ['./add-pandi.component.sass']
 })
-export class AddVesselTypesComponent implements OnInit {
+export class AddPandiComponent implements OnInit {
 
   
   public itemRevenueExpFilterCtrl: FormControl = new FormControl();
@@ -53,7 +53,7 @@ export class AddVesselTypesComponent implements OnInit {
 
 
   docForm: FormGroup;
-  payItems: VesselTypes;
+  pandi: pandi;
   currencyList=[];
   edit:boolean=false;
   // oldPwd: boolean=false;
@@ -73,7 +73,7 @@ export class AddVesselTypesComponent implements OnInit {
   constructor(private fb: FormBuilder,
     public router:Router,
     private notificationService: NotificationService,
-    public vesselTypesService: VesselTypesService,
+    public PandiService: PandiService,
     private httpService: HttpServiceService,
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
@@ -85,10 +85,11 @@ export class AddVesselTypesComponent implements OnInit {
 
     this.docForm = this.fb.group({
   
-          vessetypeid:[""],
+          flag:["P&I"],
+          vesselinsuranceid:[""],
           code: ["", Validators.required],
-          description:["", Validators.required],
-      
+          description: ["", Validators.required],
+          remarks:[""],
     });
 
 
@@ -104,7 +105,7 @@ export class AddVesselTypesComponent implements OnInit {
     }
 
     get rowDtls() {
-      return this.docForm.get('vesselTypeDtls') as FormArray;
+      return this.docForm.get('vesselInsuranceDtls') as FormArray;
     }
   
     getControl(index: number,name:any) {
@@ -112,9 +113,9 @@ export class AddVesselTypesComponent implements OnInit {
     }
 
    addRow(){
-    let vesselTypeDtlsDtlArray=this.docForm.controls.vesselTypeDtls as FormArray;
-    let arraylen=vesselTypeDtlsDtlArray.length;
-    var len = this.docForm.controls["vesselTypeDtls"].value.length;
+    let vesselInsuranceDtlsArray=this.docForm.controls.vesselInsuranceDtls as FormArray;
+    let arraylen=vesselInsuranceDtlsArray.length;
+    var len = this.docForm.controls["VesselInsuranceDtls"].value.length;
 
     let newUsergroup:FormGroup = this.fb.group({
       sort : 1 + len,
@@ -123,12 +124,12 @@ export class AddVesselTypesComponent implements OnInit {
       description:[""],
       
     })
-    vesselTypeDtlsDtlArray.insert(arraylen,newUsergroup);
+    vesselInsuranceDtlsArray.insert(arraylen,newUsergroup);
   }
 
   removeRow(){
     let count = 0;
-    const deleteRow = this.docForm.controls.vesselTypeDtls as FormArray;
+    const deleteRow = this.docForm.controls.vesselInsuranceDtls as FormArray;
     let i = 0;
     
     while (i < deleteRow.length) {
@@ -151,23 +152,23 @@ export class AddVesselTypesComponent implements OnInit {
   }
 
   fetchDetails(id){
-    this.httpService.get<any>(this.vesselTypesService.editUrl+"?id="+id).subscribe({next: (data: any) => {
+    this.httpService.get<any>(this.PandiService.editUrl+"?id="+id).subscribe({next: (data: any) => {
       this.docForm.patchValue({
         'code': data.list[0].code,
         'description': data.list[0].description,
-        'vesselownerid': data.list[0].vesselownerid,
-        'vessetypeid': data.list[0].vessetypeid,
+        'remarks': data.list[0].remarks,
+        'vesselinsuranceid': data.list[0].vesselinsuranceid,
       });
 
-    
-      }, error: (err) => console.log(err)
-     });
+    }
+  });
   }
   
   update() {
-  
+
+    
     if(this.docForm.valid){
-      this.vesselTypesService.updateVesselType(this.docForm.value, this.router, this.notificationService);
+      this.PandiService.updatepandi(this.docForm.value, this.router, this.notificationService);
     }else{
       this.matError.markFormGroupTouched(this.docForm);
       this.notificationService.showNotification(
@@ -177,10 +178,9 @@ export class AddVesselTypesComponent implements OnInit {
         "right");
     }
   }
-  
   save(){
     if(this.docForm.valid){
-      this.vesselTypesService.saveVesselType(this.docForm.value, this.router, this.notificationService);
+      this.PandiService.savepandi(this.docForm.value, this.router, this.notificationService);
     }else{
       this.matError.markFormGroupTouched(this.docForm);
       this.notificationService.showNotification(
@@ -192,7 +192,7 @@ export class AddVesselTypesComponent implements OnInit {
   }
 
   cancel(){
-    this.router.navigate(['/vessels/maintain/vessel-types/list-vessel-types']);
+    this.router.navigate(['/vessels/maintain/p-and-i/list-p-and-i']);
   }
 
   getmastrcurr(){
@@ -231,7 +231,7 @@ export class AddVesselTypesComponent implements OnInit {
   reset(){
     if(!this.edit){
       this.docForm = this.fb.group({
-        vesselTypeDtls: this.fb.array([
+        vesselInsuranceDtls: this.fb.array([
           this.fb.group({
             sort : 1,
             code:[""],

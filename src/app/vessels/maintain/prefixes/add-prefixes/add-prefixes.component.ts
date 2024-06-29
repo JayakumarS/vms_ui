@@ -23,6 +23,7 @@ export class AddPrefixesComponent implements OnInit {
   docForm: FormGroup;
   edit:boolean=false;
   decryptRequestId:any;
+  requestId: any;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -38,44 +39,38 @@ export class AddPrefixesComponent implements OnInit {
     public matError : MatErrorService
   ) { 
     this.docForm = this.formbuilder.group({
-      firstDetailRow: this.formbuilder.array([
-        this.formbuilder.group({
-          select: [""],
+    
+          vesselprefixid:[""],
           code: ["", Validators.required],
           description: ["", Validators.required]
-        })
-      ]),
+      
     });
     
   }
     
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ this.decryptRequestId = params.id;
-      // this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
-        this.edit = true;
-        this.fetchDetails(this.decryptRequestId) ;
-      }
-     });
-  }
-  
+     this.requestId = this.EncrDecr.get(this.serverUrl.secretKey, this.decryptRequestId)
+       this.edit=true;
+       this.fetchDetails(this.decryptRequestId) ;
+     }
+    });
+   }
+
   fetchDetails(id){
     this.httpService.get<any>(this.prefixesService.editUrl+"?id="+id).subscribe({next: (data: any) => {
-      let dtlArray = this.docForm.controls.firstDetailRow as FormArray;
-      dtlArray.clear();
-      data.list.forEach((element, index) => {
-        let arraylen = dtlArray.length;
-        let newUsergroup: FormGroup = this.formbuilder.group({
-          select:[""],
-          code: [element.code],
-          description:[element.description + ""]
-        })
-        dtlArray.insert(arraylen, newUsergroup);
-        newUsergroup.get('code').disable();
+      this.docForm.patchValue({
+        'code': data.list[0].code,
+        'description': data.list[0].description,
+        'vesselprefixid': data.list[0].vesselprefixid
       });
-      }, error: (err) => console.log(err)
-     });
+
+    }
+  });
   }
+
+
 
   get rowDtls() {
     return this.docForm.get('firstDetailRow') as FormArray;
@@ -134,10 +129,7 @@ export class AddPrefixesComponent implements OnInit {
   }
 
   update() {
-    const dtlArray = this.docForm.get('firstDetailRow') as FormArray;
-    dtlArray.controls.forEach(control => {
-      control.get('code').enable();
-    });
+
     if(this.docForm.valid){
       this.prefixesService.updateVesselPrefix(this.docForm.value, this.router, this.notificationService);
     }else{

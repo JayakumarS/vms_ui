@@ -37,6 +37,12 @@ const routes: Routes = [
     loadChildren: () =>
       import("./fd-and-d/fd-and-d.module").then((m) => m.FdAndDModule),
   },
+
+  {
+    path: "p-and-i",
+    loadChildren: () =>
+      import("./pandi/pandi.module").then((m) => m.PandiModule),
+  },
   {
     path: "vessel-group",
     loadChildren: () =>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from "@angular/material/dialog";
@@ -14,24 +14,22 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { HttpServiceService } from 'src/app/auth/http-service.service';
-import { DeleteComponent } from 'src/app/master/country-master/list-country-master/dialog/delete/delete.component';
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { FdAndDService } from '../fd-and-d.service';
-import { fdandd } from '../fd-and-d.model';
-import { ViewFdAndDComponent } from '../view-fd-and-d/view-fd-and-d.component';
-
-
+import { PandiService } from '../pandi.service';
+import { pandi } from '../pandi.model';
+import { DeleteComponent } from './delete/delete.component';
+import { ViewPandiComponent } from '../view-pandi/view-pandi.component';
 
 @Component({
-  selector: 'app-list-fd-and-d',
-  templateUrl: './list-fd-and-d.component.html',
-  styleUrls: ['./list-fd-and-d.component.sass']
+  selector: 'app-list-pandi',
+  templateUrl: './list-pandi.component.html',
+  styleUrls: ['./list-pandi.component.sass']
 })
-export class ListFdAndDComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class ListPandiComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns = [
-   // "select",
+    // "select",
     "code",
     "description",
     "remarks",
@@ -39,23 +37,23 @@ export class ListFdAndDComponent extends UnsubscribeOnDestroyAdapter implements 
   ];
 
   dataSource: ExampleDataSource | null;
-  exampleDatabase: FdAndDService | null;
-  selection = new SelectionModel<fdandd>(true, []);
+  exampleDatabase: PandiService | null;
+  selection = new SelectionModel<pandi>(true, []);
   index: number;
   id: number;
-  customerMaster: fdandd | null;
-  permissionList: any=[];
+  customerMaster: pandi | null;
+  permissionList: any = [];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public FdAndDService: FdAndDService,
+    public PandiService: PandiService,
     private snackBar: MatSnackBar,
-    private serverUrl:serverLocations,
-    private httpService:HttpServiceService,
+    private serverUrl: serverLocations,
+    private httpService: HttpServiceService,
     public router: Router,
-    private EncrDecr:EncrDecrService,
+    private EncrDecr: EncrDecrService,
     private spinner: NgxSpinnerService,
-    private tokenStorageService : TokenStorageService,
+    private tokenStorageService: TokenStorageService
   ) {
     super();
   }
@@ -88,12 +86,12 @@ export class ListFdAndDComponent extends UnsubscribeOnDestroyAdapter implements 
     this.loadData();
   }
 
-  refresh(){
+  refresh() {
     this.loadData();
   }
 
   public loadData() {
-    this.exampleDatabase = new FdAndDService(this.httpClient,this.serverUrl,this.httpService);
+    this.exampleDatabase = new PandiService(this.httpClient, this.serverUrl, this.httpService);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -111,10 +109,12 @@ export class ListFdAndDComponent extends UnsubscribeOnDestroyAdapter implements 
 
 
   editCall(row) {
-    this.router.navigate(['/vessels/maintain/fd-and-d/add-fd-and-d/',row.vesselinsuranceid ]);
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
+    this.router.navigate(['/vessels/maintain/p-and-i/add-p-and-i/', row.vesselinsuranceid]);
   }
 
   viewCall(row) {
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
 
     let rowId = row.vesselinsuranceid
     let tempDirection;
@@ -124,71 +124,69 @@ export class ListFdAndDComponent extends UnsubscribeOnDestroyAdapter implements 
       tempDirection = "ltr";
     }
 
-    const dialogRef = this.dialog.open(ViewFdAndDComponent, {
+    const dialogRef = this.dialog.open(ViewPandiComponent, {
       height: "270px",
       width: "450px",
       data: rowId,
       direction: tempDirection,
       disableClose: true 
 
-    });  }
+    });
+  }
 
-    deleteItem(row) {
-      let tempDirection;
-      if (localStorage.getItem("isRtl") == "true") {
-        tempDirection = "rtl";
-      } else {
-        tempDirection = "ltr";
-      }
-  
-      const dialogRef = this.dialog.open(DeleteComponent, {
-        height: "270px",
-        width: "400px",
-        data: row,
-        direction: tempDirection,
-      });
-      this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
-        if (data.data == true) {
-          this.spinner.show();
-          this.FdAndDService.delete(row.vesselinsuranceid).subscribe({
-            next: (data) => {
-              this.spinner.hide();
-              if (data.success) {
-                this.loadData();
-                this.showNotification(
-                  "snackbar-success",
-                  "Record Deleted",
-                  "bottom",
-                  "center"
-                );
-              }
-              else {
-                this.showNotification(
-                  "snackbar-danger",
-                  data.message,
-                  "bottom",
-                  "center"
-                );
-              }
-            },
-            error: (error) => {
-              this.spinner.hide();
-            }
-          });
-        } else {
-          //this.loadData();
-        }
-      })
+  deleteItem(row) {
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
     }
-  
 
-
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      height: "270px",
+      width: "400px",
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+      if (data.data == true) {
+        this.spinner.show();
+        this.PandiService.delete(row.vesselinsuranceid).subscribe({
+          next: (data) => {
+            this.spinner.hide();
+            if (data.success) {
+              this.loadData();
+              this.showNotification(
+                "snackbar-success",
+                "Record Deleted",
+                "bottom",
+                "center"
+              );
+            }
+            else {
+              this.showNotification(
+                "snackbar-danger",
+                data.message,
+                "bottom",
+                "center"
+              );
+            }
+          },
+          error: (error) => {
+            this.spinner.hide();
+          }
+        });
+      } else {
+        //this.loadData();
+      }
+    })
+  }
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
-// context menu
-  onContextMenu(event: MouseEvent, item: fdandd) {
+  // context menu
+  onContextMenu(event: MouseEvent, item: pandi) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + "px";
     this.contextMenuPosition.y = event.clientY + "px";
@@ -196,7 +194,7 @@ export class ListFdAndDComponent extends UnsubscribeOnDestroyAdapter implements 
     this.contextMenu.menu.focusFirstItem("mouse");
     this.contextMenu.openMenu();
   }
-  
+
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, "", {
       duration: 2000,
@@ -207,7 +205,7 @@ export class ListFdAndDComponent extends UnsubscribeOnDestroyAdapter implements 
   }
 }
 
-export class ExampleDataSource extends DataSource<fdandd> {
+export class ExampleDataSource extends DataSource<pandi> {
   filterChange = new BehaviorSubject("");
   get filter(): string {
     return this.filterChange.value;
@@ -215,10 +213,10 @@ export class ExampleDataSource extends DataSource<fdandd> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: fdandd[] = [];
-  renderedData: fdandd[] = [];
+  filteredData: pandi[] = [];
+  renderedData: pandi[] = [];
   constructor(
-    public exampleDatabase: FdAndDService,
+    public exampleDatabase: PandiService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -227,7 +225,7 @@ export class ExampleDataSource extends DataSource<fdandd> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<fdandd[]> {
+  connect(): Observable<pandi[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -241,13 +239,13 @@ export class ExampleDataSource extends DataSource<fdandd> {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((fdandd: fdandd) => {
+          .filter((pandi: pandi) => {
             const searchStr = (
-              fdandd.code +
-              fdandd.description 
-             
+              pandi.code +
+              pandi.description +
+              pandi.remarks
 
-             
+
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -263,9 +261,9 @@ export class ExampleDataSource extends DataSource<fdandd> {
       })
     );
   }
-  disconnect() {}
+  disconnect() { }
   /** Returns a sorted copy of the database data. */
-  sortData(data: fdandd[]): fdandd[] {
+  sortData(data: pandi[]): pandi[] {
     if (!this._sort.active || this._sort.direction === "") {
       return data;
     }
@@ -273,16 +271,17 @@ export class ExampleDataSource extends DataSource<fdandd> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-      
+
         case "code":
           [propertyA, propertyB] = [a.code, b.code];
           break;
         case "description":
           [propertyA, propertyB] = [a.description, b.description];
           break;
-        ;
-
-        
+      
+          case "remarks":
+            [propertyA, propertyB] = [a.remarks, b.remarks];
+            break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

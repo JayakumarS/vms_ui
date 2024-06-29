@@ -42,6 +42,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CountryMasterRoutingModule } from 'src/app/master/country-master/country-master-routing.module';
 import { ViewPrefixesComponent } from './view-prefixes/view-prefixes.component';
+import { DeleteComponent } from './list-prefixes/delete/delete.component';
 
 
 
@@ -49,7 +50,8 @@ import { ViewPrefixesComponent } from './view-prefixes/view-prefixes.component';
   declarations: [
     AddPrefixesComponent,
     ListPrefixesComponent,
-    ViewPrefixesComponent
+    ViewPrefixesComponent,
+    DeleteComponent
   ],
   providers: [
     CommonService
