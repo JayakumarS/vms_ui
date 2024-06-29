@@ -46,7 +46,7 @@ export class MultiSeamenInsertService extends UnsubscribeOnDestroyAdapter{
   public listUrl = `${this.serverUrl.apiServerAddress}api/crew/utilities/multiseamen/listMultiSeamen`;
   public editUrl = `${this.serverUrl.apiServerAddress}api/crew/utilities/multiseamen/editMultiSeamen`;
   public updateUrl = `${this.serverUrl.apiServerAddress}api/crew/utilities/multiseamen/updateMultiSeamen`;
-
+  public CheckValidUrl = `${this.serverUrl.apiServerAddress}api/crew/utilities/multiseamen/checkValid`;
 
 
   get data(): MultiSeamenInsert[] {

@@ -244,8 +244,11 @@
                 
                                                         </mat-form-field>
                                                     </td>
-                                                    <td class="padding-both-side-2">
+                                                    <td class="padding-both-side-2" *ngIf="valid">
                                                         <mat-icon style="color: green;"> check_circle_outline</mat-icon>
+                                                    </td>
+                                                    <td class="padding-both-side-2" *ngIf="!valid">
+                                                        <mat-icon style="color: red;">error_outline</mat-icon>
                                                     </td>
                                                     <td class="padding-both-side-2">
                                                         <button (click)="popup(i)" style="background-color: #283be7;color: white;" mat-raised-button>View</button>

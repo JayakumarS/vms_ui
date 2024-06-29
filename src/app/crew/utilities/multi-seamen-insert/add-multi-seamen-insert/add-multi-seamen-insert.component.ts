@@ -75,7 +75,7 @@ export class AddMultiSeamenInsertComponent implements OnInit {
   currencyList: any =[];
   vesselList :  any =[];
   edit:boolean=false;
-  // oldPwd: boolean=false;
+  valid: boolean;
   vessaltypelist: any=[];
   joiningPortList: any =[];
   portList: any =[];
@@ -238,7 +238,24 @@ this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){
               rank: rankList.rankId.toString(),
               nationality: rankList.nationalityId.toString() // or just rankList.nationalityid if it is already a string
           });
-      }    }
+      }   
+
+      
+    // Fetch certificate data based on rankCode
+    this.httpService.get<any>(this.multiSeamenInsertService.CheckValidUrl + "?id=" + rankList.rankId)
+    .subscribe({
+      next: (data) => {
+         if(data.list.length>0){
+          this.valid = true;
+         }else{
+          this.valid = false;
+         }
+      },
+      error: (error) => {
+        console.error('Error fetching certificate data', error);
+      }
+    });
+     }
 
    filteritemcurrencylist(){
     if (!this.currencylist) {
@@ -543,7 +560,15 @@ this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){
         "top",
         "right"
       )
-    }else if(this.docForm.valid && this.docForm.value.vessel != "" && this.docForm.value.startdate != "" && this.docForm.value.joinPort != ""){
+    }else if(this.valid == false){
+      this.notificationService.showNotification(
+        "snackbar-danger",
+        "Warning: Mandatory Certificates NOT available and MUST be acquired for this Rank",
+        "top",
+        "right"
+      )
+    }
+    else if(this.docForm.valid && this.docForm.value.vessel != "" && this.docForm.value.startdate != "" && this.docForm.value.joinPort != "" && this.valid == true){
       this.docForm.value.joinPort = this.docForm.value.joinPort.id;
       this.multiSeamenInsertService.saveMultiSeamenUrl(this.docForm.value, this.router, this.notificationService);
     }else{
