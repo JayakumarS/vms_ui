@@ -39,7 +39,7 @@ export class AddIceClassComponent implements OnInit {
       
       iceId:[],
       code: [""],
-      desc:[""],
+      desc:["",[Validators.required]],
    
 });
   }

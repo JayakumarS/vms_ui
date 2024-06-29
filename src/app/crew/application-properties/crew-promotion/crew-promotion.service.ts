@@ -21,6 +21,10 @@ export class CrewPromotionService {
     return this.dataChange.value;
   }
 
+  public getranklist = `${this.serverUrl.apiServerAddress}api/common/getRankMasters`;
+  public getnationalitylist = `${this.serverUrl.apiServerAddress}api/common/getNationality`;
+  public getvesseltypelist = `${this.serverUrl.apiServerAddress}api/common/getVesselType`;
+
   getList(){
     let value,url;
     let list = [{currank:"First Officer",prorank:"Second Officer",nationality:"India",vesseltype:"Bulk Carrier",promoyears:"2"}];

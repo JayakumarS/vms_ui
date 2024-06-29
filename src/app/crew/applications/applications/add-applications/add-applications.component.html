@@ -15,8 +15,8 @@
               <form class="m-4" [formGroup]="docForm">
 
                 <br>
-                   <mat-tab-group backgroundColor="light" animationDuration="1000ms">
-                   <mat-tab label="Main Details">
+                   <mat-tab-group backgroundColor="light" animationDuration="1000ms" style="font-family: century gothic, sans-serif">
+                   <mat-tab label="Main Details" >
                     <br> <br> <br>
                 <div class="row">
                   <div class="col-md-10">
@@ -237,7 +237,7 @@
 
 
 
-                    <div style="background:#808080; color: white; padding: 8px 12px; margin-bottom: 10px;">
+                    <div style="background:#808080; color: white; padding: 8px 12px; margin-bottom: 10px; font-family: century gothic, sans-serif">
                       <b>Applicant:</b>
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -245,7 +245,7 @@
                       <div class="row">
                     
              
-                        <div class="col-12">
+                        <div class="col-12" style="font-family: century gothic, sans-serif">
                           <app-file-upload (change)="selectFiles($event)"></app-file-upload>
                           <!-- <a href="{{filePath}}{{creditFile}}" target="_blank">{{creditFile}}</a> -->
                         </div>
@@ -255,11 +255,11 @@
                     </div>
 
                     <br>
-                    <div style="background:#808080; color: white; padding: 6px 12px; margin-bottom: 10px;">
+                    <div style="background:#808080; color: white; padding: 6px 12px; margin-bottom: 10px; font-family: century gothic, sans-serif">
                       <b>C.V.Operations:</b>
                     </div>
               
-                    <div class=" col-md-12">
+                    <div class=" col-md-12" style="font-family: century gothic, sans-serif">
                         <mat-label><b>File Upload</b></mat-label>
                         <app-file-upload (change)="uploadFile($event)"></app-file-upload>
 
@@ -281,7 +281,7 @@
 
              
 
-                  <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                  <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12" style="font-family: century gothic, sans-serif">
                       <mat-label><b>File Upload</b></mat-label>
 
                       <app-file-upload (change)="uploadFileDoc1($event)" (click)="fileValidation1()" ></app-file-upload>
@@ -323,7 +323,7 @@
 
                 <div class="row">
 
-                  <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                  <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12" style="font-family: century gothic, sans-serif">
                    
                       <mat-label><b>File Upload</b></mat-label>
 

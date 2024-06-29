@@ -110,6 +110,8 @@ h2,h4,h3,h1,h5,h6,li,button,label,input,.mat-checkbox,th,td{
     cursor: pointer;
     background-image: none;
     border-radius: 4px;
+    font-family: century gothic, sans-serif
+
 }
 
 .center {
@@ -141,6 +143,23 @@ h2,h4,h3,h1,h5,h6,li,button,label,input,.mat-checkbox,th,td{
 .checkListBtn{
     background-color: #57c8de;
     color: white;  
+    font-family: century gothic, sans-serif;
+}
+.btn-space{
+    font-family: century gothic, sans-serif;
+
+}
+.mat-button-wrapper{
+    font-family: century gothic, sans-serif;
+    
+}
+.mat-menu-item{
+    font-family: century gothic, sans-serif;
+}
+.mat-dialog-title{
+    font-family: century gothic, sans-serif;
+}
+.dl-horizontal{
     font-family: century gothic, sans-serif;
 }
 
@@ -285,6 +304,10 @@ h2,h4,h3,h1,h5,h6,li,button,label,input,.mat-checkbox,th,td{
 
 .h-7{
     height:7vh;
+}
+
+mat-option{
+    font-family: century gothic, sans-serif
 }
     
 

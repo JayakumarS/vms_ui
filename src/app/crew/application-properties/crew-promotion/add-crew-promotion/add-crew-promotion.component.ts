@@ -4,7 +4,9 @@ import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { CrewPromotionService } from '../crew-promotion.service';
 
 @Component({
   selector: 'app-add-crew-promotion',
@@ -18,48 +20,66 @@ export class AddCrewPromotionComponent extends UnsubscribeOnDestroyAdapter imple
   currentranklist:any=[];
   vesseltypelist:any=[];
   nationalitylist:any=[];
+  ranktypelist: any=[];
 
   constructor(
     private formbuilder: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
+    private httpService: HttpServiceService,
+    private crewservice: CrewPromotionService
   ) { 
     super();
     this.docForm=this.formbuilder.group({
-      firstDetailRow: this.formbuilder.array([
-        this.formbuilder.group({
-          select: [""],
           currank:["",Validators.required],
           prorank:["",Validators.required],
           nationality:["",Validators.required],
           vesseltype:["",Validators.required],
-          promoyrs:["",Validators.required]
-
-
-        })
-      ]),
+          promoyrs:["",Validators.required],
+          remarks:[""]
     })
   }
 
   ngOnInit(): void {
 
-    this.currentranklist = [
-      {id:1,text:"First Officer"},
-      {id:2,text:"Second Officer"}];
+    //get Rank List
+    this.httpService.get<any>(this.crewservice.getranklist).subscribe(
+      (data) => {
+        this.ranktypelist = data.lCommonUtilityBean;
+      }, 
+    );
 
-    this.promotinglist=[
-      { id:1,text:"Second Officer"},
-      {id:2,text:"Third Officer"},
-      {id:2,text:"Chief Officer"}];
+    //get Country List
+    this.httpService.get<any>(this.crewservice.getnationalitylist).subscribe(
+      (data) => {
+        this.nationalitylist = data.lCommonUtilityBean;
+      }, 
+    );
+
+    //get vesseltype List
+    this.httpService.get<any>(this.crewservice.getvesseltypelist).subscribe(
+      (data) => {
+        this.vesseltypelist = data.lCommonUtilityBean;
+      }, 
+    );
+
+    //this.currentranklist = [
+      //{id:1,text:"First Officer"},
+      //{id:2,text:"Second Officer"}];
+
+    //this.promotinglist=[
+      //{ id:1,text:"Second Officer"},
+      //{id:2,text:"Third Officer"},
+      //{id:2,text:"Chief Officer"}];
     
-      this.nationalitylist=[
-      { id:1,text:"India"},
-      {id:2,text:"Dubai"},
-      {id:2,text:"Singapore"}]
+      //this.nationalitylist=[
+      //{ id:1,text:"India"},
+      //{id:2,text:"Dubai"},
+      //{id:2,text:"Singapore"}]
 
-      this.vesseltypelist=[
-        {id:1,text:"All types"},
-        {id:2,text:"Bulk Carrier"}];
+      //this.vesseltypelist=[
+        //{id:1,text:"All types"},
+        //{id:2,text:"Bulk Carrier"}];
   }
 
   keyPressNumber(event: any) {
@@ -76,44 +96,8 @@ export class AddCrewPromotionComponent extends UnsubscribeOnDestroyAdapter imple
     this.router.navigate(['/crew/application-properties/crew-promotion/list-crew-promotion']);
     
   }
-  addRow() {
-    let firstDetailRow = this.docForm.controls.firstDetailRow as FormArray;
-    let arraylen = firstDetailRow.length;
-    let newUsergroup: FormGroup = this.formbuilder.group({
-          select: [''],
-          currank:[''],
-          prorank:[''],
-          nationality:[''],
-          vesseltype:[''],
-          promoyrs:['']
-    })
-    firstDetailRow.insert(arraylen, newUsergroup);
-  }
-
-  removeRow(){
-    let count = 0;
-    const deleteRow = this.docForm.controls.firstDetailRow as FormArray;
-    let i = 0;
-    
-    while (i < deleteRow.length) {
-      if (deleteRow.at(i).value.select) {
-        deleteRow.removeAt(i);
-        count++;
-      } else {
-        i++;
-      }
-    }
-
-    if(count == 0){
-      this.showNotification(
-        "snackbar-danger",
-        "Please select atleast one row",
-        "top",
-        "right"
-      );
-    }
-
-  }
+  
+  
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, "", {
       duration: 3000,

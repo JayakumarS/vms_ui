@@ -32,8 +32,10 @@
                                     <mat-form-field class="example-full-width form-control-sm"
                                     appearance="outline">
                                     <mat-label>Ice Class Code</mat-label>
-                                    <input matInput
-                                        formControlName="desc">
+                                    <input matInput formControlName="desc" required>
+                                    <mat-error *ngIf="docForm.get('desc').hasError('required')">
+                                        Id is required
+                                      </mat-error>
                                 </mat-form-field>
                                    </div>
                                 </div> 
