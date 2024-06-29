@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header" style="padding: 0.5% !important;" style="padding: 0.5% !important;">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Person Maintenance'" [items]="['Crew']" [active_item]="'Person Maintenance'">
+        <app-breadcrumb [title]="'Crew Profile'" [items]="['Crew']" [active_item]="'List Crew Profile'">
         </app-breadcrumb>
       </div>
       <div class="row">
@@ -15,10 +15,10 @@
                     <div class="col-8">
                       <ul class="header-buttons-left ms-0">
                         <li class="dropdown m-l-20 ">
-                          <h2>Person Maintenance</h2>
+                          <h2>Crew Profile</h2>
                         </li>
                         <li class="dropdown m-l-20">
-                          <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                          <label for="search-input"><i class="material-icons search-icon">Search</i></label>
                           <input placeholder="Search" type="text" #filter class="browser-default search-field"
                             aria-label="Search box">
                         </li>
@@ -36,7 +36,7 @@
                         <li>
                           <div class="export-button m-l-10" matTooltip="XLSX">
                             <img src="assets/images/icons/xlsx.png" alt=""
-                              (click)="exporter.exportTable('xlsx', {fileName:'Person-maintenance', sheet: 'sheet1'})" />
+                              (click)="exporter.exportTable('xlsx', {fileName:'Crew-Profile', sheet: 'sheet1'})" />
                           </div>
                         </li>                     
                       </ul>
