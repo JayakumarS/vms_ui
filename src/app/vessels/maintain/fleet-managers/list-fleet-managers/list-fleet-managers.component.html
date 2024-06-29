@@ -53,9 +53,9 @@
                   </ng-container>
 
 
-                  <ng-container matColumnDef="fleet">
+                  <ng-container matColumnDef="fleetname">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Fleet</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.fleet}}</mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.fleetname}}</mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="opmanager">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Operating Manager</mat-header-cell>

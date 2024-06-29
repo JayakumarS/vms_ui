@@ -26,7 +26,7 @@ import { ViewFleetManagersComponent } from '../add-fleet-managers/view-fleet-man
 export class ListFleetManagersComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns=[
     "code",
-    "fleet",
+    "fleetname",
     "opmanager",
     "techmanager",
     "actions"
@@ -92,8 +92,8 @@ export class ListFleetManagersComponent extends UnsubscribeOnDestroyAdapter impl
     }
 
     const dialogRef = this.dialog.open(ViewFleetManagersComponent, {
-      height: "270px",
-      width: "450px",
+      height: "280px",
+      width: "460px",
       data: rowId,
       direction: tempDirection,
       disableClose: true 
@@ -195,7 +195,7 @@ export class ExampleDataSource extends DataSource<fleetmanager> {
         this.filteredData = this.exampleDatabase.data
         .slice().filter((fleetmanager: fleetmanager) => {
             const searchStr = (
-              fleetmanager.fleet +
+              fleetmanager.fleetname +
               fleetmanager.opmanager +
               fleetmanager.techmanager +
               fleetmanager.code
@@ -224,8 +224,8 @@ export class ExampleDataSource extends DataSource<fleetmanager> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-        case "fleet":
-          [propertyA, propertyB] = [a.fleet, b.fleet];
+        case "fleetname":
+          [propertyA, propertyB] = [a.fleetname, b.fleetname];
           break;
         case "opmanager":
           [propertyA, propertyB] = [a.opmanager, b.opmanager];

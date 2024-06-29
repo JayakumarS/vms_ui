@@ -4,7 +4,7 @@ export class fleetmanager{
     opmanager:any;
     techmanager:any;
     code:any;
-    
+    fleetname:any;
       constructor(commodity) {
       
       }
