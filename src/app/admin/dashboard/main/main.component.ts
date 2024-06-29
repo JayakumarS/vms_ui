@@ -336,247 +336,8 @@ export class MainComponent implements OnInit {
     this.chart1();
     this.chart2();
     this.chart4();
-    //this.projectChart();
-
-
-
-
-
-
-    ////Ageing List Service
-    this.httpService.get<any>(this.dashboardService.getCustAnlsForDashBd).subscribe(
-      (data) => {
-        this.agingAlrt1 = data.agingAlrt1;
-        this.agingAlrt2 = data.agingAlrt2;
-        this.agingAlrt3 = data.agingAlrt3;
-        this.agingAlrt4 = data.agingAlrt4;
-        this.agingAlrt5 = data.agingAlrt5;
-        this.config2 = {
-          itemsPerPage: 5,
-          currentPage: 1,
-          totalItems: this.agingAlrt1.length
-
-        };
-        this.config3 = {
-          itemsPerPage: 5,
-          currentPage: 1,
-          totalItems: this.agingAlrt2.length
-
-        };
-        this.config4 = {
-          itemsPerPage: 5,
-          currentPage: 1,
-          totalItems: this.agingAlrt3.length
-
-        };
-        this.config5 = {
-          itemsPerPage: 5,
-          currentPage: 1,
-          totalItems: this.agingAlrt4.length
-
-        };
-        this.config6 = {
-          itemsPerPage: 5,
-          currentPage: 1,
-          totalItems: this.agingAlrt5.length
-
-        };
-
-      });
-
-
-
-
-
-
-    ////chart Average sales  List
-    this.httpService.get<any>(this.dashboardService.getAveragesaleslist).subscribe(
-      (res) => {
-        // this.salesOptions.series = res.getBOOList
-        this.salesAveragelist = res.getBOOList
-        if (this.salesAveragelist.length > 0) {
-          this.initChart1();
-        }
-
-      });
-
-
-
-
-    ////chart Average Collections  List
-    this.httpService.get<any>(this.dashboardService.getAverageCollectionslist).subscribe(
-      (res1) => {
-        //  this.salesOptions.series = res1.getBOOList
-        this.Collectionslist = res1.getBOOList
-        if (this.Collectionslist.length > 0) {
-          this.initChart();
-        }
-
-
-
-      });
-    //get item not sales list Order Count
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.getitemNotSaleslist).subscribe(
-      (data1) => {
-        this.itemListnotSaleslist = data1.getBORList;
-        this.chart6()
-        if (this.Qty.length > 0) {
-          this.chart6();
-        }
-      });
-
-    ////////////////customer Survey List
-    this.httpService.get<any>(this.dashboardService.getCustomerSurveyList).subscribe(
-      (data) => {
-        //this.areaChartOptions.series = (data.getCustomerCountList);
-        this.chart1();
-      });
-
-    ////Income List
-    this.httpService.get<any>(this.dashboardService.getIncomelist).subscribe(
-      (data) => {
-        this.incomeList.push(data.totalIncomeList);
-
-      });
-
-    ////Expenses List
-    this.httpService.get<any>(this.dashboardService.getExpensesList).subscribe(
-      (data) => {
-        this.ExpensesList.push(data.totalExpensesList);
-
-      });
-
-    //Invioce Count
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.invoiceCount).subscribe(
-      (data) => {
-        this.invoiceCount.push(data.invoiceCount);
-      });
-
-    //Invioce Count
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.earningsCount).subscribe(
-      (data) => {
-        this.earningsCount.push(data.earningsCount);
-      });
-
-    //item wise sales report
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.getItemWiseList).subscribe(
-      (data) => {
-        this.itemWiseList = data.salesOrderDetails;
-        this.chart1();
-      });
-
-  
-    ///////////////pending sales Quote List////////////
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.getAllSalesQuote).subscribe(
-      (data) => {
-        this.salesQuoteDetails = data.salesQuoteDetails;
-      });
-
-    ////////////////pending customer Invoice List//////////////////
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.getPendingInvoiceList).subscribe(
-      (data) => {
-        this.purchaseInvoiceDetails = data.purchaseInvoiceDetails;
-      });
-
-    //User Log List
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.getUserLogListUrl).subscribe(
-      (data) => {
-        this.userLogDetails = data.userLogDetails;
-      });
-
-    //BOM,BOO,BOR counts
-    this.httpService.get<any>(this.dashboardService.getDashboardCountsUrl).subscribe(
-      (data) => {
-        this.bomCountValue = data.bomCount;
-        this.booCountValue = data.booCount;
-        this.borCountValue = data.borCount;
-        this.usersCountValue = data.usersCount;
-        //this.projectChart();
-      });
-    ////chart workorder Dynamic List
-    this.httpService.get<any>(this.dashboardService.getWorkOrderList).subscribe(
-      (data) => {
-        this.WorkOrderCount = data.getWorkOrderGraph
-        this.projectChart();
-      });
-    //Sales Order Count
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.salesOrderCount).subscribe(
-      (data) => {
-        this.salesOrderCount.push(data.salesOrderCount);
-      });
-
-    //get QtyOrderCount Order Count
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.getQtyOrderCount).subscribe(
-      (data) => {
-        this.Qty = data.getBORList;
-        if (this.Qty.length > 0) {
-          this.chart5();
-        }
-      });
-
-
-
-
-    //get customer list Order Count
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.getcustomerlistCount).subscribe(
-      (res) => {
-        this.customerlistcount = res.getBOOList;
-        if (this.customerlistcount.length > 0) {
-          this.chart6();
-        }
-      });
-
-    //purchase Order Count 
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.purchaseOrderCount).subscribe(
-      (data) => {
-        this.purchaseOrderCount.push(data.purchaseOrderCount);
-      });
-
-    // customer Count 
-
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.countvalue).subscribe(
-      (doughnutChartData) => {
-        this.countvalue.push(doughnutChartData.countvalue);
-      });
-
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.ctryCustCount).subscribe(
-      (doughnutChartData) => {
-        this.ctryCustCount = doughnutChartData.ctryCustCount;
-      });
-    this.getsalesOrder();
-
-    this.getInvList();
-
-
-
   }
-  getsalesOrder() {
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.getsalesOrder).subscribe(
-      (data) => {
-        this.salelist = data.salesOrderDetails;
-        this.config = {
-          id: 'pagination',
-          itemsPerPage: 5,
-          currentPage: 1,
-          totalItems: this.salelist.length
-        };
-      }
-    );
-  }
-  getInvList() {
-    this.httpService.get<MainDashboardResultBean>(this.dashboardService.getListUrl).subscribe(
-      (data) => {
 
-        this.invlist = data.lCustomerInvoiceBean;
-        this.config1 = {
-          id: 'pagination1',
-          itemsPerPage: 5,
-          currentPage: 1,
-          totalItems: this.invlist.length
-        };
-      }
-    );
-  }
 
   Addcall(data) {
     window.sessionStorage.setItem("findFrom", "Opened");
@@ -881,12 +642,12 @@ export class MainComponent implements OnInit {
     this.areaChartOptions = {
       series: [
         {
-          name: "New Customer",
-          data: [31, 40, 28, 51, 42, 85, 77],
+          name: "Active Vessel",
+          data: [5, 10, 3, 2, 4, 5, 2],
         },
         {
-          name: "Old Customer",
-          data: [11, 32, 45, 32, 34, 52, 41],
+          name: "Inactive Vessel",
+          data: [3, 5, 3, 2, 4, 5, 2],
         },
       ],
       chart: {
@@ -1305,20 +1066,20 @@ export class MainComponent implements OnInit {
   }
 
   private chart5() {
-    this.Qty.forEach(item => {
-      if (item.itemName) {
-        this.originalArray.push(item.itemName);
-      }
-      if (item.Qty) {
-        this.qtyArray.push(item.Qty);
-      }
-    });
-    const originalArray: string[] = this.originalArray;
-    const qtyArray: string[] = this.qtyArray;
-    const numberArray: number[] = qtyArray.map(item => parseInt(item, 10));
+    // this.Qty.forEach(item => {
+    //   if (item.itemName) {
+    //     this.originalArray.push(item.itemName);
+    //   }
+    //   if (item.Qty) {
+    //     this.qtyArray.push(item.Qty);
+    //   }
+    // });
+    // const originalArray: string[] = this.originalArray;
+    // const qtyArray: string[] = this.qtyArray;
+    // const numberArray: number[] = qtyArray.map(item => parseInt(item, 10));
 
     this.pieChartOptions = {
-      series: numberArray,
+      series: [4,8,5,1],
       chart: {
         type: "donut",
         width: 300,
@@ -1329,7 +1090,7 @@ export class MainComponent implements OnInit {
       dataLabels: {
         enabled: false,
       },
-      labels: originalArray,
+      labels: ["INDIAN","PHILIPNO","INDONESIAN","CROATIAN"],
       responsive: [
         {
           breakpoint: 480,

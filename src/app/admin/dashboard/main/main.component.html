@@ -5,9 +5,19 @@
             <app-breadcrumb [title]="''" [items]="['Home']" [active_item]="'Dashboard'"></app-breadcrumb>
         </div>
 
-        <div *ngFor=" let obj of dashboardForm">
-            <div class="row " *ngIf="obj.formCode =='F9030'">
-                <div class="col-xl-8 ">
+        <style>
+            .w-color{
+                color: white;
+            }
+            .white-logo {
+               filter: invert(100%) brightness(200%);
+            }
+        </style>
+
+        <div>
+            <br>
+            <div class="row ">
+                <!-- <div class="col-xl-8 ">
                     <div class="card" style="padding-bottom: 35px;padding-top: 35px;">
                         <div class="header">
                             <h2>Voyage Fixtures</h2>
@@ -22,30 +32,126 @@
                         </div>
                     </div>
 
-                </div>
-                <div class="col-xl-4">
+                </div> -->
+                <div>
                     <div class="row">
-                        <div class="col-lg-6">
-                            <div class="card card-statistic-2">
+                        <div class="col-lg-3">
+                            <div class="card card-statistic-2" style="border-radius: 16px;background-color: #0093E9;
+                            background-image: linear-gradient(160deg, #87aec5 0%, #78a8a3 100%);border: none;">
                                 <div class="clearfix">
-                                    <div class="card-right">
+                                    <div class="flex-sb">
                                         <div>
-                                            <h5 class="float-end">Key Performance Indicator</h5>
+                                            <div class="m-r-10 m-l-10" style="padding: 10px;">
+                                                <img src="/assets/images/vessel-logo-new.png" class="white-logo" style="width: 77%;height: 11vh;">
+                                            </div>
                                         </div>
-                                        <div class="m-r-10 m-l-10">
-                                            <h3 class="font-weight-bold float-end mb-0"
-                                                *ngFor="let earnCount of earningsCount;">40</h3>
+                                        <div class="card-right">
+                                            <div>
+                                                <h5 class="float-end" class="w-color">Vessel</h5>
+                                            </div>
+                                            <div class="m-r-10 m-l-10">
+                                                <h3 class="font-weight-bold float-end mb-0" class="w-color">25</h3>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
-                                <div class="card-chart">
+                                <!-- <div class="card-chart">
                                     <canvas baseChart [chartType]="'line'" [datasets]="cardChart4Data"
                                         [labels]="cardChart4Label" [options]="cardChart4" [legend]="true">
                                     </canvas>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
-                        <div class="col-lg-6">
+
+                        <div class="col-lg-3">
+                            <div class="card card-statistic-2" style="border-radius: 16px;background-color: #FF3CAC;
+                            background-image: linear-gradient(225deg, #a28998 0%, #b699cf 50%, #93c5e7 100%); border: none;">
+                                <div class="clearfix">
+                                    <div class="flex-sb">
+                                        <div>
+                                            <div class="m-r-10 m-l-10" style="padding: 10px;">
+                                                <img src="/assets/images/application.png" class="white-logo" style="width: 77%;height: 11vh;">
+                                            </div>
+                                        </div>
+                                        <div class="card-right">
+                                            <div>
+                                                <h5 class="float-end w-color">Applications</h5>
+                                            </div>
+                                            <div class="m-r-10 m-l-10">
+                                                <h3 class="font-weight-bold float-end mb-0 w-color">18</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- <div class="card-chart">
+                                    <canvas baseChart [chartType]="'line'" [datasets]="cardChart4Data"
+                                        [labels]="cardChart4Label" [options]="cardChart4" [legend]="true">
+                                    </canvas>
+                                </div> -->
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="card card-statistic-2" style="border-radius: 16px;background-color: #8BC6EC;
+                            background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);border: none;">
+                                <div class="clearfix">
+                                    <div class="flex-sb">
+                                        <div>
+                                            <div class="m-r-10 m-l-10" style="padding: 10px;">
+                                                <img src="/assets/images/purchase-requisition.png" class="white-logo" style="width: 77%;height: 11vh;">
+                                            </div>
+                                        </div>
+                                        <div class="card-right">
+                                            <div>
+                                                <h5 class="float-end w-color">Requisition</h5>
+                                            </div>
+                                            <div class="m-r-10 m-l-10">
+                                                <h3 class="font-weight-bold float-end mb-0 w-color">10</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- <div class="card-chart">
+                                    <canvas baseChart [chartType]="'line'" [datasets]="cardChart4Data"
+                                        [labels]="cardChart4Label" [options]="cardChart4" [legend]="true">
+                                    </canvas>
+                                </div> -->
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="card card-statistic-2" style="border-radius: 16px;background-color: #FF9A8B;
+                            background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+                            border: none;">
+                                <div class="clearfix">
+                                    <div class="flex-sb">
+                                        <div>
+                                            <div class="m-r-10 m-l-10" style="padding: 10px;">
+                                                <img src="/assets/images/order-new.png" class="white-logo" style="width: 77%;height: 11vh;">
+                                            </div>
+                                        </div>
+                                        <div class="card-right">
+                                            <div>
+                                                <h5 class="float-end w-color">Spot Order</h5>
+                                            </div>
+                                            <div class="m-r-10 m-l-10">
+                                                <h3 class="font-weight-bold float-end mb-0 w-color">05</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- <div class="card-chart">
+                                    <canvas baseChart [chartType]="'line'" [datasets]="cardChart4Data"
+                                        [labels]="cardChart4Label" [options]="cardChart4" [legend]="true">
+                                    </canvas>
+                                </div> -->
+                            </div>
+                        </div>
+                        <!-- <div class="col-lg-6">
                             <div class="card card-statistic-2">
                                 <div class="clearfix">
                                     <div class="card-right">
@@ -106,10 +212,10 @@
                                     </canvas>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!--  -->
-                        <div class="col-lg-6">
+                        <!-- <div class="col-lg-6">
                             <div class="card card-statistic-2">
                                 <div class="clearfix">
                                     <div class="card-right">
@@ -188,9 +294,234 @@
                                     </canvas>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
+                    <br>
+                    <div style="display: flex;"> 
+                        <div class="row" style="width: 25%;">
+                            <h5>Purchase Requisition</h5>
+                            <br>
+                            <div class="col-lg-2" style="width: 49.666667% !important;">
+                                <div class="card card-statistic-2" style="border-radius: 5px;background-color: #0093E9;
+                                background-image: linear-gradient(160deg, #1b95dd 0%, #99c6d2 100%);border: none;">
+                                    <div class="clearfix">
+                                            <div class="card-right" style="float: none !important;padding: 5px;">
+                                                <div>
+                                                    <h5 class="float-end" class="w-color">Item - New</h5>
+                                                </div>
+                                                <div class="m-r-10 m-l-10">
+                                                    <h3 class="font-weight-bold float-end mb-0" class="w-color">6</h3>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2" style="width: 49.666667% !important;">
+                                <div class="card card-statistic-2" style="border-radius: 5px;background-color: #0093E9;
+                                background-image: linear-gradient(160deg, #1b95dd 0%, #99c6d2 100%);border: none;">
+                                    <div class="clearfix">
+                                            <div class="card-right" style="float: none !important;padding: 5px;">
+                                                <div>
+                                                    <h5 class="float-end" class="w-color">Service - New</h5>
+                                                </div>
+                                                <div class="m-r-10 m-l-10">
+                                                    <h3 class="font-weight-bold float-end mb-0" class="w-color">0</h3>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="width: 25%;margin-left: 1%;">
+                            <h5>Request For Quote</h5>
+                            <br>
+                            <div class="col-lg-2" style="width: 49.666667% !important;">
+                                <div class="card card-statistic-2" style="border-radius: 5px;background-color: #0093E9;
+                                background-image: linear-gradient(160deg, #45ab74 0%, #9fdc8b 100%);border: none;">
+                                    <div class="clearfix">
+                                            <div class="card-right" style="float: none !important;padding: 5px;">
+                                                <div>
+                                                    <h5 class="float-end" class="w-color">Item - Expiry</h5>
+                                                </div>
+                                                <div class="m-r-10 m-l-10">
+                                                    <h3 class="font-weight-bold float-end mb-0" class="w-color">102</h3>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2" style="width: 49.666667% !important;">
+                                <div class="card card-statistic-2" style="border-radius: 5px;background-color: #0093E9;
+                                background-image: linear-gradient(160deg, #45ab74 0%, #9fdc8b 100%);border: none;">
+                                    <div class="clearfix">
+                                            <div class="card-right" style="float: none !important;padding: 5px;">
+                                                <div>
+                                                    <h5 class="float-end" class="w-color">Service - Expiry</h5>
+                                                </div>
+                                                <div class="m-r-10 m-l-10">
+                                                    <h3 class="font-weight-bold float-end mb-0" class="w-color">3</h3>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="width: 25%;margin-left: 1%;">
+                            <h5>Quote Comparision</h5>
+                            <br>
+                            <div class="col-lg-2" style="width: 49.666667% !important;">
+                                <div class="card card-statistic-2" style="border-radius: 5px;background-color: #0093E9;
+                                background-image: linear-gradient(160deg, #c84458 0%, #d8a2ab 100%);border: none;">
+                                    <div class="clearfix">
+                                            <div class="card-right" style="float: none !important;padding: 5px;">
+                                                <div>
+                                                    <h5 class="float-end" class="w-color">Item - QTC</h5>
+                                                </div>
+                                                <div class="m-r-10 m-l-10">
+                                                    <h3 class="font-weight-bold float-end mb-0" class="w-color">48</h3>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2" style="width: 49.666667% !important;">
+                                <div class="card card-statistic-2" style="border-radius: 5px;background-color: #0093E9;
+                                background-image: linear-gradient(160deg, #c84458 0%, #d8a2ab 100%);border: none;">
+                                    <div class="clearfix">
+                                            <div class="card-right" style="float: none !important;padding: 5px;">
+                                                <div>
+                                                    <h5 class="float-end" class="w-color">Service - QTC</h5>
+                                                </div>
+                                                <div class="m-r-10 m-l-10">
+                                                    <h3 class="font-weight-bold float-end mb-0" class="w-color">1</h3>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="width: 25%;margin-left: 1%;">
+                            <h5>Purchase Order</h5>
+                            <br>
+                            <div class="col-lg-2" style="width: 49.666667% !important;">
+                                <div class="card card-statistic-2" style="border-radius: 5px;background-color: #0093E9;
+                                background-image: linear-gradient(160deg, #44aec8 0%, #e2e2e2 100%);border: none;">
+                                    <div class="clearfix">
+                                            <div class="card-right" style="float: none !important;padding: 5px;">
+                                                <div>
+                                                    <h5 class="float-end" class="w-color">PO Received</h5>
+                                                </div>
+                                                <div class="m-r-10 m-l-10">
+                                                    <h3 class="font-weight-bold float-end mb-0" class="w-color">0</h3>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2" style="width: 49.666667% !important;">
+                                <div class="card card-statistic-2" style="border-radius: 5px;background-color: #0093E9;
+                                background-image:linear-gradient(160deg, #44aec8 0%, #e2e2e2 100%);border: none;">
+                                    <div class="clearfix">
+                                            <div class="card-right" style="float: none !important;padding: 5px;">
+                                                <div>
+                                                    <h5 class="float-end" class="w-color">PO Approval</h5>
+                                                </div>
+                                                <div class="m-r-10 m-l-10">
+                                                    <h3 class="font-weight-bold float-end mb-0" class="w-color">1</h3>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-md-12 col-xl-6">
+                                <div class="card">
+                                    <div class="header">
+                                        <h2>Vessel</h2>
+                                        <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu="matMenu">
+                                            <button mat-menu-item>Action</button>
+                                            <button mat-menu-item>Another action</button>
+                                            <button mat-menu-item>Something else here</button>
+                                        </mat-menu>
+                                    </div>
+                                    <div class="body">
+                                        <apx-chart [series]="areaChartOptions.series"
+                                            [chart]="areaChartOptions.chart" [xaxis]="areaChartOptions.xaxis"
+                                            [yaxis]="areaChartOptions.yaxis" [colors]="areaChartOptions.colors"
+                                            [stroke]="areaChartOptions.stroke" [legend]="areaChartOptions.legend"
+                                            [tooltip]="areaChartOptions.tooltip"
+                                            [dataLabels]="areaChartOptions.dataLabels"></apx-chart>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-xl-6">
+                                <div class="row">
+                                    <div>
+                                        <h5>Application Details</h5>
+                                        <div class="mb-3 mt-3">
+                                            <div id="chart">
+                                                <apx-chart [series]="pieChartOptions.series"
+                                                    [chart]="pieChartOptions.chart"
+                                                    [labels]="pieChartOptions.labels"
+                                                    [responsive]="pieChartOptions.responsive"
+                                                    [dataLabels]="pieChartOptions.dataLabels"
+                                                    [legend]="pieChartOptions.legend" class="apex-pie-center">
+                                                </apx-chart>
+                                            </div>
+                                            <div class="table-responsive m-t-15">
+                                                <table class="table align-items-center">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                INDIAN
+                                                            </td>
+                                                            <td>4</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                PHILIPNO
+                                                            </td>
+                                                            <td>8</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                INDONESIAN
+                                                            </td>
+                                                            <td>5</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                CROATIAN
+                                                            </td>
+                                                            <td>1</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- <div class="card-bnner">
                     <div class="row">
                         <div class="col-lg-6">
