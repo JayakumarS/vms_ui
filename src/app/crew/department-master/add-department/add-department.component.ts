@@ -54,11 +54,13 @@ export class AddDepartmentComponent implements OnInit {
       }, 
     );
 
-    this.httpService.get<any>(this.departmentService.getSequenceCode).subscribe((res: any) => {
-      this.docForm.patchValue({
-        'code':res.code
+    if(this.edit!=true){
+      this.httpService.get<any>(this.departmentService.getSequenceCode).subscribe((res: any) => {
+        this.docForm.patchValue({
+          'code':res.code
+        })
       })
-    })
+    }
 
     this.route.params.subscribe(params => {
       if (params.id != undefined && params.id != 0) {

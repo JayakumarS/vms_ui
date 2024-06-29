@@ -103,6 +103,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./vessel-owner/vessel-owner.module").then((m) => m.VesselOwnerModule),
   },
+  {
+    path: "ice-class",
+    loadChildren: () =>
+      import("./ice-class/ice-class.module").then((m) => m.IceClassModule),
+  },
 ];
 
 @NgModule({
