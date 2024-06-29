@@ -30,7 +30,8 @@ export class WageScalesService extends UnsubscribeOnDestroyAdapter{
   public deletewage = `${this.serverUrl.apiServerAddress}api/vessels/wagescale/delete`;
   public editwage = `${this.serverUrl.apiServerAddress}api/vessels/wagescale/edit`;
   public updatewage = `${this.serverUrl.apiServerAddress}api/vessels/wagescale/update`;
- 
+  public getSequenceCode = `${this.serverUrl.apiServerAddress}api/vessels/wagescale/getSequenceCode`;
+
   get data(): wagescale[] {
     return this.dataChange.value;
   }

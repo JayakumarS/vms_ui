@@ -12,7 +12,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { FleetManagersService } from '../fleet-managers.service';
-import { FleetModel } from '../fleet.model';
+import { fleetmanager } from '../fleet-managers-model';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { DeleteComponent } from './delete/delete.component';
+import { ViewFleetManagersComponent } from '../add-fleet-managers/view-fleet-managers/view-fleet-managers.component';
 
 
 @Component({
@@ -22,6 +25,7 @@ import { FleetModel } from '../fleet.model';
 })
 export class ListFleetManagersComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns=[
+    "code",
     "fleet",
     "opmanager",
     "techmanager",
@@ -29,17 +33,17 @@ export class ListFleetManagersComponent extends UnsubscribeOnDestroyAdapter impl
   ];
   dataSource: ExampleDataSource | null;
   exampleDatabase: FleetManagersService | null;
-  selection = new SelectionModel<FleetModel>(true, []);
-  fleetmodel: FleetModel | null;
+  selection = new SelectionModel<fleetmanager>(true, []);
+  fleetmodel: fleetmanager | null;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public fleetservice: FleetManagersService,
+    public FleetManagersService: FleetManagersService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
-    public router: Router
+    public router: Router,   private spinner: NgxSpinnerService,
   ) { 
     super();
   }
@@ -75,12 +79,91 @@ export class ListFleetManagersComponent extends UnsubscribeOnDestroyAdapter impl
 
   }
 
-  editCall(item){
+  viewCall(row) {
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+
+
+    let rowId = row.fleetManagersid
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewFleetManagersComponent, {
+      height: "270px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
 
   }
 
+  editCall(row) {
+    this.router.navigate(['//vessels/maintain/fleet-managers/add-fleet-managers/',row.fleetManagersid]);
+  }
+
+  showNotification(colorName, text, placementFrom, placementAlign) {
+    this.snackBar.open(text, "", {
+      duration: 2000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: colorName,
+    });
+  }
+
+  deleteItem(row){
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      height: "270px",
+      width: "400px",
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+    if (data.data == true) {
+      this.spinner.show();
+      this.FleetManagersService.delete(row.fleetManagersid).subscribe({
+        next: (data) => {
+          this.spinner.hide();
+          if (data.success) {
+            this.loadData();
+            this.showNotification(
+              "snackbar-success",
+              "Record Deleted",
+              "bottom",
+              "center"
+            );
+          }
+          else{
+            this.showNotification(
+              "snackbar-danger",
+              "Error in Delete",
+              "bottom",
+              "center"
+            );
+          }
+        },
+        error: (error) => {
+          this.spinner.hide();
+        }
+      });
+    }else{
+      //this.loadData();
+    }
+    })
+  }
 }
-export class ExampleDataSource extends DataSource<FleetModel> {
+export class ExampleDataSource extends DataSource<fleetmanager> {
   filterChange = new BehaviorSubject("");
   get filter(): string {
     return this.filterChange.value;
@@ -88,8 +171,8 @@ export class ExampleDataSource extends DataSource<FleetModel> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: FleetModel[] = [];
-  renderedData: FleetModel[] = [];
+  filteredData: fleetmanager[] = [];
+  renderedData: fleetmanager[] = [];
   constructor(
     public exampleDatabase: FleetManagersService,
     public paginator: MatPaginator,
@@ -99,7 +182,7 @@ export class ExampleDataSource extends DataSource<FleetModel> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
 
-  connect(): Observable<FleetModel[]> {
+  connect(): Observable<fleetmanager[]> {
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
       this._sort.sortChange,
@@ -109,11 +192,13 @@ export class ExampleDataSource extends DataSource<FleetModel> {
 
     this.exampleDatabase.getList();
     return merge(...displayDataChanges).pipe(map(() => {
-        this.filteredData = this.exampleDatabase.data.slice().filter((fleetservice: FleetModel) => {
+        this.filteredData = this.exampleDatabase.data
+        .slice().filter((fleetmanager: fleetmanager) => {
             const searchStr = (
-              fleetservice.fleet +
-              fleetservice.opmanager +
-              fleetservice.techmanager 
+              fleetmanager.fleet +
+              fleetmanager.opmanager +
+              fleetmanager.techmanager +
+              fleetmanager.code
 
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -131,7 +216,7 @@ export class ExampleDataSource extends DataSource<FleetModel> {
   }
   disconnect() {}
 
-  sortData(data: FleetModel[]): FleetModel[] {
+  sortData(data: fleetmanager[]): fleetmanager[] {
     if (!this._sort.active || this._sort.direction === "") {
       return data;
     }
@@ -148,6 +233,10 @@ export class ExampleDataSource extends DataSource<FleetModel> {
         case "techmanager":
           [propertyA, propertyB] = [a.techmanager, b.techmanager];
           break;
+
+          case "code":
+            [propertyA, propertyB] = [a.code, b.code];
+            break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

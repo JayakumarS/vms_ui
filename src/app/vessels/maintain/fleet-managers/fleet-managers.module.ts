@@ -42,12 +42,16 @@ import { CountryMasterRoutingModule } from 'src/app/master/country-master/countr
 import { FleetManagersRoutingModule } from './fleet-managers-routing.module';
 import { ListFleetManagersComponent } from './list-fleet-managers/list-fleet-managers.component';
 import { AddFleetManagersComponent } from './add-fleet-managers/add-fleet-managers.component';
+import { DeleteComponent } from './list-fleet-managers/delete/delete.component';
+import { ViewFleetManagersComponent } from './add-fleet-managers/view-fleet-managers/view-fleet-managers.component';
 
 
 @NgModule({
   declarations: [
     ListFleetManagersComponent,
-    AddFleetManagersComponent
+    AddFleetManagersComponent,
+    DeleteComponent,
+    ViewFleetManagersComponent
   ],
   providers:[
     CommonService
