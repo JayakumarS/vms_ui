@@ -29,6 +29,7 @@ export class ListPortMasterComponent extends UnsubscribeOnDestroyAdapter {
      "portCode",
      "portName",
      "portType",
+     "isActive",
      "actions"
    ];
  
@@ -188,7 +189,8 @@ export class ExampleDataSource extends DataSource<PortMaster> {
             const searchStr = (
               portMaster.portCode +
               portMaster.portName +
-              portMaster.portType
+              portMaster.portType +
+              portMaster.isActive
              
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -225,6 +227,10 @@ export class ExampleDataSource extends DataSource<PortMaster> {
           [propertyA, propertyB] = [a.portType, b.portType];
           break;
         
+          case "isActive":
+            [propertyA, propertyB] = [a.isActive, b.isActive];
+            break;
+          
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

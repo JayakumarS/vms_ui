@@ -58,7 +58,16 @@
                   <mat-header-cell *matHeaderCellDef mat-sort-header fxLayoutGap="5px">Port Type</mat-header-cell>
                   <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.portType}}</mat-cell>
                 </ng-container>
-                             
+      
+
+                <ng-container matColumnDef="isActive">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>ACTIVE</mat-header-cell>
+                  <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                    <mat-checkbox [checked]="row.isActive" style='margin-left: 15px;' disabled></mat-checkbox>
+                  </mat-cell>
+                </ng-container>
+
+
                 <!-- actions -->
                 <ng-container matColumnDef="actions" class="col-lg-12 col-md-2">
                   <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
