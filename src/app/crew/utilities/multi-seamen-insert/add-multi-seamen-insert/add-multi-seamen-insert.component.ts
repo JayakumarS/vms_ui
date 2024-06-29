@@ -118,7 +118,8 @@ export class AddMultiSeamenInsertComponent implements OnInit {
           joiningDate: [""],
           estSignOffObj: [""],
           estSignOff: [""],
-          nationality: [""]
+          nationality: [""],
+          validCheck:[""]
         })
       ]),
     });
@@ -508,7 +509,8 @@ this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){
       joiningDate: [""],
       estSignOffObj: [""],
       estSignOff: [""],
-      nationality: [""]
+      nationality: [""],
+      validCheck: [""]
     })
     multiseamendetailDtlArray.insert(arraylen,newUsergroup);
   }
@@ -594,6 +596,7 @@ this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){
           'joinPort':data.list[0].joinPort.toString(),
           'startdateObj': startdate,
           'startdate': data.list[0].startdate,
+          'validCheck': data.list[0].validCheck,
             });
 
   
@@ -616,7 +619,8 @@ this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){
               joiningdateObj: joiningDate,
               joiningDate: [element.joiningDate],
               estSignOffObj:estSignOff,
-              estSignOff: [element.estSignOff]
+              estSignOff: [element.estSignOff],
+              validCheck: [element.validCheck],
             });
             
             multiseamendetailRowArray.insert(arraylen, newUsergroup);
