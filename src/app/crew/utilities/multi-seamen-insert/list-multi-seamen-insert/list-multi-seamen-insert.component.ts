@@ -28,9 +28,9 @@ import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroy
 export class ListMultiSeamenInsertComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns = [
    // "select",
-    "vessel",
+    "vesselname",
     "startdate",
-    "joinPort",
+    "portname",
     "createdDate",
     "actions"
   ];
@@ -227,9 +227,9 @@ export class ExampleDataSource extends DataSource<MultiSeamenInsert> {
           .slice()
           .filter((multiSeamenInsert: MultiSeamenInsert) => {
             const searchStr = (
-              multiSeamenInsert.vessel +
+              multiSeamenInsert.vesselname +
               multiSeamenInsert.startdate +
-              multiSeamenInsert.joinPort +
+              multiSeamenInsert.portname +
               multiSeamenInsert.createdDate
              
             ).toLowerCase();
@@ -257,14 +257,14 @@ export class ExampleDataSource extends DataSource<MultiSeamenInsert> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-        case "vessel":
-          [propertyA, propertyB] = [a.vessel, b.vessel];
+        case "vesselname":
+          [propertyA, propertyB] = [a.vesselname, b.vesselname];
           break;
         case "startdate":
             [propertyA, propertyB] = [a.startdate, b.startdate];
           break;
-        case "joinPort":
-              [propertyA, propertyB] = [a.joinPort, b.joinPort];
+        case "portname":
+              [propertyA, propertyB] = [a.portname, b.portname];
           break;
        case "createdDate":
               [propertyA, propertyB] = [a.createdDate, b.createdDate];

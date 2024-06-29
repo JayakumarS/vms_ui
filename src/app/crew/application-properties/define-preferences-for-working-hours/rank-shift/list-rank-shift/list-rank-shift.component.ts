@@ -24,8 +24,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class ListRankShiftComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   displayedColumns = [
-    "vessel",
-    "rank",
+    "vesselname",
+    "rankname",
     "sDate",
     "eDate",
     "remarks",
@@ -177,8 +177,8 @@ export class ExampleDataSource extends DataSource<RankShift> {
     return merge(...displayDataChanges).pipe(map(() => {
         this.filteredData = this.exampleDatabase.data.slice().filter((rankShift: RankShift) => {
             const searchStr = (
-              rankShift.vessel +
-              rankShift.rank + 
+              rankShift.vesselname +
+              rankShift.rankname + 
               rankShift.sDate +
               rankShift.eDate +
               rankShift.remarks 
@@ -206,11 +206,11 @@ export class ExampleDataSource extends DataSource<RankShift> {
       let propertyA: number | string = "";
       let propertyB: number | string = "";
       switch (this._sort.active) {
-        case "vessel":
-          [propertyA, propertyB] = [a.vessel, b.vessel];
+        case "vesselname":
+          [propertyA, propertyB] = [a.vesselname, b.vesselname];
           break;
-        case "rank":
-          [propertyA, propertyB] = [a.rank, b.rank];
+        case "rankname":
+          [propertyA, propertyB] = [a.rankname, b.rankname];
           break;
         case "sDate":
           [propertyA, propertyB] = [a.sDate, b.sDate];

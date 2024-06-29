@@ -46,13 +46,13 @@
                 <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
                   #exporter="matTableExporter">
                   
-                  <ng-container matColumnDef="vessel">
+                  <ng-container matColumnDef="vesselname">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Vessel</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.vessel}}</mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.vesselname}}</mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="rank">
+                  <ng-container matColumnDef="rankname">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Rank</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.rankcode}}</mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.rankname}}</mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="sDate">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Starting Date</mat-header-cell>

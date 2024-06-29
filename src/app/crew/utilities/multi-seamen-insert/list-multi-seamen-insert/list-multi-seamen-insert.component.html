@@ -47,17 +47,17 @@
                 <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
                   #exporter="matTableExporter">
                   
-                  <ng-container matColumnDef="vessel">
+                  <ng-container matColumnDef="vesselname">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Vessel</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.vessel}} </a></mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.vesselname}} </a></mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="startdate">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</mat-header-cell>
                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.startdate}} </a></mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="joinPort">
+                  <ng-container matColumnDef="portname">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Joining Port</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.joinPort}} </a></mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"><a  (click)="toggleRow(row)"> {{row.portname}} </a></mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="createdDate">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</mat-header-cell>

@@ -6,4 +6,6 @@ export class MultiSeamenInsert {
     joinPort:any;
     months:any;
     createdDate:any;
+    portname:any;
+    vesselname:any;
 }

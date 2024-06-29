@@ -4,4 +4,6 @@ export class RankShift {
     sDate:any;
     eDate:any;
     remarks:any;
+    rankname:any;
+    vesselname:any;
 }
