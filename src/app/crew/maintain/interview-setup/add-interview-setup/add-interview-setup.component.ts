@@ -133,15 +133,12 @@ export class AddInterviewSetupComponent implements OnInit {
             description: [element.description + ""]
           });
           dtlArray.insert(arrayLen, newUserGroup);
-          const interviewSetupIdControl = newUserGroup.get('interviewsetupid');
-          if (interviewSetupIdControl) {
-            interviewSetupIdControl.disable();
-          }
         });
       },
       error: (err) => console.log(err)
     });
   }
+  
 
   
 
