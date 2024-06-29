@@ -81,6 +81,7 @@ export class AddCrewVesselAssignmentComponent extends UnsubscribeOnDestroyAdapte
 
 
   docForm: FormGroup;
+  dataArray: FormArray;
   i: any = 1;
   isReset: boolean = false;
   mainList = [];
@@ -112,7 +113,6 @@ export class AddCrewVesselAssignmentComponent extends UnsubscribeOnDestroyAdapte
   requestId: number;
   payTcAmt: number;
   payBcAmt: number;
-  data: any;
   totalTCAmount: number;
   totalBCAmount: number;
   rowCollection: any;
@@ -120,6 +120,7 @@ export class AddCrewVesselAssignmentComponent extends UnsubscribeOnDestroyAdapte
   tcAmount: any;
   bcAmount: any;
   datasave: any;
+  
   // toggleCheck: boolean =false;
 
   constructor(private fb: FormBuilder,
@@ -140,7 +141,11 @@ public CrewVesselAssignmentService: CrewVesselAssignmentService,
       dateObj: [""],
       vessel: [""],
       rankcode:[""],
-
+      port:[""],
+      substituteName:[""],
+      rankSubstitute:[""],
+      assignRemarks:[""],
+      voyageRemarks:[""],
       data: this.fb.array([
         this.fb.group({
       rank: [""],
@@ -150,7 +155,9 @@ public CrewVesselAssignmentService: CrewVesselAssignmentService,
       voyageRemarks: [""],
       signoff:[""],
       signon:[""],
-     
+      onDate:[""],
+      rankSubstitute:[""],
+      substituteName:[""]
     })
 ]),
 })
@@ -162,6 +169,66 @@ public CrewVesselAssignmentService: CrewVesselAssignmentService,
   @ViewChild(MatMenuTrigger)
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
+
+
+    // Hardcoded data
+    data = [
+      {
+        rank: 'Master',
+        name: 'SEMUKA YEVGENIY',
+        signOn: '17/05/2024',
+        estSignOff: '17/09/2024',
+        onDate: '',
+        estSignOffDate: '',
+        substituteName: '',
+        rankSubstitute: '',
+        port: '',
+        voyageRemarks: '',
+        assignRemarks: ''
+      },
+      {
+        rank: 'Chief Officer',
+        name: 'BORCIC JAKOV',
+        signOn: '27/04/2024',
+        estSignOff: '27/08/2024',
+        onDate: '',
+        estSignOffDate: '',
+        substituteName: '',
+        rankSubstitute: '',
+        port: '',
+        voyageRemarks: '',
+        assignRemarks: ''
+      },
+      {
+        rank: 'Second Officer',
+        name: 'RANGGA SURYA ADI SETYA',
+        signOn: '10/06/2024',
+        estSignOff: '10/12/2024',
+        onDate: '',
+        estSignOffDate: '',
+        substituteName: '',
+        rankSubstitute: '',
+        port: '',
+        voyageRemarks: '',
+        assignRemarks: ''
+      },
+      // {
+      //   rank: 'Third Officer',
+      //   name: 'NOUR SERGIY',
+      //   signOn: '27/04/2024',
+      //   estSignOff: '27/10/2024',
+      //   onDate: '',
+      //   estSignOffDate: '',
+      //   substituteName: '',
+      //   rankSubstitute: '',
+      //   port: '',
+      //   voyageRemarks: '',
+      //   assignRemarks: ''
+      // }
+    ];
+  
+  
+     
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params.id != undefined && params.id != 0) {
@@ -217,14 +284,40 @@ this.nameFilterCtrl.valueChanges
 .subscribe(() => {
 this.filteritemnamelist();
 });
-
-
+   // Initialize your 'data' array with hardcoded values
+   this.data.forEach(crew => {
+    this.dataArray.push(this.createCrewFormGroup(crew));
+  });
 // this.fetchData();
   }
 
-  get dataArray(): FormArray {
-    return this.docForm.get('data') as FormArray;
+
+
+
+ 
+  
+
+  // Helper method to create FormGroup for each crew member
+  createCrewFormGroup(crew: any): FormGroup {
+    return this.fb.group({
+      rank: new FormControl(crew.rank),
+      name: new FormControl(crew.name),
+      signOn: new FormControl(crew.signOn),
+      estSignOff: new FormControl(crew.estSignOff),
+      onDate: new FormControl(crew.onDate),
+      estSignOffDate: new FormControl(crew.estSignOffDate),
+      substituteName: new FormControl(crew.substituteName),
+      rankSubstitute: new FormControl(crew.rankSubstitute),
+      port: new FormControl(crew.port),
+      voyageRemarks: new FormControl(crew.voyageRemarks),
+      assignRemarks: new FormControl(crew.assignRemarks)
+    });
   }
+
+  // get dataArray(): FormArray {
+  //   return this.docForm.get('data') as FormArray;
+  // }
+  
   
   fetchData() {
     this.httpService.get<any>(this.CrewVesselAssignmentService.getList).subscribe((res: any) => {
