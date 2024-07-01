@@ -231,7 +231,6 @@ this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){
       }
 
     nameChange(i){
-      debugger
         let rankList = this.nameList.find(dtl => dtl.id === this.docForm.value.multiseamendetail[i].name);
         let multiseamendetailDtlArray=this.docForm.controls.multiseamendetail as FormArray;
         if (rankList) {
@@ -242,6 +241,22 @@ this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){
       }   
 
       
+      if(i>0){
+        let multiseamendetailDtlArray=this.docForm.controls.multiseamendetail as FormArray;
+        let name = multiseamendetailDtlArray.value[i].name;
+        multiseamendetailDtlArray.controls.forEach((element :any) => {
+          if(element.value.name == name){
+            this.showNotification(
+              "snackbar-danger",
+              "Already Present",
+              "top",
+              "right"
+            );
+            multiseamendetailDtlArray.at(i).patchValue({ name: ''});
+
+          }
+        });
+      }
     // Fetch certificate data based on rankCode
     this.httpService.get<any>(this.multiSeamenInsertService.CheckValidUrl + "?id=" + rankList.rankId)
     .subscribe({
@@ -256,6 +271,7 @@ this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){
         console.error('Error fetching certificate data', error);
       }
     });
+
      }
 
    filteritemcurrencylist(){
