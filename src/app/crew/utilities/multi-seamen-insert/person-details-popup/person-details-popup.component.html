@@ -5,205 +5,307 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="box-shadow">
                     <div class="card">
-                        <div class="body" style="height: 73vh;">
+                        <div class="body">
                                          
                                 <form class="m-4" [formGroup]="docForm">
-                                    <h3>Seaman's Record Card</h3>
-                                    <h5>{{persondtls.name}} {{persondtls.surname}} For [{{persondtls.code}}]</h5>
-                                    <br>
-                                    <div class="row">
-                                    <div class="col">
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Surname:</b> {{ persondtls?.surname }}</label>
-                                        </div>
+                                <mat-tab-group>
+                                    <mat-tab label="Details">
                                         <br>
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Nationality:</b> {{ persondtls?.nationality }}</label>
-                                        </div>
+                                        <h3>Seaman's Record Card</h3>
+                                        <h5>{{persondtls.name}} {{persondtls.surname}} For [{{persondtls.code}}]</h5>
                                         <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Father:</b> {{ persondtls?.father }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Licence:</b> {{ persondtls?.licence }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Passport:</b> {{ persondtls?.passport }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>S.Book:</b> {{ persondtls?.chequeNO }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>US.Visa:</b> {{ persondtls?.chequeNO }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Decision Code:</b> {{ persondtls?.decision }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Status:</b> {{ persondtls?.workStatus }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Remarks:</b> {{ persondtls?.remarksOne }}</label>
-                                        </div>
-                                        <br>
-
-                                    </div>
-                                    <br>
-                                    <div class="col">
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Name:</b> {{ persondtls?.name }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Rank:</b> {{ persondtls?.rank }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Mother:</b> {{ persondtls?.mother }}</label>
-                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Surname:</b> {{ persondtls?.surname }}</label>
+                                                </div>
+                                                <br>
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Nationality:</b> {{ persondtls?.nationality }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Father:</b> {{ persondtls?.father }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Licence:</b> {{ persondtls?.licence }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Passport:</b> {{ persondtls?.passport }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>S.Book:</b> {{ persondtls?.chequeNO }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>US.Visa:</b> {{ persondtls?.chequeNO }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Decision Code:</b> {{ persondtls?.decision }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Status:</b> {{ persondtls?.workStatus }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Remarks:</b> {{ persondtls?.remarksOne }}</label>
+                                                </div>
+                                                <br>
+        
+                                            </div>
+                                            <br>
+                                            <div class="col">
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Name:</b> {{ persondtls?.name }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Rank:</b> {{ persondtls?.rank }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Mother:</b> {{ persondtls?.mother }}</label>
+                                                </div>
+                                                
+                                                <br>
+                                                
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Born Place:</b> {{ persondtls?.place }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Expiry:</b> {{ persondtls?.voucherNo }}</label>
+                                                </div>
+                                                <br>
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Expiry:</b> {{ persondtls?.chequeNO }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Number:</b> {{ persondtls?.chequeNO }}</label>
+        
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Agents:</b> {{ persondtls?.agent }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Health Status:</b> {{ persondtls?.health }}</label>
+        
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Religion:</b> {{ persondtls?.religion }}</label>
+        
+                                                </div>
+                                                <br>
+                                            </div>
                                         
+                                            <br>
+                                            <div class="col">
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Middle:</b> {{ persondtls?.middle }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Gender:</b> {{ persondtls?.gender }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Active:</b> {{ persondtls?.active }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+                                                    <label><b>Birth Date:</b> {{ persondtls?.birthDate }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Pr.Exp Voy:</b> {{ persondtls?.expMonth }}</label>
+                                                </div>
+                                                <br>
+        
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Pr.Exp M:</b> {{ persondtls?.noVoyage }}</label>
+                                                </div>
+                                                <br>
+        
+        
+                                                <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+                                                    <label><b>Last Sign Off:</b> {{ persondtls?.signedOff }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+                                                   <label><b>Available From:</b> {{ persondtls?.availableFrom }}</label>
+                                                </div>
+                                                <br>
+        
+                                              
+                                            </div>
+                                            <br>
+                                            <div class="col">
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <label><b>Code:</b> {{ persondtls?.code }}</label>
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <img src="/assets/images/defaultimage.png" jsaction="VQAsE" class="sFlh5c pT0Scc iPVvYb" style="max-width: 100px; height: 126px; margin: 0px; width: 126px; border: 2px solid black;" alt="defaultimage" jsname="kn3ccd" aria-hidden="false">                                    
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12"style="display: flex;justify-content: space-between;">
+                                                    <label><b>Age: </b> {{ persondtls?.age }}  years</label>
+                                                    
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
+                                                    <label><b>Company Service: </b> {{ persondtls?.compService }} years</label>
+                                                
+        
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
+                                                    <label><b>Total S.Service: </b> {{ persondtls?.seaService }} years</label>
+                                                    
+                                                </div>
+                                                <br>
+        
+                                                <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
+                                                    <label><b>Years in Rank: </b> {{ persondtls?.yearsInRank }} years</label>
+                                                    
+        
+                                                </div>
+                                            </div>
+                                            <br>
+                                        </div>
+
+                                    </mat-tab>
+
+                                    <mat-tab label="Check List">
                                         <br>
+                                        <div class="container">
+                                            <div class="budgerHeader center">
+                                                <h4>Checklist</h4>
+                                            </div>
+                                            <hr>
+                                         <div class="flex-sb">
+                                            <div>
+                                                <span style="background-color: #3e7540; height: 1vh; width: 1vh; display: inline-block; border-radius: 50%;margin-right: 0.5em; "></span>
+                                                <b  style="font-family: century gothic, sans-serif;">Valid</b>
+                                            </div>
                                         
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Born Place:</b> {{ persondtls?.place }}</label>
+                                            <div>
+                                                <span style="background-color: #923e37; height: 1vh; width: 1vh; display: inline-block; border-radius: 50%;margin-right: 0.5em;"></span>
+                                                <b  style="font-family: century gothic, sans-serif;">Expired</b>
+                                            </div>
+                                        
+                                            <div>
+                                                <span style="background-color: #93952b; height: 1vh; width: 1vh; display: inline-block; border-radius: 50%;margin-right: 0.5em;"></span>
+                                                <b  style="font-family: century gothic, sans-serif;">Expiring in voyage</b>
+                                            </div>
+                                         </div>
+                                         <hr>
+                                        
+                                         <style>
+                                            .bg-green{
+                                                background-color: #3e7540;
+                                                color: white;
+                                                padding: 5px;
+                                                border-radius: 5px;
+                                            }
+                                        
+                                            .bg-red{
+                                                background-color: #923e37 !important;
+                                                color: white;
+                                                padding: 5px;
+                                                border-radius: 5px;
+                                            }
+                                        
+                                            .bg-yellow{
+                                                background-color: #93952b !important;
+                                                color: white;
+                                                padding: 5px;
+                                                border-radius: 5px;
+                                            }
+                                        
+                                            .header{
+                                                background: #878787 !important;
+                                                padding: 5px;
+                                                border-radius: 3px;
+                                                color: white;
+                                            }
+                                        
+                                            .document-section {
+                                               margin-bottom: 0.5em; 
+                                            }  
+                                         </style>
+                                        
+                                         <div *ngIf="bookDtls.pExpiry != null || bookDtls.sExpiry != null">
+                                            <h5 class="header center">Documents</h5>
+                                            <div *ngIf="bookDtls.pExpiry" class="document-section flex-sb" [ngClass]="{'bg-red': isExpired(bookDtls.pExpiry), 'bg-green': !isExpired(bookDtls.pExpiry)}">
+                                                <div>
+                                                  <b style="font-family: century gothic, sans-serif;">Passport : </b>
+                                                </div>
+                                                <div>
+                                                    <b style="font-family: century gothic, sans-serif;">Expires on : {{bookDtls.pExpiry}}</b>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="bookDtls.sExpiry" class="document-section flex-sb" [ngClass]="{'bg-red': isExpired(bookDtls.sExpiry), 'bg-green': !isExpired(bookDtls.sExpiry)}">
+                                                <div>
+                                                    <b style="font-family: century gothic, sans-serif;">S.book : </b>
+                                                </div>
+                                                <div>
+                                                      <b style="font-family: century gothic, sans-serif;">Expires on : {{bookDtls.sExpiry}}</b>
+                                                </div>
+                                            </div>
+                                         </div>
+                                         <hr>
+                                         <h5 class="header center" *ngIf="certificateList.length > 0">Certificates</h5>
+                                         <div *ngFor="let item of certificateList">
+                                            <div class="document-section" [ngClass]="{'bg-red': item.inValid, 'bg-green': item.valid, 'bg-yellow': item.optional}">
+                                                <b style="font-family: century gothic, sans-serif;">{{item.name}}</b>
+                                            </div>
+                                         </div>
+                        
                                         </div>
-                                        <br>
 
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Expiry:</b> {{ persondtls?.voucherNo }}</label>
-                                        </div>
-                                        <br>
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Expiry:</b> {{ persondtls?.chequeNO }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Number:</b> {{ persondtls?.chequeNO }}</label>
-
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Agents:</b> {{ persondtls?.agent }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Health Status:</b> {{ persondtls?.health }}</label>
-
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Religion:</b> {{ persondtls?.religion }}</label>
-
-                                        </div>
-                                        <br>
-                                    </div>
-                                
-                                    <br>
-                                    <div class="col">
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Middle:</b> {{ persondtls?.middle }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Gender:</b> {{ persondtls?.gender }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Active:</b> {{ persondtls?.active }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
-                                            <label><b>Birth Date:</b> {{ persondtls?.birthDate }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Pr.Exp Voy:</b> {{ persondtls?.expMonth }}</label>
-                                        </div>
-                                        <br>
-
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Pr.Exp M:</b> {{ persondtls?.noVoyage }}</label>
-                                        </div>
-                                        <br>
-
-
-                                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
-                                            <label><b>Last Sign Off:</b> {{ persondtls?.signedOff }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
-                                           <label><b>Available From:</b> {{ persondtls?.availableFrom }}</label>
-                                        </div>
-                                        <br>
-
-                                      
-                                    </div>
-                                    <br>
-                                    <div class="col">
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <label><b>Code:</b> {{ persondtls?.code }}</label>
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <img src="/assets/images/defaultimage.png" jsaction="VQAsE" class="sFlh5c pT0Scc iPVvYb" style="max-width: 100px; height: 126px; margin: 0px; width: 126px; border: 2px solid black;" alt="defaultimage" jsname="kn3ccd" aria-hidden="false">                                    
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12"style="display: flex;justify-content: space-between;">
-                                            <label><b>Age: </b> {{ persondtls?.age }}  years</label>
-                                            
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
-                                            <label><b>Company Service: </b> {{ persondtls?.compService }} years</label>
+                                         
+                                        
                                         
 
-                                        </div>
-                                        <br>
+                                    </mat-tab>
 
-                                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
-                                            <label><b>Total S.Service: </b> {{ persondtls?.seaService }} years</label>
-                                            
-                                        </div>
-                                        <br>
-
-                                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12" style="display: flex;justify-content: space-between;">
-                                            <label><b>Years in Rank: </b> {{ persondtls?.yearsInRank }} years</label>
-                                            
-
-                                        </div>
-                                    </div>
-                                    <br>
-                                </div>
+                                </mat-tab-group>
+                                <br>
                                     <div class="row">
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3 center">
                                             <button class="cancelBtn" type="button" mat-button (click)="onCancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>

@@ -501,7 +501,7 @@ this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){
 
     const dialogRef = this.dialog.open(PersonDetailsPopupComponent, {
       data: row,
-      height: "85%",
+      height: "95%",
       width: "80%",
       direction: tempDirection,
       disableClose: true
