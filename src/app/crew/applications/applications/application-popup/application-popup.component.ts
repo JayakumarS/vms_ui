@@ -183,7 +183,12 @@ export class ApplicationPopupComponent implements OnInit {
       });
     }
     
-
+    onFileSelected(event: any) {
+      const file: File = event.target.files[0];
+      if (file) {
+        console.log('Selected file:', file.name);
+      }
+    }
    
   check(certificateIndex: number, nameIndex: number, value: string, type: string) {
     if (type === 'regular') {

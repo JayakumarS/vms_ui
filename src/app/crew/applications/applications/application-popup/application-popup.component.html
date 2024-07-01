@@ -1,10 +1,10 @@
  <div class="border-container"> 
   <!-- <h6 style="margin-left: 39%; color: #4694c6; font-size: 19px;">Application Certificates</h6> -->
   <h6 *ngIf="certificateList.length > 0"class="certificates-header">Certificates</h6>
-  <br><br>
+  <br>
   <div class="row">
     <div *ngFor="let certificate of certificateList; let certificateIndex = index" class="col-md-12">
-      <div *ngFor="let nameObj of certificate.splitCertificateNames; let nameIndex = index" class="row">
+      <div *ngFor="let nameObj of certificate.splitCertificateNames; let nameIndex = index"  class="row certificate-item">
         <div class="col-md-1">
           <label><b>{{certificateIndex+1}}</b></label>
         </div>
@@ -12,8 +12,8 @@
           <label><b>{{nameObj.name}}</b></label>
         </div>
 
-        <div *ngIf=edit  class="col-md-3">
-          <div [ngClass]="{
+        <div *ngIf=edit style="padding:2px;" class="col-md-3">
+          <div  [ngClass]="{
             'badge-solid-green': nameObj.mandatoryFlag,
             'badge-solid-red': nameObj.mandatoryInvalidFlag,
             'badge-solid-yellow': nameObj.optionalFlag
@@ -24,21 +24,21 @@
         </div>
        
         <div class="col-md-2">
-          <label class="checkbox-container mandatory-valid" style="font-size: 16px;">
+          <label class="checkbox-container mandatory-valid" style="font-size: 13px;">
             <input type="checkbox" (click)="check(certificateIndex, nameIndex, 'mandatoryValidCheckbox', 'regular')" [checked]="nameObj.mandatoryFlag">
             <span class="checkmark"></span>
             Mandatory Valid
           </label>
         </div>
         <div class="col-md-2">
-          <label class="checkbox-container mandatory-invalid" style="font-size: 14px;">
+          <label class="checkbox-container mandatory-invalid" style="font-size: 13px;">
             <input type="checkbox"   (click)="check(certificateIndex, nameIndex, 'mandatoryInvalidCheckbox', 'regular')" [checked]="nameObj.mandatoryInvalidFlag">
             <span class="checkmark"></span>
             Mandatory Invalid
           </label>
         </div>
         <div class="col-md-2">
-          <label class="checkbox-container optional-invalid" style="font-size: 14px;">
+          <label class="checkbox-container optional-invalid" style="font-size: 13px;">
             <input type="checkbox"   (click)="check(certificateIndex, nameIndex, 'optionalInvalidCheckbox', 'regular')" [checked]="nameObj.optionalFlag">
             <span class="checkmark"></span>
             Optional Invalid
@@ -51,11 +51,12 @@
       </div>
     </div>
   </div>
+  <br>
   <h6 *ngIf="MedicalcertificateList.length > 0" class="medical-certificates-header">Medical Certificates</h6>
-  <br><br>
+  <br>
   <div class="row">
     <div *ngFor="let certificate of MedicalcertificateList; let certificateIndex = index" class="col-md-12">
-      <div *ngFor="let mnameObj of certificate.splitCertificateMedicalNames; let nameIndex = index" class="row">
+      <div *ngFor="let mnameObj of certificate.splitCertificateMedicalNames; let nameIndex = index" class="row medical-certificate-item">
         <div class="col-md-1">
           <label><b>{{certificateIndex+1}}</b></label>
         </div>
@@ -77,29 +78,30 @@
       </div>
         
         <div class="col-md-2">
-          <label class="checkbox-container mandatory-valid" style="font-size: 16px;">
+          <label class="checkbox-container mandatory-valid" style="font-size: 13px;">
             <input type="checkbox" (click)="check(certificateIndex, nameIndex, 'mandatoryValidCheckbox', 'medical')" [checked]="mnameObj.mmandatoryFlag">
             <span class="checkmark"></span>
             Mandatory Valid
           </label>
         </div>
         <div class="col-md-2">
-          <label class="checkbox-container mandatory-invalid" style="font-size: 14px;">
+          <label class="checkbox-container mandatory-invalid" style="font-size: 13px;">
             <input type="checkbox"(click)="check(certificateIndex, nameIndex, 'mandatoryInvalidCheckbox', 'medical')" [checked]="mnameObj.mmandatoryInvalidFlag">
             <span class="checkmark"></span>
             Mandatory Invalid
           </label>
         </div>
         <div class="col-md-2">
-          <label class="checkbox-container optional-invalid" style="font-size: 14px;">
+          <label class="checkbox-container optional-invalid" style="font-size: 13px;">
             <input type="checkbox" (click)="check(certificateIndex, nameIndex, 'optionalInvalidCheckbox', 'medical')" [checked]="mnameObj.moptionalFlag">
             <span class="checkmark"></span>
             Optional Invalid
           </label>
         </div>
         <div class="col-md-1">
-          <i class="fa fa-upload"style="color:#565691" matTooltip="file-upload"></i>
-         </div>
+          <i class="fa fa-upload" style="color:#565691" matTooltip="file-upload" (click)="fileInput.click()"></i>
+          <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;">
+        </div>
       </div>
     </div>
   </div>
