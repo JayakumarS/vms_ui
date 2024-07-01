@@ -27,7 +27,7 @@ export class ViewInterviewSetupComponent implements OnInit {
   ) {
     this.docForm=this.fb.group({
       rankname:[""],
-      description:[""]
+      descriptiondtl:[""]
     })
    }
 
