@@ -14,6 +14,7 @@ import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { EncryptionService } from 'src/app/core/service/encrypt.service';
 import { NotificationService } from 'src/app/core/service/notification.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { UnitsPackingsService } from '../units-packings.service';
 
 @Component({
   selector: 'app-add-units-packings',
@@ -26,7 +27,8 @@ export class AddUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter imple
   docForm: FormGroup;
   unitGroupList: any[];
   conversionFactor: FormControl;
-
+  edit:boolean=false;
+  uomList:any=[];
 
   constructor(
     private router: Router,
@@ -44,35 +46,61 @@ export class AddUnitsPackingsComponent extends UnsubscribeOnDestroyAdapter imple
     private spinner: NgxSpinnerService,
     private authService: AuthService,
     private EncrDecr: EncrDecrService,
+    public unit:UnitsPackingsService
   ) {
     super();
     this.docForm = this.formbuilder.group({
-      firstDetailRow: this.formbuilder.array([
-        this.formbuilder.group({
-          select: [""],
-          id: [1],
-          impaUnit: [""],
-          abbreviation: [""],
-          conversionFactor: [""],
-          interfaceCode: [""],
-          shipservUnit: [""],
-          procureShipUnit: [""],
-          mespasUnit: [""]
-        
-        })
-      ]),
+      id: [""],
+      impaUnit: [""],
+      abbreviation: [""],
+      conversionFactor: [""],
+      interfaceCode: [""],
+      shipservUnit: [""],
+      procureShipUnit: [""],
+      mespasUnit: [""],
+      unitGroup:[""]
     })
-
-
   }
 
   ngOnInit(): void {
     this.conversionFactor = new FormControl(1);
     this.unitGroupList = [{ id: 1, text: "Energy" }, { id: 2, text: "Kgr" }, { id: 3, text: "LT" }, { id: 4, text: "M" }, { id: 5, text: "M2" }, { id: 6, text: "Pc" }, { id: 7, text: "Time" }];
-  }
-  Cancel() {
-    this.router.navigate(['/supplies/maintain/units-packings/list-units-packings']);
 
+    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ 
+      this.edit=true;
+      this.fetchDetails(params.id) ;
+     }
+    });
+
+    this.getUomList();
+    this.generateCode();
+  }
+
+  getUomList(){
+    this.httpService.get(this.unit.uomUrl).subscribe({next: (res: any) => {
+      this.uomList = res.lCommonUtilityBean;
+    }, error: (err) => console.log(err)
+  });
+  }
+
+  generateCode(){
+    if(!this.edit){
+      this.httpService.get(this.unit.generateCodeUrl).subscribe({next: (res: any) => {
+        console.log(res);
+          this.docForm.patchValue({
+            'id':res.code
+          })
+      }, error: (err) => console.log(err)
+    });
+    }
+  }
+
+  fetchDetails(id){
+
+  }
+
+  cancel() {
+    this.router.navigate(['/supplies/maintain/units-packings/list-units-packings']);
   }
   
 

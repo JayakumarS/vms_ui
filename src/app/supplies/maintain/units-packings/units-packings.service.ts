@@ -12,6 +12,9 @@ import { HttpServiceService } from 'src/app/auth/http-service.service';
 export class UnitsPackingsService extends UnsubscribeOnDestroyAdapter {
   isTblLoading = true;
   dataChange: BehaviorSubject<UnitsPackings[]> = new BehaviorSubject<UnitsPackings[]>([]);
+
+  public generateCodeUrl = `${this.serverUrl.apiServerAddress}api/supplies/unitsPacking/generateCode`;
+  public uomUrl = `${this.serverUrl.apiServerAddress}api/common/getUom`;
   
   constructor(
     private httpClient: HttpClient,

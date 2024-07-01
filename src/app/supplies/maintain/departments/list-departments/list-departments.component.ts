@@ -13,6 +13,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
+import { NotificationService } from 'src/app/core/service/notification.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { DeleteComponent } from 'src/app/crew/applications/applications/list-applications/delete/delete.component';
 
 @Component({
   selector: 'app-list-departments',
@@ -22,25 +25,10 @@ import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 export class ListDepartmentsComponent  extends UnsubscribeOnDestroyAdapter implements OnInit {
 
   displayedColumns = [
-   "code",
-    "department",
-    "formType",
-    "decimals",
-    "itemsToOrderCommends",
-    "itemsNotToOrderCommends",
-    "availableOffice",
-    "availableVessel",
-    "officeUndefinedItemsS",
-    "vesselUndefinedItemsS",
-    "proposedItems",
-   "officeUndefinedItemsL",
-    "vesselUndefinedItemsL",
-    "lockSupplyCaseswithinvoicedate",
-    "vesselOrders",
-    "tolerance",
-    "minimumItems",
+     "code",
+     "department",
+    //  "formType",
      "actions"
-   
   ];
 
  dataSource: ExampleDataSource | null;
@@ -56,7 +44,8 @@ export class ListDepartmentsComponent  extends UnsubscribeOnDestroyAdapter imple
    private serverUrl:serverLocations,
    private httpService:HttpServiceService,
    public router: Router,
-   private cdr: ChangeDetectorRef
+   private notificationService: NotificationService,
+   private spinner: NgxSpinnerService
  ) {
    super();
  }
@@ -73,12 +62,56 @@ export class ListDepartmentsComponent  extends UnsubscribeOnDestroyAdapter imple
  }
 
  editCall(id){
-
+  this.router.navigate(['/supplies/maintain/departments/add-departments/'+id])
  }
 
- deleteItem(id){
+ deleteItem(row){
+  let tempDirection;
+  if (localStorage.getItem("isRtl") == "true") {
+    tempDirection = "rtl";
+  } else {
+    tempDirection = "ltr";
+  }
 
- }
+  const dialogRef = this.dialog.open(DeleteComponent, {
+    height: "270px",
+    width: "400px",
+    data: row.code,
+    direction: tempDirection,
+  });
+  this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
+  if (data.data == true) {
+    this.spinner.show();
+    this.departmentsService.delete(row.code).subscribe({
+      next: (data) => {
+        this.spinner.hide();
+        if (data.success) {
+          this.loadData();
+          this.notificationService.showNotification(
+            "snackbar-success",
+            "Record Deleted",
+            "bottom",
+            "center"
+          );
+        }
+        else{
+          this.notificationService.showNotification(
+            "snackbar-danger",
+            "Unable to delete",
+            "bottom",
+            "center"
+          );
+        }
+      },
+      error: (error) => {
+        this.spinner.hide();
+      }
+    });
+  }else{
+    //this.loadData();
+  }
+  })
+}
 
  public loadData() {
    this.exampleDatabase = new DepartmentsService(this.httpClient,this.serverUrl,this.httpService);

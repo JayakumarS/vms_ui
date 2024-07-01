@@ -12,6 +12,13 @@ import { BehaviorSubject } from 'rxjs';
 export class DepartmentsService extends UnsubscribeOnDestroyAdapter{
   isTblLoading = true;
   dataChange: BehaviorSubject<Departments[]> = new BehaviorSubject<Departments[]>([]);
+
+  public generateCodeUrl = `${this.serverUrl.apiServerAddress}api/supplies/supplieDepartment/generateCode`;
+  public saveUrl = `${this.serverUrl.apiServerAddress}api/supplies/supplieDepartment/save`;
+  public editUrl = `${this.serverUrl.apiServerAddress}api/supplies/supplieDepartment/edit`;
+  public updateUrl = `${this.serverUrl.apiServerAddress}api/supplies/supplieDepartment/update`;
+  public listUrl = `${this.serverUrl.apiServerAddress}api/supplies/supplieDepartment/list`;
+  public deleteUrl = `${this.serverUrl.apiServerAddress}api/supplies/supplieDepartment/delete`;
   
   constructor(
     private httpClient: HttpClient,
@@ -25,20 +32,60 @@ export class DepartmentsService extends UnsubscribeOnDestroyAdapter{
     return this.dataChange.value;
   }
 
-  getList(){
-    let value,url;
-    let list = [{code:"AG",department:"AGENCY FEES",formType:"Provisions/Stores",decimals:"0.00",itemsToOrderCommends:"",itemsNotToOrderCommends:"",availableOffice:"YES",availableVessel:"NO",officeUndefinedItemsS:"YES",vesselUndefinedItemsS:"YES",proposedItems:"NO",officeUndefinedItemsL:"YES",vesselUndefinedItemsL:"YES",lockSupplyCaseswithinvoicedate:"brfore",vesselOrders:"NO",tolerance:"",minimumItems:""}];
-    this.isTblLoading = false;
-    this.dataChange.next(list);
-    // this.subs.sink = this.httpService.post<any>(url,value).subscribe(
-    //   (data) => {
-    //     this.isTblLoading = false;
-    //     this.dataChange.next(list);
-    //   },
-    //   (error: HttpErrorResponse) => {
-    //     this.isTblLoading = false;
-    //     console.log(error.name + " " + error.message);
-    //   }
-    // );
+  getList() {
+    this.isTblLoading = true; 
+    this.httpService.get<any>(this.listUrl).subscribe({next: (data: any) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data.list);
+      }, error: (err) => console.log(err)
+     });
+  }
+
+  save(dep: any, router, notificationService){
+    this.httpService.post<any>(this.saveUrl, dep).subscribe({next: (data: any) => {
+      if (data.success == true) {
+        notificationService.showNotification(
+          "snackbar-success",
+          "Record Added Successfully",
+          "bottom",
+          "center"
+        );
+        router.navigate(['/supplies/maintain/departments/list-departments']);
+      }else{
+        notificationService.showNotification(
+          "snackbar-danger",
+          "Not Updated",
+          "bottom",
+          "center"
+        );
+      }
+      }, error: (err) => console.log(err)
+     });
+  }
+
+  update(dep: any, router, notificationService){
+    this.httpService.post<any>(this.updateUrl, dep).subscribe({next: (data: any) => {
+      if (data.success == true) {
+        notificationService.showNotification(
+          "snackbar-success",
+          "Record Added Successfully",
+          "bottom",
+          "center"
+        );
+        router.navigate(['/supplies/maintain/departments/list-departments']);
+      }else{
+        notificationService.showNotification(
+          "snackbar-danger",
+          "Not Updated",
+          "bottom",
+          "center"
+        );
+      }
+      }, error: (err) => console.log(err)
+     });
+  }
+
+  delete(id){
+    return this.httpClient.get<any>(this.deleteUrl + "?id=" + id);
   }
 }

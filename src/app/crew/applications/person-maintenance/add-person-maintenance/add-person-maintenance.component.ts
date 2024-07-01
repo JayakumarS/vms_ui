@@ -261,6 +261,7 @@ export class AddPersonMaintenanceComponent extends UnsubscribeOnDestroyAdapter i
 
       this.docForm.patchValue({
         'code':res.crewMasterDtls.code,
+        'applCode':res.crewMasterDtls.applCode,
         'surname':res.crewMasterDtls.surname,
         'name':res.crewMasterDtls.name,
         'middle':res.crewMasterDtls.middle,
