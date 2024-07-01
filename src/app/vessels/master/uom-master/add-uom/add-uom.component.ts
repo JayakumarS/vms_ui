@@ -36,7 +36,7 @@ export class AddUomComponent implements OnInit {
 
     this.docForm = this.fb.group({
       uomId: [""],
-      uomCode: ["", [Validators.required]],
+      uomCode: [""],
       uomName: ["", [Validators.required]]
    
     });
@@ -44,6 +44,26 @@ export class AddUomComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    if(this.edit!=true){
+      this.httpService.get<any>(this.uomMasterService.getsequencecode).subscribe((res: any) => {
+        this.docForm.patchValue({
+          'uomCode':res.uomCode
+        })
+      })
+    }
+    else{
+      //
+    }
+
+    this.route.queryParams.subscribe(queryParams => {
+      if (queryParams.code !== undefined) {
+        this.docForm.patchValue({
+         'uomCode':queryParams.uomCode
+       })
+        this.docForm.value.uomCode = queryParams.code;
+     }
+    });
 
     this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ 
       this.requestId = params.id;
@@ -75,8 +95,8 @@ export class AddUomComponent implements OnInit {
       // console.log(countryCode);
 
       this.docForm.patchValue({
-        'uomCode': res.list[0].uomCode,
-        'uomName': res.list[0].uomName,
+        'uomCode': res.uomBean.uomCode,
+        'uomName': res.uomBean.uomName,
       })
     },
       (err: HttpErrorResponse) => {

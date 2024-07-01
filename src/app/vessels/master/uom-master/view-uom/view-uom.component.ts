@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { UomMasterService } from '../uom-master.service';
 import { UOMMaster } from '../uom-master.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -9,6 +9,7 @@ import { HttpServiceService } from 'src/app/auth/http-service.service';
 import { serverLocations } from 'src/app/auth/serverLocations';
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { EncryptionService } from 'src/app/core/service/encrypt.service';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-view-uom',
@@ -32,40 +33,32 @@ export class ViewUomComponent implements OnInit {
     public route: ActivatedRoute,
     public EncrDecr: EncrDecrService,
     private serverUrl:serverLocations,
+    public dialogRef :MatDialogRef<ViewUomComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private encryptionService:EncryptionService) { 
 
       this.docForm = this.fb.group({
         // first: ["", [Validators.required, Validators.pattern("[a-zA-Z]+")]],
-        uomCode: ["", [Validators.required]],
-        uomName: ["", [Validators.required]]
+        uomCode: [""],
+        uomName: [""]
      
       });
   }
   
    ngOnInit() {
-    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){
-     this.requestId = params.id;
-       this.edit=true;
-       //For User login Editable mode
-       this.fetchDetails(this.requestId) ;
+    this.fetchDetails(this.data);
 
-      }
-     });
    }
-
-  fetchDetails(portCode: any): void {
-    this.httpService.get(this.uomMasterService.editUomMaster + "?id="+portCode).subscribe((res: any) => {
-      // console.log(countryCode);
-      this.uomDetailItemList = res.list[0];
-    },
-      (err: HttpErrorResponse) => {
-      }
-    );
    
+  fetchDetails(id){
+    this.httpService.get<any>(this.uomMasterService.editUomMaster+"?id="+id).subscribe({next: (data: any) => {
+      this.uomDetailItemList = data.uomBean;
+      }, error: (err) => console.log(err)
+     });
   }
   
  
   onCancel(){
-    this.router.navigate(['/vessels/master/uom-Master/list-uom']);
+    this.dialogRef.close();
   }
 }

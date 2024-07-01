@@ -17,6 +17,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import { DeleteUomComponent } from '../delete-uom/delete-uom.component';
+import { ViewUomComponent } from '../view-uom/view-uom.component';
 
 @Component({
   selector: 'app-list-uom',
@@ -89,11 +90,27 @@ export class ListUomComponent extends UnsubscribeOnDestroyAdapter {
   }
 
   viewCall(row) {
-    this.router.navigate(['/vessels/master/uom-Master/view-uom', row.uomId]);
+    // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.countryCode);
+    let rowId = row.uomId
+    let tempDirection;
+    if (localStorage.getItem("isRtl") == "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(ViewUomComponent, {
+      height: "300px",
+      width: "450px",
+      data: rowId,
+      direction: tempDirection,
+      disableClose: true 
+
+    });
   }
 
   deleteItem(row){ 
-    this.id = row.uomCode;
+    this.id = row.uomId;
     let tempDirection;
     if (localStorage.getItem("isRtl") === "true") {
       tempDirection = "rtl";
@@ -125,7 +142,7 @@ export class ListUomComponent extends UnsubscribeOnDestroyAdapter {
             else{
               this.showNotification(
                 "snackbar-danger",
-                "You Can't Delete Related Data Exist...!!!",
+                data.message,
                 "bottom",
                 "center"
               );

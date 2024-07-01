@@ -16,20 +16,20 @@
                   </div>
                     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                       <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>UOM Code</mat-label>
-                        <input matInput formControlName="uomCode" >
+                        <mat-label>Id</mat-label>
+                        <input matInput formControlName="uomCode" readonly >
                         <mat-error *ngIf="docForm.get('uomCode').hasError('required')">
-                          Surname is required
+                          Id is required
                         </mat-error>
                       </mat-form-field>
                     </div>
   
                     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                        <mat-label>UOM Name</mat-label>
-                        <input matInput formControlName="uomName">
+                        <mat-label>UOM Code</mat-label>
+                        <input matInput formControlName="uomName" required>
                         <mat-error *ngIf="docForm.get('uomName').hasError('required')">
-                            Name is required
+                            UOM Code is required
                         </mat-error>
                         </mat-form-field>
                     </div>

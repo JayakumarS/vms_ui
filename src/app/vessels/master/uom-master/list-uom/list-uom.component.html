@@ -47,11 +47,11 @@
                 #exporter="matTableExporter">
                 
                 <ng-container matColumnDef="uomCode">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>UOM Code</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
                   <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.uomCode}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="uomName">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>UOM Name</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>UOM Code</mat-header-cell>
                   <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.uomName}}</mat-cell>
                 </ng-container>
                              

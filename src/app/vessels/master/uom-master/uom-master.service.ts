@@ -27,7 +27,8 @@ export class UomMasterService extends UnsubscribeOnDestroyAdapter{
   public deleteUomUrl = `${this.serverUrl.apiServerAddress}api/master/uom/deleteUom`;
   public editUomMaster = `${this.serverUrl.apiServerAddress}api/master/uom/editUom`;
   public updateUomMaster = `${this.serverUrl.apiServerAddress}api/master/uom/updateUom`;
-  private saveUomMaster = `${this.serverUrl.apiServerAddress}api/master/uom/saveUom`;
+  public saveUomMaster = `${this.serverUrl.apiServerAddress}api/master/uom/saveUom`;
+  public getsequencecode = `${this.serverUrl.apiServerAddress}api/master/uom/getSequenceCode`;
 
   get data(): UOMMaster[] {
     return this.dataChange.value;
@@ -99,8 +100,9 @@ export class UomMasterService extends UnsubscribeOnDestroyAdapter{
       }
   });
 }
-UomDelete(uomCode: any): Observable<any>  {
-  return  this.httpClient.get<any>(this.deleteUomUrl+"?id="+uomCode);
-};
+
+UomDelete(id){
+  return this.httpClient.get<any>(this.deleteUomUrl + "?id=" + id);
+}
 
 }
