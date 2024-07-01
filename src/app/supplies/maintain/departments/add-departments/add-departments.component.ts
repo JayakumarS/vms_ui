@@ -51,6 +51,7 @@ export class AddDepartmentsComponent extends UnsubscribeOnDestroyAdapter  implem
       this.docForm = this.fb.group({
         select: [""],
         code: [""],
+        depCode:[""],
         department: [""],
         formType: [""],
         decimals: [""],
@@ -102,7 +103,8 @@ export class AddDepartmentsComponent extends UnsubscribeOnDestroyAdapter  implem
       let invDate = this.commonService.getDateObj(res.departmentDtls.lscInvoiceDate == null ? "" : res.departmentDtls.lscInvoiceDate);
 
       this.docForm.patchValue({
-        'code':res.departmentDtls.code,
+        'depCode':res.departmentDtls.depCode,
+        'code':id,
         'department':res.departmentDtls.department,
         'formType':res.departmentDtls.formType,
         'itemsToOrderComments':res.departmentDtls.itemsToOrderComments,
@@ -131,6 +133,7 @@ export class AddDepartmentsComponent extends UnsubscribeOnDestroyAdapter  implem
 
   save(){
     if(this.docForm.valid){
+      this.docForm.value.depCode = this.docForm.value.depCode.toUpperCase();
       this.departmentsService.save(this.docForm.value, this.router, this.notificationService);
     }else{
       this.showNotification(

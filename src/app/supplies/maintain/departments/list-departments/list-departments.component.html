@@ -50,7 +50,7 @@
                   
                   <ng-container matColumnDef="code">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Code</mat-header-cell>
-                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.code}}</mat-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">{{row.depCode}}</mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="department">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Department Name</mat-header-cell>
