@@ -45,7 +45,18 @@ export class AddIceClassComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.edit!=true){
+    this.getIceClassCode();
+   
+
+    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ 
+      this.edit=true;
+      this.fetchDetails(params.id) ;
+     }
+    });
+
+  }
+  getIceClassCode(){
+    if(!this.edit){
       this.httpService.get<any>(this.iceservice.getSequenceCode).subscribe((res: any) => {
         this.docForm.patchValue({
           'code':res.code
@@ -55,25 +66,6 @@ export class AddIceClassComponent implements OnInit {
     else{
       //
     }
-
-     this.route.queryParams.subscribe(queryParams => {
-       if (queryParams.code !== undefined) {
-         this.docForm.patchValue({
-          'code':queryParams.code
-        })
-         this.docForm.value.code = queryParams.code;
-      }
-     });
-
-    this.route.params.subscribe(params => {
-      if (params.id != undefined && params.id != 0) {
-        // this.decryptRequestId = params.id;
-        this.requestId = params.id;
-        this.edit = true;
-        this.fetchDetails(this.requestId);
-      }
-    });
-
   }
 
 

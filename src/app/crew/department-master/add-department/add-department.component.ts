@@ -53,36 +53,29 @@ export class AddDepartmentComponent implements OnInit {
         this.deptheadlist = data.lCommonUtilityBean;
       }, 
     );
-
-    if(this.edit!=true){
-      this.httpService.get<any>(this.departmentService.getSequenceCode).subscribe((res: any) => {
-        this.docForm.patchValue({
-          'code':res.code
-        })
-      })
-    }
-
-    this.route.params.subscribe(params => {
-      if (params.id != undefined && params.id != 0) {
-        // this.decryptRequestId = params.id;
-        this.requestId = params.id;
-        this.edit = true;
-        this.fetchDetails(this.requestId);
-      }
-    });
     
-    //this.route.queryParams.subscribe(queryParams => {
-      //if (queryParams.code !== undefined) {
-        //this.docForm.patchValue({
-          //'code':queryParams.code
-       // })
-        //this.docForm.value.code = queryParams.code;
-      //}
-   // });
+    this.route.params.subscribe(params => {if(params.id!=undefined && params.id!=0){ 
+      this.edit=true;
+      this.fetchDetails(params.id) ;
+     }
+    });
 
-   
-
+    this.getDeptCode();
+  
   }
+
+  getDeptCode(){
+    if(!this.edit){
+      this.httpService.get(this.departmentService.getSequenceCode).subscribe({next: (res: any) => {
+        console.log(res);
+          this.docForm.patchValue({
+            'code':res.code
+          })
+      }, error: (err) => console.log(err)
+    });
+    }
+  }
+
   fetchDetails(id: any) {
 
     this.httpService.get(this.departmentService.editUrl + "?id=" + id).subscribe((res: any) => {
