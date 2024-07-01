@@ -135,7 +135,7 @@ export class UdeListComponent implements OnInit {
   udelist: udelist;
   currencyList=[];
   edit:boolean=false;
-  fleetlist:any;
+  fleetlist: any[] = [];
   udetypelist:any;
   casecloselist:any;
   Categorieslist:any;
@@ -184,6 +184,9 @@ export class UdeListComponent implements OnInit {
     public snackBar: MatSnackBar) { 
 
     this.docForm = this.fb.group({
+      nation :[""],
+      categories:[""],
+      udetype:[""],
       checkbox:[true],
       active:[""],
       inactive:[""],
@@ -278,14 +281,8 @@ this.departmentList=[
 
     ];
     
-    this.prefixFilteredOptions.next(this.prefixlist.slice());
 
-// listen for origin List  search field value changes
-this.prefixFilterCtrl.valueChanges
-  .pipe(takeUntil(this.onDestroy))
-  .subscribe(() => {
-    this.filteritemprefixlist();
-  });
+
 
 
   this.activelist = [
@@ -335,22 +332,11 @@ this.departmentFilterCtrl.valueChanges
 this.filteritemdepartmentlist();
 });
 
+this.fleetdatalist();
 
-this.fleetlist = [
-  { id: "GFS SHIP MANAGEMENT FZE", text: "GFS SHIP MANAGEMENT FZE" },
-  { id: "INTERWORLD", text: "INTERWORLD" },
-  { id: "SAFEEN RORO", text: "SAFEEN RORO" },
-    
-];
 
-this.fleetFilteredOptions.next(this.fleetlist.slice());
 
-// listen for origin List  search field value changes
-this.fleetFilterCtrl.valueChanges
-.pipe(takeUntil(this.onDestroy))
-.subscribe(() => {
-this.filteritemfleetlist();
-});
+
 
 
 this.vesseltypelist = [
@@ -702,7 +688,13 @@ this.filteritemsuperintendentlist();
 
 
    }
-
+   fleetdatalist(){
+    this.httpService.get<any>(this.UdeListService.getfleet).subscribe((res: any) => {
+  
+      this.fleetlist = res.lCommonUtilityBean;
+  
+    });
+  }
    toggleFleet() {
     // Toggle the state of sliderChecked FormControl
     this.sliderChecked = !this.sliderChecked;
@@ -1081,23 +1073,7 @@ this.filteritemsuperintendentlist();
       this.vesseltypelist.filter(title => title.text.toLowerCase().includes(search))
     );
    }
-   filteritemfleetlist(){
-    if (!this.fleetlist) {
-      return;
-    }
-    // get the search keyword
-    let search = this.fleetFilterCtrl.value;
-    if (!search) {
-      this.fleetFilteredOptions.next(this.fleetlist.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    // filter the banks
-    this.fleetFilteredOptions.next(
-      this.fleetlist.filter(title => title.text.toLowerCase().includes(search))
-    );
-   }
+ 
    filteritemdepartmentlist(){
     if (!this.udetypelist) {
       return;

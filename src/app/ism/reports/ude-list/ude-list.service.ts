@@ -36,6 +36,12 @@ export class UdeListService extends UnsubscribeOnDestroyAdapter{
   get data(): udelist[] {
     return this.dataChange.value;
   }
+  public getfleet = `${this.serverUrl.apiServerAddress}api/common/getFleetList`;
+
+
+  
+
+
   getDialogData() {
     return this.dialogData;
   }
