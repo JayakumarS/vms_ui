@@ -23,47 +23,47 @@
 
                     <div class="row">
 
-                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                  
+                      <div  class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>Surname</mat-label>
-                          <input matInput formControlName="surname">
+                          <input matInput formControlName="surname" [readonly]="crewflag">
                           <mat-error *ngIf="docForm.get('surname').hasError('required')">
                             Surname is required
                         </mat-error>
                         </mat-form-field>
                       </div>
 
+                   
 
-
-                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                      <div   class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>Name</mat-label>
-                          <input matInput formControlName="name">
+                          <input matInput formControlName="name" [readonly]="crewflag">
                           <mat-error *ngIf="docForm.get('name').hasError('required')">
                             Name is required
                         </mat-error>
                         </mat-form-field>
                       </div>
 
+                    
 
                       <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label> Middle Name</mat-label>
-                          <input matInput formControlName="midname">
+                          <input matInput formControlName="midname"[readonly]="crewflag">
                         </mat-form-field>
                       </div>
 
 
-                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                    
-
+                      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <app-searchable-select [options]="nationalitylist" placeholderLabel="Search for Nationality"
                         noEntriesFoundLabel="No results found" [label]="'Nationality'" formControlName="nation"
-                        [required]="true" [errorMessage]="'Nationality is required'">
+                        [required]="true" [errorMessage]="'Nationality is required'"[disabled]="crewflag">
                       </app-searchable-select>
-
-
                       </div>
+
 
                     </div>
 
@@ -74,10 +74,11 @@
 
                         <app-searchable-select [options]="rankdrop" placeholderLabel="Search for rank"
                           noEntriesFoundLabel="No results found" [label]="'Rank'" formControlName="rank"
-                          [required]="true" [errorMessage]="'Rank is required'">
+                          [required]="true" [errorMessage]="'Rank is required'" [disabled]="crewflag">
                         </app-searchable-select>
                       </div>
 
+                     
 
                       <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
 
@@ -87,7 +88,7 @@
                           <mat-label> Birth Date </mat-label>
                           <input matInput [matDatepicker]="datepicker1" [max]="toDay" formControlName="dobObj" id="dob"
                             (dateInput)="$event.value.format('DD/MM/YYYY')"
-                            (dateChange)="getDateString($event, 'dob',0)" placeholder="dd/mm/yyyy">
+                            (dateChange)="getDateString($event, 'dob',0)" placeholder="dd/mm/yyyy"  [readonly]="crewflag">
                           <mat-datepicker-toggle matSuffix [for]="datepicker1"></mat-datepicker-toggle>
                           <mat-datepicker #datepicker1></mat-datepicker>
                           <mat-error *ngIf="docForm.get('dobObj').hasError('required')">
@@ -99,14 +100,14 @@
                       <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>Father</mat-label>
-                          <input matInput formControlName="father">
+                          <input matInput formControlName="father" [readonly]="crewflag">
                         </mat-form-field>
                       </div>
 
                       <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>Mother</mat-label>
-                          <input matInput formControlName="mother">
+                          <input matInput formControlName="mother"  [readonly]="crewflag">
                         </mat-form-field>
                       </div>
 
@@ -119,7 +120,7 @@
                       <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>Birth Place</mat-label>
-                          <input matInput formControlName="birthplace">
+                          <input matInput formControlName="birthplace"  [readonly]="crewflag">
                         </mat-form-field>
                       </div>
 
@@ -129,14 +130,14 @@
                         
                         <app-searchable-select [options]="vessellist" placeholderLabel="Search for vessel"
                           noEntriesFoundLabel="No results found" [label]="'Exp.Vessels'" formControlName="vessel"
-                          [required]="false" [errorMessage]="'Exp.Vessels is required'">
+                          [required]="false" [errorMessage]="'Exp.Vessels is required'"[disabled]="crewflag">
                         </app-searchable-select>
                       </div>
 
                       <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>prior Exp.Months</mat-label>
-                          <input matInput formControlName="priormonth">
+                          <input matInput formControlName="priormonth" [readonly]="crewflag">
                         </mat-form-field>
                       </div>
 
@@ -145,7 +146,7 @@
 
                         <app-searchable-select [options]="decisioncodelist" placeholderLabel="Search for Decision Code"
                         noEntriesFoundLabel="No results found" [label]="'Decision Code'" formControlName="decisioncode"
-                        [required]="false" [errorMessage]="'Decision Code is required'">
+                        [required]="false" [errorMessage]="'Decision Code is required'"[disabled]="crewflag">
                       </app-searchable-select>
 
 
@@ -160,7 +161,7 @@
 
                         <app-searchable-select [options]="enginelist" placeholderLabel="Search for Exp.Engine"
                         noEntriesFoundLabel="No results found" [label]="'Exp.Engine'" formControlName="engine"
-                        [required]="false" [errorMessage]="'Exp.Engine is required'">
+                        [required]="false" [errorMessage]="'Exp.Engine is required'" [disabled]="crewflag">
                       </app-searchable-select>
 
 
@@ -171,7 +172,7 @@
                           <mat-label> Last Sign Off Date </mat-label>
                           <input matInput [matDatepicker]="datepicker2" formControlName="signOffDateObj"
                             id="signOffDate" (dateInput)="$event.value.format('DD/MM/YYYY')"
-                            (dateChange)="getDateString($event, 'signOffDate',0)" placeholder="dd/mm/yyyy">
+                            (dateChange)="getDateString($event, 'signOffDate',0)" placeholder="dd/mm/yyyy" [readonly]="crewflag">
                           <mat-datepicker-toggle matSuffix [for]="datepicker2"></mat-datepicker-toggle>
                           <mat-datepicker #datepicker2></mat-datepicker>
                         </mat-form-field>
@@ -183,14 +184,14 @@
 
                         <app-searchable-select [options]="agentlist" placeholderLabel="Search for Agent"
                         noEntriesFoundLabel="No results found" [label]="'Agent'" formControlName="agent"
-                        [required]="true" [errorMessage]="'Agent is required'">
+                        [required]="true" [errorMessage]="'Agent is required'" [disabled]="crewflag">
                       </app-searchable-select>
                       </div>
 
                       <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>Remarks</mat-label>
-                          <input matInput formControlName="remarks">
+                          <input matInput formControlName="remarks" [readonly]="crewflag">
                         </mat-form-field>
                       </div>
                     </div>
@@ -203,7 +204,7 @@
                           <mat-label> Application Date </mat-label>
                           <input matInput [matDatepicker]="datepicker3" formControlName="appDateObj" id="appDate"
                             (dateInput)="$event.value.format('DD/MM/YYYY')"
-                            (dateChange)="getDateString($event, 'appDate',0)" placeholder="dd/mm/yyyy">
+                            (dateChange)="getDateString($event, 'appDate',0)" placeholder="dd/mm/yyyy" [readonly]="crewflag">
                           <mat-datepicker-toggle matSuffix [for]="datepicker3"></mat-datepicker-toggle>
                           <mat-datepicker #datepicker3></mat-datepicker>
                         </mat-form-field>
@@ -212,7 +213,7 @@
                       <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                         <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                           <mat-label>Recom.By</mat-label>
-                          <input matInput formControlName="recom">
+                          <input matInput formControlName="recom" [readonly]="crewflag">
                         </mat-form-field>
                       </div>
 
@@ -221,7 +222,7 @@
                           <mat-label> Avail.From Date </mat-label>
                           <input matInput [matDatepicker]="datepicker4" formControlName="availfromDateObj"
                             id="availfromDate" (dateInput)="$event.value.format('DD/MM/YYYY')"
-                            (dateChange)="getDateString($event, 'availfromDate',0)" placeholder="dd/mm/yyyy">
+                            (dateChange)="getDateString($event, 'availfromDate',0)" placeholder="dd/mm/yyyy" [readonly]="crewflag">
                           <mat-datepicker-toggle matSuffix [for]="datepicker4"></mat-datepicker-toggle>
                           <mat-datepicker #datepicker4></mat-datepicker>
                         </mat-form-field>
@@ -295,14 +296,14 @@
                   <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label>S.Book</mat-label>
-                      <input matInput formControlName="book">
+                      <input matInput formControlName="book" [readonly]="crewflag">
                     </mat-form-field>
                   </div>
 
                   <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label>Issue</mat-label>
-                      <input matInput formControlName="issue">
+                      <input matInput formControlName="issue" [readonly]="crewflag">
                     </mat-form-field>
                   </div>
 
@@ -311,7 +312,7 @@
                       <mat-label> Expiry </mat-label>
                       <input matInput [matDatepicker]="datepicker5" formControlName="expiryDateObj" id="expiryDate"
                         (dateInput)="$event.value.format('DD/MM/YYYY')"
-                        (dateChange)="getDateString($event, 'expiryDate',0)" placeholder="dd/mm/yyyy">
+                        (dateChange)="getDateString($event, 'expiryDate',0)" placeholder="dd/mm/yyyy" [readonly]="crewflag">
                       <mat-datepicker-toggle matSuffix [for]="datepicker5"></mat-datepicker-toggle>
                       <mat-datepicker #datepicker5></mat-datepicker>
                     </mat-form-field>
@@ -338,14 +339,14 @@
                   <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label>Passport</mat-label>
-                      <input matInput formControlName="passport">
+                      <input matInput formControlName="passport" [readonly]="crewflag">
                     </mat-form-field>
                   </div>
 
                   <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label> Issue </mat-label>
-                      <input matInput formControlName="passportissue">
+                      <input matInput formControlName="passportissue" [readonly]="crewflag">
                     </mat-form-field>
                   </div>
 
@@ -354,7 +355,7 @@
                       <mat-label> Expiry </mat-label>
                       <input matInput [matDatepicker]="datepicker6" formControlName="passportExpiryDateObj"
                         id="passportExpiryDate" (dateInput)="$event.value.format('DD/MM/YYYY')"
-                        (dateChange)="getDateString($event, 'passportExpiryDate',0)" placeholder="dd/mm/yyyy">
+                        (dateChange)="getDateString($event, 'passportExpiryDate',0)" placeholder="dd/mm/yyyy" [readonly]="crewflag">
                       <mat-datepicker-toggle matSuffix [for]="datepicker6"></mat-datepicker-toggle>
                       <mat-datepicker #datepicker6></mat-datepicker>
                     </mat-form-field>
@@ -371,14 +372,14 @@
                    
                     <app-searchable-select [options]="licencedata" placeholderLabel="Search forLicence"
                     noEntriesFoundLabel="No results found" [label]="'Licence'" formControlName="licence"
-                    [required]="false" [errorMessage]="'Licence is required'">
+                    [required]="false" [errorMessage]="'Licence is required'"[disabled]="crewflag">
                   </app-searchable-select>
                   </div>
 
                   <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label> Issue </mat-label>
-                      <input matInput formControlName="licenceissue">
+                      <input matInput formControlName="licenceissue" [readonly]="crewflag">
                     </mat-form-field>
                   </div>
 
@@ -387,7 +388,7 @@
                       <mat-label> Expiry </mat-label>
                       <input matInput [matDatepicker]="datepicker7" formControlName="licenceExpiryDateObj"
                         id="licenceExpiryDate" (dateInput)="$event.value.format('DD/MM/YYYY')"
-                        (dateChange)="getDateString($event, 'licenceExpiryDate',0)" placeholder="dd/mm/yyyy">
+                        (dateChange)="getDateString($event, 'licenceExpiryDate',0)" placeholder="dd/mm/yyyy" [readonly]="crewflag">
                       <mat-datepicker-toggle matSuffix [for]="datepicker7"></mat-datepicker-toggle>
                       <mat-datepicker #datepicker7></mat-datepicker>
                     </mat-form-field>
@@ -404,14 +405,14 @@
                   <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label> Grade </mat-label>
-                      <input matInput formControlName="grade">
+                      <input matInput formControlName="grade" [readonly]="crewflag">
                     </mat-form-field>
                   </div>
 
                   <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label>License No</mat-label>
-                      <input matInput formControlName="licenceno">
+                      <input matInput formControlName="licenceno" [readonly]="crewflag">
                     </mat-form-field>
                     
                   </div>
@@ -431,7 +432,7 @@
                   <div class="col-xl-5 col-lg-6 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label>Next of Kin</mat-label>
-                      <input matInput formControlName="kin">
+                      <input matInput formControlName="kin" [readonly]="crewflag">
                     </mat-form-field>
                   </div>
 
@@ -439,7 +440,7 @@
                   <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label>City</mat-label>
-                      <input matInput formControlName="city">
+                      <input matInput formControlName="city" [readonly]="crewflag">
                     </mat-form-field>
                   </div>
 
@@ -457,13 +458,13 @@
                   <div class="col-xl-5 col-lg-6 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label>Address 1</mat-label>
-                      <input matInput formControlName="address1">
+                      <input matInput formControlName="address1" [readonly]="crewflag">
                     </mat-form-field>
                   </div>
                   <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label>Tel 1</mat-label>
-                      <input matInput formControlName="tel1">
+                      <input matInput formControlName="tel1" [readonly]="crewflag">
                     </mat-form-field>
                   </div>
 
@@ -476,13 +477,13 @@
                   <div class="col-xl-5 col-lg-6 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label>Address 2</mat-label>
-                      <input matInput formControlName="address2">
+                      <input matInput formControlName="address2" [readonly]="crewflag">
                     </mat-form-field>
                   </div>
                   <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
                     <mat-form-field class="example-full-width form-control-sm" appearance="outline">
                       <mat-label>Tel 2</mat-label>
-                      <input matInput formControlName="tel2">
+                      <input matInput formControlName="tel2" [readonly]="crewflag">
                     </mat-form-field>
                   </div>
 

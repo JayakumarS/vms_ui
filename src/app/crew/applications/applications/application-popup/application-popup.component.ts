@@ -25,16 +25,17 @@ export class ApplicationPopupComponent implements OnInit {
     public dialogRef: MatDialogRef<ApplicationPopupComponent>
   ) {}
 
+
   ngOnInit(): void {
-     this.edit==true;
+    this.edit = this.data.action.edit;
     this.docForm = this.fb.group({
-      rankCode: [''],
+      rankCode: [this.data.action.rankCode],
       certifiCode: [''],
       mandatoryValid: [false], 
       mCertificatecode: [''],
       optionalInvalid: [false],
-      mandatoryInvalid:[false],
-      certificateList: this.fb.array([
+      mandatoryInvalid: [false],
+        certificateList: this.fb.array([
         this.fb.group({
           mandatoryValid:[""],
           mandatoryInValid:[""],
@@ -50,62 +51,76 @@ export class ApplicationPopupComponent implements OnInit {
 
         })
       ]),
+   
     });
-    
-    let val = [];
-    val = this.applicationsService.getPopArr();
-
     this.docForm.get('rankCode').setValue(this.data.action.rankCode);
-    this.edit = this.data.action.edit;
-    
+
+
     if (this.edit == false) {
+
+      this.populateFromTemplist(this.data.action.templistsave);
+
       // Fetch certificate data based on rankCode
       this.httpService.get<any>(this.applicationsService.getCertificate + "?rankCode=" + this.docForm.value.rankCode)
         .subscribe({
           next: (data) => {
-            this.certificateList = data.list.map((item, index) => ({
-              sno: index + 1,
-              certifiCode: item.CertifiCode,
-              splitCertificateNames: item.certificateName.split(',').map(name => ({
-                name,
-                mandatoryFlag: false,
-                mandatoryInvalidFlag: false,
-                optionalFlag: false
-              }))
-            }));
+            const filteredCertificates = data.list.filter(item => 
+              !this.data.action.templistsave.some(temp => temp.CertifiCode === item.CertifiCode)
+            );
+            this.populateCertificates(filteredCertificates);
+            
           },
           error: (error) => {
             console.error('Error fetching certificate data', error);
           }
         });
-    
+  
       // Fetch medical certificate data based on rankCode
       this.httpService.get<any>(this.applicationsService.getmedicalCertificate + "?rankCode=" + this.docForm.value.rankCode)
         .subscribe({
           next: (data) => {
-            this.MedicalcertificateList = data.list1.map((item, index) => ({
-              sno: index + 1,
-              mcertificateCode: item.mcertificateCode,
-              splitCertificateMedicalNames: item.mcertificateName.split(',').map(mname => ({
-                mname,
-                mmandatoryFlag: false,
-                mmandatoryInvalidFlag: false,
-                moptionalFlag: false
-              }))
-            }));
+            const filteredMedicalCertificates = data.list1.filter(item => 
+              !this.data.action.templistsave.some(temp => temp.mcertificateCode === item.mcertificateCode)
+            );
+            this.populateMedicalCertificates(filteredMedicalCertificates);            
           },
           error: (error) => {
             console.error('Error fetching medical certificate data', error);
           }
         });
+
+      
     } else {
-      const certificatesArray = val.filter(item => item.CertifiCode);
-      const medicalCertificatesArray = val.filter(item => item.mcertificateCode);
-    
+      const templistCertifiCodes = this.data.action.templist.map(item => item.CertifiCode);
+      const templistMCertifiCodes = this.data.action.templist.map(item => item.mcertificateCode);
+  
+      let val = this.applicationsService.getPopArr();
+      const certificatesArray = val.filter(item => item.CertifiCode && !templistCertifiCodes.includes(item.CertifiCode));
+      const medicalCertificatesArray = val.filter(item => item.mcertificateCode && !templistMCertifiCodes.includes(item.mcertificateCode));
+  
+      // Populate from templist
+      const certificatesArraytemp = this.data.action.templist.filter(item => item.CertifiCode);
+      const medicalCertificatesArraytemp = this.data.action.templist.filter(item => item.mcertificateCode);
+  
+      this.populateCertificatestemp(certificatesArraytemp);
+      this.populateMedicalCertificatestemp(medicalCertificatesArraytemp);
+  
+      // Populate from val excluding duplicates from templist
       this.populateCertificates(certificatesArray);
       this.populateMedicalCertificates(medicalCertificatesArray);
     }
+  
   }
+  
+  populateFromTemplist(templist: any[]): void {
+    const certificatesArrayTemp = templist.filter(item => item.CertifiCode);
+    const medicalCertificatesArrayTemp = templist.filter(item => item.mcertificateCode);
+
+    this.populateCertificatestemp(certificatesArrayTemp);
+    this.populateMedicalCertificatestemp(medicalCertificatesArrayTemp);
+  }
+
+
     populateCertificates(data: any[]): void {
       // const certificatesArray = this.docForm.get('certificateList') as FormArray;
       data.forEach(item => {
@@ -138,6 +153,38 @@ export class ApplicationPopupComponent implements OnInit {
       });
     }
      
+    populateCertificatestemp(data: any[]): void {
+      data.forEach(item => {
+        const certificateGroup = this.fb.group({
+          certifiCode: [item.CertifiCode],
+          splitCertificateNames: this.fb.array(item.splitCertificateNames.map(nameObj => this.fb.group({
+            name: [nameObj.name],
+            mandatoryFlag: nameObj.mandatoryFlag,
+            mandatoryInvalidFlag: nameObj.mandatoryInvalidFlag,
+            optionalFlag: nameObj.optionalFlag
+          })))
+        });
+        this.certificateList.push(certificateGroup.value);
+      });
+    }
+    
+    populateMedicalCertificatestemp(data: any[]): void {
+      data.forEach(item => {
+        const medicalGroup = this.fb.group({
+          mcertificateCode: [item.mcertificateCode],
+          splitCertificateMedicalNames: this.fb.array(item.splitCertificateMedicalNames.map(mnameObj => this.fb.group({
+            mname: [mnameObj.mname],
+            mmandatoryFlag: mnameObj.mmandatoryFlag,
+            mmandatoryInvalidFlag: mnameObj.mmandatoryInvalidFlag,
+            moptionalFlag: mnameObj.moptionalFlag
+          })))
+        });
+        this.MedicalcertificateList.push(medicalGroup.value);
+      });
+    }
+    
+
+   
   check(certificateIndex: number, nameIndex: number, value: string, type: string) {
     if (type === 'regular') {
       const certificate = this.certificateList[certificateIndex].splitCertificateNames[nameIndex];
@@ -216,7 +263,7 @@ export class ApplicationPopupComponent implements OnInit {
         };
 
         // Close the dialog and pass payload back to AddApplicationsComponent
-        this.dialogRef.close(payload);
+        this.dialogRef.close({data: payload});
       } else {
         this.snackBar.open(
           "Please select at least one checkbox",
@@ -279,7 +326,7 @@ export class ApplicationPopupComponent implements OnInit {
         };
 
         // Close the dialog and pass payload back to AddApplicationsComponent
-        this.dialogRef.close(payloadupdate);
+        this.dialogRef.close({data:payloadupdate});
       } else {
         this.snackBar.open(
           "Please select at least one checkbox",

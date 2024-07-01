@@ -83,6 +83,7 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
   application:application;
   creditFile: any;
   isReset: boolean = false;
+  crewflag: boolean = false; 
   requestId: number;
   edit:boolean=false;
   excel:any = [];
@@ -96,7 +97,8 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
   progressInfos: any[] = [];
   message: string[] = [];
   previews: string[] = [];
-  certificateList: any;
+  certificateList: any[]=[];
+  MedicalcertificateList:any[]=[];
   constructor(
     private fb: FormBuilder,
     private httpService: HttpServiceService,
@@ -174,6 +176,7 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
       rankCode:[""],
       certificatesupdate:[],
       medicalcertificatesupdate:[],
+      crewflag:[""]
     })
   
 
@@ -215,6 +218,8 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
   }
   fetchDetails(id: any): void {
     this.httpService.get<any>(this.applicationsService.editUrl+"?id="+parseInt(id)).subscribe({next: (data: any) => {
+      
+      this.crewflag = data.list[0].crewflag;
       
        let dobnew = this.cmnService.getDateObj( data.list[0].dob);
       
@@ -330,6 +335,9 @@ export class AddApplicationsComponent extends UnsubscribeOnDestroyAdapter implem
         'sBookfileName':data.list[0].sBookfileName,
         'applicantimagePath':data.list[0].applicantimagePath,
         'applicantimageFileName':data.list[0].applicantimageFileName,
+
+
+
       });
       this.applicationsService.setPopArr(data.listpopup);
       // if (data.listpopup && data.listpopup.length > 0) {
@@ -707,7 +715,15 @@ uploadFileDoc1(event) {
     if(this.docForm.valid){
       let rankCode = this.docForm.value.rank;
       let edit = this.edit;
-    let tempDirection;
+      let templist = [
+        ...this.certificateList,
+        ...this.MedicalcertificateList
+      ];
+      let templistsave = [
+        ...this.certificateList,
+        ...this.MedicalcertificateList
+      ];
+          let tempDirection;
     if (localStorage.getItem("isRtl") === "true") {
       tempDirection = "rtl";
     } else {
@@ -715,7 +731,9 @@ uploadFileDoc1(event) {
     }
     const obj = {
       rankCode,
-      edit
+      edit,
+     templist,
+     templistsave,
   }
     const dialogRef = this.dialog.open(ApplicationPopupComponent, {
       height: "",
@@ -728,21 +746,63 @@ uploadFileDoc1(event) {
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
       debugger
       console.log(result);
-      this.subdetailsPatch(result);
+
+      this.subdetailsPatch(result.data);
       
     });     
   }
 }
 
-subdetailsPatch(value) {
+// subdetailsPatch(value) {
 
+//   this.docForm.patchValue({
+//     rankCode: value.rankCode,
+//     certifiCode: value.certifiCode,
+//     certificates: value.certificates,
+//     mCertificatecode: value.mCertificatecode,
+//     medicalcertificates:value.medicalcertificates,
+//   });
+// }
+subdetailsPatch(value) {
   this.docForm.patchValue({
     rankCode: value.rankCode,
     certifiCode: value.certifiCode,
-    certificates: value.certificates,
     mCertificatecode: value.mCertificatecode,
-    medicalcertificates:value.medicalcertificates,
+    certificates: value.certificates,
+    medicalcertificates: value.medicalcertificates,
   });
+
+  // Update certificateList based on selected certificates
+  if (value.certificates && value.certificates.length > 0) {
+    this.certificateList = value.certificates.map((certificate, index) => ({
+      sno: index + 1,
+      CertifiCode: certificate.certifiCode,
+      splitCertificateNames: certificate.splitCertificateNames.map(nameObj => ({
+        name: nameObj.name,
+        mandatoryFlag: nameObj.mandatoryValid,
+        mandatoryInvalidFlag: nameObj.mandatoryInvalid,
+        optionalFlag: nameObj.optionalInvalid
+      }))
+    }));
+  } else {
+    this.certificateList = []; // Clear the list if no certificates selected
+  }
+
+  // Update MedicalcertificateList based on selected medical certificates
+  if (value.medicalcertificates && value.medicalcertificates.length > 0) {
+    this.MedicalcertificateList = value.medicalcertificates.map((certificate, index) => ({
+      sno: index + 1,
+      mcertificateCode: certificate.mcertificateCode,
+      splitCertificateMedicalNames: certificate.splitCertificateMedicalNames.map(mnameObj => ({
+        mname: mnameObj.mname,
+        mmandatoryFlag: mnameObj.mmandatoryValid,
+        mmandatoryInvalidFlag: mnameObj.mmandatoryInvalid,
+        moptionalFlag: mnameObj.moptionalInvalid
+      }))
+    }));
+  } else {
+    this.MedicalcertificateList = []; // Clear the list if no medical certificates selected
+  }
 }
 
 
