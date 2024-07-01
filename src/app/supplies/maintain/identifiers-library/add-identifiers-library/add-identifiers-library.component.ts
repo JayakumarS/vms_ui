@@ -87,15 +87,11 @@ export class AddIdentifiersLibraryComponent extends UnsubscribeOnDestroyAdapter 
  permissionList: any=[];
 
  groupHead=[
-  {groupHeadName:'Countries'},
   {groupHeadName:'Functions'},
   {groupHeadName:'Item Delivery Evaluation'},
-  {groupHeadName:'Location Numbers'},
   {groupHeadName:'Locations'},
   {groupHeadName:'Lub Oil Categories'},
-  {groupHeadName:'Origin'},
   {groupHeadName:'Payment Terms'},
-  {groupHeadName:'Ship Class'},
   {groupHeadName:'Storage Places'},
   {groupHeadName:'Supplier (office) Evaluation Subfactors'},
   {groupHeadName:'Supplier Evaluation Scores'},
