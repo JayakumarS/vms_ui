@@ -15,4 +15,6 @@ export class identifier{
     typeoffreight:any;
     description:any;
     code:any;
+    code1:any;
+    code2:any;
 }

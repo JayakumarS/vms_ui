@@ -1,138 +1,559 @@
 <section class="content">
-    <div class="content-block">
-        <div class="block-header">
-            <!-- breadcrumb -->
-            <app-breadcrumb [title]="'Identifiers Library'" [items]="['Supplies','Maintain']"
-                [active_item]="'Identifiers Library'">
-            </app-breadcrumb>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-
-              <div class="card">
-                <div class="body">
-                    <div class="materialTableHeader" style="min-width: 275px; padding-bottom: 14% !important;">
-                      <div class="row">
-                      
-                        <div class="col-md-4">
-                          <ul class="header-buttons-left ms-0" >
-                            
-                            <li class="dropdown m-l-20">
-                              <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                              <input placeholder="Search" type="text"  [(ngModel)]="searchTerm" #filter class="browser-default search-field"
-                                aria-label="Search box"(keyup)="onSearchClick()">
-                            </li>
-                       
-                          </ul>
-                        </div>
-                        </div>
-                        </div>
-                       
-                          <div style="padding:2%; background: rgb(0,38,51);background: linear-gradient(0deg, rgba(0,38,51,1) 0%, rgba(9,75,97,1) 43%, rgba(3,111,145,1) 100%);">
-                            <h5 style="text-align:center;color:#ffff;">Categories</h5>
-                          </div>
-                     
-
-               
-            <div class="row clearfix" *ngFor="let grpList of filteredGroupHead">
-               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-                  <mat-accordion>
-                    <mat-expansion-panel>
-                      <mat-expansion-panel-header>          
-                        <mat-panel-title (click)="tablechange(grpList.groupHeadName)" style="color:#000d1b;font-size: 14px; text-transform: uppercase;font-family: century gothic, sans-serif;">
-                            <app-feather-icons [icon]="'list'"  [class]="'tbl-fav-list'"></app-feather-icons>&nbsp;&nbsp;<span>{{grpList.groupHeadName}}</span>
-                            </mat-panel-title> 
-                      </mat-expansion-panel-header>
-                  
-                      </mat-expansion-panel>
-                    </mat-accordion>
-                  </div>
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Identifiers Library'" [items]="['Supplies','Maintain']" [active_item]="'Identifiers Library'">
+      </app-breadcrumb>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <div class="card">
+          <div class="body">
+            <div class="materialTableHeader" style="min-width: 275px; padding-bottom: 14% !important;">
+              <div class="row">
+                <div class="col-md-4">
+                  <ul class="header-buttons-left ms-0">
+                    <li class="dropdown m-l-20">
+                      <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                      <input placeholder="Search" type="text" [(ngModel)]="searchTerm" #filter class="browser-default search-field" aria-label="Search box" (keyup)="onSearchClick()">
+                    </li>
+                  </ul>
                 </div>
               </div>
-           </div>
-        </div>
-
-                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                    <div class="card">
-                        <div class="body">
-                          <div class="table-responsive">
-                            <div class="materialTableHeader">
-                                <div class="row">
-                        <div class="col-md-9">
-                            <ul class="header-buttons-left ms-0">
-                              
-                              <li class="dropdown m-l-20">
-                                <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                                <input placeholder="Search" type="text"[(ngModel)]="searchTermtext" #filter class="browser-default search-field"
-                                  aria-label="Search box"(keyup)="onSearch()">
-                              </li>&nbsp;
-                         
-                              <button mat-mini-fab color="primary" (click)="addRow()">
-                                <mat-icon class="col-white">add</mat-icon>
-                              </button>
-
-
-                            </ul>
-
-                            
-                
-                          </div>
-                          </div>
-                          </div>
-
-                         
-                
-                          <div style="overflow-x: auto; max-width: 100%;">
-                            <table id="dt_basic" class="table table-striped font-weight-bold" role="grid">
-                              <thead>
-                                <tr>
-                                  <th class="text-center table-heading padding-both-side-2 width_7" style="width: 2%; border-radius: 0.05rem;"></th>
-                                  <th class="text-center table-heading padding-both-side-2 width_7" style="width: 4%; border-radius: 0.05rem;">Description</th>
-                                  <th class="text-center table-heading padding-both-side-2 width_7" style="width: 4%; border-radius: 0.07rem;">Code</th>
-                                  <th *ngIf="selectedGroupHead === 'Item Delivery Evaluation' || selectedGroupHead === 'Supplier Evaluation Scores' || selectedGroupHead === 'Payment Terms'" class="text-center table-heading padding-both-side-2 width_7" style="width: 4%; border-radius: 0.07rem;">Scale</th>
-                                  <th *ngIf="selectedGroupHead === 'Payment Terms'" class="text-center table-heading padding-both-side-2 width_7" style="width: 4%; border-radius: 0.07rem;">Adv.Payment</th>
-                                </tr>
-                              </thead>
-                              <ng-container *ngFor="let identifiertable of docForm.get('identifiertable')['controls']; let i = index">
-                                <tbody [formGroup]="identifiertable">
-                                  <tr>
-                                    <td class="padding-both-side-2">
-                                      <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                                        <mat-icon class="mt-19" style="color: #e80000; cursor: pointer;" (click)="deleteRow(i)">delete_forever</mat-icon>
-                                      </div>
-                                    </td>
-                                    <td class="padding-both-side-2">
-                                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                        <mat-label>Description</mat-label>
-                                        <input matInput name="description{{i}}" formControlName="description">
-                                      </mat-form-field>
-                                    </td>
-                                    <td class="padding-both-side-2">
-                                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                        <mat-label>Code</mat-label>
-                                        <input matInput name="code{{i}}" formControlName="code">
-                                      </mat-form-field>
-                                    </td>
-                                    <td *ngIf="selectedGroupHead === 'Item Delivery Evaluation' || selectedGroupHead === 'Supplier Evaluation Scores' || selectedGroupHead === 'Payment Terms'" class="padding-both-side-2">
-                                      <mat-form-field class="example-full-width form-control-sm" appearance="outline">
-                                        <mat-label>Scale</mat-label>
-                                        <input matInput name="scale{{i}}" formControlName="scale">
-                                      </mat-form-field>
-                                    </td>
-                                    <td *ngIf="selectedGroupHead === 'Payment Terms'" class="padding-both-side-2">
-                                        <mat-checkbox class="example-margin" formControlName="Payment"></mat-checkbox>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </ng-container>
-                            </table>
-                  </div>
-                 
-                </div>
             </div>
-               </div>
-</div>
+            <div style="padding:2%; background: rgb(0,38,51);background: linear-gradient(0deg, rgba(0,38,51,1) 0%, rgba(9,75,97,1) 43%, rgba(3,111,145,1) 100%);">
+              <h5 style="text-align:center;color:#ffff;">Categories</h5>
+            </div>
+            <div class="row clearfix" *ngFor="let grpList of filteredGroupHead">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <mat-accordion>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title (click)="selectCategory(grpList.groupHeadName)" style="color:#000d1b;font-size: 14px; text-transform: uppercase;font-family: century gothic, sans-serif;">
+                        <app-feather-icons [icon]="'list'" [class]="'tbl-fav-list'"></app-feather-icons>&nbsp;&nbsp;<span>{{grpList.groupHeadName}}</span>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" >
+
+        <!-- Freight Type -->
+
+        <div class="card"[class.hidden]="!showcard" >
+          <div class="body">
+              <div class="table-responsive">
+                <div class="materialTableHeader">
+                  <div class="row"  >
+                    <div class="col-8">
+                      <ul class="header-buttons-left ms-0">
+                        <li class="dropdown">
+                          <h2>Freight Type</h2>
+                        </li>
+                        <li class="dropdown m-l-20">
+                          <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                          <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                            aria-label="Search box">
+                        </li>
+                        <li>
+                          <div class="m-l-10" matTooltip="ADD">
+                            <button color="primary" type="button" class="btn-space"(click)=createNew() mat-raised-button>
+                              <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Create New
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="export-button m-l-10" matTooltip="XLSX">
+                            <img src="assets/images/icons/xlsx.png" alt=""
+                              (click)="exporter.exportTable('xlsx', {fileName:'GRN-list', sheet: 'sheet1'})" />
+                          </div>
+                        </li>
+                        
+                      </ul>
+                    </div> -->
+                  </div>
+                </div>
+                <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
+              >
+                  
+                  <ng-container matColumnDef="code">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Freight Type Code </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.code}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="description">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Freight Type Description</mat-header-cell>
+                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.description}}</mat-cell>
+                  </ng-container>
+                  
+                 
+                 
+                 
+                  <!-- actions -->
+                  <ng-container matColumnDef="actions" class="col-lg-12 col-md-2">
+                    <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                      <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
+                        class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button (click)="$event.stopPropagation()"
+                          (click)="viewCall(row)" class="tbl-action-btn">
+                      <i class="fa fa-eye" style="color:#33b91f;" aria-hidden="true"></i>
+                    </button>
+                      <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                        (click)="deleteItem(row)" class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </mat-cell>
+                  </ng-container>
+  
+  
+                  <mat-header-row *matHeaderRowDef="display"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: display;"
+                    [style.cursor]="'pointer'" matRipple>
+                  </mat-row>
+                </mat-table>
+                 <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
+                  <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                  </mat-progress-spinner>
+                </div> 
+                <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
+                  [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+                </div>
+                <mat-menu #contextMenu="matMenu">
+                  <ng-template matMenuContent let-item="item">
+                    <button mat-menu-item (click)="addNew()">
+                      <mat-icon>add_box</mat-icon>
+                      <span>Add Record</span>
+                    </button>
+                    <button mat-menu-item (click)="editCall(item)">
+                      <mat-icon>create</mat-icon>
+                      <span>Edit Record</span>
+                    </button>
+                    <button mat-menu-item (click)="deleteItem(item.id,item)">
+                      <mat-icon>delete</mat-icon>
+                      <span>Delete Record</span>
+                    </button>
+                    <button mat-menu-item (click)="refresh()">
+                      <mat-icon>refresh</mat-icon>
+                      <span>Refresh Record</span>
+                    </button>
+                    <button mat-menu-item disabled>
+                      <mat-icon>no_encryption</mat-icon>
+                      <span>Disable</span>
+                    </button>
+                    <button mat-menu-item [matMenuTriggerFor]="nestedmenu">
+                      <mat-icon>list_alt</mat-icon>
+                      <span> Nested Menu</span>
+                    </button>
+                  </ng-template>
+                </mat-menu>
+                <mat-menu #nestedmenu="matMenu">
+                  <button mat-menu-item>
+                    <mat-icon>mail_outline</mat-icon>
+                    <span>Item 1</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>call</mat-icon>
+                    <span>Item 2</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>chat</mat-icon>
+                    <span>Item 3</span>
+                  </button>
+                </mat-menu>
+                <!-- context menu end -->
+                <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
+                  [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+                  No results
+                </div>
+                <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]">
+              </mat-paginator>
+              </div>
+          </div>
+        </div>
        
+          <div *ngIf="isNewFormVisible">
+            <div class="body" >
+              <form class="m-4" [formGroup]="docForm">
+                <div class="row">
+                  <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" style="margin-left: 50px;">
+                    <mat-label><b></b></mat-label>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                      <mat-label>Freight Type Id</mat-label>
+                      <input matInput formControlName="code" readonly>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                      <mat-label>Freight Type Description</mat-label>
+                      <input matInput formControlName="description">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <br>
+                <div class="center">
+                  <button *ngIf="!edit" class="btn-space saveBtn" mat-raised-button (click)="save()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+                  <button *ngIf="edit" class="btn-space saveBtn" mat-raised-button (click)="update()"><mat-icon class="saveCancelIcon">save</mat-icon>Update</button>
+                  <button class="cancelBtn" type="button" mat-button (click)="cancel()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+                        </div>
+              </form>
+            </div>
+      </div>
+    
+<!-- Storage Place -->
+    <div class="card"[class.hidden2]="!storageshowcard" >
+      <div class="body">
+          <div class="table-responsive">
+            <div class="materialTableHeader">
+              <div class="row"  >
+                <div class="col-8">
+                  <ul class="header-buttons-left ms-0">
+                    <li class="dropdown">
+                      <h2>Storage Places </h2>
+                    </li>
+                    <li class="dropdown m-l-20">
+                      <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                      <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                        aria-label="Search box">
+                    </li>
+                    <li>
+                      <div class="m-l-10" matTooltip="ADD">
+                        <button color="primary" type="button" class="btn-space"(click)=createNewstorage() mat-raised-button>
+                          <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Create New
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <!-- <div class="col-4">
+                  <ul class="header-buttons">
+                    <li>
+                      <div class="export-button m-l-10" matTooltip="XLSX">
+                        <img src="assets/images/icons/xlsx.png" alt=""
+                          (click)="exporter.exportTable('xlsx', {fileName:'GRN-list', sheet: 'sheet1'})" />
+                      </div>
+                    </li>
+                    
+                  </ul>
+                </div> -->
+              </div>
+            </div>
+            <mat-table #table matTableExporter [dataSource]="dataSource2" matSort class="mat-cell"
+          >
+              
+              <ng-container matColumnDef="code1">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Storage Places Code </mat-header-cell>
+                <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.code1}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Storage Places Description</mat-header-cell>
+                <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.description}}</mat-cell>
+              </ng-container>
+              
+             
+             
+             
+              <!-- actions -->
+              <ng-container matColumnDef="actions" class="col-lg-12 col-md-2">
+                <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
+                <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCallStorage(row)"
+                    class="tbl-action-btn">
+                    <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                  </button>
+                  <button mat-icon-button (click)="$event.stopPropagation()"
+                      (click)="viewCallstorage(row)" class="tbl-action-btn">
+                  <i class="fa fa-eye" style="color:#33b91f;" aria-hidden="true"></i>
+                </button>
+                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                    (click)="deleteItemstorage(row)" class="tbl-action-btn">
+                    <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                  </button>
+                </mat-cell>
+              </ng-container>
+
+
+              <mat-header-row *matHeaderRowDef="displaystorage"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displaystorage;"
+                [style.cursor]="'pointer'" matRipple>
+              </mat-row>
+            </mat-table>
+             <div *ngIf="exampleDatabasestorage?.isTblLoading" class="tbl-spinner">
+              <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+              </mat-progress-spinner>
+            </div> 
+            <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
+              [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+            </div>
+            <mat-menu #contextMenu="matMenu">
+              <ng-template matMenuContent let-item="item">
+                <button mat-menu-item (click)="addNew()">
+                  <mat-icon>add_box</mat-icon>
+                  <span>Add Record</span>
+                </button>
+                <button mat-menu-item (click)="editCallStorage(item)">
+                  <mat-icon>create</mat-icon>
+                  <span>Edit Record</span>
+                </button>
+                <button mat-menu-item (click)="deleteItemstorage(item)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete Record</span>
+                </button>
+                <button mat-menu-item (click)="refresh()">
+                  <mat-icon>refresh</mat-icon>
+                  <span>Refresh Record</span>
+                </button>
+                <button mat-menu-item disabled>
+                  <mat-icon>no_encryption</mat-icon>
+                  <span>Disable</span>
+                </button>
+                <button mat-menu-item [matMenuTriggerFor]="nestedmenu">
+                  <mat-icon>list_alt</mat-icon>
+                  <span> Nested Menu</span>
+                </button>
+              </ng-template>
+            </mat-menu>
+            <mat-menu #nestedmenu="matMenu">
+              <button mat-menu-item>
+                <mat-icon>mail_outline</mat-icon>
+                <span>Item 1</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>call</mat-icon>
+                <span>Item 2</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>chat</mat-icon>
+                <span>Item 3</span>
+              </button>
+            </mat-menu>
+            <!-- context menu end -->
+            <div *ngIf="!exampleDatabasestorage?.isTblLoading" class="no-results"
+              [style.display]="dataSource2?.renderedData.length == 0 ? '' : 'none'">
+              No results
+            </div>
+            <mat-paginator #paginatorstorage [length]="dataSource2?.filteredData.length" [pageIndex]="0" [pageSize]="10"
+            [pageSizeOptions]="[5, 10, 25, 100]">
+          </mat-paginator>
+          </div>
+      </div>
     </div>
+   
+      <div *ngIf="isNewFormVisiblestoarge">
+        <div class="body" >
+          <form class="m-4" [formGroup]="docForm">
+            <div class="row">
+              <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" style="margin-left: 50px;">
+                <mat-label><b></b></mat-label>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                  <mat-label>Stoarge Places Code</mat-label>
+                  <input matInput formControlName="code1" readonly>
+                </mat-form-field>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                  <mat-label>Stoarge Places Description</mat-label>
+                  <input matInput formControlName="description">
+                </mat-form-field>
+              </div>
+            </div>
+            <br>
+            <div class="center">
+              <button *ngIf="!edit" class="btn-space saveBtn" mat-raised-button (click)="savestorage()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+              <button *ngIf="edit" class="btn-space saveBtn" mat-raised-button (click)="updatestorage()"><mat-icon class="saveCancelIcon">save</mat-icon>Update</button>
+              <button class="cancelBtn" type="button" mat-button (click)="cancelstorage()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+                    </div>
+          </form>
+        </div>
+  </div>
+
+
+ <!-- Functions -->
+
+  <div class="card"[class.hidden3]="!functionshowcard" >
+    <div class="body">
+        <div class="table-responsive">
+          <div class="materialTableHeader">
+            <div class="row"  >
+              <div class="col-8">
+                <ul class="header-buttons-left ms-0">
+                  <li class="dropdown">
+                    <h2>Functions </h2>
+                  </li>
+                  <li class="dropdown m-l-20">
+                    <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                    <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                      aria-label="Search box">
+                  </li>
+                  <li>
+                    <div class="m-l-10" matTooltip="ADD">
+                      <button color="primary" type="button" class="btn-space"(click)=createNewfunction() mat-raised-button>
+                        <i class="fas fa-plus-circle" style="font-size: 20px;"></i> Create New
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <!-- <div class="col-4">
+                <ul class="header-buttons">
+                  <li>
+                    <div class="export-button m-l-10" matTooltip="XLSX">
+                      <img src="assets/images/icons/xlsx.png" alt=""
+                        (click)="exporter.exportTable('xlsx', {fileName:'GRN-list', sheet: 'sheet1'})" />
+                    </div>
+                  </li>
+                  
+                </ul>
+              </div> -->
+            </div>
+          </div>
+          <mat-table #table matTableExporter [dataSource]="dataSource3" matSort class="mat-cell"
+        >
+            
+            <ng-container matColumnDef="code2">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Functions Code </mat-header-cell>
+              <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.code2}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="description">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Functions Description</mat-header-cell>
+              <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.description}}</mat-cell>
+            </ng-container>
+            
+           
+           
+           
+            <!-- actions -->
+            <ng-container matColumnDef="actions" class="col-lg-12 col-md-2">
+              <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
+              <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCallFunction(row)"
+                  class="tbl-action-btn">
+                  <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                </button>
+                <button mat-icon-button (click)="$event.stopPropagation()"
+                    (click)="viewCallfunction(row)" class="tbl-action-btn">
+                <i class="fa fa-eye" style="color:#33b91f;" aria-hidden="true"></i>
+              </button>
+                <button mat-icon-button color="accent" (click)="$event.stopPropagation()"
+                  (click)="deleteItemfunction(row)" class="tbl-action-btn">
+                  <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayfunction"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayfunction;"
+              [style.cursor]="'pointer'" matRipple>
+            </mat-row>
+          </mat-table>
+           <div *ngIf="exampleDatabasefunction?.isTblLoading" class="tbl-spinner">
+            <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+            </mat-progress-spinner>
+          </div> 
+          <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
+            [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+          </div>
+          <mat-menu #contextMenu="matMenu">
+            <ng-template matMenuContent let-item="item">
+              <button mat-menu-item (click)="addNew()">
+                <mat-icon>add_box</mat-icon>
+                <span>Add Record</span>
+              </button>
+              <button mat-menu-item (click)="editCallFunction(item)">
+                <mat-icon>create</mat-icon>
+                <span>Edit Record</span>
+              </button>
+              <button mat-menu-item (click)="deleteItemfunction(item)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete Record</span>
+              </button>
+              <button mat-menu-item (click)="refresh()">
+                <mat-icon>refresh</mat-icon>
+                <span>Refresh Record</span>
+              </button>
+              <button mat-menu-item disabled>
+                <mat-icon>no_encryption</mat-icon>
+                <span>Disable</span>
+              </button>
+              <button mat-menu-item [matMenuTriggerFor]="nestedmenu">
+                <mat-icon>list_alt</mat-icon>
+                <span> Nested Menu</span>
+              </button>
+            </ng-template>
+          </mat-menu>
+          <mat-menu #nestedmenu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>mail_outline</mat-icon>
+              <span>Item 1</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>call</mat-icon>
+              <span>Item 2</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>chat</mat-icon>
+              <span>Item 3</span>
+            </button>
+          </mat-menu>
+          <!-- context menu end -->
+          <div *ngIf="!exampleDatabasefunction?.isTblLoading" class="no-results"
+            [style.display]="dataSource3?.renderedData.length == 0 ? '' : 'none'">
+            No results
+          </div>
+          <mat-paginator #paginatorstorage [length]="dataSource3?.filteredData.length" [pageIndex]="0" [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
+        </div>
     </div>
-    </section>
+  </div>
+ 
+    <div *ngIf="isNewFormVisiblefunction">
+      <div class="body" >
+        <form class="m-4" [formGroup]="docForm">
+          <div class="row">
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12" style="margin-left: 50px;">
+              <mat-label><b></b></mat-label>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                <mat-label>Functions Code</mat-label>
+                <input matInput formControlName="code2">
+              </mat-form-field>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width form-control-sm" appearance="outline">
+                <mat-label>Functions Description</mat-label>
+                <input matInput formControlName="description">
+              </mat-form-field>
+            </div>
+          </div>
+          <br>
+          <div class="center">
+            <button *ngIf="!edit" class="btn-space saveBtn" mat-raised-button (click)="savefunction()"><mat-icon class="saveCancelIcon">save</mat-icon>Save</button>
+            <button *ngIf="edit" class="btn-space saveBtn" mat-raised-button (click)="updatefunction()"><mat-icon class="saveCancelIcon">save</mat-icon>Update</button>
+            <button class="cancelBtn" type="button" mat-button (click)="cancelstorage()"><mat-icon class="saveCancelIcon">cancel</mat-icon>Cancel</button>
+                  </div>
+        </form>
+      </div>
+</div>
+
+</div>
+  </div>
+      
+  </div>
+</section>

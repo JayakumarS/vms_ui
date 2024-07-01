@@ -1,8 +1,11 @@
 
+
 import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from "@angular/material/dialog";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
 import { DataSource } from "@angular/cdk/collections";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatMenuTrigger } from "@angular/material/menu";
@@ -17,17 +20,15 @@ import { DeleteComponent } from 'src/app/master/country-master/list-country-mast
 import { EncrDecrService } from 'src/app/core/service/encrDecr.Service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { FreightTypeService } from '../freight-type.service';
-import { FreightType } from '../freight-type.model';
-import { ViewFreightTypeComponent } from '../../identifiers-library/view-freight-type/view-freight-type.component';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { StorageLocationService } from '../storage-location.service';
+import { StorageLocation } from '../storage-location.mode';
+import { ViewStorageLocationComponent } from '../view-storage-location/view-storage-location.component';
 @Component({
-  selector: 'app-list-freight-type',
-  templateUrl: './list-freight-type.component.html',
-  styleUrls: ['./list-freight-type.component.sass']
+  selector: 'app-list-storage-location',
+  templateUrl: './list-storage-location.component.html',
+  styleUrls: ['./list-storage-location.component.sass']
 })
-export class ListFreightTypeComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class ListStorageLocationComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns = [
    // "select",
     "code",
@@ -36,16 +37,16 @@ export class ListFreightTypeComponent extends UnsubscribeOnDestroyAdapter implem
   ];
 
   dataSource: ExampleDataSource | null;
-  exampleDatabase: FreightTypeService | null;
-  selection = new SelectionModel<FreightType>(true, []);
+  exampleDatabase: StorageLocationService | null;
+  selection = new SelectionModel<StorageLocation>(true, []);
   index: number;
   id: number;
-  customerMaster: FreightType | null;
+  customerMaster: StorageLocation | null;
   permissionList: any=[];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public FreightTypeService: FreightTypeService,
+    public StorageLocationService: StorageLocationService,
     private snackBar: MatSnackBar,
     private serverUrl:serverLocations,
     private httpService:HttpServiceService,
@@ -90,7 +91,7 @@ export class ListFreightTypeComponent extends UnsubscribeOnDestroyAdapter implem
   }
 
   public loadData() {
-    this.exampleDatabase = new FreightTypeService(this.httpClient,this.serverUrl,this.httpService);
+    this.exampleDatabase = new StorageLocationService(this.httpClient,this.serverUrl,this.httpService);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -109,7 +110,7 @@ export class ListFreightTypeComponent extends UnsubscribeOnDestroyAdapter implem
 
   editCall(row) {
     // var encrypted = this.EncrDecr.set(this.serverUrl.secretKey, row.code);
-    this.router.navigate(['/supplies/maintain/freight-type/add-freight-type/', row.freighttypeid]);
+    this.router.navigate(['/supplies/maintain/storage-location/add-storage-location/', row.freighttypeid]);
   }
 
   viewCall(row) {
@@ -123,7 +124,7 @@ export class ListFreightTypeComponent extends UnsubscribeOnDestroyAdapter implem
       tempDirection = "ltr";
     }
 
-    const dialogRef = this.dialog.open(ViewFreightTypeComponent, {
+    const dialogRef = this.dialog.open(ViewStorageLocationComponent, {
       height: "270px",
       width: "450px",
       data: rowId,
@@ -152,7 +153,7 @@ export class ListFreightTypeComponent extends UnsubscribeOnDestroyAdapter implem
     this.subs.sink = dialogRef.afterClosed().subscribe((data) => {
     if (data.data == true) {
       this.spinner.show();
-      this.FreightTypeService.delete(row.freighttypeid).subscribe({
+      this.StorageLocationService.delete(row.freighttypeid).subscribe({
         next: (data) => {
           this.spinner.hide();
     if (data.success) {
@@ -192,7 +193,7 @@ export class ListFreightTypeComponent extends UnsubscribeOnDestroyAdapter implem
     this.paginator._changePageSize(this.paginator.pageSize);
   }
 // context menu
-  onContextMenu(event: MouseEvent, item: FreightType) {
+  onContextMenu(event: MouseEvent, item: StorageLocation) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + "px";
     this.contextMenuPosition.y = event.clientY + "px";
@@ -211,7 +212,7 @@ export class ListFreightTypeComponent extends UnsubscribeOnDestroyAdapter implem
   }
 }
 
-export class ExampleDataSource extends DataSource<FreightType> {
+export class ExampleDataSource extends DataSource<StorageLocation> {
   filterChange = new BehaviorSubject("");
   get filter(): string {
     return this.filterChange.value;
@@ -219,10 +220,10 @@ export class ExampleDataSource extends DataSource<FreightType> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: FreightType[] = [];
-  renderedData: FreightType[] = [];
+  filteredData: StorageLocation[] = [];
+  renderedData: StorageLocation[] = [];
   constructor(
-    public exampleDatabase: FreightTypeService,
+    public exampleDatabase: StorageLocationService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -231,7 +232,7 @@ export class ExampleDataSource extends DataSource<FreightType> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<FreightType[]> {
+  connect(): Observable<StorageLocation[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -245,7 +246,7 @@ export class ExampleDataSource extends DataSource<FreightType> {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((maintain: FreightType) => {
+          .filter((maintain: StorageLocation) => {
             const searchStr = (
               maintain.code +
               maintain.description 
@@ -269,7 +270,7 @@ export class ExampleDataSource extends DataSource<FreightType> {
   }
   disconnect() {}
   /** Returns a sorted copy of the database data. */
-  sortData(data: FreightType[]): FreightType[] {
+  sortData(data: StorageLocation[]): StorageLocation[] {
     if (!this._sort.active || this._sort.direction === "") {
       return data;
     }

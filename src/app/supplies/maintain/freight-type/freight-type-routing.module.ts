@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListFreightTypeComponent } from './list-freight-type/list-freight-type.component';
 import { AddFreightTypeComponent } from './add-freight-type/add-freight-type.component';
-import { ViewFreightTypeComponent } from './view-freight-type/view-freight-type.component';
+import { ViewFreightTypeComponent } from '../identifiers-library/view-freight-type/view-freight-type.component';
 
 const routes: Routes = [
   {

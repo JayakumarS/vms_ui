@@ -39,6 +39,11 @@ const routes: Routes = [
     import("./freight-type/freight-type.module").then((m)=>m.FreightTypeModule),
   },
   {
+    path: 'storage-location',
+    loadChildren: () =>
+    import("./storage-location/storage-location.module").then((m)=>m.StorageLocationModule),
+  },
+  {
     path: 'despatch-reasons',
     loadChildren: () =>
     import("./despatch-reasons/despatch-reasons.module").then((m)=>m.DespatchReasonsModule),

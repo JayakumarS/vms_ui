@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FreightTypeRoutingModule } from './freight-type-routing.module';
 import { ListFreightTypeComponent } from './list-freight-type/list-freight-type.component';
 import { AddFreightTypeComponent } from './add-freight-type/add-freight-type.component';
-import { ViewFreightTypeComponent } from './view-freight-type/view-freight-type.component';
 import { A11yModule } from '@angular/cdk/a11y';
 import { PortalModule } from '@angular/cdk/portal';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -48,7 +47,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
   declarations: [
     ListFreightTypeComponent,
     AddFreightTypeComponent,
-    ViewFreightTypeComponent
   ],
   imports: [
     CommonModule,
